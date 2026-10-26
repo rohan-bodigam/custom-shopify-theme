@@ -564,21 +564,22 @@
 }
 
 /* Dual Direction Gradient for Optimal Text Legibility */
-.hero-rot__overlay,
-.hero-rot::before {
-  content: "";
+.hero-rot__overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background: 
-    linear-gradient(90deg, rgba(23, 12, 14, 0.76) 0%, rgba(23, 12, 14, 0.44) 38%, rgba(23, 12, 14, 0) 65%),
-    linear-gradient(0deg, rgba(23, 12, 14, 0.58) 0%, rgba(23, 12, 14, 0) 42%);
+    linear-gradient(90deg, rgba(23, 12, 14, 0.72) 0%, rgba(23, 12, 14, 0.42) 36%, rgba(23, 12, 14, 0) 62%),
+    linear-gradient(0deg, rgba(23, 12, 14, 0.55) 0%, rgba(23, 12, 14, 0) 40%);
+}
+
+.hero-rot::before {
+  display: none !important;
 }
 
 @media screen and (max-width: 749px) {
-  .hero-rot__overlay,
-  .hero-rot::before {
+  .hero-rot__overlay {
     background: 
       linear-gradient(180deg, rgba(23, 12, 14, 0.45) 0%, rgba(23, 12, 14, 0.72) 40%, rgba(23, 12, 14, 0.85) 100%),
       linear-gradient(90deg, rgba(23, 12, 14, 0.6) 0%, rgba(23, 12, 14, 0.2) 100%);
@@ -611,7 +612,7 @@
 }
 
 .hero-rot .hero-box {
-  max-width: 68rem;
+  max-width: 74rem;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -639,18 +640,15 @@
   display: inline-flex;
   align-items: center;
   font-family: var(--f-ui, 'Inter', sans-serif);
-  font-size: clamp(0.75rem, 1vw, 0.82rem);
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: clamp(1.1rem, 1.1vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--ivory, #F7F3EE);
-  border: 1px solid rgba(247, 243, 238, 0.32);
+  color: #E9CFA0;
+  border: 1px solid rgba(233, 207, 160, 0.45);
   border-radius: 9999px;
-  padding: 6px 16px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  background-color: rgba(23, 12, 14, 0.25);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  padding: 7px 16px;
+  background-color: transparent !important;
 }
 
 /* Heading (.d1) */
@@ -658,21 +656,21 @@
 .hero-rot .d1 {
   font-family: var(--f-display, 'Cinzel', serif) !important;
   font-weight: 500 !important;
-  font-size: clamp(2.4rem, 5.2vw, 4.5rem) !important;
-  line-height: 1.05 !important;
-  letter-spacing: 0.02em !important;
+  font-size: clamp(3.8rem, 5.8vw, 6.8rem) !important;
+  line-height: 1.04 !important;
+  letter-spacing: 0.01em !important;
   color: var(--ivory, #F7F3EE) !important;
-  text-transform: uppercase;
-  max-width: 13ch;
+  text-transform: none !important;
+  max-width: 14ch;
   margin: 0 0 clamp(16px, 2.5vw, 24px) 0 !important;
-  text-shadow: 0 2px 12px rgba(23, 12, 14, 0.4);
+  text-shadow: 0 2px 14px rgba(23, 12, 14, 0.45);
   word-break: break-word;
 }
 
 @media screen and (max-width: 749px) {
   .hero-rot .hero-title,
   .hero-rot .d1 {
-    font-size: clamp(2rem, 8.5vw, 2.8rem) !important;
+    font-size: clamp(2.8rem, 8vw, 3.8rem) !important;
     max-width: 100%;
   }
 }
@@ -682,12 +680,21 @@
 .hero-rot .sub {
   font-family: var(--f-edit, 'Forum', serif) !important;
   font-weight: 400 !important;
-  font-size: clamp(1.15rem, 1.6vw, 1.35rem) !important;
+  font-size: clamp(1.8rem, 1.8vw, 2.2rem) !important;
   line-height: 1.55 !important;
-  color: var(--bg-alt, #EDE3D9) !important;
-  max-width: 50ch;
+  color: #EDE3D9 !important;
+  max-width: 48ch;
   margin: 0 0 clamp(24px, 3.5vw, 36px) 0 !important;
   text-shadow: 0 1px 8px rgba(23, 12, 14, 0.35);
+}
+
+@media screen and (max-width: 749px) {
+  .hero-rot .hero-desc,
+  .hero-rot .sub {
+    font-size: 1.6rem !important;
+    line-height: 1.5 !important;
+    max-width: 100%;
+  }
 }
 
 /* Call to Action Buttons (.ctas) */
@@ -704,10 +711,10 @@
   align-items: center;
   justify-content: center;
   font-family: var(--f-ui, 'Inter', sans-serif);
-  font-size: 1.05rem;
+  font-size: 1.6rem !important;
   font-weight: 500;
-  letter-spacing: 0.01em;
-  padding: 13px 30px;
+  letter-spacing: 0.02em;
+  padding: 14px 34px !important;
   border-radius: 9999px !important;
   text-decoration: none;
   cursor: pointer;
@@ -718,10 +725,10 @@
 /* Primary Light Pill Button */
 .hero-rot .btn.light,
 .hero-rot .btn--light {
-  background-color: var(--ivory, #F7F3EE) !important;
+  background-color: #FAF6F0 !important;
   color: var(--crimson, #6B2230) !important;
-  border: 1px solid var(--ivory, #F7F3EE) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  border: 1px solid #FAF6F0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .hero-rot .btn.light:hover,
@@ -735,19 +742,26 @@
 /* Outlined Glass Secondary Pill Button */
 .hero-rot .btn.line-light,
 .hero-rot .btn--line-light {
-  background-color: rgba(23, 12, 14, 0.32) !important;
-  color: #FFFFFF !important;
-  border: 1px solid rgba(247, 243, 238, 0.45) !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background-color: transparent !important;
+  color: #F7F3EE !important;
+  border: 1px solid rgba(247, 243, 238, 0.55) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .hero-rot .btn.line-light:hover,
 .hero-rot .btn--line-light:hover {
-  background-color: rgba(247, 243, 238, 0.18) !important;
+  background-color: rgba(247, 243, 238, 0.15) !important;
   border-color: #FFFFFF !important;
   color: #FFFFFF !important;
   transform: translateY(-2px);
+}
+
+@media screen and (max-width: 749px) {
+  .hero-rot .btn {
+    font-size: 1.45rem !important;
+    padding: 12px 26px !important;
+  }
 }
 
 /* Dots Indicator (.hdots) */
