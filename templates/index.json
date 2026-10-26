@@ -23,6 +23,7 @@
         "slide_2": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/hero1.webp",
             "focal_point": "center center",
             "alt_text": "Handcrafted Indian Textiles and Heritage Craft"
           }
