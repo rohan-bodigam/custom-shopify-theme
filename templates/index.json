@@ -3,40 +3,51 @@
     "image_banner": {
       "type": "image-banner",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide_1": {
+          "type": "slide",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "focal_point": "center center",
+            "alt_text": "Stories of India - Celebration and Family Gathering"
           }
         },
-        "button": {
-          "type": "buttons",
+        "slide_2": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "focal_point": "center center",
+            "alt_text": "Handcrafted Indian Textiles and Heritage Craft"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "focal_point": "center center",
+            "alt_text": "Contemporary Handloom Clothing"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "slide_1",
+        "slide_2",
+        "slide_3"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
+        "show_kicker": true,
+        "show_kicker_icon": true,
+        "kicker": "Indian Craft. Everyday Life.",
+        "heading": "Stories of India, Woven For You",
+        "heading_size": "h0",
+        "text": "Contemporary clothing from India’s handloom traditions, gathered under one house in five regional chapters, and cut for men, women, kids and pets.",
+        "button_label_1": "Explore the Chapters",
+        "button_link_1": "#/chapters",
+        "button_style_1": "light",
+        "button_label_2": "Shop All",
+        "button_link_2": "shopify://collections/all",
+        "button_style_2": "line-light",
+        "autoplay": true,
+        "autoplay_speed": 6,
+        "enable_zoom": true,
         "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "desktop_content_position": "middle-left"
       }
     },
     "featured_collection": {

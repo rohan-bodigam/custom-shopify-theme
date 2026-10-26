@@ -1,174 +1,380 @@
 {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
 
-{%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
-  {%- style -%}
-    @media screen and (max-width: 749px) {
-      #Banner-{{ section.id }}::before,
-      #Banner-{{ section.id }} .banner__media::before,
-      #Banner-{{ section.id }}:not(.banner--mobile-bottom) .banner__content::before {
-        padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
-        content: '';
-        display: block;
-      }
-    }
-
-    @media screen and (min-width: 750px) {
-      #Banner-{{ section.id }}::before,
-      #Banner-{{ section.id }} .banner__media::before {
-        padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
-        content: '';
-        display: block;
-      }
-    }
-  {%- endstyle -%}
-{%- endif -%}
-
-{%- style -%}
-  #Banner-{{ section.id }}::after {
-    opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
-  }
-{%- endstyle -%}
-
 {%- liquid
-  assign full_width = '100vw'
-  assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
-
-  if section.settings.image_behavior == 'ambient'
-    assign half_width = '60vw'
-    assign full_width = '120vw'
-    assign stacked_sizes = '(min-width: 750px) 60vw, 120vw'
-    assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680'
-  elsif section.settings.image_behavior == 'fixed' or section.settings.image_behavior == 'zoom-in'
-    assign half_width = '100vw'
-    assign stacked_sizes = '100vw'
-  else
-    assign half_width = '50vw'
-    assign stacked_sizes = '(min-width: 750px) 50vw, 100vw'
+  assign slide_blocks = section.blocks | where: 'type', 'slide'
+  assign has_slide_blocks = false
+  if slide_blocks.size > 0
+    assign has_slide_blocks = true
   endif
-  assign fetch_priority = 'auto'
-  if section.index == 1
-    assign fetch_priority = 'high'
+
+  assign total_slides = slide_blocks.size
+  if total_slides == 0 and section.settings.image != blank
+    assign total_slides = 1
+    if section.settings.image_2 != blank
+      assign total_slides = 2
+    endif
+  elsif total_slides == 0
+    assign total_slides = 3
   endif
 -%}
 
-<div
+<hero-banner-rotator
   id="Banner-{{ section.id }}"
-  class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  class="banner hero-rot banner--{{ section.settings.image_height }}{% unless section.settings.enable_zoom %} no-zoom{% endunless %}"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-interval="{{ section.settings.autoplay_speed | times: 1000 }}"
+  role="region"
+  aria-roledescription="carousel"
+  aria-label="{{ section.settings.heading | default: 'Hero Carousel' | escape }}"
 >
-  {%- if section.settings.image != blank -%}
-    <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      {%- liquid
-        assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
-        if section.settings.image_2 != blank
-          assign image_class = 'banner__media-image-half'
-        endif
-        if section.settings.image_2 != blank and section.settings.stack_images_on_mobile
-          assign sizes = stacked_sizes
-        elsif section.settings.image_2 != blank
-          assign sizes = half_width
-        else
-          assign sizes = full_width
-        endif
-      -%}
-      {{
-        section.settings.image
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image.width,
-          height: image_height,
-          class: image_class,
-          sizes: sizes,
-          widths: widths,
-          fetchpriority: fetch_priority
-      }}
-    </div>
-  {%- elsif section.settings.image_2 == blank -%}
-    <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-    </div>
-  {%- endif -%}
-  {%- if section.settings.image_2 != blank -%}
-    <div class="banner__media media{% if section.settings.image != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      {%- liquid
-        assign image_height_2 = section.settings.image_2.width | divided_by: section.settings.image_2.aspect_ratio
-        if section.settings.image != blank
-          assign image_class_2 = 'banner__media-image-half'
-        endif
-        if section.settings.image != blank and section.settings.stack_images_on_mobile
-          assign sizes = stacked_sizes
-        elsif section.settings.image_2 != blank
-          assign sizes = half_width
-        else
-          assign sizes = full_width
-        endif
-      -%}
-      {{
-        section.settings.image_2
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image_2.width,
-          height: image_height_2,
-          class: image_class_2,
-          sizes: sizes,
-          widths: widths,
-          fetchpriority: fetch_priority
-      }}
-    </div>
-  {%- endif -%}
-  <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    <div class="banner__box content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }} gradient">
+  <!-- Background Rotating Slides -->
+  <div class="hero-rot__slides">
+    {%- if has_slide_blocks -%}
+      {%- for block in slide_blocks -%}
+        {%- liquid
+          assign slide_loading = 'lazy'
+          assign slide_fetchpriority = 'auto'
+          if forloop.first
+            assign slide_loading = 'eager'
+            assign slide_fetchpriority = 'high'
+          endif
+        -%}
+        <div
+          class="hslide{% if forloop.first %} on{% endif %}"
+          data-slide-index="{{ forloop.index0 }}"
+          data-block-id="{{ block.id }}"
+          style="background-position: {{ block.settings.focal_point }};"
+          role="img"
+          aria-label="{{ block.settings.alt_text | default: block.settings.image.alt | default: section.settings.heading | escape }}"
+          {% unless forloop.first %}aria-hidden="true"{% endunless %}
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.image_mobile != blank -%}
+            <picture>
+              <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 1100 }}">
+              {{
+                block.settings.image
+                | image_url: width: 3840
+                | image_tag:
+                  loading: slide_loading,
+                  fetchpriority: slide_fetchpriority,
+                  widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+                  sizes: '100vw',
+                  class: 'hslide__img'
+              }}
+            </picture>
+          {%- elsif block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 3840
+              | image_tag:
+                loading: slide_loading,
+                fetchpriority: slide_fetchpriority,
+                widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+                sizes: '100vw',
+                class: 'hslide__img'
+            }}
+          {%- else -%}
+            {%- assign placeholder_idx = forloop.index | modulo: 2 | plus: 1 -%}
+            {{ 'lifestyle-' | append: placeholder_idx | placeholder_svg_tag: 'placeholder-svg hslide__img' }}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- elsif section.settings.image != blank -%}
+      <div
+        class="hslide on"
+        data-slide-index="0"
+        role="img"
+        aria-label="{{ section.settings.image.alt | default: section.settings.heading | escape }}"
+      >
+        {{
+          section.settings.image
+          | image_url: width: 3840
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+            sizes: '100vw',
+            class: 'hslide__img'
+        }}
+      </div>
+      {%- if section.settings.image_2 != blank -%}
+        <div
+          class="hslide"
+          data-slide-index="1"
+          role="img"
+          aria-hidden="true"
+          aria-label="{{ section.settings.image_2.alt | default: section.settings.heading | escape }}"
+        >
+          {{
+            section.settings.image_2
+            | image_url: width: 3840
+            | image_tag:
+              loading: 'lazy',
+              fetchpriority: 'auto',
+              widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+              sizes: '100vw',
+              class: 'hslide__img'
+          }}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="hslide on" data-slide-index="0" role="img" aria-label="Stories of India 1">
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg hslide__img' }}
+      </div>
+      <div class="hslide" data-slide-index="1" role="img" aria-hidden="true" aria-label="Stories of India 2">
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg hslide__img' }}
+      </div>
+      <div class="hslide" data-slide-index="2" role="img" aria-hidden="true" aria-label="Stories of India 3">
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg hslide__img' }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <!-- Dual Direction Gradient for Text Contrast -->
+  <div class="hero-rot__overlay"></div>
+
+  <!-- Constant Content Overlaid on Left -->
+  <div class="wrap hero-in banner__content banner__content--{{ section.settings.desktop_content_position }}">
+    <div class="hero-box">
+      {%- if section.settings.show_kicker and section.settings.kicker != blank -%}
+        <div class="hero-badge-row">
+          {%- if section.settings.show_kicker_icon -%}
+            <!-- Golden Loom Warp Threads Icon -->
+            <svg class="warp-icon" viewBox="0 0 20 24" width="18" height="22" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="2" y2="16" stroke="#B08D57" stroke-width="2" stroke-linecap="round"/>
+              <line x1="6" y1="5" x2="6" y2="19" stroke="#B08D57" stroke-width="2" stroke-linecap="round"/>
+              <line x1="10" y1="2" x2="10" y2="22" stroke="#B08D57" stroke-width="2" stroke-linecap="round"/>
+              <line x1="14" y1="5" x2="14" y2="19" stroke="#B08D57" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18" y1="8" x2="18" y2="16" stroke="#B08D57" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          {%- endif -%}
+          <span class="hero-kick">{{ section.settings.kicker }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="d1 hero-title {{ section.settings.heading_size }}">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <p class="sub hero-desc">{{ section.settings.text }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label_1 != blank or section.settings.button_label_2 != blank -%}
+        <div class="ctas hero-ctas">
+          {%- if section.settings.button_label_1 != blank -%}
+            <a
+              {% if section.settings.button_link_1 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_1 }}"
+              {% endif %}
+              class="btn {{ section.settings.button_style_1 }}"
+            >
+              {{- section.settings.button_label_1 | escape -}}
+            </a>
+          {%- endif -%}
+
+          {%- if section.settings.button_label_2 != blank -%}
+            <a
+              {% if section.settings.button_link_2 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_2 }}"
+              {% endif %}
+              class="btn {{ section.settings.button_style_2 }}"
+            >
+              {{- section.settings.button_label_2 | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%}
+        Legacy block fallback if merchant configured content using Dawn blocks
+      {%- endcomment -%}
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
-            <h2
-              class="banner__heading inline-richtext {{ block.settings.heading_size }}"
-              {{ block.shopify_attributes }}
-            >
-              {{ block.settings.heading }}
-            </h2>
+            {%- if section.settings.heading == blank -%}
+              <h2 class="d1 hero-title {{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+                {{ block.settings.heading }}
+              </h2>
+            {%- endif -%}
           {%- when 'text' -%}
-            <div class="banner__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
-              <p>{{ block.settings.text }}</p>
-            </div>
+            {%- if section.settings.text == blank -%}
+              <p class="sub hero-desc" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+            {%- endif -%}
           {%- when 'buttons' -%}
-            <div
-              class="banner__buttons{% if block.settings.button_label_1 != blank and block.settings.button_label_2 != blank %} banner__buttons--multiple{% endif %}"
-              {{ block.shopify_attributes }}
-            >
-              {%- if block.settings.button_label_1 != blank -%}
-                <a
-                  {% if block.settings.button_link_1 == blank %}
-                    role="link" aria-disabled="true"
-                  {% else %}
-                    href="{{ block.settings.button_link_1 }}"
-                  {% endif %}
-                  class="button{% if block.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}"
-                >
-                  {{- block.settings.button_label_1 | escape -}}
-                </a>
-              {%- endif -%}
-              {%- if block.settings.button_label_2 != blank -%}
-                <a
-                  {% if block.settings.button_link_2 == blank %}
-                    role="link" aria-disabled="true"
-                  {% else %}
-                    href="{{ block.settings.button_link_2 }}"
-                  {% endif %}
-                  class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
-                >
-                  {{- block.settings.button_label_2 | escape -}}
-                </a>
-              {%- endif -%}
-            </div>
+            {%- if section.settings.button_label_1 == blank and section.settings.button_label_2 == blank -%}
+              <div class="ctas hero-ctas" {{ block.shopify_attributes }}>
+                {%- if block.settings.button_label_1 != blank -%}
+                  <a href="{{ block.settings.button_link_1 }}" class="btn light">
+                    {{- block.settings.button_label_1 | escape -}}
+                  </a>
+                {%- endif -%}
+                {%- if block.settings.button_label_2 != blank -%}
+                  <a href="{{ block.settings.button_link_2 }}" class="btn line-light">
+                    {{- block.settings.button_label_2 | escape -}}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
         {%- endcase -%}
       {%- endfor -%}
     </div>
   </div>
-</div>
+
+  <!-- Interactive Slide Navigation Dots -->
+  {%- if total_slides > 1 -%}
+    <div class="hdots" role="tablist" aria-label="Slides">
+      {%- for i in (1..total_slides) -%}
+        {%- assign zero_index = forloop.index0 -%}
+        <button
+          type="button"
+          role="tab"
+          aria-label="Show picture {{ forloop.index }} of {{ total_slides }}"
+          aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+          data-hs="{{ zero_index }}"
+        ></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</hero-banner-rotator>
+
+<script>
+  if (!customElements.get('hero-banner-rotator')) {
+    customElements.define(
+      'hero-banner-rotator',
+      class HeroBannerRotator extends HTMLElement {
+        constructor() {
+          super();
+          this.slides = Array.from(this.querySelectorAll('.hslide'));
+          this.dots = Array.from(this.querySelectorAll('.hdots button'));
+          this.currentIndex = 0;
+          this.autoplayTimer = null;
+          this.interval = parseInt(this.dataset.interval, 10) || 6000;
+          this.autoplayEnabled = this.dataset.autoplay === 'true';
+          this.touchStartX = 0;
+          this.touchEndX = 0;
+        }
+
+        connectedCallback() {
+          if (this.slides.length <= 1) return;
+
+          this.dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+              this.goTo(index);
+              this.restartAutoplay();
+            });
+          });
+
+          this.addEventListener('mouseenter', () => this.stopAutoplay());
+          this.addEventListener('mouseleave', () => this.startAutoplay());
+          this.addEventListener('focusin', () => this.stopAutoplay());
+          this.addEventListener('focusout', () => this.startAutoplay());
+
+          // Touch swipe support on mobile
+          this.addEventListener('touchstart', (e) => {
+            this.touchStartX = e.changedTouches[0].screenX;
+          }, { passive: true });
+
+          this.addEventListener('touchend', (e) => {
+            this.touchEndX = e.changedTouches[0].screenX;
+            this.handleSwipe();
+          }, { passive: true });
+
+          // Live Theme Editor block selection
+          if (window.Shopify && window.Shopify.designMode) {
+            this.addEventListener('shopify:block:select', (event) => {
+              const blockId = event.detail.blockId;
+              const targetIndex = this.slides.findIndex((s) => s.dataset.blockId === blockId);
+              if (targetIndex !== -1) {
+                this.goTo(targetIndex);
+                this.stopAutoplay();
+              }
+            });
+
+            this.addEventListener('shopify:block:deselect', () => {
+              this.startAutoplay();
+            });
+          }
+
+          if (this.autoplayEnabled) {
+            this.startAutoplay();
+          }
+        }
+
+        disconnectedCallback() {
+          this.stopAutoplay();
+        }
+
+        handleSwipe() {
+          const swipeThreshold = 50;
+          const diff = this.touchStartX - this.touchEndX;
+          if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+              this.next();
+            } else {
+              this.prev();
+            }
+            this.restartAutoplay();
+          }
+        }
+
+        goTo(index) {
+          if (index < 0 || index >= this.slides.length || index === this.currentIndex) return;
+
+          this.slides[this.currentIndex]?.classList.remove('on');
+          this.slides[this.currentIndex]?.setAttribute('aria-hidden', 'true');
+          if (this.dots[this.currentIndex]) {
+            this.dots[this.currentIndex].setAttribute('aria-pressed', 'false');
+          }
+
+          this.currentIndex = index;
+          this.slides[this.currentIndex]?.classList.add('on');
+          this.slides[this.currentIndex]?.removeAttribute('aria-hidden');
+          if (this.dots[this.currentIndex]) {
+            this.dots[this.currentIndex].setAttribute('aria-pressed', 'true');
+          }
+        }
+
+        next() {
+          const nextIndex = (this.currentIndex + 1) % this.slides.length;
+          this.goTo(nextIndex);
+        }
+
+        prev() {
+          const prevIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+          this.goTo(prevIndex);
+        }
+
+        startAutoplay() {
+          if (!this.autoplayEnabled || this.slides.length <= 1) return;
+          this.stopAutoplay();
+          this.autoplayTimer = setInterval(() => this.next(), this.interval);
+        }
+
+        stopAutoplay() {
+          if (this.autoplayTimer) {
+            clearInterval(this.autoplayTimer);
+            this.autoplayTimer = null;
+          }
+        }
+
+        restartAutoplay() {
+          this.stopAutoplay();
+          this.startAutoplay();
+        }
+      }
+    );
+  }
+</script>
 
 {% schema %}
 {
-  "name": "t:sections.image-banner.name",
+  "name": "Image banner",
   "tag": "section",
   "class": "section",
   "disabled_on": {
@@ -176,201 +382,279 @@
   },
   "settings": [
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "t:sections.image-banner.settings.image.label"
+      "type": "header",
+      "content": "Kicker / Badge"
     },
     {
-      "type": "image_picker",
-      "id": "image_2",
-      "label": "t:sections.image-banner.settings.image_2.label"
+      "type": "checkbox",
+      "id": "show_kicker",
+      "default": true,
+      "label": "Show kicker badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_kicker_icon",
+      "default": true,
+      "label": "Show loom warp icon"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "default": "Indian Craft. Everyday Life.",
+      "label": "Kicker text"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Stories of India, Woven For You",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large (Display)"
+        },
+        {
+          "value": "hxl",
+          "label": "Extra Large"
+        }
+      ],
+      "default": "h0",
+      "label": "Heading size"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "default": "Contemporary clothing from India’s handloom traditions, gathered under one house in five regional chapters, and cut for men, women, kids and pets.",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "First Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "default": "Explore the Chapters",
+      "label": "Button 1 label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "select",
+      "id": "button_style_1",
+      "options": [
+        {
+          "value": "light",
+          "label": "Solid Light Pill (Ivory / Crimson)"
+        },
+        {
+          "value": "line-light",
+          "label": "Outlined Glass Pill"
+        }
+      ],
+      "default": "light",
+      "label": "Button 1 style"
+    },
+    {
+      "type": "header",
+      "content": "Second Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "default": "Shop All",
+      "label": "Button 2 label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "select",
+      "id": "button_style_2",
+      "options": [
+        {
+          "value": "line-light",
+          "label": "Outlined Glass Pill"
+        },
+        {
+          "value": "light",
+          "label": "Solid Light Pill (Ivory / Crimson)"
+        }
+      ],
+      "default": "line-light",
+      "label": "Button 2 style"
+    },
+    {
+      "type": "header",
+      "content": "Slider Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "default": true,
+      "label": "Auto-rotate slides"
     },
     {
       "type": "range",
-      "id": "image_overlay_opacity",
-      "min": 0,
-      "max": 100,
-      "step": 10,
-      "unit": "%",
-      "label": "t:sections.image-banner.settings.image_overlay_opacity.label",
-      "default": 0
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "label": "Change slides every",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom",
+      "default": true,
+      "label": "Enable Ken Burns zoom animation"
     },
     {
       "type": "select",
       "id": "image_height",
       "options": [
         {
-          "value": "adapt",
-          "label": "t:sections.image-banner.settings.image_height.options__1.label"
-        },
-        {
           "value": "small",
-          "label": "t:sections.image-banner.settings.image_height.options__2.label"
+          "label": "Small"
         },
         {
           "value": "medium",
-          "label": "t:sections.image-banner.settings.image_height.options__3.label"
+          "label": "Medium"
         },
         {
           "value": "large",
-          "label": "t:sections.image-banner.settings.image_height.options__4.label"
+          "label": "Large (Recommended)"
+        },
+        {
+          "value": "full_screen",
+          "label": "Full Screen (100vh)"
         }
       ],
-      "default": "medium",
-      "label": "t:sections.image-banner.settings.image_height.label"
-    },
-    {
-      "type": "select",
-      "id": "image_behavior",
-      "options": [
-        {
-          "value": "none",
-          "label": "t:sections.all.animation.image_behavior.options__1.label"
-        },
-        {
-          "value": "ambient",
-          "label": "t:sections.all.animation.image_behavior.options__2.label"
-        },
-        {
-          "value": "fixed",
-          "label": "t:sections.all.animation.image_behavior.options__3.label"
-        },
-        {
-          "value": "zoom-in",
-          "label": "t:sections.all.animation.image_behavior.options__4.label"
-        }
-      ],
-      "default": "none",
-      "label": "t:sections.all.animation.image_behavior.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.image-banner.settings.content.content"
+      "default": "large",
+      "label": "Banner height"
     },
     {
       "type": "select",
       "id": "desktop_content_position",
       "options": [
         {
-          "value": "top-left",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__1.label"
-        },
-        {
-          "value": "top-center",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__2.label"
-        },
-        {
-          "value": "top-right",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__3.label"
-        },
-        {
           "value": "middle-left",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__4.label"
+          "label": "Middle Left (Figma Design)"
         },
         {
           "value": "middle-center",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__5.label"
-        },
-        {
-          "value": "middle-right",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__6.label"
+          "label": "Middle Center"
         },
         {
           "value": "bottom-left",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__7.label"
-        },
-        {
-          "value": "bottom-center",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__8.label"
-        },
-        {
-          "value": "bottom-right",
-          "label": "t:sections.image-banner.settings.desktop_content_position.options__9.label"
+          "label": "Bottom Left"
         }
       ],
-      "default": "middle-center",
-      "label": "t:sections.image-banner.settings.desktop_content_position.label"
-    },
-    {
-      "type": "select",
-      "id": "desktop_content_alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__1.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__2.label"
-        },
-        {
-          "value": "right",
-          "label": "t:sections.image-banner.settings.desktop_content_alignment.options__3.label"
-        }
-      ],
-      "default": "center",
-      "label": "t:sections.image-banner.settings.desktop_content_alignment.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_text_box",
-      "default": true,
-      "label": "t:sections.image-banner.settings.show_text_box.label"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "default": "middle-left",
+      "label": "Desktop content position"
     },
     {
       "type": "header",
-      "content": "t:sections.image-banner.settings.mobile.content"
+      "content": "Fallback Images (When no Slide blocks are added)"
     },
     {
-      "type": "checkbox",
-      "id": "stack_images_on_mobile",
-      "default": true,
-      "label": "t:sections.image-banner.settings.stack_images_on_mobile.label"
-    },    
-    {
-      "type": "select",
-      "id": "mobile_content_alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__1.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__2.label"
-        },
-        {
-          "value": "right",
-          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__3.label"
-        }
-      ],
-      "default": "center",
-      "label": "t:sections.image-banner.settings.mobile_content_alignment.label"
+      "type": "image_picker",
+      "id": "image",
+      "label": "First fallback image"
     },
     {
-      "type": "checkbox",
-      "id": "show_text_below",
-      "default": true,
-      "label": "t:sections.image-banner.settings.show_text_below.label"
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Second fallback image"
     }
   ],
   "blocks": [
     {
+      "type": "slide",
+      "name": "Slide Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide image (Desktop)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Slide image (Mobile - optional)"
+        },
+        {
+          "type": "select",
+          "id": "focal_point",
+          "options": [
+            {
+              "value": "center center",
+              "label": "Center"
+            },
+            {
+              "value": "center top",
+              "label": "Top Center"
+            },
+            {
+              "value": "center bottom",
+              "label": "Bottom Center"
+            },
+            {
+              "value": "left center",
+              "label": "Left Center"
+            },
+            {
+              "value": "right center",
+              "label": "Right Center"
+            }
+          ],
+          "default": "center center",
+          "label": "Image focal position"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text",
+          "info": "Describe image for accessibility"
+        }
+      ]
+    },
+    {
       "type": "heading",
-      "name": "t:sections.image-banner.blocks.heading.name",
+      "name": "Heading (Legacy)",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "heading",
-          "default": "t:sections.image-banner.blocks.heading.settings.heading.default",
-          "label": "t:sections.image-banner.blocks.heading.settings.heading.label"
+          "default": "Stories of India, Woven For You",
+          "label": "Heading"
         },
         {
           "type": "select",
@@ -378,127 +662,77 @@
           "options": [
             {
               "value": "h2",
-              "label": "t:sections.all.heading_size.options__1.label"
+              "label": "Small"
             },
             {
               "value": "h1",
-              "label": "t:sections.all.heading_size.options__2.label"
+              "label": "Medium"
             },
             {
               "value": "h0",
-              "label": "t:sections.all.heading_size.options__3.label"
-            },
-            {
-              "value": "hxl",
-              "label": "t:sections.all.heading_size.options__4.label"
-            },
-            {
-              "value": "hxxl",
-              "label": "t:sections.all.heading_size.options__5.label"
+              "label": "Large"
             }
           ],
-          "default": "h1",
-          "label": "t:sections.all.heading_size.label"
+          "default": "h0",
+          "label": "Heading size"
         }
       ]
     },
     {
       "type": "text",
-      "name": "t:sections.image-banner.blocks.text.name",
+      "name": "Text (Legacy)",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "text",
-          "default": "t:sections.image-banner.blocks.text.settings.text.default",
-          "label": "t:sections.image-banner.blocks.text.settings.text.label"
-        },
-        {
-          "type": "select",
-          "id": "text_style",
-          "options": [
-            {
-              "value": "body",
-              "label": "t:sections.image-banner.blocks.text.settings.text_style.options__1.label"
-            },
-            {
-              "value": "subtitle",
-              "label": "t:sections.image-banner.blocks.text.settings.text_style.options__2.label"
-            },
-            {
-              "value": "caption-with-letter-spacing",
-              "label": "t:sections.image-banner.blocks.text.settings.text_style.options__3.label"
-            }
-          ],
-          "default": "body",
-          "label": "t:sections.image-banner.blocks.text.settings.text_style.label"
+          "default": "Contemporary clothing from India’s handloom traditions...",
+          "label": "Text"
         }
       ]
     },
     {
       "type": "buttons",
-      "name": "t:sections.image-banner.blocks.buttons.name",
+      "name": "Buttons (Legacy)",
       "limit": 1,
       "settings": [
         {
-        "type": "header",
-        "content": "t:sections.image-banner.blocks.buttons.settings.header_1.content"
-        },
-        {
           "type": "text",
           "id": "button_label_1",
-          "default": "t:sections.image-banner.blocks.buttons.settings.button_label_1.default",
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_label_1.label",
-          "info": "t:sections.image-banner.blocks.buttons.settings.button_label_1.info"
+          "default": "Explore the Chapters",
+          "label": "Button 1 label"
         },
         {
           "type": "url",
           "id": "button_link_1",
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_link_1.label"
-        },
-        {
-          "type": "checkbox",
-          "id": "button_style_secondary_1",
-          "default": false,
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_style_secondary_1.label"
-        },
-        {
-        "type": "header",
-        "content": "t:sections.image-banner.blocks.buttons.settings.header_2.content"
+          "label": "Button 1 link"
         },
         {
           "type": "text",
           "id": "button_label_2",
-          "default": "t:sections.image-banner.blocks.buttons.settings.button_label_2.default",
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_label_2.label",
-          "info": "t:sections.image-banner.blocks.buttons.settings.button_label_2.info"
+          "default": "Shop All",
+          "label": "Button 2 label"
         },
         {
           "type": "url",
           "id": "button_link_2",
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_link_2.label"
-        },
-        {
-          "type": "checkbox",
-          "id": "button_style_secondary_2",
-          "default": false,
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_style_secondary_2.label"
+          "label": "Button 2 link"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "t:sections.image-banner.presets.name",
+      "name": "Image banner",
       "blocks": [
         {
-          "type": "heading"
+          "type": "slide"
         },
         {
-          "type": "text"
+          "type": "slide"
         },
         {
-          "type": "buttons"
+          "type": "slide"
         }
       ]
     }
