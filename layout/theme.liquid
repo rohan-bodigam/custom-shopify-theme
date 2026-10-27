@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="#6B2230">
+    <script>try{var t=localStorage.getItem('hokk-theme');t=t?JSON.parse(t):null;document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}</script>
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
@@ -18,9 +19,11 @@
     {% comment %}theme-check-disable RemoteAsset{% endcomment %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Forum&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Forum&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    >
     {% comment %}theme-check-enable RemoteAsset{% endcomment %}
-
 
     <title>
       {{ page_title }}

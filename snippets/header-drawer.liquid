@@ -32,8 +32,108 @@
           <nav class="menu-drawer__navigation">
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
               {%- for link in section.settings.menu.links -%}
-                <li>
-                  {%- if link.links != blank -%}
+                {%- assign link_title_downcase = link.title | downcase | strip -%}
+                {%- if link_title_downcase contains 'chapter' or link.handle == 'chapters' -%}
+                  <li>
+                    <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
+                      <summary
+                        id="HeaderDrawer-{{ link.handle }}"
+                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset"
+                      >
+                        {{ link.title | escape }}
+                        <span class="svg-wrapper">
+                          {{- 'icon-arrow.svg' | inline_asset_content -}}
+                        </span>
+                        <span class="svg-wrapper">
+                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                        </span>
+                      </summary>
+                      <div
+                        id="link-{{ link.handle | escape }}"
+                        class="menu-drawer__submenu has-submenu gradient motion-reduce"
+                        tabindex="-1"
+                      >
+                        <div class="menu-drawer__inner-submenu">
+                          <button class="menu-drawer__close-button link link--text focus-inset" aria-expanded="true">
+                            <span class="svg-wrapper">
+                              {{- 'icon-arrow.svg' | inline_asset_content -}}
+                            </span>
+                            {{ link.title | escape }}
+                          </button>
+                          <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                            <li class="menu-drawer__heading">
+                              <h4 style="font-family:var(--f-display);font-size:0.95rem;letter-spacing:0.06em;color:var(--crimson);padding:1.2rem 2rem 0.4rem;margin:0;text-transform:uppercase;">All Chapters</h4>
+                            </li>
+                            <li>
+                              <a href="/pages/east-india" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#7A8063;margin-right:10px;"></span>East India
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/pages/west-central-india" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#6B2230;margin-right:10px;"></span>West &amp; Central India
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/pages/north-india" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#B08D57;margin-right:10px;"></span>North India
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/pages/south-india" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#2D4F3B;margin-right:10px;"></span>South India
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/pages/north-east-india" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#8A2B3D;margin-right:10px;"></span>North East India (Soon)
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/pages/chapters" class="menu-drawer__menu-item link link--text list-menu__item focus-inset" style="color:var(--crimson);font-weight:600;">
+                                View All Chapters
+                              </a>
+                            </li>
+
+                            <li class="menu-drawer__heading" style="margin-top:1.2rem;border-top:1px solid var(--line);">
+                              <h4 style="font-family:var(--f-display);font-size:0.95rem;letter-spacing:0.06em;color:var(--gold-ink);padding:1.2rem 2rem 0.4rem;margin:0;text-transform:uppercase;">Collections</h4>
+                            </li>
+                            <li>
+                              <a href="/collections/heritage" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#B08D57;margin-right:10px;"></span>Heritage
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/pages/contemporary" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#B08D57;margin-right:10px;"></span>Contemporary
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/collections/men" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#B08D57;margin-right:10px;"></span>Men
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/collections/women" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#B08D57;margin-right:10px;"></span>Women
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/pages/kids" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#B08D57;margin-right:10px;"></span>Kids
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/pages/pet" class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
+                                <span class="mega-dot" style="background:#B08D57;margin-right:10px;"></span>Pets
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </details>
+                  </li>
+                {%- elsif link.links != blank -%}
                     <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
                       <summary
                         id="HeaderDrawer-{{ link.handle }}"

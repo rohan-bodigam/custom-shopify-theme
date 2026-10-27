@@ -10,8 +10,226 @@
 <nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
     {%- for link in section.settings.menu.links -%}
+      {%- assign link_title_downcase = link.title | downcase | strip -%}
       <li>
-        {%- if link.links != blank -%}
+        {%- if link_title_downcase contains 'chapter' or link.handle == 'chapters' -%}
+          <header-menu>
+            <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu mega-menu--chapters">
+              <summary
+                id="HeaderMenu-{{ link.handle }}"
+                class="header__menu-item header__menu-item--pill list-menu__item link focus-inset"
+                aria-expanded="false"
+              >
+                <span class="header__menu-pill-text">
+                  {{- link.title | escape -}}
+                </span>
+                <span class="header__menu-pill-caret">
+                  <svg viewBox="0 0 10 6" class="icon icon-caret" fill="none" stroke="currentColor">
+                    <path d="M1 1L5 5L9 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </summary>
+              <div
+                id="MegaMenu-Content-{{ forloop.index }}"
+                class="mega-menu__content mega-menu__content--chapters color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
+                tabindex="-1"
+              >
+                <div class="mega-in mega6 page-width">
+                  <!-- Column 1: All Chapters -->
+                  <div class="mega-col mega-col--chapters">
+                    <h3 class="mega-heading">
+                      <span class="mega-dot mega-dot--crimson"></span>ALL CHAPTERS
+                    </h3>
+                    <ul class="mega-list mega-list--regions" role="list">
+                      {%- assign east_url = '/pages/east-india' -%}
+                      {%- assign west_url = '/pages/west-central-india' -%}
+                      {%- assign north_url = '/pages/north-india' -%}
+                      {%- assign south_url = '/pages/south-india' -%}
+                      {%- assign northeast_url = '/pages/north-east-india' -%}
+
+                      {%- for childlink in link.links -%}
+                        {%- assign ch_handle = childlink.title | downcase -%}
+                        {%- if ch_handle contains 'north' and ch_handle contains 'east' -%}
+                          {%- assign northeast_url = childlink.url -%}
+                        {%- elsif ch_handle contains 'east' -%}
+                          {%- assign east_url = childlink.url -%}
+                        {%- elsif ch_handle contains 'north' -%}
+                          {%- assign north_url = childlink.url -%}
+                        {%- elsif ch_handle contains 'west' or ch_handle contains 'central' -%}
+                          {%- assign west_url = childlink.url -%}
+                        {%- elsif ch_handle contains 'south' -%}
+                          {%- assign south_url = childlink.url -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+
+                      <li>
+                        <a href="{{ east_url }}" class="mega-region-link">
+                          <span class="mega-dot" style="background:#7A8063;"></span>
+                          <span class="mega-region-name">East India</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ west_url }}" class="mega-region-link">
+                          <span class="mega-dot" style="background:#6B2230;"></span>
+                          <span class="mega-region-name">West &amp; Central India</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ north_url }}" class="mega-region-link">
+                          <span class="mega-dot" style="background:#B08D57;"></span>
+                          <span class="mega-region-name">North India</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ south_url }}" class="mega-region-link">
+                          <span class="mega-dot" style="background:#2D4F3B;"></span>
+                          <span class="mega-region-name">South India</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ northeast_url }}" class="mega-region-link">
+                          <span class="mega-dot" style="background:#8A2B3D;"></span>
+                          <span class="mega-region-name">North East India</span>
+                          <span class="mega-ct-soon">Soon</span>
+                        </a>
+                      </li>
+                      <li class="mega-view-all">
+                        <a href="/pages/chapters" class="mega-all-link">View All Chapters</a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Column 2: Collections -->
+                  <div class="mega-col mega-col--collections">
+                    <h3 class="mega-heading">
+                      <span class="mega-dot mega-dot--gold"></span>COLLECTIONS
+                    </h3>
+                    <ul class="mega-cm-list" role="list">
+                      <li>
+                        <a
+                          href="/collections/heritage"
+                          class="mega-cm-link hot"
+                          data-cprev="heritage"
+                          data-title="HERITAGE"
+                          data-sub="Sarees and sets from the five regional chapters."
+                          data-url="/collections/heritage"
+                        >
+                          <span class="cm-nm">Heritage</span>
+                          <span class="cm-ar" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.8"/>
+                            </svg>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/pages/contemporary"
+                          class="mega-cm-link"
+                          data-cprev="contemporary"
+                          data-title="CONTEMPORARY"
+                          data-sub="Many looms, one wardrobe. Shirts, dresses and everyday sets."
+                          data-url="/pages/contemporary"
+                        >
+                          <span class="cm-nm">Contemporary</span>
+                          <span class="cm-ar" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.8"/>
+                            </svg>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/collections/men"
+                          class="mega-cm-link"
+                          data-cprev="men"
+                          data-title="MEN"
+                          data-sub="Shirts, jackets and bundis in handwoven cloth."
+                          data-url="/collections/men"
+                        >
+                          <span class="cm-nm">Men</span>
+                          <span class="cm-ar" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.8"/>
+                            </svg>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/collections/women"
+                          class="mega-cm-link"
+                          data-cprev="women"
+                          data-title="WOMEN"
+                          data-sub="Sarees, dresses and brocade, from many looms."
+                          data-url="/collections/women"
+                        >
+                          <span class="cm-nm">Women</span>
+                          <span class="cm-ar" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.8"/>
+                            </svg>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/pages/kids"
+                          class="mega-cm-link"
+                          data-cprev="kids"
+                          data-title="KIDS"
+                          data-sub="Sibling sets and festive lehengas, soft on skin."
+                          data-url="/pages/kids"
+                        >
+                          <span class="cm-nm">Kids</span>
+                          <span class="cm-ar" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.8"/>
+                            </svg>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/pages/pet"
+                          class="mega-cm-link"
+                          data-cprev="pet"
+                          data-title="PETS"
+                          data-sub="Woven comforts for every companion. Bandanas, coats and mats."
+                          data-url="/pages/pet"
+                        >
+                          <span class="cm-nm">Pets</span>
+                          <span class="cm-ar" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.8"/>
+                            </svg>
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Column 3: Featured Preview Card -->
+                  <div class="mega-col mega-col--feature">
+                    <a class="cm-feature" id="MegaPreviewCardDropdown" href="/collections/heritage" aria-label="Featured Collection">
+                      <div class="cm-img on" data-cimg="heritage" style="background-image: url('{{ 'mega-heritage.webp' | asset_url }}');"></div>
+                      <div class="cm-img" data-cimg="contemporary" style="background-image: url('{{ 'mega-contemporary.webp' | asset_url }}');"></div>
+                      <div class="cm-img" data-cimg="men" style="background-image: url('{{ 'mega-men.webp' | asset_url }}');"></div>
+                      <div class="cm-img" data-cimg="women" style="background-image: url('{{ 'mega-women.webp' | asset_url }}');"></div>
+                      <div class="cm-img" data-cimg="kids" style="background-image: url('{{ 'mega-kids.webp' | asset_url }}');"></div>
+                      <div class="cm-img" data-cimg="pet" style="background-image: url('{{ 'mega-pet.webp' | asset_url }}');"></div>
+                      <div class="cm-cap">
+                        <b id="MegaPreviewHeadingDropdown">HERITAGE</b>
+                        <span id="MegaPreviewSubtitleDropdown">Sarees and sets from the five regional chapters.</span>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </details>
+          </header-menu>
+        {%- elsif link.links != blank -%}
           <header-menu>
             <details id="Details-HeaderMenu-{{ forloop.index }}">
               <summary
