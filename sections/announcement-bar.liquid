@@ -40,7 +40,14 @@
             >
           {%- endif -%}
           <p class="announcement-bar__message h5">
-            <span>{{ section.blocks.first.settings.text | escape }}</span>
+            {%- assign text_val = section.blocks.first.settings.text -%}
+            {%- if text_val contains 'Complimentary alterations' -%}
+              {%- assign parts = text_val | split: 'Complimentary alterations' -%}
+              <span>{{ parts[0] }}</span>
+              <span class="announcement-bar__highlight">Complimentary alterations{{ parts[1] }}</span>
+            {%- else -%}
+              <span>{{ text_val | escape }}</span>
+            {%- endif -%}
             {%- if section.blocks.first.settings.link != blank -%}
               {{- 'icon-arrow.svg' | inline_asset_content -}}
             {%- endif -%}
@@ -100,7 +107,14 @@
                       >
                     {%- endif -%}
                     <p class="announcement-bar__message h5">
-                      <span>{{ block.settings.text | escape }}</span>
+                      {%- assign text_val = block.settings.text -%}
+                      {%- if text_val contains 'Complimentary alterations' -%}
+                        {%- assign parts = text_val | split: 'Complimentary alterations' -%}
+                        <span>{{ parts[0] }}</span>
+                        <span class="announcement-bar__highlight">Complimentary alterations{{ parts[1] }}</span>
+                      {%- else -%}
+                        <span>{{ text_val | escape }}</span>
+                      {%- endif -%}
                       {%- if block.settings.link != blank -%}
                         {{- 'icon-arrow.svg' | inline_asset_content -}}
                       {%- endif -%}

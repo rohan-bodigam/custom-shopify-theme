@@ -501,11 +501,11 @@
         }
       }
 
-      const curTheme = document.documentElement.dataset.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const curTheme = document.documentElement.dataset.theme || 'light';
       updateIcon(curTheme);
 
       btn.addEventListener('click', function() {
-        const cur = document.documentElement.dataset.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const cur = document.documentElement.dataset.theme || 'light';
         const nxt = cur === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = nxt;
         try { localStorage.setItem('hokk-theme', JSON.stringify(nxt)); } catch(e){}

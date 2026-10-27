@@ -63,67 +63,191 @@
   --sh2: 0 2px 6px rgba(0, 0, 0, 0.3), 0 26px 50px -20px rgba(0, 0, 0, 0.7);
 }
 
+/* ==========================================================================
+   Announcement Bar (House of Kala Katha Reference Styling)
+   ========================================================================== */
+
+.utility-bar,
+.announcement-bar,
+.announcement-bar-section {
+  background: #171717 !important;
+  color: #E9DFD4 !important;
+  border: none !important;
+}
+
+.announcement-bar__message {
+  font-family: var(--f-ui, 'Inter', sans-serif) !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.02em !important;
+  color: #E9DFD4 !important;
+  padding: 9px 16px !important;
+  min-height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.announcement-bar__link {
+  color: #E9DFD4 !important;
+  text-decoration: none !important;
+}
+
+.announcement-bar__link:hover {
+  text-decoration: none !important;
+}
+
+.announcement-bar__message .icon-arrow,
+.announcement-bar__link .icon-arrow {
+  display: none !important;
+}
+
+.announcement-bar__highlight {
+  color: #D1B17E !important;
+  border-bottom: 1px solid rgba(209, 177, 126, 0.5) !important;
+  padding-bottom: 1px !important;
+  margin-left: 4px !important;
+  transition: opacity 0.2s ease !important;
+}
+
+.announcement-bar__link:hover .announcement-bar__highlight {
+  opacity: 0.8 !important;
+}
+
+/* ==========================================================================
+   Header Wrapper & Glassmorphism
+   ========================================================================== */
+
+.header-wrapper {
+  background: var(--glass, #F7F3EE) !important;
+  backdrop-filter: blur(16px) saturate(1.15) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.15) !important;
+  border-bottom: 1px solid var(--line, rgba(23, 23, 23, 0.12)) !important;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:root[data-theme="dark"] .header-wrapper {
+  background: var(--glass, rgba(28, 22, 23, 0.94)) !important;
+  border-bottom: 1px solid var(--line, rgba(241, 234, 226, 0.14)) !important;
+}
+
+.header {
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  max-width: 1240px !important;
+  margin: 0 auto !important;
+}
+
+/* Brand Logo */
+.header__heading-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+}
+
+.header__heading-logo-wrapper {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.header__heading-logo {
+  height: 40px !important;
+  width: auto !important;
+  max-height: 40px !important;
+  object-fit: contain !important;
+}
+
 /* Base header menu item font & underline styling */
+.header__inline-menu .list-menu--inline {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+  margin: 0 auto !important;
+}
+
 .header__inline-menu .list-menu__item {
-  font-family: var(--f-ui);
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: var(--ink);
-  letter-spacing: 0.01em;
-  position: relative;
-  transition: color 0.2s ease;
+  font-family: var(--f-ui, 'Inter', sans-serif) !important;
+  font-size: 0.88rem !important;
+  font-weight: 500 !important;
+  color: var(--ink, #171717) !important;
+  padding: 8px 11px !important;
+  letter-spacing: 0.01em !important;
+  position: relative !important;
+  transition: color 0.2s ease !important;
+  text-decoration: none !important;
+  border-radius: 2px !important;
 }
 
 .header__inline-menu .list-menu__item:hover,
 .header__inline-menu .header__active-menu-item {
-  color: var(--crimson);
+  color: var(--crimson, #6B2230) !important;
+}
+
+:root[data-theme="dark"] .header__inline-menu .list-menu__item {
+  color: var(--ink, #F1EAE2) !important;
+}
+
+:root[data-theme="dark"] .header__inline-menu .list-menu__item:hover,
+:root[data-theme="dark"] .header__inline-menu .header__active-menu-item {
+  color: #D1B17E !important;
 }
 
 /* Animated underline on top-level text links */
 .header__inline-menu > ul > li > a.list-menu__item::after {
-  content: "";
-  position: absolute;
-  left: 1.2rem;
-  right: 1.2rem;
-  bottom: 0.8rem;
-  height: 1.5px;
-  background-color: var(--crimson);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  content: "" !important;
+  position: absolute !important;
+  left: 11px !important;
+  right: 11px !important;
+  bottom: 2px !important;
+  height: 1.5px !important;
+  background-color: var(--crimson, #6B2230) !important;
+  transform: scaleX(0) !important;
+  transform-origin: left !important;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 
 .header__inline-menu > ul > li > a.list-menu__item:hover::after,
 .header__inline-menu > ul > li > a.list-menu__item[aria-current="page"]::after {
-  transform: scaleX(1);
+  transform: scaleX(1) !important;
 }
 
-/* ==========================================================================
-   Chapters Pill Button (Trigger)
-   ========================================================================== */
+:root[data-theme="dark"] .header__inline-menu > ul > li > a.list-menu__item::after {
+  background-color: #D1B17E !important;
+}
 
+/* Chapters Trigger (Clean inline text with chevron matching Reference) */
 .header__menu-item--pill {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 8px !important;
-  padding: 6px 18px !important;
-  margin: 0 6px !important;
-  border: 1.5px solid #8C4753 !important;
-  border-radius: 9999px !important;
-  background: rgba(107, 34, 48, 0.05) !important;
-  color: var(--crimson) !important;
-  font-family: var(--f-ui) !important;
-  font-size: 0.92rem !important;
+  gap: 5px !important;
+  padding: 8px 11px !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 2px !important;
+  background: transparent !important;
+  color: var(--ink, #171717) !important;
+  font-family: var(--f-ui, 'Inter', sans-serif) !important;
+  font-size: 0.88rem !important;
   font-weight: 500 !important;
-  cursor: pointer;
-  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  position: relative !important;
+  transition: color 0.2s ease !important;
 }
 
 .header__menu-item--pill:hover,
 .mega-menu--chapters[open] .header__menu-item--pill {
-  background: rgba(107, 34, 48, 0.12) !important;
-  border-color: var(--crimson) !important;
-  color: var(--crimson) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--crimson, #6B2230) !important;
+}
+
+:root[data-theme="dark"] .header__menu-item--pill {
+  color: var(--ink, #F1EAE2) !important;
+}
+
+:root[data-theme="dark"] .header__menu-item--pill:hover,
+:root[data-theme="dark"] .mega-menu--chapters[open] .header__menu-item--pill {
+  color: #D1B17E !important;
 }
 
 .header__menu-pill-text {
@@ -137,16 +261,94 @@
   transition: transform 0.25s ease;
 }
 
-.header__menu-pill-caret svg {
-  width: 9px;
-  height: 9px;
-  stroke: currentColor;
-  stroke-width: 1.8;
+.header__menu-pill-caret svg,
+.header__menu-item svg.icon-caret {
+  width: 8px !important;
+  height: 8px !important;
+  stroke: currentColor !important;
+  stroke-width: 1.8 !important;
   display: block;
 }
 
 .mega-menu--chapters[open] .header__menu-pill-caret {
   transform: rotate(180deg);
+}
+
+/* Right-hand Action Icons */
+.header__icons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.header__icon,
+.header__icon--theme,
+.header__icon--account,
+.header__icon--cart,
+.header__icon--search {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 50% !important;
+  color: var(--ink, #171717) !important;
+  transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease !important;
+  text-decoration: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.header__icon:hover {
+  background: var(--acc-soft, rgba(107, 34, 48, 0.08)) !important;
+  color: var(--crimson, #6B2230) !important;
+  transform: translateY(-1px) !important;
+}
+
+:root[data-theme="dark"] .header__icon {
+  color: var(--ink, #F1EAE2) !important;
+}
+
+:root[data-theme="dark"] .header__icon:hover {
+  background: rgba(226, 163, 174, 0.1) !important;
+  color: #D1B17E !important;
+}
+
+.header__icon svg {
+  width: 20px !important;
+  height: 20px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 1.6 !important;
+}
+
+.header__icon .svg-wrapper {
+  display: grid !important;
+  place-items: center !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.header__icon .svg-wrapper svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.cart-count-bubble {
+  position: absolute !important;
+  top: 4px !important;
+  right: 2px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 5px !important;
+  border-radius: 9px !important;
+  background: #6B2230 !important;
+  color: #F7F3EE !important;
+  font: 600 0.68rem/18px var(--f-ui, sans-serif) !important;
+  display: grid !important;
+  place-items: center !important;
+  line-height: 18px !important;
 }
 
 /* ==========================================================================
@@ -544,16 +746,16 @@
    ========================================================================== */
 
 :root[data-theme="dark"] .header__menu-item--pill {
-  border-color: #A34E5E !important;
-  background: rgba(226, 163, 174, 0.1) !important;
-  color: #E2A3AE !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--ink, #F1EAE2) !important;
 }
 
 :root[data-theme="dark"] .header__menu-item--pill:hover,
 :root[data-theme="dark"] .mega-menu--chapters[open] .header__menu-item--pill {
-  background: rgba(226, 163, 174, 0.2) !important;
-  border-color: #E2A3AE !important;
-  color: #F1EAE2 !important;
+  background: transparent !important;
+  border: none !important;
+  color: #D1B17E !important;
 }
 
 :root[data-theme="dark"] .header__inline-menu .list-menu__item:hover,
