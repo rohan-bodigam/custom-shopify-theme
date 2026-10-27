@@ -127,7 +127,7 @@
 
 .header__inline-menu .list-menu__item {
   font-family: var(--f-ui, 'Inter', sans-serif) !important;
-  font-size: 0.88rem !important;
+  font-size: 14px;
   font-weight: 500 !important;
   color: var(--ink, #171717) !important;
   padding: 8px 11px !important;
