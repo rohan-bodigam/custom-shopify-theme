@@ -41,6 +41,9 @@
           {%- endif -%}
           <p class="announcement-bar__message h5">
             {%- assign text_val = section.blocks.first.settings.text -%}
+            {%- if text_val == blank or text_val contains 'Welcome to our store' -%}
+              {%- assign text_val = 'Free shipping across India on orders over ₹7,500. Complimentary alterations on Contemporary pieces' -%}
+            {%- endif -%}
             {%- if text_val contains 'Complimentary alterations' -%}
               {%- assign parts = text_val | split: 'Complimentary alterations' -%}
               <span>{{ parts[0] }}</span>
@@ -108,6 +111,9 @@
                     {%- endif -%}
                     <p class="announcement-bar__message h5">
                       {%- assign text_val = block.settings.text -%}
+                      {%- if text_val == blank or text_val contains 'Welcome to our store' -%}
+                        {%- assign text_val = 'Free shipping across India on orders over ₹7,500. Complimentary alterations on Contemporary pieces' -%}
+                      {%- endif -%}
                       {%- if text_val contains 'Complimentary alterations' -%}
                         {%- assign parts = text_val | split: 'Complimentary alterations' -%}
                         <span>{{ parts[0] }}</span>

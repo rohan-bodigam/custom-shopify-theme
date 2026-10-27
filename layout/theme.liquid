@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="js" lang="{{ request.locale.iso_code }}">
+<html class="js" lang="{{ request.locale.iso_code }}" data-theme="light">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#6B2230">
-    <script>try{var t=localStorage.getItem('hokk-theme');t=t?JSON.parse(t):null;document.documentElement.dataset.theme=t||'light'}catch(e){}</script>
+    <script>try{var t=localStorage.getItem('hokk-theme-v2');document.documentElement.dataset.theme=(t==='dark')?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
@@ -294,6 +294,7 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'component-mega-menu.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
