@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="js" lang="{{ request.locale.iso_code }}" data-theme="light">
+<html class="js" lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#6B2230">
-    <script>try{var t=localStorage.getItem('hokk-theme-v2');document.documentElement.dataset.theme=(t==='dark')?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+    <script>try{localStorage.removeItem('hokk-theme');localStorage.removeItem('hokk-theme-v2');}catch(e){}</script>
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}

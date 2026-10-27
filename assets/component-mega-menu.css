@@ -28,22 +28,6 @@
 }
 
 
-:root[data-theme="dark"] {
-  --bg: #171717;
-  --bg-alt: #1F1A1A;
-  --band: #261E1F;
-  --card: #211B1C;
-  --ink: #F1EAE2;
-  --ink-2: #D5CBC2;
-  --muted: #A99E97;
-  --line: rgba(241, 234, 226, 0.14);
-  --link: #E2A3AE;
-  --acc-soft: rgba(226, 163, 174, 0.08);
-  --glass: rgba(28, 22, 23, 0.94);
-  --gold-ink: #D1B17E;
-  --sh1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 30px -14px rgba(0, 0, 0, 0.6);
-  --sh2: 0 2px 6px rgba(0, 0, 0, 0.3), 0 26px 50px -20px rgba(0, 0, 0, 0.7);
-}
 
 /* ==========================================================================
    Announcement Bar (House of Kala Katha Reference Styling)
@@ -100,16 +84,11 @@
    ========================================================================== */
 
 .header-wrapper {
-  background: var(--glass, #F7F3EE) !important;
+  background: rgba(247, 243, 238, 0.96) !important;
   backdrop-filter: blur(16px) saturate(1.15) !important;
   -webkit-backdrop-filter: blur(16px) saturate(1.15) !important;
-  border-bottom: 1px solid var(--line, rgba(23, 23, 23, 0.12)) !important;
+  border-bottom: 1px solid rgba(23, 23, 23, 0.12) !important;
   transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-:root[data-theme="dark"] .header-wrapper {
-  background: var(--glass, rgba(28, 22, 23, 0.94)) !important;
-  border-bottom: 1px solid var(--line, rgba(241, 234, 226, 0.14)) !important;
 }
 
 .header {
@@ -164,14 +143,7 @@
   color: var(--crimson, #6B2230) !important;
 }
 
-:root[data-theme="dark"] .header__inline-menu .list-menu__item {
-  color: var(--ink, #F1EAE2) !important;
-}
 
-:root[data-theme="dark"] .header__inline-menu .list-menu__item:hover,
-:root[data-theme="dark"] .header__inline-menu .header__active-menu-item {
-  color: #D1B17E !important;
-}
 
 /* Animated underline on top-level text links */
 .header__inline-menu > ul > li > a.list-menu__item::after {
@@ -192,9 +164,7 @@
   transform: scaleX(1) !important;
 }
 
-:root[data-theme="dark"] .header__inline-menu > ul > li > a.list-menu__item::after {
-  background-color: #D1B17E !important;
-}
+
 
 /* Chapters Trigger (Clean inline text with chevron matching Reference) */
 .header__menu-item--pill {
@@ -223,14 +193,7 @@
   color: var(--crimson, #6B2230) !important;
 }
 
-:root[data-theme="dark"] .header__menu-item--pill {
-  color: var(--ink, #F1EAE2) !important;
-}
 
-:root[data-theme="dark"] .header__menu-item--pill:hover,
-:root[data-theme="dark"] .mega-menu--chapters[open] .header__menu-item--pill {
-  color: #D1B17E !important;
-}
 
 .header__menu-pill-text {
   letter-spacing: 0.01em;
@@ -288,14 +251,7 @@
   transform: translateY(-1px) !important;
 }
 
-:root[data-theme="dark"] .header__icon {
-  color: var(--ink, #F1EAE2) !important;
-}
 
-:root[data-theme="dark"] .header__icon:hover {
-  background: rgba(226, 163, 174, 0.1) !important;
-  color: #D1B17E !important;
-}
 
 .header__icon svg {
   width: 20px !important;
@@ -328,54 +284,7 @@ details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-c
   display: none !important;
 }
 
-/* Day/Night Theme Button (smooth crossfade matching reference) */
-.header__icon--theme {
-  position: relative !important;
-}
 
-.header__icon--theme .icon-moon,
-.header__icon--theme .icon-sun {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  width: 20px !important;
-  height: 20px !important;
-  display: grid !important;
-  place-items: center !important;
-  transform: translate(-50%, -50%) !important;
-  transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.3, 1.4, 0.5, 1) !important;
-}
-
-/* Default / Light: Moon visible */
-.header__icon--theme .icon-moon {
-  opacity: 1 !important;
-  transform: translate(-50%, -50%) rotate(0deg) scale(1) !important;
-  pointer-events: auto !important;
-}
-
-.header__icon--theme .icon-sun {
-  opacity: 0 !important;
-  transform: translate(-50%, -50%) rotate(-90deg) scale(0.5) !important;
-  pointer-events: none !important;
-}
-
-/* Dark Mode: Sun visible */
-:root[data-theme="dark"] .header__icon--theme .icon-moon {
-  opacity: 0 !important;
-  transform: translate(-50%, -50%) rotate(90deg) scale(0.5) !important;
-  pointer-events: none !important;
-}
-
-:root[data-theme="dark"] .header__icon--theme .icon-sun {
-  opacity: 1 !important;
-  transform: translate(-50%, -50%) rotate(0deg) scale(1) !important;
-  pointer-events: auto !important;
-}
-
-/* Dark Mode Logo invert */
-:root[data-theme="dark"] .header__heading-logo {
-  filter: brightness(0) invert(0.95) !important;
-}
 
 .cart-count-bubble {
   position: absolute !important;
@@ -766,67 +675,4 @@ details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-c
   transition: transform 0.05s linear;
 }
 
-/* ==========================================================================
-   Theme Day/Night Toggle Button in Header
-   ========================================================================== */
 
-.header__icon--theme {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink);
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.header__icon--theme:hover {
-  color: var(--crimson);
-  transform: translateY(-1px);
-}
-
-/* ==========================================================================
-   Dark Mode Overrides
-   ========================================================================== */
-
-:root[data-theme="dark"] .header__menu-item--pill {
-  border: none !important;
-  background: transparent !important;
-  color: var(--ink, #F1EAE2) !important;
-}
-
-:root[data-theme="dark"] .header__menu-item--pill:hover,
-:root[data-theme="dark"] .mega-menu--chapters[open] .header__menu-item--pill {
-  background: transparent !important;
-  border: none !important;
-  color: #D1B17E !important;
-}
-
-:root[data-theme="dark"] .header__inline-menu .list-menu__item:hover,
-:root[data-theme="dark"] .header__inline-menu .header__active-menu-item {
-  color: #E2A3AE;
-}
-
-:root[data-theme="dark"] .header__inline-menu > ul > li > a.list-menu__item::after {
-  background-color: #D1B17E;
-}
-
-:root[data-theme="dark"] .mega-all-link {
-  color: #E2A3AE;
-}
-
-:root[data-theme="dark"] .mega-cm-link:hover .cm-nm,
-:root[data-theme="dark"] .mega-cm-link.hot .cm-nm {
-  color: #E2A3AE;
-}
-
-:root[data-theme="dark"] .mega-cm-link .cm-ar svg {
-  color: #E2A3AE;
-}
-
-:root[data-theme="dark"] .header__icon--theme:hover {
-  color: #E2A3AE;
-}
-
-:root[data-theme="dark"] .mega-menu__link:hover,
-:root[data-theme="dark"] .mega-menu__link--active {
-  color: #E2A3AE;
-}
