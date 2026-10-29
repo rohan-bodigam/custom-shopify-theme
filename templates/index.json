@@ -334,6 +334,105 @@
         "section_id": "shopby"
       }
     },
+    "heritage": {
+      "type": "heritage",
+      "blocks": {
+        "chapter_east": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 01",
+            "title": "East India",
+            "tagline": "Where Every Thread Tells a Story",
+            "states_count": "4 states",
+            "fallback_image": "mapEast.jpg",
+            "link": "#/chapter/east",
+            "accent_color": "#7A8063",
+            "accent_deep": "#5E634B",
+            "accent_lite": "#B9BE9E"
+          }
+        },
+        "chapter_west": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 02",
+            "title": "West & Central India",
+            "tagline": "Where Colour Meets Craft",
+            "states_count": "5 states",
+            "fallback_image": "mapWest.jpg",
+            "link": "#/chapter/west",
+            "accent_color": "#6B2230",
+            "accent_deep": "#6B2230",
+            "accent_lite": "#E2A3AE"
+          }
+        },
+        "chapter_north": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 03",
+            "title": "North India",
+            "tagline": "Where Heritage Lives in Every Detail",
+            "states_count": "4 states",
+            "fallback_image": "mapNorth.jpg",
+            "link": "#/chapter/north",
+            "accent_color": "#B08D57",
+            "accent_deep": "#7A5A31",
+            "accent_lite": "#D1B17E"
+          }
+        },
+        "chapter_south": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 04",
+            "title": "South India",
+            "tagline": "Where Tradition Meets Contemporary Design",
+            "states_count": "4 states",
+            "fallback_image": "mapSouth.jpg",
+            "link": "#/chapter/south",
+            "accent_color": "#3F5750",
+            "accent_deep": "#3F5750",
+            "accent_lite": "#9DBDB2"
+          }
+        },
+        "chapter_northeast": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 05",
+            "title": "North East India",
+            "tagline": "Where Nature Inspires Every Weave",
+            "states_count": "8 states · Revealing soon",
+            "fallback_image": "mapNorthEast.jpg",
+            "link": "#/chapter/northeast",
+            "accent_color": "#4A2A3A",
+            "accent_deep": "#4A2A3A",
+            "accent_lite": "#CFA3B8"
+          }
+        }
+      },
+      "block_order": [
+        "chapter_east",
+        "chapter_west",
+        "chapter_north",
+        "chapter_south",
+        "chapter_northeast"
+      ],
+      "settings": {
+        "show_warp": true,
+        "title": "Heritage",
+        "heading_uppercase": true,
+        "heading_size": "d2",
+        "lede": "One house, five chapters. Each region’s weaves, told through the cloth, the makers and the land that shaped them.",
+        "show_link": true,
+        "link_label": "Explore Culture",
+        "link_url": "#/culture",
+        "columns_desktop": 5,
+        "section_bg": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 80,
+        "section_id": "heritage",
+        "custom_class": ""
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -367,6 +466,7 @@
     "image_banner",
     "marquee",
     "collection_list",
+    "heritage",
     "featured_collection"
   ]
 }

@@ -1,0 +1,248 @@
+/* ==========================================================================
+   Section: Heritage (House Chapters)
+   Reference: reference/index.html (#heritage, .chap-grid, .chap-card)
+   ========================================================================== */
+
+.heritage-sec {
+  position: relative;
+  background-color: var(--bg-alt, #EDE3D9);
+}
+
+.heritage-sec .wrap {
+  max-width: var(--wrap, 1240px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gut, clamp(18px, 4vw, 48px));
+  padding-right: var(--gut, clamp(18px, 4vw, 48px));
+}
+
+/* Warp loom icon (5 golden vertical lines) */
+.heritage-sec .warp {
+  display: inline-flex;
+  gap: 4px;
+  height: 26px;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+
+.heritage-sec .warp i {
+  display: block;
+  width: 1px;
+  background: var(--gold, #B08D57);
+}
+
+.heritage-sec .warp i:nth-child(1) { height: 60%; }
+.heritage-sec .warp i:nth-child(2) { height: 100%; }
+.heritage-sec .warp i:nth-child(3) { height: 80%; }
+.heritage-sec .warp i:nth-child(4) { height: 100%; }
+.heritage-sec .warp i:nth-child(5) { height: 55%; }
+
+/* Section Header */
+.heritage-sec .sec-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.heritage-sec .sec-head h2 {
+  font-family: var(--f-display, 'Cinzel', Georgia, serif);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: var(--ink, #171717);
+}
+
+.heritage-sec .sec-head h2.uppercase {
+  text-transform: uppercase;
+}
+
+.heritage-sec .sec-head .lede {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(1.12rem, 1.7vw, 1.32rem);
+  line-height: 1.55;
+  color: var(--ink-2, #4A4240);
+  margin: 12px 0 0;
+  max-width: 62ch;
+}
+
+/* Link: Explore Culture */
+.heritage-sec .tlink {
+  color: var(--link, #6B2230);
+  border-bottom: 0;
+  padding-bottom: 2px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.heritage-sec .tlink:hover {
+  opacity: 1;
+  background-size: 0 1px;
+  background-position: 100% 100%;
+}
+
+/* Chapter Grid */
+.chap-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--chap-cols-desktop, 5), 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+/* Chapter Card */
+.chap-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--card, #FFFDFA);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--sh1, 0 1px 2px rgba(23, 23, 23, 0.05), 0 10px 28px -14px rgba(107, 34, 48, 0.28));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.chap-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sh2, 0 2px 6px rgba(23, 23, 23, 0.06), 0 24px 48px -20px rgba(74, 20, 30, 0.40));
+}
+
+.chap-card:focus-visible {
+  outline: 2px solid var(--gold, #B08D57);
+  outline-offset: 3px;
+}
+
+/* Card Visual Art */
+.chap-card .art {
+  aspect-ratio: 840 / 682;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #551D28;
+  display: block;
+}
+
+.chap-card .art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.chap-card:hover .art-img {
+  transform: scale(1.04);
+}
+
+/* Card Body Content */
+.chap-card .body {
+  padding: 16px 16px 18px;
+  border-top: 3px solid var(--c, #6B2230);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  background: var(--card, #FFFDFA);
+}
+
+.chap-card .no {
+  font-family: var(--f-display, 'Cinzel', serif);
+  font-weight: 500;
+  font-size: 0.78rem;
+  line-height: 1;
+  color: var(--c-deep, var(--c, #6B2230));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.chap-card h3 {
+  font-family: var(--f-display, 'Cinzel', serif);
+  font-weight: 500;
+  font-size: 1.08rem;
+  line-height: 1.25;
+  color: var(--ink, #171717);
+  margin: 0;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.chap-card p {
+  font-family: var(--f-edit, 'Forum', serif);
+  font-weight: 400;
+  font-size: 0.98rem;
+  line-height: 1.4;
+  color: var(--ink-2, #4A4240);
+  margin: 0;
+}
+
+.chap-card .ct {
+  margin-top: auto;
+  padding-top: 10px;
+  font-family: var(--f-ui, 'Inter', sans-serif);
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--muted, #6E6461);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1100px) {
+  .chap-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .heritage-sec .sec-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .chap-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .chap-grid .chap-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 500px) {
+  .chap-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chap-grid .chap-card:last-child {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chap-card,
+  .chap-card .art-img {
+    transition: none !important;
+  }
+
+  .chap-card:hover {
+    transform: none !important;
+  }
+
+  .chap-card:hover .art-img {
+    transform: none !important;
+  }
+}
+

@@ -1,0 +1,460 @@
+{{ 'section-heritage.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Section-{{ section.id }} {
+    --chap-cols-desktop: {{ section.settings.columns_desktop | default: 5 }};
+    {% if section.settings.section_bg != blank %}
+      background-color: {{ section.settings.section_bg }};
+    {% endif %}
+  }
+{%- endstyle -%}
+
+<section
+  id="Section-{{ section.id }}"
+  class="sec alt heritage-sec color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  {% if section.settings.section_id != blank %}
+    id="{{ section.settings.section_id | escape }}"
+  {% endif %}
+>
+  <div class="wrap page-width">
+    {%- unless section.settings.title == blank and section.settings.lede == blank -%}
+      <div class="sec-head">
+        <div>
+          {%- if section.settings.show_warp -%}
+            <span class="warp" aria-hidden="true"> <i></i><i></i><i></i><i></i><i></i> </span>
+          {%- endif -%}
+
+          {%- if section.settings.title != blank -%}
+            <h2 class="{{ section.settings.heading_size }}{% if section.settings.heading_uppercase %} uppercase{% endif %}">
+              {{ section.settings.title }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.lede != blank -%}
+            <p class="lede">{{ section.settings.lede }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_link and section.settings.link_label != blank -%}
+          <a class="tlink" href="{{ section.settings.link_url | default: '#/culture' }}">
+            {{- section.settings.link_label -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
+
+    <div class="chap-grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          # Accent colors
+          assign accent_color = block.settings.accent_color
+          if accent_color == blank
+            assign accent_color = '#6B2230'
+          endif
+
+          assign accent_deep = block.settings.accent_deep
+          if accent_deep == blank
+            assign accent_deep = accent_color
+          endif
+
+          assign accent_lite = block.settings.accent_lite
+          if accent_lite == blank
+            assign accent_lite = '#E2A3AE'
+          endif
+
+          # Link resolution: collection picker > link URL picker > fallback
+          assign card_url = '#'
+          if block.settings.collection != blank
+            assign card_url = block.settings.collection.url
+          elsif block.settings.link != blank
+            assign card_url = block.settings.link
+          endif
+
+          # Fallback image name
+          assign fallback_name = block.settings.fallback_image
+          if fallback_name == blank
+            assign forloop_idx = forloop.index
+            case forloop_idx
+              when 1
+                assign fallback_name = 'mapEast.jpg'
+              when 2
+                assign fallback_name = 'mapWest.jpg'
+              when 3
+                assign fallback_name = 'mapNorth.jpg'
+              when 4
+                assign fallback_name = 'mapSouth.jpg'
+              when 5
+                assign fallback_name = 'mapNorthEast.jpg'
+              else
+                assign fallback_name = 'mapEast.jpg'
+            endcase
+          endif
+
+          # Alt text
+          assign card_title = block.settings.title
+          if card_title == blank and block.settings.collection != blank
+            assign card_title = block.settings.collection.title
+          elsif card_title == blank
+            assign card_title = 'Chapter'
+          endif
+
+          assign card_alt_full = 'Textile map of ' | append: card_title
+        -%}
+
+        <a
+          class="chap-card"
+          href="{{ card_url }}"
+          style="--c: {{ accent_color }}; --c-deep: {{ accent_deep }}; --c-lite: {{ accent_lite }};"
+          {{ block.shopify_attributes }}
+        >
+          <div class="art" role="img" aria-label="{{ card_alt_full | escape }}">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 840
+                | image_tag: class: 'art-img', loading: 'lazy', widths: '240, 360, 480, 600, 840', alt: card_alt_full
+              }}
+            {%- elsif block.settings.collection != blank and block.settings.collection.featured_image != blank -%}
+              {{
+                block.settings.collection.featured_image
+                | image_url: width: 840
+                | image_tag: class: 'art-img', loading: 'lazy', widths: '240, 360, 480, 600, 840', alt: card_alt_full
+              }}
+            {%- else -%}
+              <img
+                class="art-img"
+                src="{{ fallback_name | asset_url }}"
+                alt="{{ card_alt_full | escape }}"
+                loading="lazy"
+                width="840"
+                height="682"
+              >
+            {%- endif -%}
+          </div>
+
+          <div class="body">
+            {%- if block.settings.chapter_no != blank -%}
+              <span class="no">{{ block.settings.chapter_no }}</span>
+            {%- endif -%}
+
+            {%- if card_title != blank -%}
+              <h3>{{ card_title }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.tagline != blank -%}
+              <p>{{ block.settings.tagline }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.states_count != blank -%}
+              <span class="ct">{{ block.settings.states_count }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Heritage Chapters",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_warp",
+      "label": "Show loom warp icon",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Heading",
+      "default": "Heritage"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_uppercase",
+      "label": "Uppercase heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "d2",
+          "label": "Medium (Display 2)"
+        },
+        {
+          "value": "d1",
+          "label": "Large (Display 1)"
+        }
+      ],
+      "default": "d2"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Subtitle / Lede",
+      "default": "One house, five chapters. Each region’s weaves, told through the cloth, the makers and the land that shaped them."
+    },
+    {
+      "type": "header",
+      "content": "Header Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_link",
+      "label": "Show header link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Explore Culture"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Background"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 5,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background color override",
+      "info": "Leave blank to use default warm sand background (#EDE3D9)"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section anchor ID",
+      "default": "heritage"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "Chapter Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "chapter_no",
+          "label": "Chapter number",
+          "default": "Chapter 01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Chapter title",
+          "default": "East India"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Tagline / Subtitle",
+          "default": "Where Every Thread Tells a Story"
+        },
+        {
+          "type": "text",
+          "id": "states_count",
+          "label": "States count / status",
+          "default": "4 states"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom card image"
+        },
+        {
+          "type": "text",
+          "id": "fallback_image",
+          "label": "Fallback asset image filename",
+          "info": "e.g. mapEast.jpg, mapWest.jpg, mapNorth.jpg, mapSouth.jpg, mapNorthEast.jpg"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Shopify Collection (Optional)",
+          "info": "If selected, clicking the card will navigate directly to this collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom card link",
+          "info": "Used if no Shopify Collection is chosen"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent color (--c)",
+          "default": "#7A8063"
+        },
+        {
+          "type": "color",
+          "id": "accent_deep",
+          "label": "Accent deep color (--c-deep)",
+          "default": "#5E634B"
+        },
+        {
+          "type": "color",
+          "id": "accent_lite",
+          "label": "Accent lite color (--c-lite)",
+          "default": "#B9BE9E"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heritage Chapters",
+      "blocks": [
+        {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 01",
+            "title": "East India",
+            "tagline": "Where Every Thread Tells a Story",
+            "states_count": "4 states",
+            "fallback_image": "mapEast.jpg",
+            "link": "#/chapter/east",
+            "accent_color": "#7A8063",
+            "accent_deep": "#5E634B",
+            "accent_lite": "#B9BE9E"
+          }
+        },
+        {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 02",
+            "title": "West & Central India",
+            "tagline": "Where Colour Meets Craft",
+            "states_count": "5 states",
+            "fallback_image": "mapWest.jpg",
+            "link": "#/chapter/west",
+            "accent_color": "#6B2230",
+            "accent_deep": "#6B2230",
+            "accent_lite": "#E2A3AE"
+          }
+        },
+        {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 03",
+            "title": "North India",
+            "tagline": "Where Heritage Lives in Every Detail",
+            "states_count": "4 states",
+            "fallback_image": "mapNorth.jpg",
+            "link": "#/chapter/north",
+            "accent_color": "#B08D57",
+            "accent_deep": "#7A5A31",
+            "accent_lite": "#D1B17E"
+          }
+        },
+        {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 04",
+            "title": "South India",
+            "tagline": "Where Tradition Meets Contemporary Design",
+            "states_count": "4 states",
+            "fallback_image": "mapSouth.jpg",
+            "link": "#/chapter/south",
+            "accent_color": "#3F5750",
+            "accent_deep": "#3F5750",
+            "accent_lite": "#9DBDB2"
+          }
+        },
+        {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 05",
+            "title": "North East India",
+            "tagline": "Where Nature Inspires Every Weave",
+            "states_count": "8 states · Revealing soon",
+            "fallback_image": "mapNorthEast.jpg",
+            "link": "#/chapter/northeast",
+            "accent_color": "#4A2A3A",
+            "accent_deep": "#4A2A3A",
+            "accent_lite": "#CFA3B8"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
