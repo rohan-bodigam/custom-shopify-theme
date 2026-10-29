@@ -433,6 +433,77 @@
         "custom_class": ""
       }
     },
+    "explore_products": {
+      "type": "explore-products",
+      "blocks": {
+        "tab_women": {
+          "type": "tab",
+          "settings": {
+            "title": "Women",
+            "tab_id": "Women",
+            "group_1_heading": "Sarees, by weave",
+            "collections_1": [],
+            "group_2_heading": "More for her",
+            "collections_2": []
+          }
+        },
+        "tab_men": {
+          "type": "tab",
+          "settings": {
+            "title": "Men",
+            "tab_id": "Men",
+            "group_1_heading": "",
+            "collections_1": [],
+            "group_2_heading": "",
+            "collections_2": []
+          }
+        },
+        "tab_kids": {
+          "type": "tab",
+          "settings": {
+            "title": "Kids",
+            "tab_id": "Kids",
+            "group_1_heading": "",
+            "collections_1": [],
+            "group_2_heading": "",
+            "collections_2": []
+          }
+        },
+        "tab_pets": {
+          "type": "tab",
+          "settings": {
+            "title": "Pets",
+            "tab_id": "Pet",
+            "group_1_heading": "",
+            "collections_1": [],
+            "group_2_heading": "",
+            "collections_2": []
+          }
+        }
+      },
+      "block_order": [
+        "tab_women",
+        "tab_men",
+        "tab_kids",
+        "tab_pets"
+      ],
+      "settings": {
+        "title": "Explore Your Product",
+        "heading_uppercase": false,
+        "heading_size": "h2",
+        "lede": "Start with who it is for, then choose a weave or a category. Every piece names its weave and region.",
+        "show_link": true,
+        "link_label": "Shop All",
+        "link_url": "",
+        "columns_desktop": 6,
+        "section_bg": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 80,
+        "section_id": "explore",
+        "custom_class": ""
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -467,6 +538,7 @@
     "marquee",
     "collection_list",
     "heritage",
+    "explore_products",
     "featured_collection"
   ]
 }

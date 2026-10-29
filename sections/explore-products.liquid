@@ -1,0 +1,774 @@
+{{ 'section-explore-products.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Section-{{ section.id }} {
+    --xgrid-cols-desktop: {{ section.settings.columns_desktop | default: 6 }};
+    {% if section.settings.section_bg != blank %}
+      background-color: {{ section.settings.section_bg }};
+    {% endif %}
+  }
+{%- endstyle -%}
+
+<section
+  id="Section-{{ section.id }}"
+  class="sec explore-sec color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  {% if section.settings.section_id != blank %}
+    id="{{ section.settings.section_id | escape }}"
+  {% endif %}
+>
+  <div class="wrap page-width">
+    {%- unless section.settings.title == blank and section.settings.lede == blank -%}
+      <div class="sec-head">
+        <div>
+          {%- if section.settings.title != blank -%}
+            <h2 class="{{ section.settings.heading_size }}{% if section.settings.heading_uppercase %} uppercase{% endif %}">
+              {{ section.settings.title }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.lede != blank -%}
+            <p class="lede">{{ section.settings.lede }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_link and section.settings.link_label != blank -%}
+          <a class="tlink" href="{{ section.settings.link_url | default: routes.all_products_collection_url }}">
+            {{- section.settings.link_label -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
+
+    {%- liquid
+      assign tab_blocks = section.blocks | where: 'type', 'tab'
+      assign card_blocks = section.blocks | where: 'type', 'card'
+    -%}
+
+    {%- if tab_blocks.size > 0 -%}
+      {% comment %} Tab Navigation Bar {% endcomment %}
+      <div class="tabs" role="tablist" aria-label="Explore by wardrobe">
+        {%- for tab_block in tab_blocks -%}
+          {%- liquid
+            assign tab_title = tab_block.settings.title | default: 'Tab'
+            assign tab_id = tab_block.settings.tab_id
+            if tab_id == blank
+              assign tab_id = tab_title
+            endif
+          -%}
+          <button
+            class="tab"
+            role="tab"
+            type="button"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            data-g="{{ tab_id | escape }}"
+            id="tab-{{ section.id }}-{{ forloop.index }}"
+            aria-controls="panel-{{ section.id }}-{{ forloop.index }}"
+            {{ tab_block.shopify_attributes }}
+          >
+            {{ tab_title }}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {% comment %} Tab Panels Content {% endcomment %}
+      {%- for tab_block in tab_blocks -%}
+        {%- liquid
+          assign tab_title = tab_block.settings.title | default: 'Tab'
+          assign tab_id = tab_block.settings.tab_id
+          if tab_id == blank
+            assign tab_id = tab_title
+          endif
+          assign tab_lower = tab_id | downcase
+
+          # Determine fallback image based on tab
+          assign tab_fallback_img = 'mega-women.webp'
+          if tab_lower contains 'men'
+            assign tab_fallback_img = 'mega-men.webp'
+          elsif tab_lower contains 'kid'
+            assign tab_fallback_img = 'mega-kids.webp'
+          elsif tab_lower contains 'pet'
+            assign tab_fallback_img = 'mega-pet.webp'
+          endif
+
+          # Filter custom card blocks assigned to this tab
+          assign matching_cards = ''
+          assign has_matching_cards = false
+          for c_block in card_blocks
+            assign c_tab = c_block.settings.tab_name | downcase
+            if c_tab == tab_lower
+              assign has_matching_cards = true
+              break
+            endif
+          endfor
+
+          assign has_group_1_collections = false
+          if tab_block.settings.collections_1.count > 0
+            assign has_group_1_collections = true
+          endif
+
+          assign has_group_2_collections = false
+          if tab_block.settings.collections_2.count > 0
+            assign has_group_2_collections = true
+          endif
+        -%}
+
+        <div
+          class="tab-panel"
+          data-gp="{{ tab_id | escape }}"
+          id="panel-{{ section.id }}-{{ forloop.index }}"
+          role="tabpanel"
+          aria-labelledby="tab-{{ section.id }}-{{ forloop.index }}"
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}
+        >
+          {%- if has_group_1_collections or has_group_2_collections or has_matching_cards -%}
+            {% comment %} 1. Render Group 1 Collections from collection_list {% endcomment %}
+            {%- if has_group_1_collections -%}
+              {%- if tab_block.settings.group_1_heading != blank -%}
+                <h3 class="xh">{{ tab_block.settings.group_1_heading }}</h3>
+              {%- endif -%}
+              <div class="xgrid">
+                {%- for col in tab_block.settings.collections_1 -%}
+                  {%- liquid
+                    assign col_img = col.featured_image
+                    if col_img == blank and col.products.first.featured_image != blank
+                      assign col_img = col.products.first.featured_image
+                    endif
+                    assign count_text = col.all_products_count | append: ' pieces'
+                    if col.all_products_count == 1
+                      assign count_text = '1 piece'
+                    endif
+                  -%}
+                  <a class="xtile" href="{{ col.url }}">
+                    {%- if col_img != blank -%}
+                      {{
+                        col_img
+                        | image_url: width: 600
+                        | image_tag: class: 'im', loading: 'lazy', widths: '200, 320, 480, 600', alt: col.title
+                      }}
+                    {%- else -%}
+                      <img
+                        class="im"
+                        src="{{ tab_fallback_img | asset_url }}"
+                        alt="{{ col.title | escape }}"
+                        loading="lazy"
+                        width="400"
+                        height="500"
+                      >
+                    {%- endif -%}
+                    <div class="b">
+                      <h3>{{ col.title }}</h3>
+                      <span>{{ count_text }}</span>
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {% comment %} 2. Render Group 2 Collections from collection_list {% endcomment %}
+            {%- if has_group_2_collections -%}
+              {%- if tab_block.settings.group_2_heading != blank -%}
+                <h3 class="xh">{{ tab_block.settings.group_2_heading }}</h3>
+              {%- endif -%}
+              <div class="xgrid">
+                {%- for col in tab_block.settings.collections_2 -%}
+                  {%- liquid
+                    assign col_img = col.featured_image
+                    if col_img == blank and col.products.first.featured_image != blank
+                      assign col_img = col.products.first.featured_image
+                    endif
+                    assign count_text = col.all_products_count | append: ' pieces'
+                    if col.all_products_count == 1
+                      assign count_text = '1 piece'
+                    endif
+                  -%}
+                  <a class="xtile" href="{{ col.url }}">
+                    {%- if col_img != blank -%}
+                      {{
+                        col_img
+                        | image_url: width: 600
+                        | image_tag: class: 'im', loading: 'lazy', widths: '200, 320, 480, 600', alt: col.title
+                      }}
+                    {%- else -%}
+                      <img
+                        class="im"
+                        src="{{ tab_fallback_img | asset_url }}"
+                        alt="{{ col.title | escape }}"
+                        loading="lazy"
+                        width="400"
+                        height="500"
+                      >
+                    {%- endif -%}
+                    <div class="b">
+                      <h3>{{ col.title }}</h3>
+                      <span>{{ count_text }}</span>
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {% comment %} 3. Render any individual Card blocks belonging to this Tab {% endcomment %}
+            {%- if has_matching_cards -%}
+              <div class="xgrid">
+                {%- for c_block in card_blocks -%}
+                  {%- assign c_tab = c_block.settings.tab_name | downcase -%}
+                  {%- if c_tab == tab_lower -%}
+                    {%- liquid
+                      assign card_col = c_block.settings.collection
+                      assign card_url = routes.all_products_collection_url
+                      if card_col != blank
+                        assign card_url = card_col.url
+                      elsif c_block.settings.link != blank
+                        assign card_url = c_block.settings.link
+                      endif
+
+                      assign card_title = c_block.settings.title
+                      if card_title == blank and card_col != blank
+                        assign card_title = card_col.title
+                      elsif card_title == blank
+                        assign card_title = 'Collection'
+                      endif
+
+                      assign card_count = c_block.settings.count_label
+                      if card_count == blank and card_col != blank
+                        assign card_count = card_col.all_products_count | append: ' pieces'
+                      endif
+
+                      assign card_img = c_block.settings.image
+                      if card_img == blank and card_col != blank and card_col.featured_image != blank
+                        assign card_img = card_col.featured_image
+                      endif
+
+                      assign fallback_img_name = c_block.settings.fallback_image
+                      if fallback_img_name == blank
+                        assign fallback_img_name = tab_fallback_img
+                      endif
+                    -%}
+
+                    <a class="xtile" href="{{ card_url }}" {{ c_block.shopify_attributes }}>
+                      {%- if card_img != blank -%}
+                        {{
+                          card_img
+                          | image_url: width: 600
+                          | image_tag: class: 'im', loading: 'lazy', widths: '200, 320, 480, 600', alt: card_title
+                        }}
+                      {%- else -%}
+                        <img
+                          class="im"
+                          src="{{ fallback_img_name | asset_url }}"
+                          alt="{{ card_title | escape }}"
+                          loading="lazy"
+                          width="400"
+                          height="500"
+                        >
+                      {%- endif -%}
+                      <div class="b">
+                        <h3>{{ card_title }}</h3>
+                        {%- if card_count != blank -%}
+                          <span>{{ card_count }}</span>
+                        {%- endif -%}
+                      </div>
+                    </a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+          {%- else -%}
+            {% comment %} 4. Built-in Sample Cards (Exact Match to index.html Reference) {% endcomment %}
+            {%- if tab_lower contains 'women' -%}
+              <h3 class="xh">{{ tab_block.settings.group_1_heading | default: 'Sarees, by weave' }}</h3>
+              <div class="xgrid">
+                {%- assign women_sarees = 'Mangalagiri|143 pieces,Maheshwari|134 pieces,Ikkat|100 pieces,Mul Cotton|80 pieces,Chiffon|61 pieces,Banaras|49 pieces,Baluchari|38 pieces,Zari Kota|34 pieces,Pure Kota|33 pieces,Swarnachari|26 pieces,Crape Silk|8 pieces'
+                  | split: ','
+                -%}
+                {%- for item in women_sarees -%}
+                  {%- assign parts = item | split: '|' -%}
+                  <a class="xtile" href="{{ routes.all_products_collection_url }}?filter.p.m.custom.weave={{ parts[0] | url_encode }}">
+                    <img
+                      class="im"
+                      src="{{ 'mega-women.webp' | asset_url }}"
+                      alt="{{ parts[0] }}"
+                      loading="lazy"
+                      width="400"
+                      height="500"
+                    >
+                    <div class="b">
+                      <h3>{{ parts[0] }}</h3>
+                      <span>{{ parts[1] }}</span>
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+
+              {%- if tab_block.settings.group_2_heading != blank -%}
+                <h3 class="xh">{{ tab_block.settings.group_2_heading }}</h3>
+                <div class="xgrid">
+                  {%- assign women_more = 'Co-ord sets|30 pieces,Dresses|13 pieces,Jumpsuits|4 pieces,Kurta sets|1 piece,Lehenga sets|34 pieces'
+                    | split: ','
+                  -%}
+                  {%- for item in women_more -%}
+                    {%- assign parts = item | split: '|' -%}
+                    <a class="xtile" href="{{ routes.all_products_collection_url }}?filter.p.product_type={{ parts[0] | url_encode }}">
+                      <img
+                        class="im"
+                        src="{{ 'mega-women.webp' | asset_url }}"
+                        alt="{{ parts[0] }}"
+                        loading="lazy"
+                        width="400"
+                        height="500"
+                      >
+                      <div class="b">
+                        <h3>{{ parts[0] }}</h3>
+                        <span>{{ parts[1] }}</span>
+                      </div>
+                    </a>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+
+            {%- elsif tab_lower contains 'men' -%}
+              <div class="xgrid">
+                {%- assign men_items = 'Kurtas|3 pieces,Jackets & vests|3 pieces,Sherwanis|1 piece,Shirts|8 pieces,Co-ord sets|1 piece,Dhoti sets|24 pieces'
+                  | split: ','
+                -%}
+                {%- for item in men_items -%}
+                  {%- assign parts = item | split: '|' -%}
+                  <a class="xtile" href="{{ routes.all_products_collection_url }}?filter.p.product_type={{ parts[0] | url_encode }}">
+                    <img
+                      class="im"
+                      src="{{ 'mega-men.webp' | asset_url }}"
+                      alt="{{ parts[0] }}"
+                      loading="lazy"
+                      width="400"
+                      height="500"
+                    >
+                    <div class="b">
+                      <h3>{{ parts[0] }}</h3>
+                      <span>{{ parts[1] }}</span>
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+
+            {%- elsif tab_lower contains 'kid' -%}
+              <div class="xgrid">
+                {%- assign kid_items = 'Mangalagiri|2 pieces,Maheshwari|1 piece,Zari Kota|1 piece,Banaras|2 pieces,Ikkat|1 piece,Chiffon|1 piece,Mul Cotton|2 pieces'
+                  | split: ','
+                -%}
+                {%- for item in kid_items -%}
+                  {%- assign parts = item | split: '|' -%}
+                  <a class="xtile" href="{{ routes.all_products_collection_url }}?filter.p.m.custom.weave={{ parts[0] | url_encode }}">
+                    <img
+                      class="im"
+                      src="{{ 'mega-kids.webp' | asset_url }}"
+                      alt="{{ parts[0] }}"
+                      loading="lazy"
+                      width="400"
+                      height="500"
+                    >
+                    <div class="b">
+                      <h3>{{ parts[0] }}</h3>
+                      <span>{{ parts[1] }}</span>
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+
+            {%- elsif tab_lower contains 'pet' -%}
+              <div class="xgrid">
+                {%- assign pet_items = 'Pet accessories|5 pieces,Pet wear|5 pieces' | split: ',' -%}
+                {%- for item in pet_items -%}
+                  {%- assign parts = item | split: '|' -%}
+                  <a class="xtile" href="{{ routes.all_products_collection_url }}?filter.p.product_type={{ parts[0] | url_encode }}">
+                    <img
+                      class="im"
+                      src="{{ 'mega-pet.webp' | asset_url }}"
+                      alt="{{ parts[0] }}"
+                      loading="lazy"
+                      width="400"
+                      height="500"
+                    >
+                    <div class="b">
+                      <h3>{{ parts[0] }}</h3>
+                      <span>{{ parts[1] }}</span>
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <div class="xgrid">
+                {%- for i in (1..6) -%}
+                  <div class="xtile">
+                    {{ 'collection-' | append: i | placeholder_svg_tag: 'im placeholder' }}
+                    <div class="b">
+                      <h3>Collection {{ i }}</h3>
+                      <span>12 pieces</span>
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function () {
+    function initExploreTabs() {
+      var section = document.getElementById('Section-{{ section.id }}');
+      if (!section) return;
+
+      var tabs = section.querySelectorAll('.tab');
+      var panels = section.querySelectorAll('.tab-panel');
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var targetId = tab.getAttribute('data-g');
+
+          tabs.forEach(function (t) {
+            t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+          });
+
+          panels.forEach(function (panel) {
+            if (panel.getAttribute('data-gp') === targetId) {
+              panel.removeAttribute('hidden');
+            } else {
+              panel.setAttribute('hidden', '');
+            }
+          });
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExploreTabs);
+    } else {
+      initExploreTabs();
+    }
+
+    if (typeof Shopify !== 'undefined' && Shopify.designMode) {
+      document.addEventListener('shopify:section:load', function (event) {
+        if (event.detail && event.detail.sectionId === '{{ section.id }}') {
+          initExploreTabs();
+        }
+      });
+
+      document.addEventListener('shopify:block:select', function (event) {
+        var section = document.getElementById('Section-{{ section.id }}');
+        if (!section || !event.detail) return;
+
+        var blockEl = document.getElementById('shopify-block-' + event.detail.blockId);
+        if (!blockEl) return;
+
+        var targetId = blockEl.getAttribute('data-gp');
+        if (!targetId) {
+          var panel = blockEl.closest('.tab-panel');
+          if (panel) targetId = panel.getAttribute('data-gp');
+        }
+
+        if (targetId) {
+          var targetTab = section.querySelector('.tab[data-g="' + targetId + '"]');
+          if (targetTab) targetTab.click();
+        }
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Explore Products (Tabs)",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Heading",
+      "default": "Explore Your Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_uppercase",
+      "label": "Uppercase heading",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Medium (h2)"
+        },
+        {
+          "value": "d2",
+          "label": "Display 2 (d2)"
+        },
+        {
+          "value": "d1",
+          "label": "Large (d1)"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Subtitle / Lede",
+      "default": "Start with who it is for, then choose a weave or a category. Every piece names its weave and region."
+    },
+    {
+      "type": "header",
+      "content": "Header Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_link",
+      "label": "Show header link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Background"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 6,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background color override"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section anchor ID",
+      "default": "explore"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab with Collections",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab Name",
+          "default": "Women"
+        },
+        {
+          "type": "text",
+          "id": "tab_id",
+          "label": "Tab ID (Optional)",
+          "info": "Used for matching. If empty, uses the tab name."
+        },
+        {
+          "type": "header",
+          "content": "Group 1"
+        },
+        {
+          "type": "text",
+          "id": "group_1_heading",
+          "label": "Group 1 Subheading",
+          "default": "Sarees, by weave"
+        },
+        {
+          "type": "collection_list",
+          "id": "collections_1",
+          "label": "Select Collections (Group 1)",
+          "limit": 24
+        },
+        {
+          "type": "header",
+          "content": "Group 2 (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "group_2_heading",
+          "label": "Group 2 Subheading",
+          "default": "More for her"
+        },
+        {
+          "type": "collection_list",
+          "id": "collections_2",
+          "label": "Select Collections (Group 2)",
+          "limit": 24
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_name",
+          "label": "Tab Name",
+          "default": "Women",
+          "info": "Name of the tab this card appears in (e.g. Women, Men, Kids, Pets)"
+        },
+        {
+          "type": "text",
+          "id": "group_heading",
+          "label": "Group Subheading (Optional)",
+          "info": "e.g. 'Sarees, by weave' or 'More for her'"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Shopify Collection (Optional)",
+          "info": "If selected, automatically fills image, title, count, and link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image Override"
+        },
+        {
+          "type": "text",
+          "id": "fallback_image",
+          "label": "Fallback Asset Filename",
+          "info": "e.g. mega-women.webp, mega-men.webp, mega-kids.webp, mega-pet.webp"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title Override",
+          "default": "Mangalagiri"
+        },
+        {
+          "type": "text",
+          "id": "count_label",
+          "label": "Piece Count Override",
+          "default": "143 pieces"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link URL Override"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Explore Products (Tabs)",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Women",
+            "tab_id": "Women",
+            "group_1_heading": "Sarees, by weave",
+            "group_2_heading": "More for her"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Men",
+            "tab_id": "Men",
+            "group_1_heading": ""
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Kids",
+            "tab_id": "Kids",
+            "group_1_heading": ""
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Pets",
+            "tab_id": "Pet",
+            "group_1_heading": ""
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
