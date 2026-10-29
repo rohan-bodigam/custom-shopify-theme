@@ -1,6 +1,4 @@
 {{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -14,245 +12,299 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  #Section-{{ section.id }} {
+    --cgrid-cols-desktop: {{ section.settings.columns_desktop }};
+    --ctile-min-height: {{ section.settings.card_min_height }}px;
+    {% if section.settings.section_bg != blank %}
+      background-color: {{ section.settings.section_bg }};
+    {% endif %}
+  }
 {%- endstyle -%}
 
-{%- liquid
-  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
-  assign show_mobile_slider = false
-  if section.settings.swipe_on_mobile and section.blocks.size > columns_mobile_int
-    assign show_mobile_slider = true
-  endif
--%}
+<section
+  id="Section-{{ section.id }}"
+  class="sec tight shopby-sec color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  {% if section.settings.section_id != blank %}
+    id="{{ section.settings.section_id | escape }}"
+  {% endif %}
+>
+  <div class="wrap page-width">
+    {%- unless section.settings.title == blank and section.settings.lede == blank -%}
+      <div class="sec-head">
+        <div>
+          {%- if section.settings.show_warp -%}
+            <span class="warp" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i>
+            </span>
+          {%- endif -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="collection-list-wrapper page-width isolate{% if show_mobile_slider %} page-width-desktop{% endif %}{% if section.settings.title == blank %} no-heading{% endif %}{% if section.settings.show_view_all == false or section.blocks.size > collections.size %} no-mobile-link{% endif %} section-{{ section.id }}-padding">
-    {%- unless section.settings.title == blank -%}
-      <div class="title-wrapper-with-link{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% else %} title-wrapper--self-padded-mobile{% endif %} title-wrapper--no-top-margin">
-        <h2
-          id="SectionHeading-{{ section.id }}"
-          class="collection-list-title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        >
-          {{ section.settings.title }}
-        </h2>
+          {%- if section.settings.title != blank -%}
+            <h2 class="{{ section.settings.heading_size }}{% if section.settings.heading_uppercase %} uppercase{% endif %}">
+              {{ section.settings.title }}
+            </h2>
+          {%- endif -%}
 
-        {%- if section.settings.show_view_all and show_mobile_slider -%}
-          <a
-            href="{{ routes.collections_url }}"
-            id="ViewAll-{{ section.id }}"
-            class="link underlined-link large-up-hide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            aria-labelledby="ViewAll-{{ section.id }} SectionHeading-{{ section.id }}"
-          >
-            {{- 'sections.collection_list.view_all' | t -}}
+          {%- if section.settings.lede != blank -%}
+            <p class="lede">{{ section.settings.lede }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_view_all and section.settings.view_all_link != blank -%}
+          <a class="tlink" href="{{ section.settings.view_all_link }}">
+            {{- section.settings.view_all_label | default: 'Shop All' -}}
           </a>
         {%- endif -%}
       </div>
     {%- endunless -%}
 
-    <slider-component class="slider-mobile-gutter{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      <ul
-        class="collection-list contains-card contains-card--collection{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down{% if section.settings.swipe_on_mobile %} slider slider--tablet grid--peek{% endif %} collection-list--{{ section.blocks.size }}-items"
-        id="Slider-{{ section.id }}"
-        role="list"
-      >
-        {%- liquid
-          assign columns = section.blocks.size
-          if columns > 3
-            assign columns = 3
-          endif
-        -%}
+    <div class="cgrid">
+      {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
-          <li
-            id="Slide-{{ section.id }}-{{ forloop.index }}"
-            class="collection-list__item grid__item{% if show_mobile_slider %} slider__slide{% endif %}{% if block.settings.collection.featured_image == nil %} collection-list__item--no-media{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {{ block.shopify_attributes }}
-            {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-              style="--animation-order: {{ forloop.index }};"
-            {% endif %}
-          >
-            {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
-            {%- assign placeholder_image = 'collection-apparel-' | append: placeholder_image_index -%}
-            {% render 'card-collection',
-              card_collection: block.settings.collection,
-              media_aspect_ratio: section.settings.image_ratio,
-              columns: columns,
-              placeholder_image: placeholder_image
-            %}
-          </li>
-        {%- endfor -%}
-      </ul>
-      {%- if show_mobile_slider -%}
-        <div class="slider-buttons">
-          <button
-            type="button"
-            class="slider-button slider-button--prev"
-            name="previous"
-            aria-label="{{ 'general.slider.previous_slide' | t }}"
-          >
-            <span class="svg-wrapper">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
-          </button>
-          <div class="slider-counter caption">
-            <span class="slider-counter--current">1</span>
-            <span aria-hidden="true"> / </span>
-            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-            <span class="slider-counter--total">{{ section.blocks.size }}</span>
-          </div>
-          <button
-            type="button"
-            class="slider-button slider-button--next"
-            name="next"
-            aria-label="{{ 'general.slider.next_slide' | t }}"
-          >
-            <span class="svg-wrapper">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
-          </button>
-        </div>
-      {%- endif -%}
-    </slider-component>
+          {%- liquid
+            assign card_collection = block.settings.collection
+            assign card_title = block.settings.title
+            if card_title == blank and card_collection != blank
+              assign card_title = card_collection.title
+            elsif card_title == blank
+              assign card_title = 'Collection'
+            endif
 
-    {%- if section.settings.show_view_all and section.blocks.size < collections.size -%}
-      <div
-        class="center collection-list-view-all{% if show_mobile_slider %} small-hide medium-hide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        {% if settings.animations_reveal_on_scroll %}
-          data-cascade
-        {% endif %}
-      >
-        <a
-          href="{{ routes.collections_url }}"
-          class="button"
-          id="ViewAllButton-{{ section.id }}"
-          aria-labelledby="ViewAllButton-{{ section.id }} SectionHeading-{{ section.id }}"
-        >
-          {{- 'sections.collection_list.view_all' | t -}}
+            assign card_desc = block.settings.description
+            if card_desc == blank and card_collection != blank and card_collection.description != blank
+              assign card_desc = card_collection.description | strip_html | truncatewords: 18
+            endif
+
+            assign card_url = block.settings.link
+            if card_url == blank and card_collection != blank
+              assign card_url = card_collection.url
+            elsif card_url == blank
+              assign card_url = routes.all_products_collection_url
+            endif
+
+            assign card_count = block.settings.count_label
+            if card_count == blank and card_collection != blank
+              assign card_count = card_collection.all_products_count | append: ' pieces'
+            endif
+
+            assign card_focal = block.settings.focal_point
+            if card_focal == blank
+              assign card_focal = 'center 30%'
+            endif
+
+            assign card_image_url = ''
+            if block.settings.image != blank
+              assign card_image_url = block.settings.image | image_url: width: 1200
+            elsif card_collection.featured_image != blank
+              assign card_image_url = card_collection.featured_image | image_url: width: 1200
+            elsif block.settings.fallback_image != blank
+              assign card_image_url = block.settings.fallback_image | asset_url
+            else
+              assign downcase_title = card_title | downcase
+              if downcase_title contains 'heritage'
+                assign card_image_url = 'mega-heritage.webp' | asset_url
+              elsif downcase_title contains 'contemporary'
+                assign card_image_url = 'mega-contemporary.webp' | asset_url
+              elsif downcase_title contains 'men'
+                assign card_image_url = 'mega-men.webp' | asset_url
+              elsif downcase_title contains 'women'
+                assign card_image_url = 'mega-women.webp' | asset_url
+              elsif downcase_title contains 'kid'
+                assign card_image_url = 'mega-kids.webp' | asset_url
+              elsif downcase_title contains 'pet'
+                assign card_image_url = 'mega-pet.webp' | asset_url
+              else
+                assign card_image_url = 'mega-heritage.webp' | asset_url
+              endif
+            endif
+          -%}
+
+          <a class="ctile" href="{{ card_url }}" {{ block.shopify_attributes }}>
+            <div
+              class="im"
+              style="background-image: url('{{ card_image_url }}'); background-position: {{ card_focal }};"
+              role="img"
+              aria-label="{{ card_title | escape }}"
+            ></div>
+            <div class="b">
+              <h3>{{ card_title }}</h3>
+              {%- if card_desc != blank -%}
+                <p>{{ card_desc }}</p>
+              {%- endif -%}
+              {%- if block.settings.show_count and card_count != blank -%}
+                <span class="go">
+                  {{ card_count }}
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M5 12h14M13 6l6 6-6 6"></path>
+                  </svg>
+                </span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        {% comment %} Default 6 collection cards if no blocks are configured {% endcomment %}
+        <a class="ctile" href="{{ routes.all_products_collection_url }}">
+          <div class="im" style="background-image: url('{{ 'mega-heritage.webp' | asset_url }}'); background-position: center 30%;"></div>
+          <div class="b">
+            <h3>Heritage</h3>
+            <p>Sarees and sets from the five regional chapters.</p>
+            <span class="go">768 pieces <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </div>
         </a>
-      </div>
-    {%- endif -%}
+
+        <a class="ctile" href="{{ routes.all_products_collection_url }}">
+          <div class="im" style="background-image: url('{{ 'mega-contemporary.webp' | asset_url }}'); background-position: 58% 40%;"></div>
+          <div class="b">
+            <h3>Contemporary</h3>
+            <p>Many looms, one wardrobe: ikkat, chiffon, mul cotton and Banaras, cut for how you live now.</p>
+            <span class="go">60 pieces <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </div>
+        </a>
+
+        <a class="ctile" href="{{ routes.all_products_collection_url }}">
+          <div class="im" style="background-image: url('{{ 'mega-men.webp' | asset_url }}'); background-position: 55% 30%;"></div>
+          <div class="b">
+            <h3>Men</h3>
+            <p>Shirts, jackets and bundis in handwoven cloth.</p>
+            <span class="go">40 pieces <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </div>
+        </a>
+
+        <a class="ctile" href="{{ routes.all_products_collection_url }}">
+          <div class="im" style="background-image: url('{{ 'mega-women.webp' | asset_url }}'); background-position: 64% 40%;"></div>
+          <div class="b">
+            <h3>Women</h3>
+            <p>Sarees, dresses and brocade, from many looms.</p>
+            <span class="go">788 pieces <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </div>
+        </a>
+
+        <a class="ctile" href="{{ routes.all_products_collection_url }}">
+          <div class="im" style="background-image: url('{{ 'mega-kids.webp' | asset_url }}'); background-position: 55% 40%;"></div>
+          <div class="b">
+            <h3>Kids</h3>
+            <p>Sibling sets and festive lehengas, soft on skin.</p>
+            <span class="go">10 pieces <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </div>
+        </a>
+
+        <a class="ctile" href="{{ routes.all_products_collection_url }}">
+          <div class="im" style="background-image: url('{{ 'mega-pet.webp' | asset_url }}'); background-position: 22% 40%;"></div>
+          <div class="b">
+            <h3>Pets</h3>
+            <p>Coats, capes and bandanas from many looms, for the family member who sheds.</p>
+            <span class="go">10 pieces <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+          </div>
+        </a>
+      {%- endif -%}
+    </div>
   </div>
-</div>
+</section>
 
 {% schema %}
 {
-  "name": "t:sections.collection-list.name",
+  "name": "Collection list",
   "tag": "section",
-  "class": "section section-collection-list",
+  "class": "section-collection-list",
   "max_blocks": 15,
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
   "settings": [
+    {
+      "type": "header",
+      "content": "Heading & Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_warp",
+      "label": "Show loom warp icon",
+      "default": true
+    },
     {
       "type": "inline_richtext",
       "id": "title",
-      "default": "t:sections.collection-list.settings.title.default",
-      "label": "t:sections.collection-list.settings.title.label"
+      "label": "Heading",
+      "default": "Shop by collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_uppercase",
+      "label": "Uppercase heading",
+      "default": true
     },
     {
       "type": "select",
       "id": "heading_size",
+      "label": "Heading size",
       "options": [
         {
+          "value": "d1",
+          "label": "Large (d1)"
+        },
+        {
+          "value": "d2",
+          "label": "Medium (d2)"
+        },
+        {
           "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
+          "label": "Small (h2)"
         }
       ],
-      "default": "h1",
-      "label": "t:sections.all.heading_size.label"
+      "default": "d2"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lead text / Subtitle",
+      "default": "Six ways into the house. Choose one to see everything in it."
     },
     {
       "type": "header",
-      "content": "t:sections.collection-list.settings.header_layout.content"
-    },    
-    {
-      "type": "select",
-      "id": "image_ratio",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.collection-list.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "portrait",
-          "label": "t:sections.collection-list.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "square",
-          "label": "t:sections.collection-list.settings.image_ratio.options__3.label"
-        }
-      ],
-      "default": "square",
-      "label": "t:sections.collection-list.settings.image_ratio.label"
-    },
-    {
-      "type": "range",
-      "id": "columns_desktop",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 3,
-      "label": "t:sections.collection-list.settings.columns_desktop.label"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "info": "t:sections.all.colors.has_cards_info",
-      "default": "scheme-1"
+      "content": "View All Link"
     },
     {
       "type": "checkbox",
       "id": "show_view_all",
-      "default": false,
-      "label": "t:sections.collection-list.settings.show_view_all.label",
-      "info": "t:sections.collection-list.settings.show_view_all.info"   
+      "label": "Show 'Shop All' link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Link label",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Link URL",
+      "default": "/collections/all"
     },
     {
       "type": "header",
-      "content": "t:sections.collection-list.settings.header_mobile.content"
+      "content": "Layout Settings"
     },
     {
-      "type": "select",
-      "id": "columns_mobile",
-      "options": [
-        {
-          "value": "1",
-          "label": "t:sections.collection-list.settings.columns_mobile.options__1.label"
-        },
-        {
-          "value": "2",
-          "label": "t:sections.collection-list.settings.columns_mobile.options__2.label"
-        }
-      ],
-      "default": "1",
-      "label": "t:sections.collection-list.settings.columns_mobile.label"
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 3
     },
     {
-      "type": "checkbox",
-      "id": "swipe_on_mobile",
-      "default": false,
-      "label": "t:sections.collection-list.settings.swipe_on_mobile.label"
+      "type": "range",
+      "id": "card_min_height",
+      "min": 240,
+      "max": 460,
+      "step": 10,
+      "unit": "px",
+      "label": "Card min height (desktop)",
+      "default": 340
     },
     {
       "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "content": "Section Padding"
     },
     {
       "type": "range",
@@ -261,8 +313,8 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
+      "label": "Top padding",
+      "default": 48
     },
     {
       "type": "range",
@@ -271,35 +323,168 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "label": "Bottom padding",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Colors & Custom Style"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Custom background (optional)"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Anchor ID",
+      "default": "shopby",
+      "info": "Useful for #shopby jump links"
     }
   ],
   "blocks": [
     {
       "type": "featured_collection",
-      "name": "t:sections.collection-list.blocks.featured_collection.name",
+      "name": "Collection Card",
       "settings": [
         {
           "type": "collection",
           "id": "collection",
-          "label": "t:sections.collection-list.blocks.featured_collection.settings.collection.label"
+          "label": "Shopify Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card background image",
+          "info": "Overrides collection featured image"
+        },
+        {
+          "type": "text",
+          "id": "fallback_image",
+          "label": "Theme asset image filename",
+          "info": "E.g. mega-heritage.webp, mega-contemporary.webp, mega-men.webp, mega-women.webp, mega-kids.webp, mega-pet.webp"
+        },
+        {
+          "type": "text",
+          "id": "focal_point",
+          "label": "Image focal position",
+          "default": "center 30%",
+          "info": "CSS position, e.g. center 30%, 58% 40%, 55% 30%, 64% 40%, 55% 40%, 22% 40%"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "info": "Defaults to collection title if left blank"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "info": "Defaults to collection description if left blank"
+        },
+        {
+          "type": "text",
+          "id": "count_label",
+          "label": "Piece count label",
+          "info": "E.g. 788 pieces, 60 pieces. If blank and collection is set, product count is used."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_count",
+          "label": "Show count and arrow",
+          "default": true
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card link",
+          "info": "Defaults to collection URL if left blank"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "t:sections.collection-list.presets.name",
+      "name": "Shop by Collection",
       "blocks": [
         {
-          "type": "featured_collection"
+          "type": "featured_collection",
+          "settings": {
+            "title": "Heritage",
+            "description": "Sarees and sets from the five regional chapters.",
+            "count_label": "788 pieces",
+            "fallback_image": "mega-heritage.webp",
+            "focal_point": "center 30%",
+            "link": "/collections/heritage"
+          }
         },
         {
-          "type": "featured_collection"
+          "type": "featured_collection",
+          "settings": {
+            "title": "Contemporary",
+            "description": "Many looms, one wardrobe: ikkat, chiffon, mul cotton and Banaras, cut for how you live now.",
+            "count_label": "60 pieces",
+            "fallback_image": "mega-contemporary.webp",
+            "focal_point": "58% 40%",
+            "link": "/pages/contemporary"
+          }
         },
         {
-          "type": "featured_collection"
+          "type": "featured_collection",
+          "settings": {
+            "title": "Men",
+            "description": "Shirts, jackets and bundis in handwoven cloth.",
+            "count_label": "40 pieces",
+            "fallback_image": "mega-men.webp",
+            "focal_point": "55% 30%",
+            "link": "/collections/men"
+          }
+        },
+        {
+          "type": "featured_collection",
+          "settings": {
+            "title": "Women",
+            "description": "Sarees, dresses and brocade, from many looms.",
+            "count_label": "788 pieces",
+            "fallback_image": "mega-women.webp",
+            "focal_point": "64% 40%",
+            "link": "/collections/women"
+          }
+        },
+        {
+          "type": "featured_collection",
+          "settings": {
+            "title": "Kids",
+            "description": "Sibling sets and festive lehengas, soft on skin.",
+            "count_label": "10 pieces",
+            "fallback_image": "mega-kids.webp",
+            "focal_point": "55% 40%",
+            "link": "/pages/kids"
+          }
+        },
+        {
+          "type": "featured_collection",
+          "settings": {
+            "title": "Pets",
+            "description": "Coats, capes and bandanas from many looms, for the family member who sheds.",
+            "count_label": "10 pieces",
+            "fallback_image": "mega-pet.webp",
+            "focal_point": "22% 40%",
+            "link": "/pages/pet"
+          }
         }
       ]
     }
