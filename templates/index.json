@@ -244,7 +244,7 @@
         "contemporary": {
           "type": "featured_collection",
           "settings": {
-            "collection": "",
+            "collection": "contemporary-women",
             "fallback_image": "mega-contemporary.webp",
             "focal_point": "58% 40%",
             "title": "Contemporary",
@@ -257,7 +257,7 @@
         "men": {
           "type": "featured_collection",
           "settings": {
-            "collection": "",
+            "collection": "20-oct-contemporary-men",
             "fallback_image": "mega-men.webp",
             "focal_point": "55% 30%",
             "title": "Men",
@@ -270,7 +270,7 @@
         "women": {
           "type": "featured_collection",
           "settings": {
-            "collection": "",
+            "collection": "mangalgiri-kalamkari",
             "fallback_image": "mega-women.webp",
             "focal_point": "64% 40%",
             "title": "Women",
@@ -319,7 +319,7 @@
         "show_warp": true,
         "title": "Shop by collection",
         "heading_uppercase": true,
-        "heading_size": "d2",
+        "heading_size": "d1",
         "lede": "Six ways into the house. Choose one to see everything in it.",
         "show_view_all": true,
         "view_all_label": "Shop All",
