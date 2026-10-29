@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Section: Marquee Strip
+   Reference: reference/index.html (.marquee, .track, .msoon)
+   ========================================================================== */
+
+.marquee {
+  background: var(--marquee-bg, #6B2230);
+  color: var(--marquee-text, #F2E6DA);
+  overflow: hidden;
+  border-top: 1px solid var(--marquee-border, rgba(209, 177, 126, 0.35));
+  border-bottom: 1px solid var(--marquee-border, rgba(209, 177, 126, 0.35));
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.marquee .track {
+  display: flex;
+  width: max-content;
+  animation: mq var(--marquee-speed, 46s) linear infinite;
+  will-change: transform;
+}
+
+.marquee .track__part {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.marquee--reverse .track {
+  animation-name: mq-reverse;
+}
+
+.marquee--pause:hover .track,
+.marquee:focus-within .track {
+  animation-play-state: paused;
+}
+
+.marquee span {
+  display: flex;
+  align-items: center;
+  gap: var(--marquee-gap, 26px);
+  padding: var(--marquee-padding-y, 15px) 13px;
+  font-family: var(--f-edit, 'Forum', Georgia, 'Times New Roman', serif);
+  font-size: var(--marquee-font-size, 1.08rem);
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.marquee span b {
+  width: 7px;
+  height: 7px;
+  background: var(--marquee-diamond, #D1B17E);
+  transform: rotate(45deg);
+  display: block;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+
+.marquee span.msoon {
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.marquee span.msoon small {
+  font-size: 0.62em;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-left: 6px;
+  font-style: normal;
+  display: inline-block;
+}
+
+.marquee a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.marquee a:hover span {
+  color: var(--marquee-hover, var(--link, #B08D57));
+}
+
+.marquee a:focus-visible {
+  outline: 2px solid var(--marquee-diamond, #D1B17E);
+  outline-offset: -2px;
+}
+
+@keyframes mq {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes mq-reverse {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee .track {
+    animation: none !important;
+  }
+}
+
