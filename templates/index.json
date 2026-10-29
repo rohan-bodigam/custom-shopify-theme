@@ -319,7 +319,7 @@
         "show_warp": true,
         "title": "Shop by collection",
         "heading_uppercase": true,
-        "heading_size": "d2",
+        "heading_size": "d1",
         "lede": "Six ways into the house. Choose one to see everything in it.",
         "show_view_all": true,
         "view_all_label": "Shop All",
