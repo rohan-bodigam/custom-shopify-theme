@@ -448,18 +448,16 @@
             "title": "Women",
             "tab_id": "Women",
             "group_1_heading": "Sarees, by weave",
-            "collections_1": [],
-            "group_2_heading": "More for her",
-            "collections_2": []
-          }
-        },
-        "tab_men": {
-          "type": "tab",
-          "settings": {
-            "title": "Men",
-            "tab_id": "Men",
-            "group_1_heading": "",
-            "collections_1": [],
+            "collections_1": [
+              "contemporary-women",
+              "mangalgiri-kalamkari",
+              "mangalgiri-screen-print",
+              "pure-kota",
+              "single-thread-baluchari",
+              "mangalgiri-cotton",
+              "mangalgiri-lehangas",
+              "mangalgiri-lt-pattu-cotton"
+            ],
             "group_2_heading": "",
             "collections_2": []
           }
@@ -471,6 +469,20 @@
             "tab_id": "Kids",
             "group_1_heading": "",
             "collections_1": [],
+            "group_2_heading": "",
+            "collections_2": []
+          }
+        },
+        "tab_men": {
+          "type": "tab",
+          "settings": {
+            "title": "Men",
+            "tab_id": "Men",
+            "group_1_heading": "",
+            "collections_1": [
+              "20-oct-contemporary-men",
+              "mangalgiri-dothi-pancha"
+            ],
             "group_2_heading": "",
             "collections_2": []
           }
@@ -489,8 +501,8 @@
       },
       "block_order": [
         "tab_women",
-        "tab_men",
         "tab_kids",
+        "tab_men",
         "tab_pets"
       ],
       "settings": {
