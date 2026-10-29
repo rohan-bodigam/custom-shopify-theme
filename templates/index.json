@@ -68,83 +68,106 @@
           "type": "weave",
           "settings": {
             "text": "Mangalagiri",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "banaras": {
           "type": "weave",
           "settings": {
             "text": "Banaras",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "maheshwari": {
           "type": "weave",
           "settings": {
             "text": "Maheshwari",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "ikkat": {
           "type": "weave",
           "settings": {
             "text": "Ikkat",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "baluchari": {
           "type": "weave",
           "settings": {
             "text": "Baluchari",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "zari_kota": {
           "type": "weave",
           "settings": {
             "text": "Zari Kota",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "pure_kota": {
           "type": "weave",
           "settings": {
             "text": "Pure Kota",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "swarnachari": {
           "type": "weave",
           "settings": {
             "text": "Swarnachari",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "mul_cotton": {
           "type": "weave",
           "settings": {
             "text": "Mul Cotton",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "crape_silk": {
           "type": "weave",
           "settings": {
             "text": "Crape Silk",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "chiffon": {
           "type": "weave",
           "settings": {
             "text": "Chiffon",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/all",
+            "is_soon": false,
+            "status_text": "revealing soon"
           }
         },
         "muga": {
           "type": "weave",
           "settings": {
             "text": "Muga",
+            "link": "",
             "is_soon": true,
             "status_text": "revealing soon"
           }
@@ -153,6 +176,7 @@
           "type": "weave",
           "settings": {
             "text": "Kanchipuram",
+            "link": "",
             "is_soon": true,
             "status_text": "revealing soon"
           }
@@ -161,6 +185,7 @@
           "type": "weave",
           "settings": {
             "text": "Bandhani",
+            "link": "",
             "is_soon": true,
             "status_text": "revealing soon"
           }
@@ -186,16 +211,17 @@
         "speed": 46,
         "direction": "left",
         "pause_on_hover": true,
-        "background_color": "#6B2230",
-        "text_color": "#F2E6DA",
-        "diamond_color": "#D1B17E",
-        "border_color": "#D1B17E",
+        "background_color": "#6b2230",
+        "text_color": "#f2e6da",
+        "diamond_color": "#d1b17e",
+        "border_color": "#d1b17e",
         "border_opacity": 35,
-        "hover_color": "#B08D57",
+        "hover_color": "#b08d57",
         "font_size": 17,
         "padding_vertical": 15,
         "item_gap": 26,
-        "accessibility_label": "Weaves in the house"
+        "accessibility_label": "Weaves in the house",
+        "custom_class": ""
       }
     },
     "collection_list": {
@@ -204,66 +230,78 @@
         "heritage": {
           "type": "featured_collection",
           "settings": {
+            "collection": "20-oct-contemporary-men",
+            "fallback_image": "mega-heritage.webp",
+            "focal_point": "center 30%",
             "title": "Heritage",
             "description": "Sarees and sets from the five regional chapters.",
             "count_label": "788 pieces",
-            "fallback_image": "mega-heritage.webp",
-            "focal_point": "center 30%",
+            "show_count": true,
             "link": "/collections/heritage"
           }
         },
         "contemporary": {
           "type": "featured_collection",
           "settings": {
+            "collection": "",
+            "fallback_image": "mega-contemporary.webp",
+            "focal_point": "58% 40%",
             "title": "Contemporary",
             "description": "Many looms, one wardrobe: ikkat, chiffon, mul cotton and Banaras, cut for how you live now.",
             "count_label": "60 pieces",
-            "fallback_image": "mega-contemporary.webp",
-            "focal_point": "58% 40%",
+            "show_count": true,
             "link": "/pages/contemporary"
           }
         },
         "men": {
           "type": "featured_collection",
           "settings": {
+            "collection": "",
+            "fallback_image": "mega-men.webp",
+            "focal_point": "55% 30%",
             "title": "Men",
             "description": "Shirts, jackets and bundis in handwoven cloth.",
             "count_label": "40 pieces",
-            "fallback_image": "mega-men.webp",
-            "focal_point": "55% 30%",
+            "show_count": true,
             "link": "/collections/men"
           }
         },
         "women": {
           "type": "featured_collection",
           "settings": {
+            "collection": "",
+            "fallback_image": "mega-women.webp",
+            "focal_point": "64% 40%",
             "title": "Women",
             "description": "Sarees, dresses and brocade, from many looms.",
             "count_label": "788 pieces",
-            "fallback_image": "mega-women.webp",
-            "focal_point": "64% 40%",
+            "show_count": true,
             "link": "/collections/women"
           }
         },
         "kids": {
           "type": "featured_collection",
           "settings": {
+            "collection": "",
+            "fallback_image": "mega-kids.webp",
+            "focal_point": "55% 40%",
             "title": "Kids",
             "description": "Sibling sets and festive lehengas, soft on skin.",
             "count_label": "10 pieces",
-            "fallback_image": "mega-kids.webp",
-            "focal_point": "55% 40%",
+            "show_count": true,
             "link": "/pages/kids"
           }
         },
         "pets": {
           "type": "featured_collection",
           "settings": {
+            "collection": "",
+            "fallback_image": "mega-pet.webp",
+            "focal_point": "22% 40%",
             "title": "Pets",
             "description": "Coats, capes and bandanas from many looms, for the family member who sheds.",
             "count_label": "10 pieces",
-            "fallback_image": "mega-pet.webp",
-            "focal_point": "22% 40%",
+            "show_count": true,
             "link": "/pages/pet"
           }
         }
@@ -289,7 +327,10 @@
         "card_min_height": 340,
         "padding_top": 48,
         "padding_bottom": 64,
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "section_bg": "",
+        "custom_class": "",
+        "section_id": "shopby"
       }
     },
     "featured_collection": {
