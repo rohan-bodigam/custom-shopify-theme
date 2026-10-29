@@ -63,6 +63,17 @@
         {%- for block in section.blocks -%}
           {%- liquid
             assign card_collection = block.settings.collection
+
+            # 1. LINK: When a Shopify collection is selected, directly point to it!
+            # Otherwise fall back to manual block link, then /collections/all
+            assign card_url = routes.all_products_collection_url
+            if card_collection != blank
+              assign card_url = card_collection.url
+            elsif block.settings.link != blank
+              assign card_url = block.settings.link
+            endif
+
+            # 2. TITLE: Custom title override or collection title
             assign card_title = block.settings.title
             if card_title == blank and card_collection != blank
               assign card_title = card_collection.title
@@ -70,62 +81,80 @@
               assign card_title = 'Collection'
             endif
 
+            # 3. DESCRIPTION: Custom description override or collection description
             assign card_desc = block.settings.description
             if card_desc == blank and card_collection != blank and card_collection.description != blank
               assign card_desc = card_collection.description | strip_html | truncatewords: 18
             endif
 
-            assign card_url = block.settings.link
-            if card_url == blank and card_collection != blank
-              assign card_url = card_collection.url
-            elsif card_url == blank
-              assign card_url = routes.all_products_collection_url
-            endif
-
+            # 4. PIECE COUNT: Custom count or collection product count
             assign card_count = block.settings.count_label
             if card_count == blank and card_collection != blank
               assign card_count = card_collection.all_products_count | append: ' pieces'
             endif
 
+            # 5. FOCAL POSITION
             assign card_focal = block.settings.focal_point
             if card_focal == blank
               assign card_focal = 'center 30%'
             endif
+            assign image_style = 'object-position: ' | append: card_focal | append: '; background-position: ' | append: card_focal | append: ';'
 
-            assign card_image_url = ''
-            if block.settings.image != blank
-              assign card_image_url = block.settings.image | image_url: width: 1200
-            elsif card_collection.featured_image != blank
-              assign card_image_url = card_collection.featured_image | image_url: width: 1200
-            elsif block.settings.fallback_image != blank
-              assign card_image_url = block.settings.fallback_image | asset_url
-            else
-              assign downcase_title = card_title | downcase
-              if downcase_title contains 'heritage'
-                assign card_image_url = 'mega-heritage.webp' | asset_url
-              elsif downcase_title contains 'contemporary'
-                assign card_image_url = 'mega-contemporary.webp' | asset_url
-              elsif downcase_title contains 'men'
-                assign card_image_url = 'mega-men.webp' | asset_url
-              elsif downcase_title contains 'women'
-                assign card_image_url = 'mega-women.webp' | asset_url
-              elsif downcase_title contains 'kid'
-                assign card_image_url = 'mega-kids.webp' | asset_url
-              elsif downcase_title contains 'pet'
-                assign card_image_url = 'mega-pet.webp' | asset_url
-              else
-                assign card_image_url = 'mega-heritage.webp' | asset_url
-              endif
+            # 6. FALLBACK ASSET FILENAME
+            assign downcase_title = card_title | downcase
+            assign fallback_name = 'mega-heritage.webp'
+            if downcase_title contains 'contemporary'
+              assign fallback_name = 'mega-contemporary.webp'
+            elsif downcase_title contains 'men'
+              assign fallback_name = 'mega-men.webp'
+            elsif downcase_title contains 'women'
+              assign fallback_name = 'mega-women.webp'
+            elsif downcase_title contains 'kid'
+              assign fallback_name = 'mega-kids.webp'
+            elsif downcase_title contains 'pet'
+              assign fallback_name = 'mega-pet.webp'
+            endif
+
+            if block.settings.fallback_image != blank
+              assign fallback_name = block.settings.fallback_image
             endif
           -%}
 
           <a class="ctile" href="{{ card_url }}" {{ block.shopify_attributes }}>
-            <div
-              class="im"
-              style="background-image: url('{{ card_image_url }}'); background-position: {{ card_focal }};"
-              role="img"
-              aria-label="{{ card_title | escape }}"
-            ></div>
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 1200
+                | image_tag:
+                  class: 'im',
+                  loading: 'lazy',
+                  widths: '375, 550, 750, 1100, 1500',
+                  alt: card_title,
+                  style: image_style
+              }}
+            {%- elsif card_collection != blank and card_collection.featured_image != blank -%}
+              {{
+                card_collection.featured_image
+                | image_url: width: 1200
+                | image_tag:
+                  class: 'im',
+                  loading: 'lazy',
+                  widths: '375, 550, 750, 1100, 1500',
+                  alt: card_title,
+                  style: image_style
+              }}
+            {%- else -%}
+              <img
+                class="im"
+                src="{{ fallback_name | asset_url }}"
+                alt="{{ card_title | escape }}"
+                loading="lazy"
+                width="1200"
+                height="800"
+                style="{{ image_style }}"
+              >
+            {%- endif -%}
+
             <div class="b">
               <h3>{{ card_title }}</h3>
               {%- if card_desc != blank -%}
@@ -145,7 +174,7 @@
       {%- else -%}
         {% comment %} Default 6 collection cards if no blocks are configured {% endcomment %}
         <a class="ctile" href="{{ routes.all_products_collection_url }}">
-          <div class="im" style="background-image: url('{{ 'mega-heritage.webp' | asset_url }}'); background-position: center 30%;"></div>
+          <img class="im" src="{{ 'mega-heritage.webp' | asset_url }}" alt="Heritage" loading="lazy" width="1200" height="800" style="object-position: center 30%;">
           <div class="b">
             <h3>Heritage</h3>
             <p>Sarees and sets from the five regional chapters.</p>
@@ -154,7 +183,7 @@
         </a>
 
         <a class="ctile" href="{{ routes.all_products_collection_url }}">
-          <div class="im" style="background-image: url('{{ 'mega-contemporary.webp' | asset_url }}'); background-position: 58% 40%;"></div>
+          <img class="im" src="{{ 'mega-contemporary.webp' | asset_url }}" alt="Contemporary" loading="lazy" width="1200" height="800" style="object-position: 58% 40%;">
           <div class="b">
             <h3>Contemporary</h3>
             <p>Many looms, one wardrobe: ikkat, chiffon, mul cotton and Banaras, cut for how you live now.</p>
@@ -163,7 +192,7 @@
         </a>
 
         <a class="ctile" href="{{ routes.all_products_collection_url }}">
-          <div class="im" style="background-image: url('{{ 'mega-men.webp' | asset_url }}'); background-position: 55% 30%;"></div>
+          <img class="im" src="{{ 'mega-men.webp' | asset_url }}" alt="Men" loading="lazy" width="1200" height="800" style="object-position: 55% 30%;">
           <div class="b">
             <h3>Men</h3>
             <p>Shirts, jackets and bundis in handwoven cloth.</p>
@@ -172,7 +201,7 @@
         </a>
 
         <a class="ctile" href="{{ routes.all_products_collection_url }}">
-          <div class="im" style="background-image: url('{{ 'mega-women.webp' | asset_url }}'); background-position: 64% 40%;"></div>
+          <img class="im" src="{{ 'mega-women.webp' | asset_url }}" alt="Women" loading="lazy" width="1200" height="800" style="object-position: 64% 40%;">
           <div class="b">
             <h3>Women</h3>
             <p>Sarees, dresses and brocade, from many looms.</p>
@@ -181,7 +210,7 @@
         </a>
 
         <a class="ctile" href="{{ routes.all_products_collection_url }}">
-          <div class="im" style="background-image: url('{{ 'mega-kids.webp' | asset_url }}'); background-position: 55% 40%;"></div>
+          <img class="im" src="{{ 'mega-kids.webp' | asset_url }}" alt="Kids" loading="lazy" width="1200" height="800" style="object-position: 55% 40%;">
           <div class="b">
             <h3>Kids</h3>
             <p>Sibling sets and festive lehengas, soft on skin.</p>
@@ -190,7 +219,7 @@
         </a>
 
         <a class="ctile" href="{{ routes.all_products_collection_url }}">
-          <div class="im" style="background-image: url('{{ 'mega-pet.webp' | asset_url }}'); background-position: 22% 40%;"></div>
+          <img class="im" src="{{ 'mega-pet.webp' | asset_url }}" alt="Pets" loading="lazy" width="1200" height="800" style="object-position: 22% 40%;">
           <div class="b">
             <h3>Pets</h3>
             <p>Coats, capes and bandanas from many looms, for the family member who sheds.</p>
@@ -362,13 +391,14 @@
         {
           "type": "collection",
           "id": "collection",
-          "label": "Shopify Collection"
+          "label": "Shopify Collection",
+          "info": "When selected, the card link automatically points to this collection."
         },
         {
           "type": "image_picker",
           "id": "image",
           "label": "Card background image",
-          "info": "Overrides collection featured image"
+          "info": "Upload custom image (overrides collection image)"
         },
         {
           "type": "text",
@@ -387,19 +417,19 @@
           "type": "text",
           "id": "title",
           "label": "Heading",
-          "info": "Defaults to collection title if left blank"
+          "info": "Leave blank to use the selected collection's title"
         },
         {
           "type": "textarea",
           "id": "description",
           "label": "Description",
-          "info": "Defaults to collection description if left blank"
+          "info": "Leave blank to use the selected collection's description"
         },
         {
           "type": "text",
           "id": "count_label",
           "label": "Piece count label",
-          "info": "E.g. 788 pieces, 60 pieces. If blank and collection is set, product count is used."
+          "info": "Leave blank to automatically display the collection's product count (e.g. '60 pieces')"
         },
         {
           "type": "checkbox",
@@ -410,8 +440,8 @@
         {
           "type": "url",
           "id": "link",
-          "label": "Card link",
-          "info": "Defaults to collection URL if left blank"
+          "label": "Card link override",
+          "info": "Optional. Automatically links to the selected collection above if left blank."
         }
       ]
     }
@@ -427,8 +457,7 @@
             "description": "Sarees and sets from the five regional chapters.",
             "count_label": "788 pieces",
             "fallback_image": "mega-heritage.webp",
-            "focal_point": "center 30%",
-            "link": "/collections/heritage"
+            "focal_point": "center 30%"
           }
         },
         {
@@ -438,8 +467,7 @@
             "description": "Many looms, one wardrobe: ikkat, chiffon, mul cotton and Banaras, cut for how you live now.",
             "count_label": "60 pieces",
             "fallback_image": "mega-contemporary.webp",
-            "focal_point": "58% 40%",
-            "link": "/pages/contemporary"
+            "focal_point": "58% 40%"
           }
         },
         {
@@ -449,8 +477,7 @@
             "description": "Shirts, jackets and bundis in handwoven cloth.",
             "count_label": "40 pieces",
             "fallback_image": "mega-men.webp",
-            "focal_point": "55% 30%",
-            "link": "/collections/men"
+            "focal_point": "55% 30%"
           }
         },
         {
@@ -460,8 +487,7 @@
             "description": "Sarees, dresses and brocade, from many looms.",
             "count_label": "788 pieces",
             "fallback_image": "mega-women.webp",
-            "focal_point": "64% 40%",
-            "link": "/collections/women"
+            "focal_point": "64% 40%"
           }
         },
         {
@@ -471,8 +497,7 @@
             "description": "Sibling sets and festive lehengas, soft on skin.",
             "count_label": "10 pieces",
             "fallback_image": "mega-kids.webp",
-            "focal_point": "55% 40%",
-            "link": "/pages/kids"
+            "focal_point": "55% 40%"
           }
         },
         {
@@ -482,8 +507,7 @@
             "description": "Coats, capes and bandanas from many looms, for the family member who sheds.",
             "count_label": "10 pieces",
             "fallback_image": "mega-pet.webp",
-            "focal_point": "22% 40%",
-            "link": "/pages/pet"
+            "focal_point": "22% 40%"
           }
         }
       ]
