@@ -344,11 +344,13 @@
             "title": "East India",
             "tagline": "Where Every Thread Tells a Story",
             "states_count": "4 states",
+            "image": "shopify://shop_images/mapEast.jpg",
             "fallback_image": "mapEast.jpg",
+            "collection": "",
             "link": "#/chapter/east",
-            "accent_color": "#7A8063",
-            "accent_deep": "#5E634B",
-            "accent_lite": "#B9BE9E"
+            "accent_color": "#7a8063",
+            "accent_deep": "#5e634b",
+            "accent_lite": "#b9be9e"
           }
         },
         "chapter_west": {
@@ -359,10 +361,11 @@
             "tagline": "Where Colour Meets Craft",
             "states_count": "5 states",
             "fallback_image": "mapWest.jpg",
+            "collection": "",
             "link": "#/chapter/west",
-            "accent_color": "#6B2230",
-            "accent_deep": "#6B2230",
-            "accent_lite": "#E2A3AE"
+            "accent_color": "#6b2230",
+            "accent_deep": "#6b2230",
+            "accent_lite": "#e2a3ae"
           }
         },
         "chapter_north": {
@@ -373,10 +376,11 @@
             "tagline": "Where Heritage Lives in Every Detail",
             "states_count": "4 states",
             "fallback_image": "mapNorth.jpg",
+            "collection": "",
             "link": "#/chapter/north",
-            "accent_color": "#B08D57",
-            "accent_deep": "#7A5A31",
-            "accent_lite": "#D1B17E"
+            "accent_color": "#b08d57",
+            "accent_deep": "#7a5a31",
+            "accent_lite": "#d1b17e"
           }
         },
         "chapter_south": {
@@ -387,10 +391,11 @@
             "tagline": "Where Tradition Meets Contemporary Design",
             "states_count": "4 states",
             "fallback_image": "mapSouth.jpg",
+            "collection": "",
             "link": "#/chapter/south",
-            "accent_color": "#3F5750",
-            "accent_deep": "#3F5750",
-            "accent_lite": "#9DBDB2"
+            "accent_color": "#3f5750",
+            "accent_deep": "#3f5750",
+            "accent_lite": "#9dbdb2"
           }
         },
         "chapter_northeast": {
@@ -401,10 +406,11 @@
             "tagline": "Where Nature Inspires Every Weave",
             "states_count": "8 states · Revealing soon",
             "fallback_image": "mapNorthEast.jpg",
+            "collection": "",
             "link": "#/chapter/northeast",
-            "accent_color": "#4A2A3A",
-            "accent_deep": "#4A2A3A",
-            "accent_lite": "#CFA3B8"
+            "accent_color": "#4a2a3a",
+            "accent_deep": "#4a2a3a",
+            "accent_lite": "#cfa3b8"
           }
         }
       },
@@ -419,7 +425,7 @@
         "show_warp": true,
         "title": "Heritage",
         "heading_uppercase": true,
-        "heading_size": "d2",
+        "heading_size": "d1",
         "lede": "One house, five chapters. Each region’s weaves, told through the cloth, the makers and the land that shaped them.",
         "show_link": true,
         "link_label": "Explore Culture",
