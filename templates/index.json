@@ -231,7 +231,8 @@
           "type": "featured_collection",
           "settings": {
             "collection": "20-oct-contemporary-men",
-            "fallback_image": "mega-heritage.webp",
+            "image": "shopify://shop_images/download_30742ef2-99a1-422e-97dc-1b0e699381e4.png",
+            "fallback_image": "",
             "focal_point": "center 30%",
             "title": "Heritage",
             "description": "Sarees and sets from the five regional chapters.",
