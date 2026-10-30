@@ -561,7 +561,8 @@
             "chapter_link": "",
             "accent_color": "#7A8063",
             "accent_deep": "#5E634B",
-            "accent_lite": "#B9BE9E"
+            "accent_lite": "#B9BE9E",
+            "svg_filename": "east.svg"
           }
         },
         "region_west": {
@@ -577,7 +578,8 @@
             "chapter_link": "",
             "accent_color": "#6B2230",
             "accent_deep": "#6B2230",
-            "accent_lite": "#E2A3AE"
+            "accent_lite": "#E2A3AE",
+            "svg_filename": "west.svg"
           }
         },
         "region_north": {
@@ -593,7 +595,8 @@
             "chapter_link": "",
             "accent_color": "#B08D57",
             "accent_deep": "#7A5A31",
-            "accent_lite": "#D1B17E"
+            "accent_lite": "#D1B17E",
+            "svg_filename": "north.svg"
           }
         },
         "region_south": {
@@ -609,7 +612,8 @@
             "chapter_link": "",
             "accent_color": "#3F5750",
             "accent_deep": "#3F5750",
-            "accent_lite": "#9DBDB2"
+            "accent_lite": "#9DBDB2",
+            "svg_filename": "south.svg"
           }
         },
         "region_northeast": {
@@ -625,7 +629,8 @@
             "chapter_link": "",
             "accent_color": "#4A2A3A",
             "accent_deep": "#4A2A3A",
-            "accent_lite": "#CFA3B8"
+            "accent_lite": "#CFA3B8",
+            "svg_filename": "northeast.svg"
           }
         }
       },
