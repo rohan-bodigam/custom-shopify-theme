@@ -1,0 +1,492 @@
+/* ==========================================================================
+   Section: Craft Map (Interactive Textile Map of India)
+   Reference: reference/index.html (craftMap, .plate, .rlist, .katha)
+   ========================================================================== */
+
+.craft-map-sec {
+  position: relative;
+  background-color: var(--bg, #F7F3EE);
+}
+
+.craft-map-sec.alt {
+  background-color: var(--bg-alt, #EDE3D9);
+}
+
+.craft-map-sec .wrap {
+  max-width: var(--wrap, 1240px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gut, clamp(18px, 4vw, 48px));
+  padding-right: var(--gut, clamp(18px, 4vw, 48px));
+}
+
+/* Warp loom icon (5 golden vertical lines) */
+.craft-map-sec .warp {
+  display: inline-flex;
+  gap: 4px;
+  height: 26px;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+
+.craft-map-sec .warp i {
+  display: block;
+  width: 1px;
+  background: var(--gold, #B08D57);
+}
+
+.craft-map-sec .warp i:nth-child(1) { height: 60%; }
+.craft-map-sec .warp i:nth-child(2) { height: 100%; }
+.craft-map-sec .warp i:nth-child(3) { height: 80%; }
+.craft-map-sec .warp i:nth-child(4) { height: 100%; }
+.craft-map-sec .warp i:nth-child(5) { height: 55%; }
+
+/* Section Header */
+.craft-map-sec .sec-head {
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.craft-map-sec .sec-head h2 {
+  font-family: var(--f-display, 'Cinzel', Georgia, serif);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: var(--ink, #171717);
+  text-transform: uppercase;
+}
+
+.craft-map-sec .sec-head .lede {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(1.12rem, 1.7vw, 1.32rem);
+  line-height: 1.55;
+  color: var(--ink-2, #4A4240);
+  margin: 12px 0 0;
+  max-width: 62ch;
+}
+
+/* Two-column Layout */
+.craft-map-sec .map-wrap {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+
+@media (max-width: 920px) {
+  .craft-map-sec .map-wrap {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* Ornate Framed Plate (SVG Map Container) */
+.craft-map-sec .plate {
+  position: relative;
+  padding: clamp(18px, 3vw, 40px) clamp(14px, 2.4vw, 32px);
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--bg, #F7F3EE) 0%, var(--bg-alt, #EDE3D9) 100%);
+  border: 1px solid var(--line, #E5DCD0);
+}
+
+.craft-map-sec .plate::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(176, 141, 87, 0.35);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.craft-map-sec .plate::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: clamp(12px, 2vw, 22px);
+  width: 34px;
+  height: 1px;
+  background: #B08D57;
+  transform: translateX(-50%);
+  opacity: 0.7;
+}
+
+.craft-map-sec .plate svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  position: relative;
+}
+
+/* Filters and Shadows */
+.craft-map-sec .sh1 {
+  flood-color: #2A1216;
+  flood-opacity: 0.28;
+}
+
+.craft-map-sec .sh2 {
+  flood-color: #2A1216;
+  flood-opacity: 0.16;
+}
+
+:root[data-theme="dark"] .craft-map-sec .sh1 {
+  flood-color: #000;
+  flood-opacity: 0.6;
+}
+
+:root[data-theme="dark"] .craft-map-sec .sh2 {
+  flood-color: #000;
+  flood-opacity: 0.5;
+}
+
+/* SVG Base map */
+.craft-map-sec .plate .base {
+  transition: filter 0.45s, opacity 0.45s;
+}
+
+.craft-map-sec .plate.map-dim .base {
+  opacity: 0.72;
+}
+
+:root[data-theme="dark"] .craft-map-sec .plate.map-dim .base {
+  opacity: 0.55;
+}
+
+/* Interactive SVG Region (<g class="rgn">) */
+.craft-map-sec .rgn {
+  cursor: pointer;
+  outline: none;
+}
+
+.craft-map-sec .rgn .hit {
+  fill: transparent;
+}
+
+.craft-map-sec .rgn .liftw {
+  opacity: 0;
+  transform: translateY(0);
+  transition: opacity 0.35s, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.craft-map-sec .rgn.hot .liftw,
+.craft-map-sec .rgn.sel .liftw {
+  opacity: 1;
+  transform: translateY(-9px);
+}
+
+.craft-map-sec .rgn .rim {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 3;
+  stroke-dasharray: 9 6;
+  transition: stroke 0.3s, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+
+.craft-map-sec .rgn.hot .rim {
+  stroke: rgba(247, 243, 238, 0.95);
+  transform: translateY(-9px);
+}
+
+.craft-map-sec .rgn.sel .rim {
+  stroke: #D1B17E;
+  transform: translateY(-9px);
+}
+
+.craft-map-sec .rgn:focus-visible .rim {
+  stroke: #D1B17E;
+  stroke-width: 4;
+  transform: translateY(-9px);
+}
+
+/* Map Entrance Pop Animations */
+.craft-map-sec .plate.map-in .base {
+  animation: mapin 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.craft-map-sec .plate.map-in .rgn .liftw {
+  animation: pop 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 0.22s + 0.7s);
+}
+
+.craft-map-sec .plate.map-in .tag {
+  animation: fadein 0.6s ease both;
+  animation-delay: 1.9s;
+}
+
+.craft-map-sec .plate.map-in .rgn.sel .liftw {
+  animation: none;
+}
+
+@keyframes mapin {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: none;
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-12px);
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Anchor Pill Tags on SVG (<g class="tag">) */
+.craft-map-sec .tag {
+  cursor: pointer;
+}
+
+.craft-map-sec .tag rect {
+  fill: rgba(247, 243, 238, 0.96);
+  stroke: rgba(107, 34, 48, 0.3);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 3px 4px rgba(40, 16, 20, 0.35));
+  transition: fill 0.25s, stroke 0.25s;
+}
+
+.craft-map-sec .tag text {
+  font-family: var(--f-display, 'Cinzel', Georgia, serif);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  fill: #6B2230;
+  transition: fill 0.25s;
+}
+
+.craft-map-sec .tag.sel rect,
+.craft-map-sec .tag.hot rect {
+  fill: #6B2230;
+  stroke: #D1B17E;
+}
+
+.craft-map-sec .tag.sel text,
+.craft-map-sec .tag.hot text {
+  fill: #F7F3EE;
+}
+
+/* Map Caption / Note */
+.craft-map-sec .map-note {
+  margin-top: 14px;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.78rem;
+  color: var(--muted, #6E6864);
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* Right Column: Region Buttons List (.rlist) */
+.craft-map-sec .rlist {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+}
+
+.craft-map-sec .rlist li {
+  margin: 0;
+  padding: 0;
+}
+
+.craft-map-sec .rlist button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line, #E5DCD0);
+  background: var(--card, #FFFFFF);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.craft-map-sec .rlist button:hover,
+.craft-map-sec .rlist button.hot {
+  border-color: var(--c, #6B2230);
+  transform: translateX(4px);
+}
+
+.craft-map-sec .rlist button[aria-pressed="true"] {
+  background: var(--c, #5E634B);
+  color: #F7F3EE;
+  border-color: var(--c, #5E634B);
+  box-shadow: var(--sh1, 0 4px 16px rgba(0, 0, 0, 0.08));
+}
+
+.craft-map-sec .rlist .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: box-shadow 0.25s;
+}
+
+.craft-map-sec .rlist button[aria-pressed="true"] .dot {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+.craft-map-sec .rlist .nm {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: 1.15rem;
+  line-height: 1.2;
+  color: var(--ink, #171717);
+  flex: 1;
+  transition: color 0.25s;
+}
+
+.craft-map-sec .rlist button[aria-pressed="true"] .nm {
+  color: #F7F3EE;
+}
+
+.craft-map-sec .rlist .ct {
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.78rem;
+  color: var(--ink-2, #4A4240);
+  opacity: 0.75;
+  transition: color 0.25s, opacity 0.25s;
+}
+
+.craft-map-sec .rlist button[aria-pressed="true"] .ct {
+  color: rgba(247, 243, 238, 0.9);
+  opacity: 1;
+}
+
+/* Right Column: Story Panel (.katha) */
+.craft-map-sec .katha {
+  border-radius: 12px;
+  padding: clamp(22px, 3.2vw, 30px);
+  background: var(--card, #FFFFFF);
+  box-shadow: var(--sh1, 0 4px 16px rgba(0, 0, 0, 0.08));
+  border: 1px solid var(--line, #E5DCD0);
+  border-top: 3px solid var(--c, #7A8063);
+  min-height: 260px;
+  transition: border-top-color 0.3s ease;
+}
+
+.craft-map-sec .katha .kicker {
+  display: block;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-ink, var(--c-deep, #5E634B));
+  margin-bottom: 8px;
+  transition: color 0.3s;
+}
+
+.craft-map-sec .katha h3 {
+  font-family: var(--f-display, 'Cinzel', Georgia, serif);
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 6px;
+  color: var(--ink, #171717);
+}
+
+.craft-map-sec .katha .tl {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.6vw, 1.25rem);
+  line-height: 1.35;
+  color: var(--c-ink, var(--c-deep, #5E634B));
+  margin: 0 0 14px;
+  transition: color 0.3s;
+}
+
+.craft-map-sec .katha p.st {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(1.04rem, 1.4vw, 1.14rem);
+  line-height: 1.65;
+  color: var(--ink-2, #4A4240);
+  margin: 0 0 16px;
+}
+
+.craft-map-sec .katha .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 22px;
+}
+
+.craft-map-sec .katha .chip {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 400;
+  border: 1px solid var(--line, #E5DCD0);
+  background: var(--bg, #F7F3EE);
+  color: var(--ink, #171717);
+  text-decoration: none;
+  transition: all 0.22s ease;
+}
+
+.craft-map-sec .katha .chip:hover {
+  border-color: var(--c, #6B2230);
+  background: var(--c, #6B2230);
+  color: #F7F3EE;
+  transform: translateY(-1px);
+}
+
+.craft-map-sec .katha .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: #6B2230;
+  color: #F7F3EE;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.craft-map-sec .katha .btn:hover {
+  background: #541723;
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: var(--sh1, 0 4px 16px rgba(0, 0, 0, 0.08));
+}
+
+.craft-map-sec .katha.fade {
+  animation: kfade 0.35s ease;
+}
+
+@keyframes kfade {
+  from {
+    opacity: 0.2;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+

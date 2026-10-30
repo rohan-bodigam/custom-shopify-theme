@@ -545,6 +545,107 @@
         "custom_class": ""
       }
     },
+    "craft_map": {
+      "type": "craft-map",
+      "blocks": {
+        "region_east": {
+          "type": "region",
+          "settings": {
+            "region_id": "east",
+            "chapter_no": "Chapter 01",
+            "region_name": "East India",
+            "short_name": "East",
+            "tagline": "Where Every Thread Tells a Story",
+            "katha": "Bengal’s river delta gave India its finest cotton. Muslin so sheer it was once said to be woven air came from these waters, and the habit of wearing soft, breathable cotton never left. Our East chapter begins with the cloth that carries that habit forward: mul cotton, light enough for a Kolkata summer and strong enough for daily wear.",
+            "weaves": "Mul Cotton, Baluchari, Swarnachari",
+            "chapter_link": "",
+            "accent_color": "#7A8063",
+            "accent_deep": "#5E634B",
+            "accent_lite": "#B9BE9E"
+          }
+        },
+        "region_west": {
+          "type": "region",
+          "settings": {
+            "region_id": "west",
+            "chapter_no": "Chapter 02",
+            "region_name": "West & Central India",
+            "short_name": "West & Central",
+            "tagline": "Where Colour Meets Craft",
+            "katha": "On the banks of the Narmada, a queen once set up looms to give a fort town a living. In the dry country of Rajasthan, weavers learned to make cotton so light it is nearly sheer. This chapter holds two of India’s lightest and most elegant cloths: Maheshwari and Zari Kota, both made for heat, both finished with a little gold.",
+            "weaves": "Maheshwari, Zari Kota, Pure Kota",
+            "chapter_link": "",
+            "accent_color": "#6B2230",
+            "accent_deep": "#6B2230",
+            "accent_lite": "#E2A3AE"
+          }
+        },
+        "region_north": {
+          "type": "region",
+          "settings": {
+            "region_id": "north",
+            "chapter_no": "Chapter 03",
+            "region_name": "North India",
+            "short_name": "North",
+            "tagline": "Where Heritage Lives in Every Detail",
+            "katha": "Varanasi has woven silk and gold for centuries, and its looms still set the standard for the Indian wedding saree. This chapter pairs that weight and richness with its opposite: light chiffon, the sheer, floating cloth that carries the same gold borders at a fraction of the heaviness.",
+            "weaves": "Banaras, Chiffon",
+            "chapter_link": "",
+            "accent_color": "#B08D57",
+            "accent_deep": "#7A5A31",
+            "accent_lite": "#D1B17E"
+          }
+        },
+        "region_south": {
+          "type": "region",
+          "settings": {
+            "region_id": "south",
+            "chapter_no": "Chapter 04",
+            "region_name": "South India",
+            "short_name": "South",
+            "tagline": "Where Tradition Meets Contemporary Design",
+            "katha": "Two Telugu-speaking states, two ways of using colour. In Andhra Pradesh, Mangalagiri weavers make crisp cotton with a gold-flecked border. In Telangana, ikkat weavers tie and dye the yarn before it ever touches a loom. Both are practical, beautiful and easy to wear every day.",
+            "weaves": "Mangalagiri, Ikkat, Crape Silk",
+            "chapter_link": "",
+            "accent_color": "#3F5750",
+            "accent_deep": "#3F5750",
+            "accent_lite": "#9DBDB2"
+          }
+        },
+        "region_northeast": {
+          "type": "region",
+          "settings": {
+            "region_id": "northeast",
+            "chapter_no": "Chapter 05",
+            "region_name": "North East India",
+            "short_name": "North East",
+            "tagline": "Where Nature Inspires Every Weave",
+            "katha": "Assam’s golden silk is spun by silkworms that feed on leaves from trees in the Brahmaputra valley. It is one of the few silks in the world that gets shinier with age, and for centuries it was reserved for royalty. Our North East chapter begins with Muga, the cloth that glows.",
+            "weaves": "",
+            "chapter_link": "",
+            "accent_color": "#4A2A3A",
+            "accent_deep": "#4A2A3A",
+            "accent_lite": "#CFA3B8"
+          }
+        }
+      },
+      "block_order": [
+        "region_east",
+        "region_west",
+        "region_north",
+        "region_south",
+        "region_northeast"
+      ],
+      "settings": {
+        "title": "The Craft Map",
+        "lede": "Choose a region on the map or the list to read its story and jump straight to its weaves.",
+        "show_warp": true,
+        "map_note": "Choose a region to lift it out and read its story. Stylised, not to scale.",
+        "color_scheme": "default",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -581,6 +682,7 @@
     "heritage",
     "explore_products",
     "split_banner",
+    "craft_map",
     "featured_collection"
   ]
 }

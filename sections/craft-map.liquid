@@ -1,0 +1,651 @@
+{{ 'section-craft-map.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- comment -%}
+  Region SVG Paths and Anchor Coordinates mapped to Region IDs
+{%- endcomment -%}
+{%- assign north_path = 'M211.1,14.7 L208.7,20.4 L203.8,20.8 L197.7,24.9 L197.3,31.0 L189.1,35.5 L187.1,40.4 L189.1,46.5 L195.7,49.7 L199.7,56.2 L207.5,55.4 L212.0,62.8 L217.3,64.8 L220.1,70.9 L227.9,75.4 L225.8,79.5 L220.9,79.9 L207.5,91.7 L206.7,98.2 L209.5,103.5 L211.1,118.2 L209.5,127.2 L212.8,132.9 L223.0,134.9 L228.3,139.8 L233.6,141.0 L233.6,147.6 L235.6,151.6 L238.5,153.3 L245.4,153.3 L247.8,156.9 L255.2,161.8 L254.3,166.3 L249.5,169.2 L244.2,168.8 L240.9,172.4 L236.8,174.0 L234.4,180.2 L235.6,189.1 L231.9,195.2 L232.7,198.1 L227.9,202.2 L223.4,203.0 L218.5,207.5 L218.1,214.8 L212.4,220.5 L212.4,223.0 L219.3,228.3 L233.6,269.8 L276.0,276.4 L282.5,341.6 L331.0,347.7 L372.1,359.5 L414.5,365.6 L417.0,291.4 L409.6,284.9 L403.5,283.7 L397.4,279.6 L392.5,279.6 L391.3,277.6 L396.6,269.4 L397.4,259.2 L406.4,247.4 L408.0,242.9 L414.1,236.4 L415.4,230.7 L403.5,225.8 L395.8,217.7 L385.6,215.6 L383.6,209.9 L378.3,204.6 L366.8,201.8 L362.8,192.8 L359.9,190.4 L354.2,191.6 L351.8,188.7 L353.0,179.8 L349.7,176.5 L349.3,167.9 L344.0,163.0 L342.0,157.7 L343.2,150.8 L345.2,148.8 L349.3,149.2 L352.6,156.1 L357.5,158.6 L359.9,157.7 L362.8,151.6 L373.4,148.0 L373.8,142.3 L369.7,136.5 L369.7,128.4 L358.3,121.9 L357.9,118.6 L360.7,114.1 L359.5,107.2 L369.7,106.4 L370.5,103.5 L375.4,99.9 L377.0,91.3 L390.1,84.4 L393.3,75.8 L393.8,68.5 L396.6,62.8 L395.8,55.8 L392.1,52.6 L384.8,51.8 L382.3,46.9 L379.5,44.8 L370.5,44.8 L360.7,50.1 L346.1,48.5 L337.5,54.6 L329.3,53.8 L322.0,58.3 L314.3,53.0 L307.7,52.6 L303.7,46.9 L296.3,46.5 L294.7,38.7 L287.8,30.6 L280.4,30.6 L276.8,27.7 L273.9,22.4 L274.3,17.9 L270.7,13.5 L263.3,15.1 L257.2,10.6 L249.9,11.8 L247.8,9.0 L243.8,8.2 L239.3,12.6 L235.2,12.6 L231.5,14.7 L223.4,16.3 L215.2,13.9Z' -%}
+{%- assign west_path = 'M214.0,224.2 L211.5,224.6 L209.1,229.9 L200.1,231.5 L194.8,235.2 L192.8,245.8 L180.2,265.8 L172.8,270.7 L157.3,276.4 L156.1,285.3 L148.8,292.3 L147.6,297.6 L141.0,300.0 L130.0,298.8 L119.8,302.4 L115.4,300.0 L112.9,292.3 L110.5,290.2 L107.6,290.2 L100.3,294.7 L98.2,301.6 L95.0,305.7 L86.0,309.4 L82.3,315.5 L75.8,319.2 L75.0,331.4 L76.2,334.6 L78.7,336.7 L94.6,340.8 L95.4,344.8 L92.1,349.7 L92.1,355.4 L98.6,360.3 L100.7,364.0 L108.4,366.0 L107.6,378.7 L110.5,385.6 L117.8,390.5 L119.4,401.9 L117.0,404.8 L117.4,410.1 L112.5,412.5 L108.8,412.1 L106.8,410.5 L106.4,407.2 L101.1,405.6 L90.9,409.2 L83.2,414.1 L73.0,412.5 L68.9,408.0 L65.2,406.8 L53.0,408.4 L42.0,403.9 L36.3,406.8 L34.6,414.5 L25.3,412.9 L20.4,416.2 L18.8,419.8 L11.0,421.5 L8.2,424.3 L8.2,427.2 L11.8,433.7 L15.1,436.1 L16.3,443.5 L25.3,448.8 L26.9,454.1 L30.2,457.7 L39.9,463.5 L55.8,466.3 L60.7,463.9 L67.7,464.7 L76.6,461.4 L81.5,457.3 L84.8,458.2 L85.2,460.2 L78.3,466.3 L76.2,471.6 L65.2,473.2 L62.8,476.9 L57.1,476.1 L54.2,478.1 L48.5,476.9 L44.0,479.8 L39.1,474.0 L35.5,472.8 L33.8,474.0 L32.6,481.0 L33.8,487.1 L41.6,494.4 L46.1,503.0 L53.8,509.1 L57.5,516.0 L68.9,523.0 L75.0,529.9 L84.8,536.8 L91.3,538.5 L103.9,537.2 L130.4,526.2 L134.5,520.9 L133.7,514.8 L139.8,512.0 L142.3,507.9 L141.8,490.8 L145.9,488.3 L154.9,495.7 L153.3,510.3 L158.2,515.2 L155.7,523.8 L161.8,534.4 L160.6,541.7 L156.5,545.4 L150.4,556.4 L149.6,570.7 L150.8,578.0 L155.7,586.5 L155.3,601.2 L158.6,609.8 L157.7,619.6 L159.8,624.5 L188.7,614.7 L254.8,567.8 L292.3,545.4 L292.7,520.9 L371.7,524.6 L414.9,552.3 L417.0,552.3 L425.1,472.0 L441.0,443.9 L465.1,427.6 L445.5,374.2 L414.5,366.0 L372.6,359.9 L331.4,348.1 L282.9,342.0 L276.0,276.4 L234.0,270.2 L219.3,228.3Z' -%}
+{%- assign east_path = 'M417.0,291.4 L414.5,366.0 L445.5,374.2 L465.9,426.8 L441.0,443.9 L425.1,472.0 L417.0,553.5 L583.7,553.5 L586.1,546.6 L590.2,541.7 L590.6,533.6 L588.2,525.8 L594.7,516.0 L600.4,512.4 L613.5,507.9 L622.8,500.1 L626.9,502.2 L628.1,509.9 L630.6,512.4 L633.8,511.1 L636.3,506.2 L644.4,508.3 L647.3,503.0 L654.2,503.4 L657.5,501.4 L659.5,492.4 L656.2,487.5 L657.1,476.9 L653.4,470.4 L653.8,464.7 L651.0,459.8 L651.8,452.4 L647.3,448.0 L646.9,439.4 L641.6,435.3 L645.2,429.2 L645.7,421.5 L642.4,416.2 L635.9,415.4 L630.2,412.1 L627.7,406.4 L635.5,399.0 L636.7,393.8 L648.9,392.1 L645.7,379.9 L643.6,378.7 L642.8,375.4 L637.1,375.8 L632.2,372.6 L630.6,368.5 L624.9,366.4 L623.6,364.0 L633.4,351.8 L635.1,351.4 L637.5,354.6 L639.5,354.6 L631.8,302.4 L624.5,303.7 L620.4,310.2 L620.4,313.0 L623.2,317.5 L620.8,322.8 L621.6,332.2 L625.3,335.5 L624.0,344.0 L617.1,349.3 L602.9,348.9 L599.2,351.8 L591.8,347.3 L584.9,347.7 L580.8,349.7 L570.2,344.0 L560.1,344.8 L555.6,341.2 L532.7,334.2 L526.2,325.3 L518.1,323.6 L511.1,318.8 L501.0,323.2 L484.6,315.5 L475.7,317.5 L469.6,313.0 L459.4,312.6 L454.5,309.4 L449.6,309.8 L444.3,303.7 L429.2,300.0 L423.5,293.5Z' -%}
+{%- assign northeast_path = 'M844.6,223.4 L840.1,224.6 L836.8,227.9 L830.3,229.5 L827.9,232.7 L828.3,237.6 L822.6,243.3 L818.9,242.9 L817.7,240.9 L812.8,239.3 L806.2,240.1 L803.0,237.6 L795.7,239.3 L792.4,242.1 L789.1,251.1 L785.1,253.1 L782.6,257.6 L775.3,258.0 L770.4,262.9 L767.9,269.8 L756.5,274.3 L750.8,289.0 L739.4,290.6 L736.5,293.9 L728.8,292.3 L724.7,293.5 L722.7,297.6 L723.1,304.9 L726.4,311.8 L736.5,314.3 L738.2,324.9 L736.1,326.5 L724.7,329.3 L720.7,328.9 L714.5,332.2 L708.8,331.0 L695.0,332.2 L684.0,330.6 L674.6,335.1 L670.1,335.5 L660.3,331.8 L653.8,332.6 L646.5,329.3 L643.6,325.7 L644.4,317.9 L642.8,312.6 L645.2,307.7 L644.4,302.0 L640.4,299.2 L633.0,301.2 L639.9,356.7 L645.7,356.7 L647.7,354.2 L659.1,363.2 L666.4,362.8 L668.9,359.1 L670.9,359.1 L673.8,363.2 L672.6,374.2 L673.8,384.0 L675.4,386.0 L682.7,388.9 L696.6,387.6 L701.5,389.3 L710.9,386.4 L724.3,390.1 L736.1,386.8 L746.7,387.6 L752.9,390.5 L750.4,403.1 L745.5,406.8 L743.1,412.1 L737.4,413.3 L726.0,424.3 L724.3,428.4 L723.9,439.0 L728.0,443.5 L728.8,452.9 L730.8,454.5 L735.3,453.7 L738.6,457.3 L740.6,457.3 L744.3,454.9 L746.3,448.4 L744.3,440.2 L748.8,434.1 L752.9,433.3 L756.5,442.7 L760.6,446.7 L759.8,453.7 L761.8,459.8 L764.7,463.5 L768.3,464.7 L767.9,476.9 L771.2,484.2 L774.5,483.8 L775.7,481.4 L782.2,482.6 L786.7,473.6 L786.7,466.3 L784.6,463.0 L783.4,453.3 L789.5,449.2 L792.0,443.1 L793.2,434.5 L790.4,424.7 L791.2,420.2 L800.5,417.4 L811.5,418.6 L818.1,409.6 L818.1,401.5 L821.7,399.9 L824.2,395.4 L826.2,379.5 L823.8,374.2 L829.9,362.0 L831.1,352.2 L833.2,349.7 L832.7,337.9 L830.7,334.2 L831.5,330.6 L845.8,320.4 L850.7,308.6 L858.0,306.1 L869.0,298.8 L876.0,301.2 L883.3,301.6 L886.5,300.4 L889.0,297.1 L889.0,293.5 L884.1,287.0 L891.4,269.8 L891.0,265.8 L887.8,264.1 L884.9,259.2 L874.3,258.8 L871.1,256.4 L864.1,256.8 L864.9,246.6 L861.7,243.3 L860.9,237.6 L858.4,236.0 L854.3,236.8 L852.7,230.7Z' -%}
+{%- assign south_path = 'M581.7,553.5 L416.6,553.5 L372.1,525.0 L292.3,521.3 L291.8,545.8 L255.6,567.4 L188.3,615.1 L161.4,624.9 L164.7,631.8 L163.9,652.2 L166.3,658.7 L171.2,663.6 L174.0,681.5 L181.8,690.5 L184.2,704.3 L192.8,717.0 L195.7,728.0 L202.6,734.5 L205.0,746.7 L209.1,752.0 L212.8,752.9 L214.0,771.6 L218.9,789.5 L229.9,801.8 L233.6,813.6 L239.7,820.5 L241.7,829.5 L249.0,840.9 L247.0,845.4 L249.5,852.7 L258.8,866.6 L261.3,876.0 L260.9,884.1 L265.4,900.4 L273.1,914.7 L284.1,928.5 L287.4,928.1 L290.6,933.4 L297.1,936.3 L300.8,936.3 L303.3,933.4 L308.6,933.4 L313.0,928.9 L314.7,920.0 L319.6,911.4 L327.3,906.1 L336.3,905.7 L342.0,903.3 L344.0,896.7 L343.6,890.2 L351.4,881.2 L354.2,871.9 L356.7,869.0 L360.3,867.8 L372.6,869.0 L376.2,866.6 L376.6,857.2 L373.0,847.8 L373.4,835.2 L370.5,818.5 L372.6,811.1 L377.4,805.4 L379.1,800.1 L382.7,797.7 L386.8,791.2 L392.5,774.0 L392.5,769.6 L389.7,765.1 L389.3,759.4 L386.4,752.9 L386.8,741.4 L392.5,728.8 L391.3,716.2 L393.8,704.3 L398.2,699.9 L397.4,696.2 L402.3,695.4 L411.3,690.1 L413.7,690.1 L417.8,693.8 L421.9,693.8 L426.0,690.9 L428.0,681.9 L432.9,677.4 L442.3,679.5 L447.1,674.6 L456.1,672.1 L459.0,666.0 L457.3,656.7 L461.0,651.8 L466.7,650.5 L476.1,642.8 L476.9,639.9 L480.2,640.4 L491.6,633.0 L501.8,617.5 L504.2,617.1 L514.8,606.9 L525.0,600.8 L529.9,593.1 L531.1,586.5 L541.3,578.0 L558.4,568.6 L569.0,559.2 L579.6,556.4Z' -%}
+
+{%- comment -%} Determine first active block {%- endcomment -%}
+{%- assign first_block = section.blocks.first -%}
+
+<section class="sec craft-map-sec section-{{ section.id }}-padding{% if section.settings.color_scheme == 'alt' %} alt{% endif %}" id="craftmap-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        {%- if section.settings.show_warp -%}
+          <span class="warp" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="d2">{{ section.settings.title | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.lede != blank -%}
+          <p class="lede">{{ section.settings.lede | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="map-wrap">
+      <!-- Left Column: Ornate Framed Plate & SVG Map -->
+      <div>
+        <div class="plate map-in" id="plate-{{ section.id }}">
+          <svg viewBox="0 0 900 944" role="group" aria-label="Textile map of India showing the five chapters">
+            <defs>
+              {%- if section.settings.custom_map_image != blank -%}
+                <image id="tmimg-{{ section.id }}" href="{{ section.settings.custom_map_image | image_url: width: 1200 }}" width="900" height="944"/>
+              {%- else -%}
+                <image id="tmimg-{{ section.id }}" href="data:image/webp;base64,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" width="900" height="944"/>
+              {%- endif -%}
+
+              {%- comment -%} Generate ClipPaths for Each Block {%- endcomment -%}
+              {%- for block in section.blocks -%}
+                {%- assign reg_path = '' -%}
+                {%- case block.settings.region_id -%}
+                  {%- when 'north' -%}
+                    {%- assign reg_path = north_path -%}
+                  {%- when 'west' -%}
+                    {%- assign reg_path = west_path -%}
+                  {%- when 'east' -%}
+                    {%- assign reg_path = east_path -%}
+                  {%- when 'northeast' -%}
+                    {%- assign reg_path = northeast_path -%}
+                  {%- when 'south' -%}
+                    {%- assign reg_path = south_path -%}
+                {%- endcase -%}
+                {%- if reg_path != blank -%}
+                  <clipPath id="cl-{{ section.id }}-{{ block.settings.region_id }}">
+                    <path d="{{ reg_path }}"/>
+                  </clipPath>
+                {%- endif -%}
+              {%- endfor -%}
+
+              <!-- SVG Lift Shadow Filter -->
+              <filter id="lift-{{ section.id }}" x="-10%" y="-10%" width="120%" height="130%">
+                <feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#1c0c0f" flood-opacity=".5"/>
+              </filter>
+
+              <!-- SVG Depth Shadow Filter -->
+              <filter id="depth-{{ section.id }}" x="-6%" y="-6%" width="112%" height="116%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="b1"/>
+                <feOffset in="b1" dy="2" result="o1"/>
+                <feFlood class="sh1" result="f1"/>
+                <feComposite in="f1" in2="o1" operator="in" result="s1"/>
+                <feGaussianBlur in="SourceAlpha" stdDeviation="14" result="b2"/>
+                <feOffset in="b2" dy="16" result="o2"/>
+                <feFlood class="sh2" result="f2"/>
+                <feComposite in="f2" in2="o2" operator="in" result="s2"/>
+                <feMerge>
+                  <feMergeNode in="s2"/>
+                  <feMergeNode in="s1"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Base Map Image with Depth Shadow -->
+            <use href="#tmimg-{{ section.id }}" class="base" filter="url(#depth-{{ section.id }})"/>
+
+            <!-- Region Lift-out Layers -->
+            {%- for block in section.blocks -%}
+              {%- assign reg_path = '' -%}
+              {%- case block.settings.region_id -%}
+                {%- when 'north' -%}
+                  {%- assign reg_path = north_path -%}
+                {%- when 'west' -%}
+                  {%- assign reg_path = west_path -%}
+                {%- when 'east' -%}
+                  {%- assign reg_path = east_path -%}
+                {%- when 'northeast' -%}
+                  {%- assign reg_path = northeast_path -%}
+                {%- when 'south' -%}
+                  {%- assign reg_path = south_path -%}
+              {%- endcase -%}
+
+              {%- if reg_path != blank -%}
+                <g class="rgn{% if forloop.first %} sel{% endif %}" data-r="{{ block.settings.region_id }}" data-block-id="{{ block.id }}" tabindex="0" role="button" aria-label="{{ block.settings.region_name | escape }}" style="--i:{{ forloop.index0 }};">
+                  <g class="liftw" filter="url(#lift-{{ section.id }})">
+                    <g clip-path="url(#cl-{{ section.id }}-{{ block.settings.region_id }})">
+                      <use href="#tmimg-{{ section.id }}"/>
+                    </g>
+                  </g>
+                  <path class="hit" d="{{ reg_path }}"/>
+                  <path class="rim" d="{{ reg_path }}"/>
+                </g>
+              {%- endif -%}
+            {%- endfor -%}
+
+            <!-- Anchor Pill Tags -->
+            {%- for block in section.blocks -%}
+              {%- assign tag_x = 0 -%}
+              {%- assign tag_y = 0 -%}
+              {%- case block.settings.region_id -%}
+                {%- when 'north' -%}
+                  {%- assign tag_x = 308.5 -%}
+                  {%- assign tag_y = 186.3 -%}
+                {%- when 'west' -%}
+                  {%- assign tag_x = 234.0 -%}
+                  {%- assign tag_y = 430.5 -%}
+                {%- when 'east' -%}
+                  {%- assign tag_x = 529.1 -%}
+                  {%- assign tag_y = 436.7 -%}
+                {%- when 'northeast' -%}
+                  {%- assign tag_x = 775.7 -%}
+                  {%- assign tag_y = 339.5 -%}
+                {%- when 'south' -%}
+                  {%- assign tag_x = 328.3 -%}
+                  {%- assign tag_y = 688.5 -%}
+              {%- endcase -%}
+
+              {%- assign short_label = block.settings.short_name | default: block.settings.region_name | upcase -%}
+              {%- assign len = short_label.size -%}
+              {%- assign tag_w = len | times: 10.2 | plus: 34 -%}
+              {%- assign tag_half_w = tag_w | divided_by: 2.0 -%}
+              {%- assign rect_x = tag_half_w | times: -1 -%}
+              {%- assign circle_cx = rect_x | plus: 14 -%}
+
+              <g class="tag{% if forloop.first %} sel{% endif %}" data-r="{{ block.settings.region_id }}" data-block-id="{{ block.id }}" transform="translate({{ tag_x }} {{ tag_y }})">
+                <rect x="{{ rect_x }}" y="-15" width="{{ tag_w }}" height="30" rx="15"/>
+                <circle cx="{{ circle_cx }}" cy="0" r="4.5" fill="{{ block.settings.accent_color | default: '#6B2230' }}" stroke="#fff" stroke-width="1.2"/>
+                <text x="7" y="5" text-anchor="middle">{{ short_label }}</text>
+              </g>
+            {%- endfor -%}
+          </svg>
+        </div>
+        {%- if section.settings.map_note != blank -%}
+          <p class="map-note">{{ section.settings.map_note | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      <!-- Right Column: Region Buttons List & Katha Story Panel -->
+      <div>
+        <ul class="rlist" aria-label="Regions">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>
+              <button 
+                type="button" 
+                data-r="{{ block.settings.region_id }}" 
+                data-block-id="{{ block.id }}" 
+                aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" 
+                style="--c:{{ block.settings.accent_deep | default: block.settings.accent_color | default: '#5E634B' }};"
+              >
+                <span class="dot" style="background:{{ block.settings.accent_color | default: '#7A8063' }}"></span>
+                <span class="nm">{{ block.settings.region_name | escape }}</span>
+                <span class="ct">
+                  {%- if block.settings.weaves != blank -%}
+                    {{ block.settings.weaves | escape }}
+                  {%- else -%}
+                    Revealing soon
+                  {%- endif -%}
+                </span>
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <!-- Katha Panel (Story, Tagline, Chips, and Button) -->
+        <div 
+          class="katha" 
+          id="katha-{{ section.id }}" 
+          aria-live="polite"
+          style="--c:{{ first_block.settings.accent_color | default: '#7A8063' }};--c-deep:{{ first_block.settings.accent_deep | default: '#5E634B' }};--c-lite:{{ first_block.settings.accent_lite | default: '#B9BE9E' }};"
+        >
+          {%- if first_block -%}
+            <span class="kicker" style="color:var(--c-deep)">{{ first_block.settings.chapter_no | default: 'Chapter 01' | escape }}</span>
+            <h3>{{ first_block.settings.region_name | escape }}</h3>
+            {%- if first_block.settings.tagline != blank -%}
+              <p class="tl">{{ first_block.settings.tagline | escape }}</p>
+            {%- endif -%}
+            {%- if first_block.settings.katha != blank -%}
+              <p class="st">{{ first_block.settings.katha | escape }}</p>
+            {%- endif -%}
+
+            {%- assign weave_array = first_block.settings.weaves | split: ',' -%}
+            {%- if weave_array.size > 0 and first_block.settings.weaves != blank -%}
+              <div class="chips">
+                {%- for weave in weave_array -%}
+                  {%- assign w_clean = weave | strip -%}
+                  {%- if w_clean != blank -%}
+                    {%- capture weave_url -%}
+                      {%- if first_block.settings.chapter_link != blank -%}
+                        {{ first_block.settings.chapter_link }}?weave={{ w_clean | url_encode }}
+                      {%- else -%}
+                        {{ routes.all_products_collection_url }}?filter.p.m.custom.weave={{ w_clean | url_encode }}
+                      {%- endif -%}
+                    {%- endcapture -%}
+                    <a class="chip" href="{{ weave_url }}">{{ w_clean | escape }}</a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- capture chapter_btn_url -%}
+              {%- if first_block.settings.chapter_link != blank -%}
+                {{ first_block.settings.chapter_link }}
+              {%- else -%}
+                {{ routes.all_products_collection_url }}
+              {%- endif -%}
+            {%- endcapture -%}
+            <a class="btn" href="{{ chapter_btn_url }}">
+              Open the {{ first_block.settings.short_name | default: first_block.settings.region_name | escape }} Chapter
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JSON Data for Dynamic Interaction -->
+<script type="application/json" id="CraftMapData-{{ section.id }}">
+  {
+    {%- for block in section.blocks -%}
+      {%- assign weave_array = block.settings.weaves | split: ',' -%}
+      "{{ block.settings.region_id }}": {
+        "id": {{ block.settings.region_id | json }},
+        "blockId": {{ block.id | json }},
+        "no": {{ block.settings.chapter_no | default: '' | json }},
+        "name": {{ block.settings.region_name | json }},
+        "short": {{ block.settings.short_name | default: block.settings.region_name | json }},
+        "tagline": {{ block.settings.tagline | default: '' | json }},
+        "katha": {{ block.settings.katha | default: '' | json }},
+        "weaves": [
+          {%- for w in weave_array -%}
+            {%- assign w_clean = w | strip -%}
+            {%- if w_clean != blank -%}
+              {{ w_clean | json }}{%- unless forloop.last -%},{%- endunless -%}
+            {%- endif -%}
+          {%- endfor -%}
+        ],
+        "url": {{ block.settings.chapter_link | default: routes.all_products_collection_url | json }},
+        "acc": {{ block.settings.accent_color | default: '#6B2230' | json }},
+        "deep": {{ block.settings.accent_deep | default: '#6B2230' | json }},
+        "lite": {{ block.settings.accent_lite | default: '#E2A3AE' | json }}
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  }
+</script>
+
+<script>
+  (function() {
+    function initCraftMap(sectionId) {
+      const root = document.getElementById('craftmap-' + sectionId);
+      if (!root) return;
+      const plate = document.getElementById('plate-' + sectionId);
+      const katha = document.getElementById('katha-' + sectionId);
+      const dataScript = document.getElementById('CraftMapData-' + sectionId);
+      if (!plate || !katha || !dataScript) return;
+
+      let mapData = {};
+      try {
+        mapData = JSON.parse(dataScript.textContent);
+      } catch (e) {
+        console.error('Craft Map data parse error', e);
+        return;
+      }
+
+      const allRegions = root.querySelectorAll('.rgn, .tag');
+      const allButtons = root.querySelectorAll('.rlist button');
+
+      function selectRegion(id, userAction) {
+        const c = mapData[id];
+        if (!c) return;
+
+        allRegions.forEach(function(el) {
+          el.classList.toggle('sel', el.dataset.r === id);
+        });
+
+        allButtons.forEach(function(b) {
+          b.setAttribute('aria-pressed', b.dataset.r === id ? 'true' : 'false');
+        });
+
+        if (userAction) {
+          plate.classList.add('map-dim');
+        }
+
+        katha.style.setProperty('--c', c.acc);
+        katha.style.setProperty('--c-deep', c.deep);
+        katha.style.setProperty('--c-lite', c.lite);
+
+        let chipsHtml = '';
+        if (c.weaves && c.weaves.length > 0) {
+          chipsHtml = '<div class="chips">' + c.weaves.map(function(w) {
+            const cleanW = w.trim();
+            const href = c.url ? (c.url + (c.url.indexOf('?') > -1 ? '&' : '?') + 'weave=' + encodeURIComponent(cleanW)) : '#';
+            return '<a class="chip" href="' + href + '">' + escapeHtml(cleanW) + '</a>';
+          }).join('') + '</div>';
+        }
+
+        const buttonHtml = '<a class="btn" href="' + (c.url || '#') + '">Open the ' + escapeHtml(c.short) + ' Chapter</a>';
+
+        katha.innerHTML = '<span class="kicker" style="color:var(--c-deep)">' + escapeHtml(c.no) + '</span>' +
+          '<h3>' + escapeHtml(c.name) + '</h3>' +
+          (c.tagline ? '<p class="tl">' + escapeHtml(c.tagline) + '</p>' : '') +
+          (c.katha ? '<p class="st">' + escapeHtml(c.katha) + '</p>' : '') +
+          chipsHtml +
+          buttonHtml;
+
+        katha.classList.remove('fade');
+        void katha.offsetWidth;
+        katha.classList.add('fade');
+      }
+
+      function setHot(id, on) {
+        root.querySelectorAll('[data-r="' + id + '"]').forEach(function(e) {
+          e.classList.toggle('hot', on);
+        });
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      // Event bindings
+      root.querySelectorAll('.rgn, .rlist button, .tag').forEach(function(el) {
+        el.addEventListener('click', function() {
+          selectRegion(el.dataset.r, true);
+        });
+        el.addEventListener('mouseenter', function() {
+          setHot(el.dataset.r, true);
+        });
+        el.addEventListener('mouseleave', function() {
+          setHot(el.dataset.r, false);
+        });
+        el.addEventListener('focus', function() {
+          setHot(el.dataset.r, true);
+        });
+        el.addEventListener('blur', function() {
+          setHot(el.dataset.r, false);
+        });
+
+        if (el.classList.contains('rgn')) {
+          el.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              selectRegion(el.dataset.r, true);
+            }
+          });
+        }
+      });
+
+      // Shopify Theme Editor Integration
+      document.addEventListener('shopify:block:select', function(e) {
+        if (e.detail && e.detail.sectionId === sectionId) {
+          const selectedBlockId = e.detail.blockId;
+          const targetBtn = root.querySelector('.rlist button[data-block-id="' + selectedBlockId + '"]');
+          if (targetBtn && targetBtn.dataset.r) {
+            selectRegion(targetBtn.dataset.r, true);
+          }
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        initCraftMap({{ section.id | json }});
+      });
+    } else {
+      initCraftMap({{ section.id | json }});
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail && e.detail.sectionId) {
+        initCraftMap(e.detail.sectionId);
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Craft Map",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "The Craft Map"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede paragraph",
+      "default": "Choose a region on the map or the list to read its story and jump straight to its weaves."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_warp",
+      "label": "Show warp icon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "map_note",
+      "label": "Map note",
+      "default": "Choose a region to lift it out and read its story. Stylised, not to scale."
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_map_image",
+      "label": "Custom map image (optional)",
+      "info": "Upload an alternative high-res map texture. Leave blank to use the built-in handloom textile map."
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "default", "label": "Default (Cream)" },
+        { "value": "alt", "label": "Alternative (Light Sand)" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "region",
+      "name": "Map Region",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "select",
+          "id": "region_id",
+          "label": "Region identifier",
+          "options": [
+            { "value": "east", "label": "East India" },
+            { "value": "west", "label": "West & Central India" },
+            { "value": "north", "label": "North India" },
+            { "value": "south", "label": "South India" },
+            { "value": "northeast", "label": "North East India" }
+          ],
+          "default": "east"
+        },
+        {
+          "type": "text",
+          "id": "chapter_no",
+          "label": "Chapter number",
+          "default": "Chapter 01"
+        },
+        {
+          "type": "text",
+          "id": "region_name",
+          "label": "Region name",
+          "default": "East India"
+        },
+        {
+          "type": "text",
+          "id": "short_name",
+          "label": "Short name (for pill tag & button)",
+          "default": "East"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Tagline",
+          "default": "Where Every Thread Tells a Story"
+        },
+        {
+          "type": "textarea",
+          "id": "katha",
+          "label": "Story (Katha)",
+          "default": "Bengal’s river delta gave India its finest cotton. Muslin so sheer it was once said to be woven air came from these waters, and the habit of wearing soft, breathable cotton never left. Our East chapter begins with the cloth that carries that habit forward: mul cotton, light enough for a Kolkata summer and strong enough for daily wear."
+        },
+        {
+          "type": "text",
+          "id": "weaves",
+          "label": "Weaves (comma separated)",
+          "default": "Mul Cotton, Baluchari, Swarnachari",
+          "info": "List of weaves shown in region list and as chips in the story panel"
+        },
+        {
+          "type": "url",
+          "id": "chapter_link",
+          "label": "Chapter link"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent color",
+          "default": "#7A8063"
+        },
+        {
+          "type": "color",
+          "id": "accent_deep",
+          "label": "Deep accent color",
+          "default": "#5E634B"
+        },
+        {
+          "type": "color",
+          "id": "accent_lite",
+          "label": "Light accent color",
+          "default": "#B9BE9E"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Craft Map",
+      "blocks": [
+        {
+          "type": "region",
+          "settings": {
+            "region_id": "east",
+            "chapter_no": "Chapter 01",
+            "region_name": "East India",
+            "short_name": "East",
+            "tagline": "Where Every Thread Tells a Story",
+            "katha": "Bengal’s river delta gave India its finest cotton. Muslin so sheer it was once said to be woven air came from these waters, and the habit of wearing soft, breathable cotton never left. Our East chapter begins with the cloth that carries that habit forward: mul cotton, light enough for a Kolkata summer and strong enough for daily wear.",
+            "weaves": "Mul Cotton, Baluchari, Swarnachari",
+            "accent_color": "#7A8063",
+            "accent_deep": "#5E634B",
+            "accent_lite": "#B9BE9E"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_id": "west",
+            "chapter_no": "Chapter 02",
+            "region_name": "West & Central India",
+            "short_name": "West & Central",
+            "tagline": "Where Colour Meets Craft",
+            "katha": "On the banks of the Narmada, a queen once set up looms to give a fort town a living. In the dry country of Rajasthan, weavers learned to make cotton so light it is nearly sheer. This chapter holds two of India’s lightest and most elegant cloths: Maheshwari and Zari Kota, both made for heat, both finished with a little gold.",
+            "weaves": "Maheshwari, Zari Kota, Pure Kota",
+            "accent_color": "#6B2230",
+            "accent_deep": "#6B2230",
+            "accent_lite": "#E2A3AE"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_id": "north",
+            "chapter_no": "Chapter 03",
+            "region_name": "North India",
+            "short_name": "North",
+            "tagline": "Where Heritage Lives in Every Detail",
+            "katha": "Varanasi has woven silk and gold for centuries, and its looms still set the standard for the Indian wedding saree. This chapter pairs that weight and richness with its opposite: light chiffon, the sheer, floating cloth that carries the same gold borders at a fraction of the heaviness.",
+            "weaves": "Banaras, Chiffon",
+            "accent_color": "#B08D57",
+            "accent_deep": "#7A5A31",
+            "accent_lite": "#D1B17E"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_id": "south",
+            "chapter_no": "Chapter 04",
+            "region_name": "South India",
+            "short_name": "South",
+            "tagline": "Where Tradition Meets Contemporary Design",
+            "katha": "Two Telugu-speaking states, two ways of using colour. In Andhra Pradesh, Mangalagiri weavers make crisp cotton with a gold-flecked border. In Telangana, ikkat weavers tie and dye the yarn before it ever touches a loom. Both are practical, beautiful and easy to wear every day.",
+            "weaves": "Mangalagiri, Ikkat, Crape Silk",
+            "accent_color": "#3F5750",
+            "accent_deep": "#3F5750",
+            "accent_lite": "#9DBDB2"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_id": "northeast",
+            "chapter_no": "Chapter 05",
+            "region_name": "North East India",
+            "short_name": "North East",
+            "tagline": "Where Nature Inspires Every Weave",
+            "katha": "Assam’s golden silk is spun by silkworms that feed on leaves from trees in the Brahmaputra valley. It is one of the few silks in the world that gets shinier with age, and for centuries it was reserved for royalty. Our North East chapter begins with Muga, the cloth that glows.",
+            "weaves": "",
+            "accent_color": "#4A2A3A",
+            "accent_deep": "#4A2A3A",
+            "accent_lite": "#CFA3B8"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
