@@ -1,0 +1,353 @@
+{{ 'section-split-banner.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #Section-{{ section.id }} {
+    {% if section.settings.background_gradient != blank %}
+      --banner-bg: {{ section.settings.background_gradient }};
+    {% elsif section.settings.background_color != blank %}
+      --banner-bg: {{ section.settings.background_color }};
+    {% endif %}
+
+    {% if section.settings.text_color != blank %}
+      --banner-text: {{ section.settings.text_color }};
+    {% endif %}
+
+    {% if section.settings.lede_color != blank %}
+      --banner-lede: {{ section.settings.lede_color }};
+    {% endif %}
+
+    --pic-focal: {{ section.settings.focal_point | default: 'center 30%' }};
+  }
+{%- endstyle -%}
+
+{%- liquid
+  # Resolve Button URL
+  assign btn_url = routes.all_products_collection_url
+  if section.settings.collection != blank
+    assign btn_url = section.settings.collection.url
+  elsif section.settings.button_link != blank
+    assign btn_url = section.settings.button_link
+  endif
+
+  # Resolve Alt Text
+  assign alt_text = section.settings.alt_text
+  if alt_text == blank and section.settings.title != blank
+    assign alt_text = section.settings.title | strip_html
+  elsif alt_text == blank
+    assign alt_text = 'Featured Collection'
+  endif
+
+  # Resolve Fallback Image
+  assign fallback_name = section.settings.fallback_image
+  if fallback_name == blank
+    assign fallback_name = 'mega-contemporary.webp'
+  endif
+
+  # Desktop height class
+  assign height_class = 'ratio-16-9'
+  if section.settings.desktop_height == 'fixed'
+    assign height_class = 'ratio-fixed'
+  elsif section.settings.desktop_height == 'large'
+    assign height_class = 'ratio-large'
+  endif
+-%}
+
+<section
+  id="{% if section.settings.section_id != blank %}{{ section.settings.section_id | escape }}{% else %}Section-{{ section.id }}{% endif %}"
+  class="banner split-banner {{ height_class }}{% if section.settings.image_position == 'left' %} image-first{% endif %}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+>
+  <div class="txt">
+    {%- if section.settings.show_warp -%}
+      <span class="warp" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i>
+      </span>
+    {%- endif -%}
+
+    {%- if section.settings.kicker != blank -%}
+      <span class="kicker">{{ section.settings.kicker }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.title != blank -%}
+      <h2 class="{{ section.settings.heading_size }}{% if section.settings.heading_uppercase %} uppercase{% endif %}">
+        {{ section.settings.title }}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.lede != blank -%}
+      <p class="lede">{{ section.settings.lede }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="txt-action">
+        <a class="btn {{ section.settings.button_style | default: 'light' }}" href="{{ btn_url }}">
+          {{- section.settings.button_label -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="pic" role="img" aria-label="{{ alt_text | escape }}">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 2000
+        | image_tag:
+          class: 'pic-img',
+          loading: 'lazy',
+          widths: '600, 900, 1200, 1600, 2000',
+          alt: alt_text
+      }}
+    {%- elsif section.settings.collection != blank and section.settings.collection.featured_image != blank -%}
+      {{
+        section.settings.collection.featured_image
+        | image_url: width: 2000
+        | image_tag:
+          class: 'pic-img',
+          loading: 'lazy',
+          widths: '600, 900, 1200, 1600, 2000',
+          alt: alt_text
+      }}
+    {%- else -%}
+      <img
+        class="pic-img"
+        src="{{ fallback_name | asset_url }}"
+        alt="{{ alt_text | escape }}"
+        loading="lazy"
+        width="1600"
+        height="900"
+      >
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Split Banner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collection Link"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Shopify Collection (Optional)",
+      "info": "If selected, automatically fills the button link and uses the collection image if no image is uploaded."
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_warp",
+      "label": "Show loom warp icon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker / Pre-heading (Optional)"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Heading",
+      "default": "The Contemporary Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_uppercase",
+      "label": "Uppercase heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Medium (h2)"
+        },
+        {
+          "value": "d2",
+          "label": "Display 2 (d2 - Default)"
+        },
+        {
+          "value": "d1",
+          "label": "Large (d1)"
+        }
+      ],
+      "default": "d2"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Subtitle / Lede",
+      "default": "Ikkat, chiffon, mul cotton and Banaras on one rail, cut for offices, weekends and evenings out. Many looms, one wardrobe."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore Contemporary"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Custom button link",
+      "info": "Leave blank to link directly to the selected collection or all collections"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light Pill (Ivory / Crimson text)"
+        },
+        {
+          "value": "primary",
+          "label": "Primary (Deep Crimson)"
+        },
+        {
+          "value": "line-light",
+          "label": "Outline Pill"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_image",
+      "label": "Fallback asset filename",
+      "default": "mega-contemporary.webp",
+      "info": "Default asset used if no custom image is uploaded"
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Image alt text",
+      "default": "Handloom pieces in ikkat, mul cotton and Banaras, side by side"
+    },
+    {
+      "type": "text",
+      "id": "focal_point",
+      "label": "Image focal position",
+      "default": "center 30%",
+      "info": "CSS position, e.g. center 30%, 58% 30%, center center"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Image on right (Default)"
+        },
+        {
+          "value": "left",
+          "label": "Image on left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Colors"
+    },
+    {
+      "type": "select",
+      "id": "desktop_height",
+      "label": "Desktop banner height",
+      "options": [
+        {
+          "value": "16_9",
+          "label": "16:9 Aspect Ratio (Reference)"
+        },
+        {
+          "value": "fixed",
+          "label": "Standard Height (Min 520px)"
+        },
+        {
+          "value": "large",
+          "label": "Large Height (Min 640px)"
+        }
+      ],
+      "default": "16_9"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient override",
+      "default": "linear-gradient(135deg, #171717 0%, #2b1418 100%)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Heading text color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "lede_color",
+      "label": "Lede text color",
+      "default": "#DCCFC4"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section anchor ID",
+      "default": "contemporary"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Split Banner",
+      "settings": {
+        "title": "The Contemporary Collection",
+        "heading_uppercase": true,
+        "heading_size": "d2",
+        "lede": "Ikkat, chiffon, mul cotton and Banaras on one rail, cut for offices, weekends and evenings out. Many looms, one wardrobe.",
+        "button_label": "Explore Contemporary",
+        "button_style": "light",
+        "show_warp": true,
+        "image_position": "right",
+        "desktop_height": "16_9",
+        "focal_point": "center 30%",
+        "fallback_image": "mega-contemporary.webp"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -522,6 +522,29 @@
         "custom_class": ""
       }
     },
+    "split_banner": {
+      "type": "split-banner",
+      "settings": {
+        "title": "The Contemporary Collection",
+        "heading_uppercase": true,
+        "heading_size": "d2",
+        "lede": "Ikkat, chiffon, mul cotton and Banaras on one rail, cut for offices, weekends and evenings out. Many looms, one wardrobe.",
+        "button_label": "Explore Contemporary",
+        "button_link": "",
+        "button_style": "light",
+        "show_warp": true,
+        "image_position": "right",
+        "desktop_height": "16_9",
+        "focal_point": "center 30%",
+        "fallback_image": "mega-contemporary.webp",
+        "alt_text": "Handloom pieces in ikkat, mul cotton and Banaras, side by side",
+        "background_gradient": "linear-gradient(135deg, #171717 0%, #2b1418 100%)",
+        "text_color": "#F7F3EE",
+        "lede_color": "#DCCFC4",
+        "section_id": "contemporary",
+        "custom_class": ""
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -557,6 +580,7 @@
     "collection_list",
     "heritage",
     "explore_products",
+    "split_banner",
     "featured_collection"
   ]
 }

@@ -1,0 +1,283 @@
+/* ==========================================================================
+   Section: Split Banner (Special Collection Banner)
+   Reference: reference/index.html (line 1021-1056, 5100-5145, 5565-5579, 7050)
+   ========================================================================== */
+
+.banner.split-banner {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  min-height: 480px;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .banner.split-banner.ratio-16-9 {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+
+  .banner.split-banner.ratio-fixed {
+    min-height: 520px;
+  }
+
+  .banner.split-banner.ratio-large {
+    min-height: 640px;
+  }
+}
+
+/* Image placement: Left or Right */
+.banner.split-banner.image-first {
+  direction: rtl;
+}
+
+.banner.split-banner.image-first > * {
+  direction: ltr;
+}
+
+/* Text Container */
+.banner.split-banner .txt {
+  padding: clamp(36px, 6vw, 76px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  background: var(--banner-bg, linear-gradient(135deg, #171717 0%, #2b1418 100%));
+  color: var(--banner-text, #F7F3EE);
+  position: relative;
+  z-index: 2;
+}
+
+/* Warp Loom Icon (5 golden vertical lines) */
+.banner.split-banner .warp {
+  display: inline-flex;
+  gap: 4px;
+  height: 26px;
+  align-items: flex-end;
+  margin-bottom: 2px;
+}
+
+.banner.split-banner .warp i {
+  display: block;
+  width: 1px;
+  background: var(--gold, #B08D57);
+}
+
+.banner.split-banner .warp i:nth-child(1) { height: 60%; }
+.banner.split-banner .warp i:nth-child(2) { height: 100%; }
+.banner.split-banner .warp i:nth-child(3) { height: 80%; }
+.banner.split-banner .warp i:nth-child(4) { height: 100%; }
+.banner.split-banner .warp i:nth-child(5) { height: 55%; }
+
+/* Optional Kicker */
+.banner.split-banner .kicker {
+  font-family: var(--f-ui, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 0.76rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold, #B08D57);
+  margin-bottom: -4px;
+}
+
+/* Heading */
+.banner.split-banner .txt h2 {
+  font-family: var(--f-display, 'Cinzel', Georgia, serif);
+  font-weight: 500;
+  font-size: clamp(2rem, 3.8vw, 3.3rem);
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  color: inherit;
+  margin: 0;
+}
+
+.banner.split-banner .txt h2.uppercase {
+  text-transform: uppercase;
+}
+
+/* Lede / Description */
+.banner.split-banner .txt .lede {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--banner-lede, #DCCFC4);
+  margin: 0;
+  max-width: 48ch;
+}
+
+/* Button & Actions Container */
+.banner.split-banner .txt-action {
+  margin-top: 8px;
+}
+
+/* Button Styling (Exact match to index.html v6 rounded pill button) */
+.banner.split-banner .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: 999px;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.3s,
+              background 0.25s,
+              color 0.25s,
+              border-color 0.25s;
+}
+
+/* Button Shimmer Sweep Effect */
+.banner.split-banner .btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, 0.26) 50%, transparent 75%);
+  transform: translateX(-130%);
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+
+.banner.split-banner .btn:hover::before {
+  transform: translateX(130%);
+}
+
+/* Light button style (Default for dark banners) */
+.banner.split-banner .btn.light {
+  background: #F7F3EE;
+  color: #6B2230;
+  border: 1px solid #F7F3EE;
+}
+
+.banner.split-banner .btn.light::before {
+  background: linear-gradient(110deg, transparent 25%, rgba(176, 141, 87, 0.28) 50%, transparent 75%);
+}
+
+.banner.split-banner .btn.light:hover {
+  background: #FFFFFF;
+  color: #6B2230;
+  border-color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.55);
+}
+
+/* Primary button style */
+.banner.split-banner .btn.primary {
+  background: #6B2230;
+  color: #F7F3EE;
+  border: 1px solid #6B2230;
+}
+
+.banner.split-banner .btn.primary:hover {
+  background: #5a1b28;
+  border-color: #5a1b28;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -14px rgba(107, 34, 48, 0.7);
+}
+
+/* Outline line-light style */
+.banner.split-banner .btn.line-light {
+  background: transparent;
+  color: #F7F3EE;
+  border: 1px solid rgba(247, 243, 238, 0.6);
+}
+
+.banner.split-banner .btn.line-light:hover {
+  background: #F7F3EE;
+  color: #6B2230;
+  border-color: #F7F3EE;
+  transform: translateY(-2px);
+}
+
+.banner.split-banner .btn:active {
+  transform: scale(0.97);
+  transition-duration: 0.08s;
+}
+
+.banner.split-banner .btn:focus-visible {
+  outline: 2px solid var(--gold, #B08D57);
+  outline-offset: 3px;
+}
+
+/* Picture Container */
+.banner.split-banner .pic {
+  position: relative;
+  min-height: 380px;
+  overflow: hidden;
+  background-color: #171717;
+  display: block;
+}
+
+.banner.split-banner .pic-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--pic-focal, center 30%);
+  display: block;
+}
+
+/* Soft Edge Gradient Scrim: Blends left dark panel into the right photo */
+.banner.split-banner .pic::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(23, 23, 23, 0.55) 0%, rgba(23, 23, 23, 0) 35%);
+  pointer-events: none;
+}
+
+.banner.split-banner.image-first .pic::before {
+  background: linear-gradient(270deg, rgba(23, 23, 23, 0.55) 0%, rgba(23, 23, 23, 0) 35%);
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 920px) {
+  .banner.split-banner {
+    grid-template-columns: 1fr !important;
+  }
+
+  .banner.split-banner.image-first {
+    direction: ltr;
+  }
+
+  .banner.split-banner .txt {
+    padding: clamp(32px, 8vw, 56px) var(--gut, clamp(18px, 4vw, 48px));
+  }
+
+  .banner.split-banner .pic {
+    min-height: 320px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .banner.split-banner .pic::before {
+    background: linear-gradient(0deg, rgba(23, 23, 23, 0.55) 0%, rgba(23, 23, 23, 0) 35%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner.split-banner .btn,
+  .banner.split-banner .btn::before {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .banner.split-banner .btn:hover {
+    transform: none !important;
+  }
+}
+
