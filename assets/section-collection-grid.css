@@ -245,25 +245,10 @@
   padding: 0 !important;
 }
 
-/* Weave & Region Line */
-.pcard-wv {
-  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
-  font-size: 0.78rem !important;
-  color: var(--muted, #6E6461) !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 7px !important;
-  margin-bottom: 5px !important;
-  line-height: 1.2 !important;
-}
-
-.pcard-wv .dot {
-  width: 9px !important;
-  height: 9px !important;
-  border-radius: 50% !important;
-  flex: none !important;
-  display: inline-block !important;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35) !important;
+/* Weave & Region Line and Swatches (Hidden as requested: cards only show Name & Price) */
+.pcard-wv,
+.pcard-swatches {
+  display: none !important;
 }
 
 /* Product Title */
@@ -272,8 +257,8 @@
   font-family: var(--f-edit, 'Forum', Georgia, serif) !important;
   font-weight: 400 !important;
   font-size: 1.12rem !important;
-  line-height: 1.3 !important;
-  margin: 0 0 4px !important;
+  line-height: 1.35 !important;
+  margin: 0 0 6px !important;
 }
 
 .product-card-wrapper .card__heading a,
@@ -289,7 +274,7 @@
   text-decoration: none !important;
 }
 
-/* Product Price & Low Stock Badge */
+/* Product Price */
 .pcard-price {
   display: flex !important;
   align-items: center !important;
@@ -300,7 +285,7 @@
   font-weight: 500 !important;
   font-variant-numeric: tabular-nums !important;
   color: var(--ink, #171717) !important;
-  margin-top: 2px !important;
+  margin-top: 0 !important;
 }
 
 .pcard-price .price,
@@ -324,33 +309,3 @@
   color: var(--crimson, #6B2230) !important;
 }
 
-.pcard-price .low {
-  margin-left: 6px !important;
-  color: #9A4B1F !important;
-  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
-  font-size: 0.76rem !important;
-  font-weight: 500 !important;
-  line-height: 1 !important;
-}
-
-/* Color Swatches */
-.pcard-swatches {
-  display: flex !important;
-  gap: 6px !important;
-  margin-top: 8px !important;
-  align-items: center !important;
-}
-
-.pcard-swatches i {
-  width: 13px !important;
-  height: 13px !important;
-  border-radius: 50% !important;
-  border: 1px solid rgba(23, 23, 23, 0.15) !important;
-  display: inline-block !important;
-  cursor: pointer !important;
-  transition: transform 0.2s ease !important;
-}
-
-.pcard-swatches i:hover {
-  transform: scale(1.2) !important;
-}

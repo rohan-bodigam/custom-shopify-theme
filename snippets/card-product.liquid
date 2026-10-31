@@ -42,129 +42,19 @@
       assign ratio = 0.8
     endif
 
-    assign prod_title_lower = card_product.title | downcase
-    assign prod_type_lower = card_product.type | downcase
-
-    assign weave = ''
-    assign region = ''
-    assign dot_color = '#6B2230'
-
-    if card_product.metafields.custom.weave != blank
-      assign weave = card_product.metafields.custom.weave
-    endif
-    if card_product.metafields.custom.region != blank
-      assign region = card_product.metafields.custom.region
-    endif
-
-    for tag in card_product.tags
-      assign tag_lower = tag | downcase
-      if tag_lower contains 'weave:'
-        assign weave = tag | split: ':' | last | strip
-      elsif tag_lower contains 'region:'
-        assign region = tag | split: ':' | last | strip
-      endif
-    endfor
-
-    if weave == ''
-      if prod_title_lower contains 'zari kota' or prod_type_lower contains 'zari kota'
-        assign weave = 'Zari Kota'
-      elsif prod_title_lower contains 'maheshwari' or prod_type_lower contains 'maheshwari'
-        assign weave = 'Maheshwari'
-      elsif prod_title_lower contains 'mangalagiri' or prod_type_lower contains 'mangalagiri'
-        assign weave = 'Mangalagiri'
-      elsif prod_title_lower contains 'banaras' or prod_type_lower contains 'banaras'
-        assign weave = 'Banaras'
-      elsif prod_title_lower contains 'chiffon' or prod_type_lower contains 'chiffon'
-        assign weave = 'Chiffon'
-      elsif prod_title_lower contains 'mul cotton' or prod_type_lower contains 'mul cotton'
-        assign weave = 'Mul Cotton'
-      elsif prod_title_lower contains 'muga' or prod_type_lower contains 'muga'
-        assign weave = 'Muga'
-      elsif prod_title_lower contains 'jamdani' or prod_type_lower contains 'jamdani'
-        assign weave = 'Jamdani'
-      elsif prod_title_lower contains 'bandhani' or prod_type_lower contains 'bandhani'
-        assign weave = 'Bandhani'
-      elsif prod_title_lower contains 'chanderi' or prod_type_lower contains 'chanderi'
-        assign weave = 'Chanderi'
-      elsif prod_title_lower contains 'kanchipuram' or prod_type_lower contains 'kanchipuram'
-        assign weave = 'Kanchipuram'
-      elsif prod_title_lower contains 'pashmina' or prod_type_lower contains 'pashmina'
-        assign weave = 'Pashmina'
-      elsif prod_title_lower contains 'sambalpuri' or prod_type_lower contains 'sambalpuri'
-        assign weave = 'Sambalpuri'
-      elsif prod_title_lower contains 'eri' or prod_type_lower contains 'eri'
-        assign weave = 'Eri'
-      else
-        assign weave = card_product.type | default: card_product.vendor
-      endif
-    endif
-
-    if region == ''
-      assign weave_lower = weave | downcase
-      if weave_lower contains 'kota' or weave_lower contains 'maheshwari' or weave_lower contains 'bandhani' or weave_lower contains 'chanderi'
-        assign region = 'West & Central'
-        assign dot_color = '#6B2230'
-      elsif weave_lower contains 'mangalagiri' or weave_lower contains 'kanchipuram' or weave_lower contains 'kasavu'
-        assign region = 'South'
-        assign dot_color = '#3D5943'
-      elsif weave_lower contains 'banaras' or weave_lower contains 'chiffon' or weave_lower contains 'pashmina'
-        assign region = 'North'
-        assign dot_color = '#7A5A31'
-      elsif weave_lower contains 'mul' or weave_lower contains 'jamdani' or weave_lower contains 'sambalpuri'
-        assign region = 'East'
-        assign dot_color = '#9A4B1F'
-      elsif weave_lower contains 'muga' or weave_lower contains 'eri' or weave_lower contains 'puan'
-        assign region = 'North East'
-        assign dot_color = '#8C3A27'
-      else
-        assign region = card_product.vendor | default: 'India'
-        assign dot_color = '#6B2230'
-      endif
-    endif
-
     assign badge_label = ''
     if card_product.available == false
       assign badge_label = 'products.product.sold_out' | t
     elsif card_product.compare_at_price > card_product.price
       assign badge_label = 'products.product.on_sale' | t
-    else
-      for tag in card_product.tags
-        if tag contains 'badge:'
-          assign badge_label = tag | remove: 'badge:' | strip
-          break
-        elsif tag == 'Handloom' or tag == 'handloom'
-          assign badge_label = 'Handloom'
-          break
-        endif
-      endfor
-      if badge_label == '' and card_product.metafields.custom.badge != blank
-        assign badge_label = card_product.metafields.custom.badge
-      elsif badge_label == ''
-        assign badge_label = 'Handloom'
-      endif
+    elsif card_product.metafields.custom.badge != blank
+      assign badge_label = card_product.metafields.custom.badge
     endif
 
     assign secondary_image = card_product.media[1]
     if secondary_image == blank and card_product.images[1] != blank
       assign secondary_image = card_product.images[1]
     endif
-
-    assign current_variant = card_product.selected_or_first_available_variant
-    assign low_stock = false
-    if current_variant.available and current_variant.inventory_management != null
-      if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 3
-        assign low_stock = true
-      endif
-    endif
-
-    assign color_option = nil
-    for option in card_product.options_with_values
-      assign opt_name_lower = option.name | downcase
-      if opt_name_lower == 'color' or opt_name_lower == 'colour'
-        assign color_option = option
-        break
-      endif
-    endfor
   -%}
 
   <product-component view-event-payload="{{ card_product | standard_event_data: 'view', context: product_view_context | escape }}">
@@ -244,8 +134,20 @@
           {%- if card_product.available -%}
             {%- assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id -%}
             <div class="quick-add no-js-hidden">
-              {%- if card_product.variants_count > 1 -%}
-                <modal-opener data-modal="#QuickAdd-{{ card_product.id }}">
+              <product-form data-section-id="{{ section.id }}">
+                {%- form 'product',
+                  card_product,
+                  id: product_form_id,
+                  class: 'form',
+                  novalidate: 'novalidate',
+                  data-type: 'add-to-cart-form'
+                -%}
+                  <input
+                    type="hidden"
+                    name="id"
+                    value="{{ card_product.selected_or_first_available_variant.id }}"
+                    class="product-variant-id"
+                  >
                   <button
                     id="{{ product_form_id }}-submit"
                     type="submit"
@@ -253,56 +155,22 @@
                     class="quick-add__submit"
                     aria-haspopup="dialog"
                     aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
-                    data-product-url="{{ card_product.url }}"
+                    aria-live="polite"
+                    data-sold-out-message="true"
                   >
-                    Choose options
+                    <span>Add to Bag</span>
+                    <span class="sold-out-message hidden">
+                      {{ 'products.product.sold_out' | t }}
+                    </span>
                     {%- render 'loading-spinner' -%}
                   </button>
-                </modal-opener>
-              {%- else -%}
-                <product-form data-section-id="{{ section.id }}">
-                  {%- form 'product',
-                    card_product,
-                    id: product_form_id,
-                    class: 'form',
-                    novalidate: 'novalidate',
-                    data-type: 'add-to-cart-form'
-                  -%}
-                    <input
-                      type="hidden"
-                      name="id"
-                      value="{{ card_product.selected_or_first_available_variant.id }}"
-                      class="product-variant-id"
-                    >
-                    <button
-                      id="{{ product_form_id }}-submit"
-                      type="submit"
-                      name="add"
-                      class="quick-add__submit"
-                      aria-haspopup="dialog"
-                      aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
-                      aria-live="polite"
-                      data-sold-out-message="true"
-                    >
-                      <span>Add to Bag</span>
-                      <span class="sold-out-message hidden">
-                        {{ 'products.product.sold_out' | t }}
-                      </span>
-                      {%- render 'loading-spinner' -%}
-                    </button>
-                  {%- endform -%}
-                </product-form>
-              {%- endif -%}
+                {%- endform -%}
+              </product-form>
             </div>
           {%- endif -%}
         </div>
         <div class="card__content">
           <div class="card__information">
-            <div class="pcard-wv">
-              <span class="dot" style="background: {{ dot_color }};"></span>
-              {{ weave }} · {{ region }}
-            </div>
-
             <h3
               class="card__heading pcard-title{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
               {% if card_product.featured_media or settings.card_style == 'card' %}
@@ -319,94 +187,9 @@
               </a>
             </h3>
             <div class="card-information">
-              {%- if show_vendor -%}
-                <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-                <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
-              {%- endif -%}
-
-              <span class="caption-large light">{{ block.settings.description | escape }}</span>
-
-              {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
-                {% liquid
-                  assign rating_decimal = 0
-                  assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
-                  if decimal >= 0.3 and decimal <= 0.7
-                    assign rating_decimal = 0.5
-                  elsif decimal > 0.7
-                    assign rating_decimal = 1
-                  endif
-                %}
-                <div
-                  class="rating"
-                  role="img"
-                  aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: card_product.metafields.reviews.rating.value, rating_max: card_product.metafields.reviews.rating.value.scale_max }}"
-                >
-                  <span
-                    aria-hidden="true"
-                    class="rating-star"
-                    style="--rating: {{ card_product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ card_product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"
-                  ></span>
-                </div>
-                <p class="rating-text caption">
-                  <span aria-hidden="true">
-                    {{- card_product.metafields.reviews.rating.value }} /
-                    {{ card_product.metafields.reviews.rating.value.scale_max -}}
-                  </span>
-                </p>
-                <p class="rating-count caption">
-                  <span aria-hidden="true">({{ card_product.metafields.reviews.rating_count }})</span>
-                  <span class="visually-hidden">
-                    {{- card_product.metafields.reviews.rating_count }}
-                    {{ 'accessibility.total_reviews' | t -}}
-                  </span>
-                </p>
-              {%- endif -%}
-
               <div class="pcard-price">
                 {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
-                {%- if low_stock -%}
-                  <span class="low">Only {{ current_variant.inventory_quantity }} left</span>
-                {%- endif -%}
               </div>
-
-              {%- if color_option and color_option.values.size > 1 -%}
-                <div class="pcard-swatches" aria-label="{{ color_option.values.size }} colours">
-                  {%- for color_val in color_option.values -%}
-                    {%- liquid
-                      assign c_lower = color_val | downcase
-                      assign bg_color = '#6E4733'
-                      if c_lower contains 'rust' or c_lower contains 'orange' or c_lower contains 'ochre'
-                        assign bg_color = '#C86432'
-                      elsif c_lower contains 'maroon' or c_lower contains 'crimson' or c_lower contains 'wine'
-                        assign bg_color = '#6B2230'
-                      elsif c_lower contains 'red'
-                        assign bg_color = '#8C1F28'
-                      elsif c_lower contains 'pink' or c_lower contains 'rose'
-                        assign bg_color = '#C46D7D'
-                      elsif c_lower contains 'yellow' or c_lower contains 'mustard'
-                        assign bg_color = '#D4A034'
-                      elsif c_lower contains 'green' or c_lower contains 'sage' or c_lower contains 'olive'
-                        assign bg_color = '#3D5943'
-                      elsif c_lower contains 'blue' or c_lower contains 'indigo' or c_lower contains 'teal'
-                        assign bg_color = '#2F4A5E'
-                      elsif c_lower contains 'purple' or c_lower contains 'violet' or c_lower contains 'lavender'
-                        assign bg_color = '#5E385D'
-                      elsif c_lower contains 'brown'
-                        assign bg_color = '#6E4733'
-                      elsif c_lower contains 'ivory' or c_lower contains 'cream' or c_lower contains 'white'
-                        assign bg_color = '#EDE6D6'
-                      elsif c_lower contains 'grey' or c_lower contains 'gray'
-                        assign bg_color = '#8A8681'
-                      elsif c_lower contains 'black'
-                        assign bg_color = '#1E1B1B'
-                      elsif c_lower contains 'gold'
-                        assign bg_color = '#B08D57'
-                      endif
-                    -%}
-                    <i style="background: {{ bg_color }};" title="{{ color_val | escape }}"></i>
-                  {%- endfor -%}
-                </div>
-              {%- endif -%}
               {%- if card_product.quantity_price_breaks_configured? -%}
                 {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                   {% liquid
