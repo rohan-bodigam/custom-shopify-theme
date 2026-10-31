@@ -1,76 +1,136 @@
-{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{{ 'section-collection-banner.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign bg_color = section.settings.bg_color | default: '#EDE3D9'
+  assign text_color = section.settings.text_color | default: '#171717'
+  assign min_height = section.settings.min_height | default: 520
+
+  assign hero_image_url = ''
+  if collection.image != blank
+    assign hero_image_url = collection.image | image_url: width: 1400
+  elsif section.settings.image != blank
+    assign hero_image_url = section.settings.image | image_url: width: 1400
+  else
+    assign hero_image_url = 'mega-heritage.webp' | asset_url
+  endif
+
+  assign banner_tagline = collection.metafields.custom.tagline
+  if banner_tagline == blank
+    assign banner_tagline = section.settings.tagline
+  endif
+
+  assign banner_desc = section.settings.custom_description
+  if banner_desc == blank
+    assign banner_desc = collection.description
+  endif
+-%}
 
 {%- style -%}
-  @media screen and (max-width: 749px) {
-    .collection-hero--with-image .collection-hero__inner {
-      padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
-    }
+  #CollectionBanner-{{ section.id }} {
+    --phero-bg: {{ bg_color }};
+    --phero-ink: {{ text_color }};
+    min-height: {{ min_height }}px;
   }
 {%- endstyle -%}
 
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
-  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__text-wrapper">
-      <h1 class="collection-hero__title">
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
+<section
+  id="CollectionBanner-{{ section.id }}"
+  class="collection-phero light"
+  data-section-id="{{ section.id }}"
+>
+  <div class="txt">
+    {%- if section.settings.show_breadcrumbs -%}
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a>
+        <span class="crumbs-sep" aria-hidden="true">/</span>
+        <a href="{{ routes.collections_url }}">Shop</a>
+        <span class="crumbs-sep" aria-hidden="true">/</span>
+        <span class="crumbs-current">{{ collection.title | escape }}</span>
+      </nav>
+    {%- endif -%}
 
-      {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
-      {%- endif -%}
-    </div>
+    <h1 class="d1 collection-banner__title">
+      {{- collection.title | escape -}}
+    </h1>
 
-    {%- if section.settings.show_collection_image and collection.image -%}
-      <div class="collection-hero__image-container media gradient">
-        <img
-          srcset="
-            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
-            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
-            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
-            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
-            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
-            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
-            {{ collection.image | image_url }} {{ collection.image.width }}w
-          "
-          src="{{ collection.image | image_url: width: 750 }}"
-          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
-          alt="{{ collection.image.alt | escape }}"
-          width="{{ collection.image.width }}"
-          height="{{ collection.image.height }}"
-        >
+    {%- if banner_tagline != blank -%}
+      <p class="tagline collection-banner__tagline">
+        {{- banner_tagline | escape -}}
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.show_collection_description and banner_desc != blank -%}
+      <div class="lede collection-banner__description rte">
+        {{ banner_desc }}
       </div>
     {%- endif -%}
   </div>
-</div>
+
+  <div
+    class="pic"
+    style="background-image: url('{{ hero_image_url }}');"
+    role="img"
+    aria-label="{{ collection.title | escape }}"
+  ></div>
+</section>
 
 {% schema %}
 {
-  "name": "t:sections.main-collection-banner.name",
+  "name": "Collection Banner",
   "class": "section",
   "settings": [
     {
-      "type": "paragraph",
-      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "default": true,
+      "label": "Show breadcrumb navigation"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "default": "Five chapters, one house",
+      "label": "Tagline",
+      "info": "Falls back to collection metafield 'custom.tagline' if present"
     },
     {
       "type": "checkbox",
       "id": "show_collection_description",
       "default": true,
-      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+      "label": "Show collection description"
     },
     {
-      "type": "checkbox",
-      "id": "show_collection_image",
-      "default": false,
-      "label": "t:sections.main-collection-banner.settings.show_collection_image.label"
+      "type": "richtext",
+      "id": "custom_description",
+      "label": "Custom description override (optional)",
+      "info": "Overrides collection description if provided"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback / default banner image",
+      "info": "Used when the collection does not have its own featured image"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#EDE3D9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 400,
+      "max": 700,
+      "step": 20,
+      "default": 520,
+      "unit": "px",
+      "label": "Minimum banner height"
     }
   ]
 }

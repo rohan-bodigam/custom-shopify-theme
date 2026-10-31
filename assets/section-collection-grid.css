@@ -1,0 +1,356 @@
+/* ==========================================================================
+   Collection Product Grid & Card - House of Kala Katha (Figma Redesign)
+   ========================================================================== */
+
+/* 3-column desktop grid matching Figma Screenshot 2 */
+@media screen and (min-width: 990px) {
+  .product-grid.grid--3-col-desktop {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 28px 18px !important;
+    column-gap: 18px !important;
+    row-gap: 28px !important;
+  }
+
+  .product-grid.grid--3-col-desktop .grid__item {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 24px 16px !important;
+  }
+
+  .product-grid .grid__item {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .product-grid.grid--2-col-tablet-down {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px 12px !important;
+  }
+
+  .product-grid .grid__item {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+}
+
+/* Product Card Wrapper */
+.product-card-wrapper {
+  position: relative !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.product-card-wrapper .card {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Card Photo Container (.card__inner) */
+.product-card-wrapper .card__inner {
+  position: relative !important;
+  aspect-ratio: 4 / 5 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  background: var(--bg-alt, #EDE3D9) !important;
+  box-shadow: 0 1px 2px rgba(23, 23, 23, 0.05), 0 10px 28px -14px rgba(107, 34, 48, 0.28) !important;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  border: none !important;
+}
+
+.product-card-wrapper:hover .card__inner {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 2px 6px rgba(23, 23, 23, 0.06), 0 24px 48px -20px rgba(74, 20, 30, 0.40) !important;
+}
+
+.product-card-wrapper .card__inner::after,
+.product-card-wrapper .card::after {
+  display: none !important;
+}
+
+/* Media Images: Primary and Secondary on Hover */
+.product-card-wrapper .card__media {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+}
+
+.product-card-wrapper .card__media .media {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+.product-card-wrapper .card__media .media img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+}
+
+/* Primary image */
+.product-card-wrapper .card__media .media img:first-child {
+  opacity: 1 !important;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease !important;
+  z-index: 1 !important;
+}
+
+/* Secondary image (hidden by default, fades in on hover) */
+.product-card-wrapper .card__media .media img:nth-child(2) {
+  opacity: 0 !important;
+  transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  z-index: 2 !important;
+}
+
+/* Hover effects on images */
+.product-card-wrapper:hover .card__media .media img:first-child {
+  transform: scale(1.03) !important;
+}
+
+.product-card-wrapper:hover .card__media .media img:nth-child(2) {
+  opacity: 1 !important;
+  transform: scale(1.03) !important;
+}
+
+/* Top-left Badge Pill ("Handloom", etc.) */
+.pcard-tag {
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  z-index: 3 !important;
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 0.72rem !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  background: rgba(247, 243, 238, 0.9) !important;
+  color: #171717 !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  pointer-events: none !important;
+}
+
+.pcard-tag.is-out {
+  background: rgba(23, 23, 23, 0.85) !important;
+  color: #F7F3EE !important;
+}
+
+.pcard-tag.is-sale {
+  background: rgba(107, 34, 48, 0.9) !important;
+  color: #F7F3EE !important;
+}
+
+/* Quick Add / Add to Bag Button Overlay on Hover */
+.product-card-wrapper .card__inner .quick-add {
+  position: absolute !important;
+  left: 12px !important;
+  right: 12px !important;
+  bottom: 12px !important;
+  z-index: 5 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  transform: translateY(8px) !important;
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+  pointer-events: none !important;
+}
+
+.product-card-wrapper:hover .card__inner .quick-add,
+.product-card-wrapper:focus-within .card__inner .quick-add {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+}
+
+@media (hover: none) {
+  .product-card-wrapper .card__inner .quick-add {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+}
+
+.product-card-wrapper .card__inner .quick-add .quick-add__submit {
+  min-height: 40px !important;
+  height: 40px !important;
+  border-radius: 999px !important;
+  background-color: var(--crimson, #6B2230) !important;
+  color: var(--ivory, #F7F3EE) !important;
+  border: none !important;
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 0.84rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(107, 34, 48, 0.25) !important;
+}
+
+.product-card-wrapper .card__inner .quick-add .quick-add__submit:after {
+  display: none !important;
+}
+
+.product-card-wrapper .card__inner .quick-add .quick-add__submit:hover {
+  background-color: #531924 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(107, 34, 48, 0.35) !important;
+}
+
+.product-card-wrapper .card__inner .quick-add .quick-add__submit:disabled {
+  background-color: rgba(23, 23, 23, 0.5) !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+/* Product Card Information Below Photo */
+.product-card-wrapper .card__content {
+  padding: 14px 2px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.product-card-wrapper .card__information {
+  padding: 0 !important;
+}
+
+/* Weave & Region Line */
+.pcard-wv {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 0.78rem !important;
+  color: var(--muted, #6E6461) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  margin-bottom: 5px !important;
+  line-height: 1.2 !important;
+}
+
+.pcard-wv .dot {
+  width: 9px !important;
+  height: 9px !important;
+  border-radius: 50% !important;
+  flex: none !important;
+  display: inline-block !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Product Title */
+.product-card-wrapper .card__heading,
+.pcard-title {
+  font-family: var(--f-edit, 'Forum', Georgia, serif) !important;
+  font-weight: 400 !important;
+  font-size: 1.12rem !important;
+  line-height: 1.3 !important;
+  margin: 0 0 4px !important;
+}
+
+.product-card-wrapper .card__heading a,
+.pcard-title a {
+  color: var(--ink, #171717) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+.product-card-wrapper:hover .card__heading a,
+.pcard-title a:hover {
+  color: var(--crimson, #6B2230) !important;
+  text-decoration: none !important;
+}
+
+/* Product Price & Low Stock Badge */
+.pcard-price {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  font-variant-numeric: tabular-nums !important;
+  color: var(--ink, #171717) !important;
+  margin-top: 2px !important;
+}
+
+.pcard-price .price,
+.pcard-price .price-item {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  font-variant-numeric: tabular-nums !important;
+  color: var(--ink, #171717) !important;
+  line-height: 1 !important;
+}
+
+.pcard-price .price--on-sale .price-item--regular {
+  color: var(--muted, #6E6461) !important;
+  text-decoration: line-through !important;
+  font-size: 0.88rem !important;
+  margin-right: 4px !important;
+}
+
+.pcard-price .price--on-sale .price-item--sale {
+  color: var(--crimson, #6B2230) !important;
+}
+
+.pcard-price .low {
+  margin-left: 6px !important;
+  color: #9A4B1F !important;
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 0.76rem !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+}
+
+/* Color Swatches */
+.pcard-swatches {
+  display: flex !important;
+  gap: 6px !important;
+  margin-top: 8px !important;
+  align-items: center !important;
+}
+
+.pcard-swatches i {
+  width: 13px !important;
+  height: 13px !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(23, 23, 23, 0.15) !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease !important;
+}
+
+.pcard-swatches i:hover {
+  transform: scale(1.2) !important;
+}

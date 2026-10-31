@@ -1,0 +1,146 @@
+/* Collection Banner / Page Hero - Figma Redesign */
+.collection-phero {
+  --phero-bg: #EDE3D9;
+  --phero-ink: #171717;
+  --phero-muted: #6E6461;
+  --phero-lede: #4A4240;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  min-height: 520px;
+  background-color: var(--phero-bg);
+  color: var(--phero-ink);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.collection-phero .txt {
+  padding: clamp(40px, 6vw, 80px) var(--gut, clamp(18px, 4vw, 48px)) clamp(40px, 6vw, 72px) max(var(--gut, clamp(18px, 4vw, 48px)), calc((100vw - 1240px)/2 + var(--gut, clamp(18px, 4vw, 48px))));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.collection-phero .crumbs {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--phero-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.collection-phero .crumbs a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.collection-phero .crumbs a:hover {
+  color: var(--phero-ink);
+  text-decoration: underline;
+}
+
+.collection-phero .crumbs-sep {
+  opacity: 0.55;
+  user-select: none;
+}
+
+.collection-phero .crumbs-current {
+  color: var(--phero-ink);
+  font-weight: 500;
+}
+
+.collection-phero h1.d1,
+.collection-phero .collection-banner__title {
+  font-family: var(--f-display, 'Cinzel', Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+  line-height: 1.08;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--phero-ink);
+  margin: 0;
+}
+
+.collection-phero .tagline,
+.collection-phero .collection-banner__tagline {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(1.22rem, 1.8vw, 1.55rem);
+  line-height: 1.3;
+  color: var(--phero-ink);
+  opacity: 0.95;
+  margin: 0;
+}
+
+.collection-phero .lede,
+.collection-phero .collection-banner__description {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+  line-height: 1.6;
+  color: var(--phero-lede);
+  max-width: 48ch;
+  margin: 0;
+}
+
+.collection-phero .lede p,
+.collection-phero .collection-banner__description p {
+  margin: 0 0 0.5em;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.collection-phero .lede p:last-child,
+.collection-phero .collection-banner__description p:last-child {
+  margin-bottom: 0;
+}
+
+.collection-phero .pic {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 340px;
+}
+
+.collection-phero .pic::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--phero-bg, #EDE3D9) 0%, rgba(237, 227, 217, 0) 28%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 920px) {
+  .collection-phero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .collection-phero .pic {
+    min-height: 280px;
+    height: 52vw;
+    order: -1;
+  }
+
+  .collection-phero .pic::before {
+    background: linear-gradient(0deg, var(--phero-bg, #EDE3D9) 0%, rgba(237, 227, 217, 0) 35%);
+  }
+
+  .collection-phero .txt {
+    padding: 32px 20px 44px;
+    gap: 12px;
+  }
+}
