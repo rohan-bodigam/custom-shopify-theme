@@ -708,6 +708,88 @@
         "padding_bottom": 56
       }
     },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The Mangalagiri saree is crisp, easy to drape and the gold border is lovely. I wore it to work and to a wedding.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Mangalagiri Cotton Saree",
+            "avatar_color": "#3F5750",
+            "author_initials": "C"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The ikkat suit is the first handloom piece I have worn to the office every week. People always ask where it is from.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Ikkat Three-Piece Suit",
+            "avatar_color": "#7A5A31",
+            "author_initials": "C"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The mul cotton co-ord is so light I forgot I was wearing it. It softens more with every wash.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Mul Cotton Co-ord Set",
+            "avatar_color": "#5E634B",
+            "author_initials": "C"
+          }
+        },
+        "testimonial_4": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I wore the Zari Kota to a daytime wedding and it was perfect: festive, but weightless in the heat.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Zari Kota Doria Saree",
+            "avatar_color": "#6B2230",
+            "author_initials": "C"
+          }
+        },
+        "testimonial_5": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "We matched our dog's Banaras coat to my co-ord for Diwali. He wore it better than I did.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Banaras Brocade Dog Coat",
+            "avatar_color": "#8A5231",
+            "author_initials": "C"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3",
+        "testimonial_4",
+        "testimonial_5"
+      ],
+      "settings": {
+        "title": "From the people who wear it",
+        "heading_font": "edit",
+        "lede": "Swipe through notes from our customers.",
+        "show_pv_note": true,
+        "pv_note": "Sample quotes, shown to preview the layout.",
+        "background_style": "gradient",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -746,6 +828,7 @@
     "split_banner",
     "craft_map",
     "services",
+    "testimonials",
     "featured_collection"
   ]
 }

@@ -1,0 +1,516 @@
+{{ 'section-testimonials.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Section-{{ section.id }} {
+    {% if section.settings.custom_bg != blank %}
+      --testi-bg: {{ section.settings.custom_bg }};
+    {% elsif section.settings.background_style == 'maroon' %}
+      --testi-bg: #3a1219;
+    {% elsif section.settings.background_style == 'dark' %}
+      --testi-bg: #171717;
+    {% endif %}
+  }
+{%- endstyle -%}
+
+<section
+  id="Section-{{ section.id }}"
+  class="sec dark testimonials-sec section-{{ section.id }}-padding{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="wrap">
+    {%- if section.settings.title != blank or section.settings.lede != blank -%}
+      <div class="sec-head">
+        <div>
+          {%- if section.settings.title != blank -%}
+            <h2 class="h2{% if section.settings.heading_font == 'display' %} display-font{% endif %}">
+              {{ section.settings.title | escape }}
+            </h2>
+          {%- endif -%}
+          {%- if section.settings.lede != blank -%}
+            <p class="lede">
+              {{ section.settings.lede | escape }}
+              {%- if section.settings.show_pv_note and section.settings.pv_note != blank -%}
+                <span class="pv-note">{{ section.settings.pv_note | escape }}</span>
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="car car-dark" data-car id="car-{{ section.id }}">
+        <div
+          class="car-track"
+          tabindex="0"
+          role="region"
+          aria-label="{{ section.settings.title | default: 'Customer stories' | escape }}, swipe or use the arrows"
+        >
+          {%- for block in section.blocks -%}
+            <div class="car-item" data-block-id="{{ block.id }}" {{ block.shopify_attributes }}>
+              <figure class="tq">
+                <div class="tq-content">
+                  {%- assign r = block.settings.rating | default: 5 -%}
+                  <div class="stars" aria-label="{{ r }} out of 5">
+                    {%- for i in (1..5) -%}
+                      {%- if i <= r -%}★{%- else -%}☆{%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                  <blockquote>{{ block.settings.quote | escape }}</blockquote>
+                </div>
+
+                <figcaption class="who">
+                  {%- liquid
+                    assign bg_col = block.settings.avatar_color
+                    if bg_col == blank
+                      assign bg_col = '#3F5750'
+                    endif
+
+                    assign initials = block.settings.author_initials
+                    if initials == blank
+                      assign initials = block.settings.author_name | slice: 0, 1 | upcase
+                    endif
+                    if initials == blank
+                      assign initials = 'C'
+                    endif
+                  -%}
+                  <span class="av" style="background: {{ bg_col }};">
+                    {{- initials | escape -}}
+                  </span>
+                  <span>
+                    <b>{{ block.settings.author_name | escape }}</b>
+                    {%- if block.settings.author_location != blank -%}, {{ block.settings.author_location | escape }}{%- endif -%}
+                    {%- if block.settings.bought_item != blank -%}
+                      <br>
+                      <span class="small">
+                        Bought:
+                        {%- if block.settings.bought_link != blank -%}
+                          <a href="{{ block.settings.bought_link }}">{{ block.settings.bought_item | escape }}</a>
+                        {%- else -%}
+                          {{ block.settings.bought_item | escape }}
+                        {%- endif -%}
+                      </span>
+                    {%- endif -%}
+                  </span>
+                </figcaption>
+              </figure>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="car-nav">
+          <button class="car-btn" data-dir="-1" aria-label="Previous slide" type="button">
+            <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="car-dots" aria-hidden="true">
+            {%- for block in section.blocks -%}
+              <i class="{% if forloop.first %}on{% endif %}" data-index="{{ forloop.index0 }}"></i>
+            {%- endfor -%}
+          </div>
+          <button class="car-btn" data-dir="1" aria-label="Next slide" type="button">
+            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function() {
+    function initTestimonialsCarousel(sectionId) {
+      const container = document.getElementById('car-' + sectionId);
+      if (!container) return;
+
+      const track = container.querySelector('.car-track');
+      const dots = Array.from(container.querySelectorAll('.car-dots i'));
+      const items = Array.from(container.querySelectorAll('.car-item'));
+      const prevBtn = container.querySelector('[data-dir="-1"]');
+      const nextBtn = container.querySelector('[data-dir="1"]');
+
+      if (!track || items.length === 0) return;
+
+      const getStep = function() {
+        if (items[0]) {
+          const comp = window.getComputedStyle(track);
+          const gap = parseFloat(comp.gap || comp.columnGap || 18) || 18;
+          return items[0].getBoundingClientRect().width + gap;
+        }
+        return track.clientWidth;
+      };
+
+      const updateNav = function() {
+        const step = getStep();
+        const activeIdx = Math.round(track.scrollLeft / step);
+        dots.forEach(function(dot, j) {
+          dot.classList.toggle('on', j === Math.min(activeIdx, dots.length - 1));
+        });
+
+        if (prevBtn) {
+          prevBtn.disabled = track.scrollLeft <= 4;
+        }
+        if (nextBtn) {
+          nextBtn.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 6;
+        }
+      };
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          track.scrollBy({ left: getStep(), behavior: 'smooth' });
+        });
+      }
+
+      // Dot clicking
+      dots.forEach(function(dot, idx) {
+        dot.addEventListener('click', function() {
+          track.scrollTo({ left: idx * getStep(), behavior: 'smooth' });
+        });
+      });
+
+      track.addEventListener('scroll', function() {
+        requestAnimationFrame(updateNav);
+      }, { passive: true });
+
+      // Keyboard navigation
+      track.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          track.scrollBy({ left: getStep(), behavior: 'smooth' });
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+        }
+      });
+
+      // Mouse drag to swipe on desktop
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      let hasMoved = false;
+
+      track.addEventListener('pointerdown', function(e) {
+        if (e.pointerType !== 'mouse') return;
+        isDown = true;
+        hasMoved = false;
+        startX = e.clientX;
+        scrollLeft = track.scrollLeft;
+        track.classList.add('drag');
+      });
+
+      window.addEventListener('pointermove', function(e) {
+        if (!isDown) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) {
+          hasMoved = true;
+        }
+        track.scrollLeft = scrollLeft - dx;
+      });
+
+      window.addEventListener('pointerup', function() {
+        if (!isDown) return;
+        isDown = false;
+        track.classList.remove('drag');
+        const step = getStep();
+        const activeIdx = Math.round(track.scrollLeft / step);
+        track.scrollTo({ left: activeIdx * step, behavior: 'smooth' });
+      });
+
+      track.addEventListener('click', function(e) {
+        if (hasMoved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, true);
+
+      // Initial state
+      updateNav();
+      window.addEventListener('resize', updateNav);
+
+      // Shopify Theme Editor Integration
+      document.addEventListener('shopify:block:select', function(e) {
+        if (e.detail && e.detail.sectionId === sectionId) {
+          const selectedBlockId = e.detail.blockId;
+          const targetItem = container.querySelector('.car-item[data-block-id="' + selectedBlockId + '"]');
+          if (targetItem) {
+            const step = getStep();
+            const index = items.indexOf(targetItem);
+            if (index !== -1) {
+              track.scrollTo({ left: index * step, behavior: 'smooth' });
+            }
+          }
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        initTestimonialsCarousel({{ section.id | json }});
+      });
+    } else {
+      initTestimonialsCarousel({{ section.id | json }});
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail && e.detail.sectionId === {{ section.id | json }}) {
+        initTestimonialsCarousel({{ section.id | json }});
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Customer Stories",
+  "tag": "section",
+  "class": "section-testimonials-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "From the people who wear it"
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading typography",
+      "options": [
+        {
+          "value": "edit",
+          "label": "Forum (Editorial Serif - Default)"
+        },
+        {
+          "value": "display",
+          "label": "Cinzel (Display Serif)"
+        }
+      ],
+      "default": "edit"
+    },
+    {
+      "type": "text",
+      "id": "lede",
+      "label": "Subtitle / Lede",
+      "default": "Swipe through notes from our customers."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pv_note",
+      "label": "Show preview note",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pv_note",
+      "label": "Preview note text",
+      "default": "Sample quotes, shown to preview the layout."
+    },
+    {
+      "type": "header",
+      "content": "Background Style"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "label": "Background style",
+      "options": [
+        {
+          "value": "gradient",
+          "label": "Signature Maroon Gradient (Default)"
+        },
+        {
+          "value": "maroon",
+          "label": "Solid Dark Maroon"
+        },
+        {
+          "value": "dark",
+          "label": "Solid Dark Ink"
+        }
+      ],
+      "default": "gradient"
+    },
+    {
+      "type": "color_background",
+      "id": "custom_bg",
+      "label": "Custom background gradient/color",
+      "info": "Overrides background style preset if selected"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Customer Story",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "The Mangalagiri saree is crisp, easy to drape and the gold border is lovely. I wore it to work and to a wedding."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author name",
+          "default": "Customer"
+        },
+        {
+          "type": "text",
+          "id": "author_location",
+          "label": "Location",
+          "default": "India"
+        },
+        {
+          "type": "text",
+          "id": "bought_item",
+          "label": "Purchased item name",
+          "default": "Mangalagiri Cotton Saree"
+        },
+        {
+          "type": "url",
+          "id": "bought_link",
+          "label": "Purchased item link (Optional)"
+        },
+        {
+          "type": "color",
+          "id": "avatar_color",
+          "label": "Avatar circle background color",
+          "default": "#3F5750"
+        },
+        {
+          "type": "text",
+          "id": "author_initials",
+          "label": "Avatar initial(s)",
+          "info": "Leave blank to automatically use first letter of author name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Stories",
+      "settings": {
+        "title": "From the people who wear it",
+        "lede": "Swipe through notes from our customers.",
+        "pv_note": "Sample quotes, shown to preview the layout."
+      },
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The Mangalagiri saree is crisp, easy to drape and the gold border is lovely. I wore it to work and to a wedding.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Mangalagiri Cotton Saree",
+            "avatar_color": "#3F5750",
+            "author_initials": "C"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The ikkat suit is the first handloom piece I have worn to the office every week. People always ask where it is from.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Ikkat Three-Piece Suit",
+            "avatar_color": "#7A5A31",
+            "author_initials": "C"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The mul cotton co-ord is so light I forgot I was wearing it. It softens more with every wash.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Mul Cotton Co-ord Set",
+            "avatar_color": "#5E634B",
+            "author_initials": "C"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I wore the Zari Kota to a daytime wedding and it was perfect: festive, but weightless in the heat.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Zari Kota Doria Saree",
+            "avatar_color": "#6B2230",
+            "author_initials": "C"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "We matched our dog's Banaras coat to my co-ord for Diwali. He wore it better than I did.",
+            "rating": 5,
+            "author_name": "Customer",
+            "author_location": "India",
+            "bought_item": "Banaras Brocade Dog Coat",
+            "avatar_color": "#8A5231",
+            "author_initials": "C"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
