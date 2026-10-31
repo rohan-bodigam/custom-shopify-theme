@@ -855,6 +855,23 @@
         "padding_bottom": 56
       }
     },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "show_warp": true,
+        "title": "Letters from the loom",
+        "heading_font": "display",
+        "heading_uppercase": true,
+        "lede": "One letter a month: a new chapter drop, a maker we met, and a textile worth knowing. No daily sales emails.",
+        "email_placeholder": "Your email address",
+        "button_label": "Subscribe",
+        "success_message": "You’re on the list. The next letter arrives at the start of the month.",
+        "disclaimer": "<p>By subscribing you agree to receive marketing emails from House of Kala Katha. You can unsubscribe with one click from any letter. See our <a href=\"#/policy/privacy\">privacy policy</a>.</p>",
+        "background_style": "gradient",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -895,6 +912,7 @@
     "services",
     "testimonials",
     "faq",
+    "newsletter",
     "featured_collection"
   ]
 }

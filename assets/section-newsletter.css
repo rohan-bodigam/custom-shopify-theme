@@ -1,0 +1,245 @@
+/* ==========================================================================
+   NEWSLETTER SECTION (House of Kala Katha)
+   Source of truth: DESIGN-TOKENS.md & reference/index.html (line 7062)
+   ========================================================================== */
+
+.newsletter-sec {
+  background: var(--news-bg, linear-gradient(160deg, #6B2230 0%, #3a1219 55%, #171717 100%));
+  color: #F7F3EE;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.newsletter-sec .wrap {
+  width: 100%;
+  max-width: var(--wrap, 1240px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gut, clamp(18px, 4vw, 48px));
+  padding-right: var(--gut, clamp(18px, 4vw, 48px));
+  box-sizing: border-box;
+}
+
+/* Two-column layout (.news) */
+.newsletter-sec .news {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+}
+
+/* Left Content */
+.newsletter-sec .news-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Warp Threads Icon */
+.newsletter-sec .warp {
+  display: inline-flex;
+  gap: 4px;
+  height: 26px;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+
+.newsletter-sec .warp i {
+  display: block;
+  width: 1.5px;
+  background: var(--gold, #B08D57);
+}
+
+.newsletter-sec .warp i:nth-child(1) { height: 60%; }
+.newsletter-sec .warp i:nth-child(2) { height: 100%; }
+.newsletter-sec .warp i:nth-child(3) { height: 80%; }
+.newsletter-sec .warp i:nth-child(4) { height: 100%; }
+.newsletter-sec .warp i:nth-child(5) { height: 55%; }
+
+/* Heading */
+.newsletter-sec h2,
+.newsletter-sec .d2 {
+  font-family: var(--f-display, 'Cinzel', serif);
+  font-weight: 500;
+  font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  color: #F7F3EE;
+  margin: 0;
+}
+
+.newsletter-sec h2.edit-font,
+.newsletter-sec .d2.edit-font {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.newsletter-sec h2.uppercase,
+.newsletter-sec .d2.uppercase {
+  text-transform: uppercase;
+}
+
+/* Lede */
+.newsletter-sec .lede {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: #E7DCD2;
+  margin: 12px 0 0;
+  max-width: 54ch;
+}
+
+/* Form Container */
+.newsletter-sec .news-form-wrap {
+  width: 100%;
+}
+
+.newsletter-sec .newsletter-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inrow (Input + Button) */
+.newsletter-sec .inrow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Email Input */
+.newsletter-sec .inp {
+  flex: 1;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1px solid rgba(247, 243, 238, 0.28);
+  border-radius: 12px;
+  background: rgba(247, 243, 238, 0.08);
+  color: #F7F3EE;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  box-sizing: border-box;
+}
+
+.newsletter-sec .inp::placeholder {
+  color: #C9B9AD;
+}
+
+.newsletter-sec .inp:focus {
+  border-color: var(--gold, #B08D57);
+  background: rgba(247, 243, 238, 0.12);
+  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.25);
+}
+
+.newsletter-sec .inp.is-invalid {
+  border-color: #B3202A !important;
+}
+
+/* Subscribe Button */
+.newsletter-sec .btn.light {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: 999px;
+  background: #F7F3EE;
+  color: #6B2230;
+  border: none;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter-sec .btn.light:hover {
+  background: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5);
+}
+
+.newsletter-sec .btn.light:active {
+  transform: translateY(0);
+}
+
+/* Disclaimer text */
+.newsletter-sec .disclaimer {
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #C9B9AD;
+  margin: 12px 0 0;
+  max-width: 58ch;
+}
+
+.newsletter-sec .disclaimer a,
+.newsletter-sec .disclaimer .tlink {
+  color: var(--link, #E2A3AE);
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+.newsletter-sec .disclaimer a:hover {
+  opacity: 0.8;
+}
+
+/* Success & Error Messages */
+.newsletter-sec .form-feedback {
+  margin-top: 14px;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: none;
+}
+
+.newsletter-sec .form-feedback.is-success {
+  display: block;
+  background: rgba(94, 99, 75, 0.3);
+  border: 1px solid #7A8063;
+  color: #F7F3EE;
+}
+
+.newsletter-sec .form-feedback.is-error {
+  display: block;
+  background: rgba(179, 32, 42, 0.3);
+  border: 1px solid #B3202A;
+  color: #FFC0C5;
+}
+
+/* Responsive */
+@media screen and (max-width: 920px) {
+  .newsletter-sec .news {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .newsletter-sec .inrow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .newsletter-sec .btn.light {
+    width: 100%;
+  }
+
+  .newsletter-sec .inp {
+    width: 100%;
+  }
+}

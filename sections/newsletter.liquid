@@ -1,5 +1,4 @@
-{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
-{{ 'newsletter-section.css' | asset_url | stylesheet_tag }}
+{{ 'section-newsletter.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -13,241 +12,333 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  #Section-{{ section.id }} {
+    {% if section.settings.custom_bg != blank %}
+      --news-bg: {{ section.settings.custom_bg }};
+    {% elsif section.settings.background_style == 'maroon' %}
+      --news-bg: #3a1219;
+    {% elsif section.settings.background_style == 'dark' %}
+      --news-bg: #171717;
+    {% endif %}
+  }
 {%- endstyle -%}
 
-<div class="newsletter center {% if section.settings.full_width == false %}newsletter--narrow page-width{% endif %}">
-  <div class="newsletter__wrapper color-{{ section.settings.color_scheme }} gradient content-container isolate{% if section.settings.full_width %} content-container--full-width{% endif %} section-{{ section.id }}-padding">
-    {%- for block in section.blocks -%}
-      {%- case block.type -%}
-        {%- when '@app' -%}
-          {% render block %}
-        {%- when 'heading' -%}
-          <h2
-            class="inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {{ block.shopify_attributes }}
-            {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-              style="--animation-order: {{ forloop.index }};"
+<section
+  id="Section-{{ section.id }}"
+  class="sec dark newsletter-sec section-{{ section.id }}-padding{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="wrap news">
+    <div class="news-left">
+      {%- if section.settings.show_warp -%}
+        <span class="warp" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i>
+        </span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="d2{% if section.settings.heading_font == 'edit' %} edit-font{% endif %}{% if section.settings.heading_uppercase %} uppercase{% endif %}">
+          {{ section.settings.title | escape }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.lede != blank -%}
+        <p class="lede">{{ section.settings.lede | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="news-form-wrap">
+      {%- form 'customer',
+        class: 'newsletter-form js-newsletter-form',
+        id: 'NewsletterForm',
+        data-success-msg: section.settings.success_message
+      -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+
+        <div class="inrow">
+          <label class="visually-hidden" for="NewsletterEmail-{{ section.id }}">
+            {{- section.settings.email_placeholder | default: 'Your email address' | escape -}}
+          </label>
+          <input
+            class="inp"
+            id="NewsletterEmail-{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="{{ section.settings.email_placeholder | default: 'Your email address' | escape }}"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            required
+            {% if form.errors %}
+              aria-invalid="true"
             {% endif %}
           >
-            {{ block.settings.heading }}
-          </h2>
-        {%- when 'paragraph' -%}
-          <div
-            class="newsletter__subheading rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {{ block.shopify_attributes }}
-            {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-              style="--animation-order: {{ forloop.index }};"
-            {% endif %}
-          >
-            {{ block.settings.text }}
+          <button class="btn light" type="submit" name="commit">
+            {{- section.settings.button_label | default: 'Subscribe' | escape -}}
+          </button>
+        </div>
+
+        <div
+          class="form-feedback form-feedback-js"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
+        {%- if form.posted_successfully? -%}
+          <div class="form-feedback is-success" role="status">
+            {{ section.settings.success_message | default: 'You’re on the list. The next letter arrives at the start of the month.' }}
           </div>
-        {%- when 'email_form' -%}
-          <div {{ block.shopify_attributes }}>
-            {% form 'customer', class: 'newsletter-form' %}
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              <div
-                class="newsletter-form__field-wrapper{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {% if settings.animations_reveal_on_scroll %}
-                  data-cascade
-                  style="--animation-order: {{ forloop.index }};"
-                {% endif %}
-              >
-                <div class="field">
-                  <input
-                    id="NewsletterForm--{{ section.id }}"
-                    type="email"
-                    name="contact[email]"
-                    class="field__input"
-                    value="{{ form.email }}"
-                    aria-required="true"
-                    autocorrect="off"
-                    autocapitalize="off"
-                    autocomplete="email"
-                    {% if form.errors %}
-                      autofocus
-                      aria-invalid="true"
-                      aria-describedby="Newsletter-error--{{ section.id }}"
-                    {% elsif form.posted_successfully? %}
-                      aria-describedby="Newsletter-success--{{ section.id }}"
-                    {% endif %}
-                    placeholder="{{ 'newsletter.label' | t }}"
-                    required
-                  >
-                  <label class="field__label" for="NewsletterForm--{{ section.id }}">
-                    {{ 'newsletter.label' | t }}
-                  </label>
-                  <button
-                    type="submit"
-                    class="newsletter-form__button field__button"
-                    name="commit"
-                    id="Subscribe"
-                    aria-label="{{ 'newsletter.button_label' | t }}"
-                  >
-                    <span class="svg-wrapper">
-                      {{- 'icon-arrow.svg' | inline_asset_content -}}
-                    </span>
-                  </button>
-                </div>
-                {%- if form.errors -%}
-                  <small class="newsletter-form__message form__message" id="Newsletter-error--{{ section.id }}">
-                    <span class="svg-wrapper">
-                      {{- 'icon-error.svg' | inline_asset_content -}}
-                    </span>
-                    {{- form.errors.translated_fields.email | capitalize }}
-                    {{ form.errors.messages.email -}}
-                  </small>
-                {%- endif -%}
-              </div>
-              {%- if form.posted_successfully? -%}
-                <h3
-                  class="newsletter-form__message newsletter-form__message--success form__message"
-                  id="Newsletter-success--{{ section.id }}"
-                  tabindex="-1"
-                  autofocus
-                >
-                  <span class="svg-wrapper">
-                    {{- 'icon-success.svg' | inline_asset_content -}}
-                  </span>
-                  {{- 'newsletter.success' | t }}
-                </h3>
-              {%- endif -%}
-            {% endform %}
+        {%- elsif form.errors -%}
+          <div class="form-feedback is-error" role="alert">
+            {{ form.errors.translated_fields.email | capitalize }}
+            {{ form.errors.messages.email }}
           </div>
-      {%- endcase -%}
-    {%- endfor -%}
+        {%- endif -%}
+
+        {%- if section.settings.disclaimer != blank -%}
+          <div class="disclaimer">
+            {{ section.settings.disclaimer }}
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
   </div>
-</div>
+</section>
+
+<script>
+  (function() {
+    function initNewsletterForm(sectionId) {
+      const sectionEl = document.querySelector('[data-section-id="' + sectionId + '"]');
+      if (!sectionEl) return;
+      const form = sectionEl.querySelector('.js-newsletter-form');
+      if (!form) return;
+
+      const input = form.querySelector('input[type="email"]');
+      const feedback = form.querySelector('.form-feedback-js');
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', function(e) {
+        if (!input || !input.value.trim() || !/^\S+@\S+\.\S+$/.test(input.value)) {
+          e.preventDefault();
+          if (input) {
+            input.classList.add('is-invalid');
+            input.focus();
+          }
+          if (feedback) {
+            feedback.className = 'form-feedback form-feedback-js is-error';
+            feedback.textContent = 'Please enter a valid email address.';
+          }
+          return;
+        }
+
+        // Seamless AJAX submission to Shopify
+        e.preventDefault();
+        input.classList.remove('is-invalid');
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.7';
+        }
+
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'text/html'
+          }
+        })
+        .then(function(res) {
+          if (feedback) {
+            feedback.className = 'form-feedback form-feedback-js is-success';
+            const successMsg = form.dataset.successMsg || 'You’re on the list. The next letter arrives at the start of the month.';
+            feedback.textContent = successMsg;
+          }
+          form.reset();
+        })
+        .catch(function(err) {
+          // If fetch fails, fallback to native post
+          form.submit();
+        })
+        .finally(function() {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '';
+          }
+        });
+      });
+
+      if (input) {
+        input.addEventListener('input', function() {
+          input.classList.remove('is-invalid');
+          if (feedback && feedback.classList.contains('is-error')) {
+            feedback.className = 'form-feedback form-feedback-js';
+            feedback.textContent = '';
+          }
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        initNewsletterForm({{ section.id | json }});
+      });
+    } else {
+      initNewsletterForm({{ section.id | json }});
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail && e.detail.sectionId === {{ section.id | json }}) {
+        initNewsletterForm({{ section.id | json }});
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "t:sections.newsletter.name",
+  "name": "Newsletter",
   "tag": "section",
-  "class": "section",
-  "disabled_on": {
-    "groups": ["header"]
-  },
+  "class": "section-newsletter-wrapper",
   "settings": [
     {
-      "type": "paragraph",
-      "content": "t:sections.newsletter.settings.paragraph.content"
+      "type": "checkbox",
+      "id": "show_warp",
+      "label": "Show warp threads icon",
+      "default": true
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Letters from the loom"
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading typography",
+      "options": [
+        {
+          "value": "display",
+          "label": "Cinzel (Display Serif - Default)"
+        },
+        {
+          "value": "edit",
+          "label": "Forum (Editorial Serif)"
+        }
+      ],
+      "default": "display"
     },
     {
       "type": "checkbox",
-      "id": "full_width",
-      "default": true,
-      "label": "t:sections.newsletter.settings.full_width.label"
+      "id": "heading_uppercase",
+      "label": "Uppercase heading",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Subtitle / Lede",
+      "default": "One letter a month: a new chapter drop, a maker we met, and a textile worth knowing. No daily sales emails."
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email input placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Submit button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You’re on the list. The next letter arrives at the start of the month."
+    },
+    {
+      "type": "richtext",
+      "id": "disclaimer",
+      "label": "Disclaimer text",
+      "default": "<p>By subscribing you agree to receive marketing emails from House of Kala Katha. You can unsubscribe with one click from any letter. See our <a href=\"#/policy/privacy\">privacy policy</a>.</p>"
     },
     {
       "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "content": "Appearance & Colors"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "label": "Background style",
+      "options": [
+        {
+          "value": "gradient",
+          "label": "Signature Maroon Gradient (Default)"
+        },
+        {
+          "value": "maroon",
+          "label": "Solid Dark Maroon"
+        },
+        {
+          "value": "dark",
+          "label": "Solid Dark Ink"
+        }
+      ],
+      "default": "gradient"
+    },
+    {
+      "type": "color_background",
+      "id": "custom_bg",
+      "label": "Custom background gradient/color",
+      "info": "Overrides background style preset if selected"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 100,
+      "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 40
+      "label": "Top padding",
+      "default": 72
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 100,
+      "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 52
-    }
-  ],
-  "blocks": [
-    {
-      "type": "heading",
-      "name": "t:sections.newsletter.blocks.heading.name",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "heading",
-          "default": "t:sections.newsletter.blocks.heading.settings.heading.default",
-          "label": "t:sections.newsletter.blocks.heading.settings.heading.label"
-        },
-        {
-          "type": "select",
-          "id": "heading_size",
-          "options": [
-            {
-              "value": "h2",
-              "label": "t:sections.all.heading_size.options__1.label"
-            },
-            {
-              "value": "h1",
-              "label": "t:sections.all.heading_size.options__2.label"
-            },
-            {
-              "value": "h0",
-              "label": "t:sections.all.heading_size.options__3.label"
-            },
-            {
-              "value": "hxl",
-              "label": "t:sections.all.heading_size.options__4.label"
-            },
-            {
-              "value": "hxxl",
-              "label": "t:sections.all.heading_size.options__5.label"
-            }
-          ],
-          "default": "h1",
-          "label": "t:sections.all.heading_size.label"
-        }
-      ]
+      "label": "Bottom padding",
+      "default": 72
     },
     {
-      "type": "paragraph",
-      "name": "t:sections.newsletter.blocks.paragraph.name",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "richtext",
-          "id": "text",
-          "default": "t:sections.newsletter.blocks.paragraph.settings.paragraph.default",
-          "label": "t:sections.newsletter.blocks.paragraph.settings.paragraph.label"
-        }
-      ]
-    },
-    {
-      "type": "email_form",
-      "name": "t:sections.newsletter.blocks.email_form.name",
-      "limit": 1
-    },
-    {
-      "type": "@app"
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
     }
   ],
   "presets": [
     {
-      "name": "t:sections.newsletter.presets.name",
-      "blocks": [
-        {
-          "type": "heading"
-        },
-        {
-          "type": "paragraph"
-        },
-        {
-          "type": "email_form"
-        }
-      ]
+      "name": "Newsletter (Letters from the Loom)",
+      "settings": {
+        "title": "Letters from the loom",
+        "heading_font": "display",
+        "heading_uppercase": true,
+        "lede": "One letter a month: a new chapter drop, a maker we met, and a textile worth knowing. No daily sales emails.",
+        "button_label": "Subscribe",
+        "background_style": "gradient"
+      }
     }
   ]
 }
