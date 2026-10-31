@@ -1,33 +1,37 @@
 /* ==========================================================================
    NEWSLETTER SECTION (House of Kala Katha)
-   Source of truth: DESIGN-TOKENS.md & reference/index.html (line 7062)
+   Source of truth: Figma design & prototype reference (reference/index.html)
    ========================================================================== */
 
 .newsletter-sec {
-  background: var(--news-bg, linear-gradient(160deg, #6B2230 0%, #3a1219 55%, #171717 100%));
+  background: var(--news-bg, linear-gradient(105deg, #5C1827 0%, #3E121C 45%, #1B0A0E 100%));
   color: #F7F3EE;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
   width: 100%;
+  margin: 0;
+  display: block;
 }
 
+/* Constrained container centered on page */
 .newsletter-sec .wrap {
   width: 100%;
-  max-width: var(--wrap, 1240px);
+  max-width: 1140px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: var(--gut, clamp(18px, 4vw, 48px));
-  padding-right: var(--gut, clamp(18px, 4vw, 48px));
+  padding-left: clamp(20px, 4vw, 40px);
+  padding-right: clamp(20px, 4vw, 40px);
   box-sizing: border-box;
 }
 
-/* Two-column layout (.news) */
+/* Two-column layout */
 .newsletter-sec .news {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: clamp(28px, 5vw, 64px);
+  grid-template-columns: minmax(0, 520px) minmax(0, 480px);
+  justify-content: space-between;
   align-items: center;
+  gap: clamp(32px, 5vw, 64px);
 }
 
 /* Left Content */
@@ -35,13 +39,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: 520px;
 }
 
-/* Warp Threads Icon */
+/* Warp Threads Icon (5 vertical gold lines) */
 .newsletter-sec .warp {
   display: inline-flex;
   gap: 4px;
-  height: 26px;
+  height: 24px;
   align-items: flex-end;
   margin-bottom: 14px;
 }
@@ -54,20 +59,20 @@
 
 .newsletter-sec .warp i:nth-child(1) { height: 60%; }
 .newsletter-sec .warp i:nth-child(2) { height: 100%; }
-.newsletter-sec .warp i:nth-child(3) { height: 80%; }
+.newsletter-sec .warp i:nth-child(3) { height: 75%; }
 .newsletter-sec .warp i:nth-child(4) { height: 100%; }
-.newsletter-sec .warp i:nth-child(5) { height: 55%; }
+.newsletter-sec .warp i:nth-child(5) { height: 50%; }
 
 /* Heading */
 .newsletter-sec h2,
 .newsletter-sec .d2 {
   font-family: var(--f-display, 'Cinzel', serif);
   font-weight: 500;
-  font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.35rem);
   line-height: 1.15;
   letter-spacing: 0.04em;
   color: #F7F3EE;
-  margin: 0;
+  margin: 0 0 14px;
 }
 
 .newsletter-sec h2.edit-font,
@@ -82,25 +87,31 @@
   text-transform: uppercase;
 }
 
-/* Lede */
+/* Lede Text */
 .newsletter-sec .lede {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-size: clamp(1.08rem, 1.5vw, 1.25rem);
   line-height: 1.55;
   color: #E7DCD2;
-  margin: 12px 0 0;
-  max-width: 54ch;
+  margin: 0;
+  max-width: 440px;
 }
 
-/* Form Container */
+/* Form Container & Override Dawn constraints */
 .newsletter-sec .news-form-wrap {
   width: 100%;
+  max-width: 480px;
 }
 
-.newsletter-sec .newsletter-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+.newsletter-sec .newsletter-form,
+.newsletter-sec .kala-newsletter-form,
+.newsletter-sec form {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
 }
 
 /* Inrow (Input + Button) */
@@ -114,27 +125,28 @@
 /* Email Input */
 .newsletter-sec .inp {
   flex: 1;
-  min-height: 48px;
-  padding: 12px 18px;
-  border: 1px solid rgba(247, 243, 238, 0.28);
+  min-height: 52px;
+  height: 52px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 12px;
-  background: rgba(247, 243, 238, 0.08);
-  color: #F7F3EE;
+  background: rgba(255, 255, 255, 0.05);
+  color: #FFFFFF;
   font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
   font-size: 0.95rem;
-  line-height: 1.4;
+  line-height: 50px;
   outline: none;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   box-sizing: border-box;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .newsletter-sec .inp::placeholder {
-  color: #C9B9AD;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .newsletter-sec .inp:focus {
   border-color: var(--gold, #B08D57);
-  background: rgba(247, 243, 238, 0.12);
+  background: rgba(255, 255, 255, 0.09);
   box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.25);
 }
 
@@ -148,26 +160,26 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 0 28px;
+  min-height: 52px;
+  height: 52px;
+  padding: 0 32px;
   border-radius: 999px;
-  background: #F7F3EE;
-  color: #6B2230;
+  background: #FFFFFF !important;
+  color: #6B2230 !important;
   border: none;
   font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
   font-weight: 500;
   font-size: 0.95rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
-  position: relative;
-  overflow: hidden;
+  white-space: nowrap;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .newsletter-sec .btn.light:hover {
-  background: #FFFFFF;
+  background: #FFFFFF !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.45);
 }
 
 .newsletter-sec .btn.light:active {
@@ -181,13 +193,21 @@
   line-height: 1.55;
   color: #C9B9AD;
   margin: 12px 0 0;
-  max-width: 58ch;
+  max-width: 460px;
+}
+
+.newsletter-sec .disclaimer p {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .newsletter-sec .disclaimer a,
 .newsletter-sec .disclaimer .tlink {
-  color: var(--link, #E2A3AE);
+  color: #C75366;
   text-decoration: underline;
+  text-underline-offset: 2px;
   transition: opacity 0.2s ease;
 }
 
@@ -225,6 +245,13 @@
   .newsletter-sec .news {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+
+  .newsletter-sec .news-left,
+  .newsletter-sec .news-form-wrap,
+  .newsletter-sec .lede,
+  .newsletter-sec .disclaimer {
+    max-width: 100%;
   }
 }
 
