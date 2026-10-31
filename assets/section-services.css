@@ -1,0 +1,311 @@
+/* ==========================================================================
+   SERVICES SECTION (House of Kala Katha)
+   Source of truth: DESIGN-TOKENS.md & reference/index.html (line 7053)
+   ========================================================================== */
+
+.services-sec {
+  background-color: var(--services-bg, var(--bg-alt, #EDE3D9));
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.services-sec.alt {
+  background-color: var(--bg-alt, #EDE3D9);
+}
+
+.services-sec.default {
+  background-color: var(--bg, #F7F3EE);
+}
+
+.services-sec.card-surface {
+  background-color: var(--card, #FFFDFA);
+}
+
+.services-sec .wrap {
+  width: 100%;
+  max-width: var(--wrap, 1240px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gut, clamp(18px, 4vw, 48px));
+  padding-right: var(--gut, clamp(18px, 4vw, 48px));
+  box-sizing: border-box;
+}
+
+/* Header */
+.services-sec .sec-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.services-sec .sec-head-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.services-sec .sec-head h2,
+.services-sec .sec-head .h2 {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink, #171717);
+  margin: 0;
+}
+
+.services-sec .sec-head h2.display-font,
+.services-sec .sec-head .h2.display-font {
+  font-family: var(--f-display, 'Cinzel', serif);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.services-sec .sec-head .lede {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--ink-2, #4A4240);
+  margin: 0;
+  max-width: 60ch;
+}
+
+/* Top-Right Link: "View All" */
+.services-sec .tlink {
+  color: var(--link, #6B2230);
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  padding-bottom: 3px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.services-sec .tlink:hover {
+  opacity: 0.85;
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+}
+
+/* Services Grid */
+.services-sec .svc-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--svc-cols, 4), 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+/* Card */
+.services-sec .svc {
+  padding: 26px 22px;
+  border-radius: 14px;
+  background: var(--svc-card-bg, var(--card, #FFFDFA));
+  box-shadow: var(--sh1, 0 1px 2px rgba(23, 23, 23, 0.05), 0 10px 28px -14px rgba(107, 34, 48, 0.28));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+a.services-sec .svc,
+.services-sec a.svc {
+  cursor: pointer;
+}
+
+.services-sec .svc:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh2, 0 2px 6px rgba(23, 23, 23, 0.06), 0 24px 48px -20px rgba(74, 20, 30, 0.40));
+}
+
+.services-sec .svc:focus-visible {
+  outline: 2px solid var(--crimson, #6B2230);
+  outline-offset: 2px;
+}
+
+/* Icon Box */
+.services-sec .svc-icon-box {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+.services-sec .svc-ic {
+  width: 64px;
+  height: 64px;
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.35s ease;
+}
+
+.services-sec .svc:hover .svc-ic {
+  transform: scale(1.04);
+}
+
+.services-sec .svc-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  display: block;
+  border-radius: 50%;
+  transition: transform 0.35s ease;
+}
+
+.services-sec .svc:hover .svc-img {
+  transform: scale(1.04);
+}
+
+/* Card Heading */
+.services-sec .svc h3 {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  color: var(--ink, #171717);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Card Description */
+.services-sec .svc p {
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.93rem;
+  line-height: 1.5;
+  color: var(--ink-2, #4A4240);
+  margin: 0;
+}
+
+/* Responsive Breakpoints */
+@media screen and (max-width: 990px) {
+  .services-sec .svc-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .services-sec .svc {
+    padding: 24px 20px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .services-sec .sec-head {
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 26px;
+  }
+
+  .services-sec .svc-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .services-sec .svc {
+    padding: 22px 18px;
+    gap: 10px;
+  }
+
+  .services-sec .svc h3 {
+    font-size: 1.22rem;
+  }
+
+  .services-sec .svc p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Dark Mode Theme Tokens Support */
+[data-theme="dark"] .services-sec.alt {
+  background-color: var(--bg-alt, #1F1A1A);
+}
+
+[data-theme="dark"] .services-sec.default {
+  background-color: var(--bg, #171717);
+}
+
+[data-theme="dark"] .services-sec .svc {
+  background-color: var(--card, #211B1C);
+  box-shadow: var(--sh1, 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 30px -14px rgba(0, 0, 0, 0.6));
+}
+
+[data-theme="dark"] .services-sec .svc:hover {
+  box-shadow: var(--sh2, 0 2px 6px rgba(0, 0, 0, 0.3), 0 26px 50px -20px rgba(0, 0, 0, 0.7));
+}
+
+[data-theme="dark"] .services-sec .sec-head h2,
+[data-theme="dark"] .services-sec .sec-head .h2,
+[data-theme="dark"] .services-sec .svc h3 {
+  color: var(--ink, #F1EAE2);
+}
+
+[data-theme="dark"] .services-sec .sec-head .lede,
+[data-theme="dark"] .services-sec .svc p {
+  color: var(--ink-2, #D5CBC2);
+}
+
+[data-theme="dark"] .services-sec .tlink {
+  color: var(--link, #E2A3AE);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .services-sec.alt {
+    background-color: var(--bg-alt, #1F1A1A);
+  }
+
+  :root:not([data-theme="light"]) .services-sec.default {
+    background-color: var(--bg, #171717);
+  }
+
+  :root:not([data-theme="light"]) .services-sec .svc {
+    background-color: var(--card, #211B1C);
+    box-shadow: var(--sh1, 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 30px -14px rgba(0, 0, 0, 0.6));
+  }
+
+  :root:not([data-theme="light"]) .services-sec .svc:hover {
+    box-shadow: var(--sh2, 0 2px 6px rgba(0, 0, 0, 0.3), 0 26px 50px -20px rgba(0, 0, 0, 0.7));
+  }
+
+  :root:not([data-theme="light"]) .services-sec .sec-head h2,
+  :root:not([data-theme="light"]) .services-sec .sec-head .h2,
+  :root:not([data-theme="light"]) .services-sec .svc h3 {
+    color: var(--ink, #F1EAE2);
+  }
+
+  :root:not([data-theme="light"]) .services-sec .sec-head .lede,
+  :root:not([data-theme="light"]) .services-sec .svc p {
+    color: var(--ink-2, #D5CBC2);
+  }
+
+  :root:not([data-theme="light"]) .services-sec .tlink {
+    color: var(--link, #E2A3AE);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-sec .svc,
+  .services-sec .tlink,
+  .services-sec .svc-ic,
+  .services-sec .svc-img {
+    transition: none !important;
+    transform: none !important;
+  }
+}

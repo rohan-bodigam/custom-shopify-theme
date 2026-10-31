@@ -651,6 +651,63 @@
         "padding_bottom": 64
       }
     },
+    "services": {
+      "type": "services",
+      "blocks": {
+        "service_1": {
+          "type": "service",
+          "settings": {
+            "icon": "custom",
+            "title": "Customisation",
+            "description": "Fit, length and blouse tailoring",
+            "link": ""
+          }
+        },
+        "service_2": {
+          "type": "service",
+          "settings": {
+            "icon": "gift",
+            "title": "Gifting",
+            "description": "Wrapped in handloom, with a handwritten note",
+            "link": ""
+          }
+        },
+        "service_3": {
+          "type": "service",
+          "settings": {
+            "icon": "style",
+            "title": "Style Consultation",
+            "description": "One-to-one, online or in studio",
+            "link": ""
+          }
+        },
+        "service_4": {
+          "type": "service",
+          "settings": {
+            "icon": "care",
+            "title": "Care & Sustainability",
+            "description": "Repair, refresh and responsible materials",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "service_1",
+        "service_2",
+        "service_3",
+        "service_4"
+      ],
+      "settings": {
+        "title": "Services",
+        "heading_font": "edit",
+        "view_all_label": "View All",
+        "view_all_url": "#/services",
+        "color_scheme": "alt",
+        "columns_desktop": 4,
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -688,6 +745,7 @@
     "explore_products",
     "split_banner",
     "craft_map",
+    "services",
     "featured_collection"
   ]
 }

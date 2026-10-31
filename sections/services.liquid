@@ -1,0 +1,432 @@
+{{ 'section-services.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Section-{{ section.id }} {
+    --svc-cols: {{ section.settings.columns_desktop | default: 4 }};
+    {% if section.settings.custom_bg != blank %}
+      --services-bg: {{ section.settings.custom_bg }};
+    {% endif %}
+    {% if section.settings.card_bg != blank %}
+      --svc-card-bg: {{ section.settings.card_bg }};
+    {% endif %}
+  }
+{%- endstyle -%}
+
+<section
+  id="Section-{{ section.id }}"
+  class="sec tight services-sec {{ section.settings.color_scheme | default: 'alt' }} section-{{ section.id }}-padding{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="wrap">
+    {%- if section.settings.title != blank or section.settings.view_all_label != blank or section.settings.lede != blank -%}
+      <div class="sec-head">
+        <div class="sec-head-left">
+          {%- if section.settings.title != blank -%}
+            <h2 class="h2{% if section.settings.heading_font == 'display' %} display-font{% endif %}">
+              {{ section.settings.title | escape }}
+            </h2>
+          {%- endif -%}
+          {%- if section.settings.lede != blank -%}
+            <p class="lede">{{ section.settings.lede | escape }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.view_all_label != blank -%}
+          <a class="tlink" href="{{ section.settings.view_all_url | default: '#/services' }}">
+            {{- section.settings.view_all_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="svc-grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign has_link = false
+          if block.settings.link != blank
+            assign has_link = true
+          endif
+        -%}
+
+        {%- if has_link -%}
+          <a
+            class="svc"
+            href="{{ block.settings.link }}"
+            {% if block.settings.open_in_new_tab %}
+              target="_blank" rel="noopener noreferrer"
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+        {%- else -%}
+          <div class="svc" {{ block.shopify_attributes }}>
+        {%- endif -%}
+
+          <div class="svc-icon-box">
+            {%- case block.settings.icon -%}
+              {%- when 'custom' -%}
+                <svg
+                  class="svc-ic"
+                  viewBox="0 0 64 64"
+                  role="img"
+                  aria-label="{{ block.settings.title | default: 'Customisation' | escape }}"
+                >
+                  <circle cx="32" cy="32" r="30" fill="#F3EADC"/>
+                  <circle cx="32" cy="32" r="30" fill="none" stroke="#B08D57" stroke-width="1.5"/>
+                  <circle cx="32" cy="32" r="26.5" fill="none" stroke="#B08D57" stroke-width=".6" stroke-dasharray="1.5 2.5"/>
+                  <g fill="none" stroke="#6B2230" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 48l40-6" stroke="#B08D57" stroke-width="6.5" stroke-linecap="butt"/>
+                    <path d="M16 45.6l-.4-2.4M21 44.8l-.3-1.8M26 44.1l-.4-2.4M31 43.3l-.3-1.8M36 42.6l-.4-2.4M41 41.8l-.3-1.8M46 41.1l-.4-2.4" stroke="#F3EADC" stroke-width="1.1"/>
+                    <circle cx="19" cy="18.5" r="4.6"/>
+                    <circle cx="16" cy="29.5" r="4.6"/>
+                    <path d="M22.6 21.4L49 31.5M20.3 27.6L49 21.5"/>
+                    <circle cx="28.3" cy="25.4" r="1.2" fill="#B08D57" stroke="none"/>
+                  </g>
+                </svg>
+
+              {%- when 'gift' -%}
+                <svg
+                  class="svc-ic"
+                  viewBox="0 0 64 64"
+                  role="img"
+                  aria-label="{{ block.settings.title | default: 'Gifting' | escape }}"
+                >
+                  <circle cx="32" cy="32" r="30" fill="#F3EADC"/>
+                  <circle cx="32" cy="32" r="30" fill="none" stroke="#B08D57" stroke-width="1.5"/>
+                  <circle cx="32" cy="32" r="26.5" fill="none" stroke="#B08D57" stroke-width=".6" stroke-dasharray="1.5 2.5"/>
+                  <g fill="none" stroke="#6B2230" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="18" y="29" width="28" height="19" rx="2" fill="#D9C29B" fill-opacity=".35"/>
+                    <rect x="16" y="23.5" width="32" height="6" rx="1.5" fill="#F3EADC"/>
+                    <path d="M30 23.5v24.5M34 23.5v24.5" stroke="#B08D57" stroke-width="1.6"/>
+                    <path d="M32 23c-3-7-11-8-10-3s7 3 10 3c3 0 9 2 10-3s-7-4-10 3z" stroke="#6B2230" fill="#B08D57" fill-opacity=".25"/>
+                    <path d="M21 34h5M21 38h5M38 34h5M38 38h5M21 42h5M38 42h5" stroke="#B08D57" stroke-width="1.2" stroke-dasharray="1.6 1.4"/>
+                  </g>
+                </svg>
+
+              {%- when 'style' -%}
+                <svg
+                  class="svc-ic"
+                  viewBox="0 0 64 64"
+                  role="img"
+                  aria-label="{{ block.settings.title | default: 'Style Consultation' | escape }}"
+                >
+                  <circle cx="32" cy="32" r="30" fill="#F3EADC"/>
+                  <circle cx="32" cy="32" r="30" fill="none" stroke="#B08D57" stroke-width="1.5"/>
+                  <circle cx="32" cy="32" r="26.5" fill="none" stroke="#B08D57" stroke-width=".6" stroke-dasharray="1.5 2.5"/>
+                  <g fill="none" stroke="#6B2230" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M29.5 16.5a2.8 2.8 0 1 1 2.5 4v2.5"/>
+                    <path d="M32 23L14.5 33.5h35z"/>
+                    <path d="M34 33.5c3 6 7 10 12 13l1.5-13" fill="#F3EADC" stroke-width="1.6"/>
+                    <path d="M18.5 33.5L20.5 53 34 50.5 35.5 33.5" fill="#B08D57" fill-opacity=".3"/>
+                    <path d="M20.2 49.6l13.9-2.6M19.9 46.5l14.4-2.7" stroke="#B08D57" stroke-width="1.5"/>
+                    <path d="M24 34v12M29 34v11" stroke="#6B2230" stroke-width="1" stroke-opacity=".5"/>
+                  </g>
+                </svg>
+
+              {%- when 'care' -%}
+                <svg
+                  class="svc-ic"
+                  viewBox="0 0 64 64"
+                  role="img"
+                  aria-label="{{ block.settings.title | default: 'Care & Sustainability' | escape }}"
+                >
+                  <circle cx="32" cy="32" r="30" fill="#F3EADC"/>
+                  <circle cx="32" cy="32" r="30" fill="none" stroke="#B08D57" stroke-width="1.5"/>
+                  <circle cx="32" cy="32" r="26.5" fill="none" stroke="#B08D57" stroke-width=".6" stroke-dasharray="1.5 2.5"/>
+                  <g fill="none" stroke="#6B2230" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 46c0-16 12-27 30-28 0 17-12 28-30 28z" fill="#B08D57" fill-opacity=".25"/>
+                    <path d="M17 46c8-8 17-17 26-24"/>
+                    <path d="M24 39l-4-6M30 33l-3-8M36 27.5l-1-6M28 36l7 2M34 30.5l7 1" stroke="#6B2230" stroke-width="1.4"/>
+                    <path d="M38 51l11-11"/>
+                    <ellipse cx="50.5" cy="38.5" rx="1.1" ry="2.4" transform="rotate(45 50.5 38.5)" stroke-width="1.4"/>
+                    <path d="M50 39c3 4-2 8-8 9s-14-1-19 1" stroke="#B08D57" stroke-width="1.5" stroke-dasharray="3 2.4"/>
+                  </g>
+                </svg>
+
+              {%- when 'custom_image' -%}
+                {%- if block.settings.custom_image != blank -%}
+                  {{
+                    block.settings.custom_image
+                    | image_url: width: 128
+                    | image_tag:
+                      class: 'svc-img',
+                      loading: 'lazy',
+                      alt: block.settings.title | escape
+                  }}
+                {%- endif -%}
+
+              {%- when 'custom_svg' -%}
+                {%- if block.settings.custom_svg != blank -%}
+                  <div class="svc-custom-svg">{{ block.settings.custom_svg }}</div>
+                {%- endif -%}
+            {%- endcase -%}
+          </div>
+
+          {%- if block.settings.title != blank -%}
+            <h3>{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+
+          {%- if block.settings.description != blank -%}
+            <p>{{ block.settings.description | escape }}</p>
+          {%- endif -%}
+
+        {%- if has_link -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Services",
+  "tag": "section",
+  "class": "section-services-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Services"
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading typography",
+      "options": [
+        {
+          "value": "edit",
+          "label": "Forum (Editorial Serif - Default)"
+        },
+        {
+          "value": "display",
+          "label": "Cinzel (Display Serif)"
+        }
+      ],
+      "default": "edit"
+    },
+    {
+      "type": "text",
+      "id": "lede",
+      "label": "Subtitle / Lede (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all link text",
+      "default": "View All"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Colors"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Background style",
+      "options": [
+        {
+          "value": "alt",
+          "label": "Alternate (Champagne / Sand)"
+        },
+        {
+          "value": "default",
+          "label": "Default Page Background (Ivory)"
+        },
+        {
+          "value": "card-surface",
+          "label": "Card Surface"
+        }
+      ],
+      "default": "alt"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom section background",
+      "info": "Overrides background style if selected"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Custom card surface background"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Desktop columns"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Service icon",
+          "options": [
+            {
+              "value": "custom",
+              "label": "Customisation (Scissors & Tape Measure)"
+            },
+            {
+              "value": "gift",
+              "label": "Gifting (Handloom Gift Box & Bow)"
+            },
+            {
+              "value": "style",
+              "label": "Style Consultation (Hanger & Drape)"
+            },
+            {
+              "value": "care",
+              "label": "Care & Sustainability (Stitched Leaf)"
+            },
+            {
+              "value": "custom_image",
+              "label": "Custom Uploaded Image"
+            },
+            {
+              "value": "custom_svg",
+              "label": "Custom SVG Code"
+            }
+          ],
+          "default": "custom"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom icon image",
+          "info": "Shown when icon is set to Custom Uploaded Image"
+        },
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG code",
+          "info": "Shown when icon is set to Custom SVG Code"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Customisation"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Fit, length and blouse tailoring"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card link URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open link in new tab",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Services",
+      "settings": {
+        "title": "Services",
+        "view_all_label": "View All",
+        "color_scheme": "alt"
+      },
+      "blocks": [
+        {
+          "type": "service",
+          "settings": {
+            "icon": "custom",
+            "title": "Customisation",
+            "description": "Fit, length and blouse tailoring"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "icon": "gift",
+            "title": "Gifting",
+            "description": "Wrapped in handloom, with a handwritten note"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "icon": "style",
+            "title": "Style Consultation",
+            "description": "One-to-one, online or in studio"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "icon": "care",
+            "title": "Care & Sustainability",
+            "description": "Repair, refresh and responsible materials"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
