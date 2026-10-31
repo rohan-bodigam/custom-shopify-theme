@@ -790,6 +790,71 @@
         "padding_bottom": 64
       }
     },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is everything handmade?",
+            "answer": "Our pieces are made from handloom and handcrafted cloth. Each product page names the weave, the fibre and the region it comes from."
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "In-stock pieces ship within 2 working days and reach most Indian cities in 3-6 days. Made-to-order and customised pieces take 3-5 weeks."
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I return a handloom piece?",
+            "answer": "Yes. Unworn pieces with tags can be returned within 14 days. Customised, altered and pet pieces are final sale unless they arrive damaged."
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why are there small irregularities?",
+            "answer": "Hand processes leave traces: a slightly soft ikkat edge, a tiny slub in the cloth. These are signs of real handwork, not defects."
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How should I care for handloom?",
+            "answer": "Cotton and mul: gentle wash, dry in shade. Silk, Banaras, Muga and chiffon: dry clean first, store folded in muslin and refold every few months."
+          }
+        },
+        "faq_6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer customisation?",
+            "answer": "Yes. Most Contemporary pieces can be adjusted for fit and length, and saree blouses can be stitched to measure. Book a style consultation to start."
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ],
+      "settings": {
+        "title": "Questions, answered",
+        "heading_font": "edit",
+        "color_scheme": "alt",
+        "max_width": 820,
+        "center_align": false,
+        "one_open_at_a_time": false,
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -829,6 +894,7 @@
     "craft_map",
     "services",
     "testimonials",
+    "faq",
     "featured_collection"
   ]
 }

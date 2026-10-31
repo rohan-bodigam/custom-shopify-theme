@@ -1,0 +1,254 @@
+/* ==========================================================================
+   FAQ SECTION (House of Kala Katha)
+   Source of truth: DESIGN-TOKENS.md & reference/index.html (line 7056)
+   ========================================================================== */
+
+.faq-sec {
+  background-color: var(--faq-bg, var(--bg-alt, #EDE3D9));
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.faq-sec.alt {
+  background-color: var(--bg-alt, #EDE3D9);
+}
+
+.faq-sec.default {
+  background-color: var(--bg, #F7F3EE);
+}
+
+.faq-sec.card-surface {
+  background-color: var(--card, #FFFDFA);
+}
+
+.faq-sec .wrap {
+  width: 100%;
+  max-width: var(--wrap, 1240px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gut, clamp(18px, 4vw, 48px));
+  padding-right: var(--gut, clamp(18px, 4vw, 48px));
+  box-sizing: border-box;
+}
+
+.faq-sec .faq-wrap {
+  max-width: var(--faq-max-w, 820px);
+  box-sizing: border-box;
+}
+
+.faq-sec .faq-wrap.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Head */
+.faq-sec .faq-head {
+  margin-bottom: 22px;
+}
+
+.faq-sec .faq-head h2,
+.faq-sec .faq-head .h2 {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink, #171717);
+  margin: 0;
+}
+
+.faq-sec .faq-head h2.display-font,
+.faq-sec .faq-head .h2.display-font {
+  font-family: var(--f-display, 'Cinzel', serif);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.faq-sec .faq-head .lede {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--ink-2, #4A4240);
+  margin: 10px 0 0;
+  max-width: 65ch;
+}
+
+/* FAQ Container */
+.faq-sec .faq {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-sec .faq details {
+  border-bottom: 1px solid var(--line, rgba(23, 23, 23, 0.12));
+  transition: border-color 0.2s ease;
+}
+
+.faq-sec .faq summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 40px 20px 0;
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 1.35;
+  color: var(--ink, #171717);
+  position: relative;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.faq-sec .faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-sec .faq summary::marker {
+  display: none;
+}
+
+.faq-sec .faq summary:hover {
+  color: var(--crimson, #6B2230);
+}
+
+.faq-sec .faq summary:focus-visible {
+  outline: 2px solid var(--crimson, #6B2230);
+  outline-offset: 2px;
+}
+
+/* Plus/Cross icon using pure CSS linear-gradients matching reference */
+.faq-sec .faq summary::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(currentColor, currentColor) center / 12px 1.5px no-repeat,
+              linear-gradient(currentColor, currentColor) center / 1.5px 12px no-repeat;
+  transform: translateY(-50%);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: var(--ink, #171717);
+}
+
+.faq-sec .faq details[open] summary::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.faq-sec .faq details .faq-answer {
+  padding: 0 0 20px;
+  color: var(--ink-2, #4A4240);
+  max-width: 68ch;
+  margin: 0;
+  font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.faq-sec .faq details .faq-answer p {
+  margin: 0 0 12px;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.faq-sec .faq details .faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-sec .faq details .faq-answer a {
+  color: var(--link, #6B2230);
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+.faq-sec .faq details .faq-answer a:hover {
+  opacity: 0.8;
+}
+
+/* Dark mode theme tokens */
+[data-theme="dark"] .faq-sec.alt {
+  background-color: var(--bg-alt, #1F1A1A);
+}
+
+[data-theme="dark"] .faq-sec.default {
+  background-color: var(--bg, #171717);
+}
+
+[data-theme="dark"] .faq-sec.card-surface {
+  background-color: var(--card, #211B1C);
+}
+
+[data-theme="dark"] .faq-sec .faq-head h2,
+[data-theme="dark"] .faq-sec .faq-head .h2,
+[data-theme="dark"] .faq-sec .faq summary {
+  color: var(--ink, #F1EAE2);
+}
+
+[data-theme="dark"] .faq-sec .faq summary:hover {
+  color: var(--link, #E2A3AE);
+}
+
+[data-theme="dark"] .faq-sec .faq summary::after {
+  color: var(--ink, #F1EAE2);
+}
+
+[data-theme="dark"] .faq-sec .faq details {
+  border-bottom-color: var(--line, rgba(241, 234, 226, 0.14));
+}
+
+[data-theme="dark"] .faq-sec .faq-head .lede,
+[data-theme="dark"] .faq-sec .faq details .faq-answer {
+  color: var(--ink-2, #D5CBC2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .faq-sec.alt {
+    background-color: var(--bg-alt, #1F1A1A);
+  }
+
+  :root:not([data-theme="light"]) .faq-sec.default {
+    background-color: var(--bg, #171717);
+  }
+
+  :root:not([data-theme="light"]) .faq-sec.card-surface {
+    background-color: var(--card, #211B1C);
+  }
+
+  :root:not([data-theme="light"]) .faq-sec .faq-head h2,
+  :root:not([data-theme="light"]) .faq-sec .faq-head .h2,
+  :root:not([data-theme="light"]) .faq-sec .faq summary {
+    color: var(--ink, #F1EAE2);
+  }
+
+  :root:not([data-theme="light"]) .faq-sec .faq summary:hover {
+    color: var(--link, #E2A3AE);
+  }
+
+  :root:not([data-theme="light"]) .faq-sec .faq summary::after {
+    color: var(--ink, #F1EAE2);
+  }
+
+  :root:not([data-theme="light"]) .faq-sec .faq details {
+    border-bottom-color: var(--line, rgba(241, 234, 226, 0.14));
+  }
+
+  :root:not([data-theme="light"]) .faq-sec .faq-head .lede,
+  :root:not([data-theme="light"]) .faq-sec .faq details .faq-answer {
+    color: var(--ink-2, #D5CBC2);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .faq-sec .faq summary {
+    padding: 18px 36px 18px 0;
+    font-size: 1.1rem;
+  }
+
+  .faq-sec .faq details .faq-answer {
+    font-size: 0.9rem;
+    padding-bottom: 18px;
+  }
+}

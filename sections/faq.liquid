@@ -1,0 +1,327 @@
+{{ 'section-faq.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Section-{{ section.id }} {
+    --faq-max-w: {{ section.settings.max_width | default: 820 }}px;
+    {% if section.settings.custom_bg != blank %}
+      --faq-bg: {{ section.settings.custom_bg }};
+    {% endif %}
+  }
+{%- endstyle -%}
+
+<section
+  id="Section-{{ section.id }}"
+  class="sec tight faq-sec {{ section.settings.color_scheme | default: 'alt' }} section-{{ section.id }}-padding{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="wrap">
+    <div class="faq-wrap{% if section.settings.center_align %} align-center{% endif %}">
+      {%- if section.settings.title != blank or section.settings.lede != blank -%}
+        <div class="faq-head">
+          {%- if section.settings.title != blank -%}
+            <h2 class="h2{% if section.settings.heading_font == 'display' %} display-font{% endif %}">
+              {{ section.settings.title | escape }}
+            </h2>
+          {%- endif -%}
+          {%- if section.settings.lede != blank -%}
+            <p class="lede">{{ section.settings.lede | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div
+        class="faq"
+        id="faq-{{ section.id }}"
+        data-single-open="{{ section.settings.one_open_at_a_time }}"
+      >
+        {%- for block in section.blocks -%}
+          <details
+            id="block-{{ block.id }}"
+            data-block-id="{{ block.id }}"
+            {% if block.settings.open_by_default %}
+              open
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <summary>{{ block.settings.question | escape }}</summary>
+            <div class="faq-answer">
+              {%- if block.settings.answer_richtext != blank -%}
+                {{ block.settings.answer_richtext }}
+              {%- elsif block.settings.answer != blank -%}
+                <p>{{ block.settings.answer | escape }}</p>
+              {%- endif -%}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    function initFaqSection(sectionId) {
+      const root = document.getElementById('faq-' + sectionId);
+      if (!root) return;
+
+      const singleOpen = root.dataset.singleOpen === 'true';
+      const items = root.querySelectorAll('details');
+
+      if (singleOpen) {
+        items.forEach(function(detail) {
+          detail.addEventListener('toggle', function() {
+            if (detail.open) {
+              items.forEach(function(other) {
+                if (other !== detail && other.open) {
+                  other.removeAttribute('open');
+                }
+              });
+            }
+          });
+        });
+      }
+
+      // Shopify Theme Editor Integration
+      document.addEventListener('shopify:block:select', function(e) {
+        if (e.detail && e.detail.sectionId === sectionId) {
+          const selectedBlockId = e.detail.blockId;
+          const target = root.querySelector('details[data-block-id="' + selectedBlockId + '"]');
+          if (target) {
+            target.setAttribute('open', '');
+            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        initFaqSection({{ section.id | json }});
+      });
+    } else {
+      initFaqSection({{ section.id | json }});
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail && e.detail.sectionId === {{ section.id | json }}) {
+        initFaqSection({{ section.id | json }});
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Accordion",
+  "tag": "section",
+  "class": "section-faq-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Questions, answered"
+    },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading typography",
+      "options": [
+        {
+          "value": "edit",
+          "label": "Forum (Editorial Serif - Default)"
+        },
+        {
+          "value": "display",
+          "label": "Cinzel (Display Serif)"
+        }
+      ],
+      "default": "edit"
+    },
+    {
+      "type": "text",
+      "id": "lede",
+      "label": "Subtitle / Lede (Optional)"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Background style",
+      "options": [
+        {
+          "value": "alt",
+          "label": "Alternate (Champagne / Sand - Default)"
+        },
+        {
+          "value": "default",
+          "label": "Default Page Background (Ivory)"
+        },
+        {
+          "value": "card-surface",
+          "label": "Card Surface (White)"
+        }
+      ],
+      "default": "alt"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom section background",
+      "info": "Overrides background style if selected"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Maximum content width",
+      "default": 820
+    },
+    {
+      "type": "checkbox",
+      "id": "center_align",
+      "label": "Center align FAQ container",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "one_open_at_a_time",
+      "label": "Allow only one item open at a time",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Question & Answer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Is everything handmade?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer (Plain Text)",
+          "default": "Our pieces are made from handloom and handcrafted cloth. Each product page names the weave, the fibre and the region it comes from."
+        },
+        {
+          "type": "richtext",
+          "id": "answer_richtext",
+          "label": "Answer with rich text / links (Optional)",
+          "info": "Overrides plain text answer if filled"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Questions, answered (FAQ)",
+      "settings": {
+        "title": "Questions, answered",
+        "color_scheme": "alt",
+        "max_width": 820
+      },
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is everything handmade?",
+            "answer": "Our pieces are made from handloom and handcrafted cloth. Each product page names the weave, the fibre and the region it comes from."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "In-stock pieces ship within 2 working days and reach most Indian cities in 3-6 days. Made-to-order and customised pieces take 3-5 weeks."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I return a handloom piece?",
+            "answer": "Yes. Unworn pieces with tags can be returned within 14 days. Customised, altered and pet pieces are final sale unless they arrive damaged."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Why are there small irregularities?",
+            "answer": "Hand processes leave traces: a slightly soft ikkat edge, a tiny slub in the cloth. These are signs of real handwork, not defects."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How should I care for handloom?",
+            "answer": "Cotton and mul: gentle wash, dry in shade. Silk, Banaras, Muga and chiffon: dry clean first, store folded in muslin and refold every few months."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer customisation?",
+            "answer": "Yes. Most Contemporary pieces can be adjusted for fit and length, and saree blouses can be stitched to measure. Book a style consultation to start."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
