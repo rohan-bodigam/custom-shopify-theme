@@ -1,0 +1,251 @@
+{
+  "sections": {
+    "banner": {
+      "type": "chapter-banner",
+      "settings": {
+        "show_breadcrumbs": true,
+        "breadcrumbs_parent_label": "All Chapters",
+        "breadcrumbs_parent_link": "/pages/culture",
+        "pre_heading": "",
+        "heading": "",
+        "tagline": "",
+        "states": "",
+        "button_label": "Shop This Chapter",
+        "button_link": "",
+        "min_height_desktop": 560,
+        "min_height_mobile": 460,
+        "text_color": "#F7F3EE",
+        "button_bg_color": "#F7F3EE",
+        "button_text_color": "#5C1E2D"
+      }
+    },
+    "weaves_tabs": {
+      "type": "chapter-weaves-tabs",
+      "blocks": {
+        "tab_1": {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Mul Cotton",
+            "is_soon": false
+          }
+        },
+        "tab_2": {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Baluchari",
+            "is_soon": false
+          }
+        },
+        "tab_3": {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Swarnachari",
+            "is_soon": false
+          }
+        },
+        "tab_4": {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Jamdani",
+            "is_soon": true,
+            "soon_badge_text": "Soon"
+          }
+        },
+        "tab_5": {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Sambalpuri",
+            "is_soon": true,
+            "soon_badge_text": "Soon"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4",
+        "tab_5"
+      ],
+      "settings": {
+        "heading": "Shop by weave",
+        "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "active_tab_bg": "#4E5540",
+        "active_tab_text": "#F7F3EE",
+        "card_bg": "#FAF7F2",
+        "border_color": "#E8DFD5",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "about": {
+      "type": "chapter-about",
+      "settings": {
+        "heading": "ABOUT THIS CHAPTER",
+        "show_warp_icon": true,
+        "katha": "",
+        "about": "",
+        "fact_1_value": "",
+        "fact_1_label": "states",
+        "fact_2_value": "Handloom",
+        "fact_2_label": "made in small runs",
+        "background_color": "#F6F2EA",
+        "warp_icon_color": "#B08D57",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "landscape": {
+      "type": "chapter-landscape",
+      "settings": {
+        "heading": "The landscape behind the loom",
+        "paragraph_1": "",
+        "paragraph_2": "",
+        "paragraph_3": "",
+        "image_position_mobile": "below_text",
+        "background_color": "#FFFFFF",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "quick_reference": {
+      "type": "chapter-quick-reference",
+      "blocks": {
+        "row_1": {
+          "type": "table_row",
+          "settings": {
+            "craft": "Mul Cotton",
+            "place": "Bengal tradition, woven across several clusters",
+            "technique": "Plain or lightly patterned weave on handloom",
+            "material": "Very fine soft cotton",
+            "look": "Light, slightly crinkled hand and a soft drape"
+          }
+        },
+        "row_2": {
+          "type": "table_row",
+          "settings": {
+            "craft": "Baluchari",
+            "place": "Bishnupur, Bankura district, West Bengal",
+            "technique": "Jacquard handloom, figured pallu and border",
+            "material": "Mulberry silk",
+            "look": "Story pallus: scenes woven into the silk"
+          }
+        },
+        "row_3": {
+          "type": "table_row",
+          "settings": {
+            "craft": "Swarnachari",
+            "place": "Bishnupur, Bankura district, West Bengal",
+            "technique": "Jacquard handloom with zari figuring",
+            "material": "Mulberry silk with zari",
+            "look": "Baluchari scenes picked out in gold"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3"
+      ],
+      "settings": {
+        "heading": "Quick reference",
+        "col_1_label": "Craft",
+        "col_2_label": "Place",
+        "col_3_label": "Technique",
+        "col_4_label": "Material",
+        "col_5_label": "Look",
+        "background_color": "#F6F2EA",
+        "card_background_color": "#FFFFFF",
+        "header_background_color": "#F7F4EE",
+        "border_color": "#E8DFD5",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
+    },
+    "weaves_read": {
+      "type": "chapter-weaves-read",
+      "blocks": {
+        "weave_1": {
+          "type": "weave_card",
+          "settings": {
+            "is_featured": true,
+            "kicker": "West Bengal and beyond",
+            "title": "MUL COTTON",
+            "description": "Mul, or mulmul, is the name for a very fine, soft, lightweight cotton. The word is tied to the muslin tradition of Bengal, where the thinnest yarns were woven into cloth that felt almost weightless. A good mul cotton has a close, even weave, a gentle crinkle after washing and a drape that falls rather than stands. It breathes in heat and layers easily in cooler months. In the house, mul cotton is used for sarees with woven stripe borders, for relaxed kurtas and shirts, for co-ord sets and for children’s clothes, where softness matters most. Look for an even surface, a cloth that softens with wear and borders that are woven in, not printed on.",
+            "quote": "Mul is the cloth you stop noticing, which is the point.",
+            "link_label": "Shop Mul Cotton",
+            "link_url": ""
+          }
+        },
+        "weave_2": {
+          "type": "weave_card",
+          "settings": {
+            "is_featured": false,
+            "kicker": "Bishnupur, West Bengal",
+            "title": "BALUCHARI",
+            "description": "Baluchari is Bengal’s narrative silk. The pallu is woven as a set of framed scenes, often from the epics or from old court life, built up thread by thread with an extra weft on a jacquard loom. Bishnupur, a temple town known for its terracotta, is the centre of the craft today. Our Single Thread Baluchari keeps to one colour of figuring weft, so the pictures read like an engraving. Meenakari Baluchari adds small inlays of a second and third colour, the way enamel is set into gold.",
+            "quote": "The pallu is a picture book you can wear.",
+            "link_label": "Shop Baluchari",
+            "link_url": ""
+          }
+        },
+        "weave_3": {
+          "type": "weave_card",
+          "settings": {
+            "is_featured": false,
+            "kicker": "Bishnupur, West Bengal",
+            "title": "SWARNACHARI",
+            "description": "Swarnachari is Baluchari’s festive sibling. The same framed scenes run across the pallu, but they are woven in gold or silver zari rather than silk, so the figures catch the light. Our Meenakari Swarnachari sarees add coloured highlights inside the zari, in the manner of enamel work, on deep red, green and blue grounds.",
+            "quote": "Baluchari tells the story; Swarnachari lights it up.",
+            "link_label": "Shop Swarnachari",
+            "link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "weave_1",
+        "weave_2",
+        "weave_3"
+      ],
+      "settings": {
+        "heading": "THE WEAVES",
+        "subheading": "Where each craft comes from, how it is made and how to recognise it.",
+        "background_color": "#F6F2EA",
+        "card_background": "#FFFFFF",
+        "link_color": "#6B2230",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "future": {
+      "type": "chapter-future",
+      "settings": {
+        "heading": "THE FUTURE OF THESE CRAFTS",
+        "show_warp_icon": true,
+        "show_thread_accent": true,
+        "paragraph_1": "",
+        "paragraph_2": "",
+        "paragraph_3": "",
+        "background_color": "#4A1420",
+        "text_color": "#F7F3EE",
+        "warp_color": "#C4A661",
+        "thread_color": "#8C283C",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "weaves_tabs",
+    "about",
+    "landscape",
+    "quick_reference",
+    "weaves_read",
+    "future"
+  ]
+}
+
+

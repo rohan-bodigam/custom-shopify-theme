@@ -1,0 +1,283 @@
+{{ 'section-chapter.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  # Automatic default fallback based on page handle if setting is left blank
+  assign current_handle = page.handle
+  assign default_pre = 'Chapter 01'
+  assign default_heading = page.title | default: 'East India'
+  assign default_tagline = 'Where Every Thread Tells a Story'
+  assign default_states = 'West Bengal · Odisha · Bihar · Jharkhand'
+  assign default_bg = '#4E5540'
+
+  if current_handle == 'west-central-india'
+    assign default_pre = 'Chapter 02'
+    assign default_heading = 'West & Central India'
+    assign default_tagline = 'Where Colour Meets Craft'
+    assign default_states = 'Rajasthan · Gujarat · Maharashtra · Madhya Pradesh · Goa'
+    assign default_bg = '#5C1E2D'
+  elsif current_handle == 'south-india'
+    assign default_pre = 'Chapter 03'
+    assign default_heading = 'South India'
+    assign default_tagline = 'Woven in Temples, Temples in the Cloth'
+    assign default_states = 'Tamil Nadu · Karnataka · Andhra Pradesh · Telangana · Kerala'
+    assign default_bg = '#263B48'
+  elsif current_handle == 'north-india'
+    assign default_pre = 'Chapter 04'
+    assign default_heading = 'North India'
+    assign default_tagline = 'Courts, Cold Winds and the Golden Needle'
+    assign default_states = 'Jammu & Kashmir · Punjab · Himachal Pradesh · Uttar Pradesh'
+    assign default_bg = '#6E4D2B'
+  elsif current_handle == 'north-east-india'
+    assign default_pre = 'Chapter 05'
+    assign default_heading = 'North East India'
+    assign default_tagline = 'Muga, Hills and the Loom in Every Home'
+    assign default_states = 'Assam · Meghalaya · Nagaland · Manipur · Mizoram · Tripura · Arunachal Pradesh'
+    assign default_bg = '#7C3524'
+  endif
+
+  assign pre_heading = section.settings.pre_heading | default: default_pre
+  assign heading = section.settings.heading | default: default_heading
+  assign tagline = section.settings.tagline | default: default_tagline
+  assign states = section.settings.states | default: default_states
+  assign bg_color = section.settings.background_color | default: default_bg
+-%}
+
+{%- style -%}
+  #ChapterBanner-{{ section.id }} {
+    min-height: {{ section.settings.min_height_mobile }}px;
+    --chapter-bg: {{ bg_color }};
+    --chapter-text: {{ section.settings.text_color }};
+    --btn-bg: {{ section.settings.button_bg_color }};
+    --btn-text: {{ section.settings.button_text_color }};
+  }
+
+  @media screen and (min-width: 769px) {
+    #ChapterBanner-{{ section.id }} {
+      min-height: {{ section.settings.min_height_desktop }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="ChapterBanner-{{ section.id }}"
+  class="chapter-banner"
+  data-section-id="{{ section.id }}"
+>
+  <div class="chapter-banner__media">
+    {%- if section.settings.image != blank -%}
+      {%- liquid
+        assign image_class = 'chapter-banner__img'
+        if section.settings.mobile_image != blank
+          assign image_class = image_class | append: ' small-hide'
+        endif
+      -%}
+      {{
+        section.settings.image
+        | image_url: width: 2800
+        | image_tag:
+          loading: 'eager',
+          class: image_class,
+          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 2800',
+          alt: section.settings.image.alt | default: heading | escape
+      }}
+
+      {%- if section.settings.mobile_image != blank -%}
+        {{
+          section.settings.mobile_image
+          | image_url: width: 1100
+          | image_tag:
+            loading: 'eager',
+            class: 'chapter-banner__img medium-hide large-up-hide',
+            widths: '375, 550, 750, 1100',
+            alt: section.settings.mobile_image.alt | default: heading | escape
+        }}
+      {%- endif -%}
+    {%- else -%}
+      <div class="chapter-banner__placeholder" role="img" aria-label="{{ heading | escape }}"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="chapter-banner__inner">
+    <div class="chapter-banner__content">
+      {%- if section.settings.show_breadcrumbs -%}
+        <nav class="chapter-banner__breadcrumbs" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          <span class="sep" aria-hidden="true">/</span>
+          <a href="{{ section.settings.breadcrumbs_parent_link | default: '/pages/culture' }}">
+            {{ section.settings.breadcrumbs_parent_label | default: 'All Chapters' }}
+          </a>
+          <span class="sep" aria-hidden="true">/</span>
+          <span aria-current="page">{{ heading | escape }}</span>
+        </nav>
+      {%- endif -%}
+
+      {%- if pre_heading != blank -%}
+        <div class="chapter-banner__pre">{{ pre_heading | escape }}</div>
+      {%- endif -%}
+
+      {%- if heading != blank -%}
+        <h1 class="chapter-banner__heading">{{ heading | escape }}</h1>
+      {%- endif -%}
+
+      {%- if tagline != blank -%}
+        <p class="chapter-banner__tagline">{{ tagline | escape }}</p>
+      {%- endif -%}
+
+      {%- if states != blank -%}
+        <p class="chapter-banner__states">{{ states | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="chapter-banner__actions">
+          <a
+            href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
+            class="chapter-banner__btn"
+          >
+            {{ section.settings.button_label | escape }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Chapter Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile banner image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Navigation & Breadcrumbs"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show breadcrumbs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "breadcrumbs_parent_label",
+      "label": "Parent page label",
+      "default": "All Chapters"
+    },
+    {
+      "type": "url",
+      "id": "breadcrumbs_parent_link",
+      "label": "Parent page link"
+    },
+    {
+      "type": "header",
+      "content": "Chapter Content"
+    },
+    {
+      "type": "text",
+      "id": "pre_heading",
+      "label": "Pre-heading / Chapter number",
+      "info": "Leave blank to auto-detect e.g. Chapter 01"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading / Chapter title",
+      "info": "Leave blank to auto-detect e.g. East India"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "info": "Leave blank to auto-detect e.g. Where Every Thread Tells a Story"
+    },
+    {
+      "type": "text",
+      "id": "states",
+      "label": "Region states list",
+      "info": "Leave blank to auto-detect e.g. West Bengal · Odisha · Bihar · Jharkhand"
+    },
+    {
+      "type": "header",
+      "content": "Call To Action Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop This Chapter"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button destination link"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Dimensions"
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop minimum height",
+      "default": 560
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 300,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "label": "Mobile minimum height",
+      "default": 460
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fallback background color",
+      "info": "Used when no image is uploaded or before image loads"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#5C1E2D"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Chapter Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,214 @@
+{{ 'section-chapter.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  # Automatic default fallback based on page handle if setting is left blank
+  assign current_handle = page.handle
+
+  assign default_p1 = 'Mul cotton is one of the most practical textiles India makes, and it suits a warming climate. The craft is not fading so much as being asked to do more, with more garment types, more colours and more everyday uses.'
+  assign default_p2 = 'What helps most is honest labelling and fair prices. Fine yarn and careful weaving take time, and a price that respects that keeps the looms working.'
+
+  if current_handle == 'west-central-india'
+    assign default_p1 = 'Maheshwari and Kota Doria are among the handloom success stories of the last few decades, helped by design collaborations, cooperatives and the fact that both suit the way people dress now.'
+    assign default_p2 = 'The pressures are familiar: powerloom copies of the Kota check, and an ageing weaver base. What helps most is clear labelling, steady orders and new products that keep younger weavers in the craft.'
+  elsif current_handle == 'south-india'
+    assign default_p1 = 'Both traditions are working crafts with real markets. Ikkat is used all over fashion now, and Mangalagiri’s plain, sturdy cloth is a natural fit for modern everyday wear.'
+    assign default_p2 = 'Challenges remain: powerloom imitations and printed “ikkat” look-alikes undercut weavers. Clear labelling and informed buyers do the most to protect the real thing.'
+  elsif current_handle == 'north-india'
+    assign default_p1 = 'Banaras weaving has faced real pressure from powerloom copies, rising costs of silk and zari, and a shrinking number of master weavers. Design collaborations and clear labelling have helped, and so have buyers who ask who wove the saree.'
+    assign default_p2 = 'Lighter cloths like chiffon give the same palette to people who find brocade too heavy. They also widen the market for the gold-edged work at which North India excels.'
+  elsif current_handle == 'north-east-india'
+    assign default_p1 = 'Muga’s future depends on its supply of silkworms and host trees, which in turn depends on forests and the farmers who tend them. Climate change and the cost of rearing have put pressure on production.'
+    assign default_p2 = 'Fair prices and certified origin are the best protection. Buyers who choose genuine Muga keep rearers, reelers and weavers in the craft.'
+  endif
+
+  assign heading = section.settings.heading | default: 'THE FUTURE OF THESE CRAFTS'
+  assign p1 = section.settings.paragraph_1 | default: default_p1
+  assign p2 = section.settings.paragraph_2 | default: default_p2
+  assign p3 = section.settings.paragraph_3
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} {
+    --future-bg: {{ section.settings.background_color }};
+    --future-text: {{ section.settings.text_color }};
+    --future-warp: {{ section.settings.warp_color }};
+  }
+{%- endstyle -%}
+
+<section
+  id="ChapterFuture-{{ section.id }}"
+  class="chapter-future-section section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  <div class="chapter-future__container">
+    <div class="chapter-future__grid">
+      <div class="chapter-future__head">
+        {%- if section.settings.show_warp_icon -%}
+          <div class="chapter-future__warp" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_thread_accent -%}
+          <svg
+            class="chapter-future__thread-accent"
+            viewBox="0 0 120 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            style="color: {{ section.settings.thread_color }};"
+          >
+            <path d="M0 28 C 35 15, 75 -5, 120 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        {%- endif -%}
+
+        <h2 class="chapter-future__heading">{{ heading }}</h2>
+      </div>
+
+      <div class="chapter-future__prose">
+        {%- if p1 != blank -%}
+          <p>{{ p1 | newline_to_br }}</p>
+        {%- endif -%}
+        {%- if p2 != blank -%}
+          <p>{{ p2 | newline_to_br }}</p>
+        {%- endif -%}
+        {%- if p3 != blank -%}
+          <p>{{ p3 | newline_to_br }}</p>
+        {%- endif -%}
+
+        {%- for block in section.blocks -%}
+          {%- if block.settings.text != blank -%}
+            <p {{ block.shopify_attributes }}>{{ block.settings.text | newline_to_br }}</p>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Chapter Future of Crafts",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE FUTURE OF THESE CRAFTS"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_warp_icon",
+      "label": "Show Gold Warp Motif",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thread_accent",
+      "label": "Show Curving Accent Thread",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "Story Paragraph 1",
+      "info": "Leave blank to use automatic chapter narrative"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Story Paragraph 2",
+      "info": "Leave blank to use automatic chapter narrative"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_3",
+      "label": "Story Paragraph 3 (Optional)"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#4A1420"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "warp_color",
+      "label": "Warp Icon Color",
+      "default": "#C4A661"
+    },
+    {
+      "type": "color",
+      "id": "thread_color",
+      "label": "Accent Thread Color",
+      "default": "#8C283C"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "name": "Additional Paragraph",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Paragraph Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Chapter Future of Crafts"
+    }
+  ]
+}
+{% endschema %}

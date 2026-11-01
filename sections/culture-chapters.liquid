@@ -26,13 +26,13 @@
   class="culture-chapters-section section-{{ section.id }}-padding"
   data-section-id="{{ section.id }}"
 >
-  {%- if section.settings.show_side_thread -%}
+  {% comment %} {%- if section.settings.show_side_thread -%}
     <div class="culture-chapters__side-thread" aria-hidden="true">
       <svg viewBox="0 0 60 800" preserveAspectRatio="none">
         <path d="M50,0 C10,180 55,360 20,540 C-5,660 45,740 30,800" stroke-width="1.5" stroke-linecap="round" />
       </svg>
     </div>
-  {%- endif -%}
+  {%- endif -%} {% endcomment %}
 
   <div class="culture-chapters__container">
     {%- if section.settings.heading != blank or section.settings.lede != blank -%}

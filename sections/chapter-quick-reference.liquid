@@ -1,0 +1,247 @@
+{{ 'section-chapter.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #ChapterRef-{{ section.id }} {
+    --ref-bg: {{ section.settings.background_color }};
+    --ref-card-bg: {{ section.settings.card_background_color }};
+    --ref-th-bg: {{ section.settings.header_background_color }};
+    --ref-border-color: {{ section.settings.border_color }};
+  }
+{%- endstyle -%}
+
+<section
+  id="ChapterRef-{{ section.id }}"
+  class="chapter-reference-section section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  <div class="chapter-reference__container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="chapter-reference__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="chapter-reference__card">
+      <div class="chapter-reference__table-wrap">
+        <table class="chapter-reference__table">
+          <thead>
+            <tr>
+              <th scope="col">{{ section.settings.col_1_label | default: 'Craft' | escape }}</th>
+              <th scope="col">{{ section.settings.col_2_label | default: 'Place' | escape }}</th>
+              <th scope="col">{{ section.settings.col_3_label | default: 'Technique' | escape }}</th>
+              <th scope="col">{{ section.settings.col_4_label | default: 'Material' | escape }}</th>
+              <th scope="col">{{ section.settings.col_5_label | default: 'Look' | escape }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in section.blocks -%}
+              <tr {{ block.shopify_attributes }}>
+                <td>{{ block.settings.craft | escape }}</td>
+                <td>{{ block.settings.place | escape }}</td>
+                <td>{{ block.settings.technique | escape }}</td>
+                <td>{{ block.settings.material | escape }}</td>
+                <td>{{ block.settings.look | escape }}</td>
+              </tr>
+            {%- else -%}
+              {% comment %} Fallback row if no blocks exist {% endcomment %}
+              <tr>
+                <td>Mul Cotton</td>
+                <td>Bengal tradition, woven across several clusters</td>
+                <td>Plain or lightly patterned weave on handloom</td>
+                <td>Very fine soft cotton</td>
+                <td>Light, slightly crinkled hand and a soft drape</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Chapter Quick Reference",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Quick reference"
+    },
+    {
+      "type": "header",
+      "content": "Table Column Headers"
+    },
+    {
+      "type": "text",
+      "id": "col_1_label",
+      "label": "Column 1 label",
+      "default": "Craft"
+    },
+    {
+      "type": "text",
+      "id": "col_2_label",
+      "label": "Column 2 label",
+      "default": "Place"
+    },
+    {
+      "type": "text",
+      "id": "col_3_label",
+      "label": "Column 3 label",
+      "default": "Technique"
+    },
+    {
+      "type": "text",
+      "id": "col_4_label",
+      "label": "Column 4 label",
+      "default": "Material"
+    },
+    {
+      "type": "text",
+      "id": "col_5_label",
+      "label": "Column 5 label",
+      "default": "Look"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Styling"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "default": "#F6F2EA"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "Table header row background",
+      "default": "#F7F4EE"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#E8DFD5"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "table_row",
+      "name": "Craft Reference Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "craft",
+          "label": "Craft name",
+          "default": "Mul Cotton"
+        },
+        {
+          "type": "textarea",
+          "id": "place",
+          "label": "Place / Region",
+          "default": "Bengal tradition, woven across several clusters"
+        },
+        {
+          "type": "textarea",
+          "id": "technique",
+          "label": "Technique",
+          "default": "Plain or lightly patterned weave on handloom"
+        },
+        {
+          "type": "textarea",
+          "id": "material",
+          "label": "Material",
+          "default": "Very fine soft cotton"
+        },
+        {
+          "type": "textarea",
+          "id": "look",
+          "label": "Look / Drape",
+          "default": "Light, slightly crinkled hand and a soft drape"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Chapter Quick Reference",
+      "blocks": [
+        {
+          "type": "table_row",
+          "settings": {
+            "craft": "Mul Cotton",
+            "place": "Bengal tradition, woven across several clusters",
+            "technique": "Plain or lightly patterned weave on handloom",
+            "material": "Very fine soft cotton",
+            "look": "Light, slightly crinkled hand and a soft drape"
+          }
+        },
+        {
+          "type": "table_row",
+          "settings": {
+            "craft": "Baluchari",
+            "place": "Bishnupur, Bankura district, West Bengal",
+            "technique": "Jacquard handloom, figured pallu and border",
+            "material": "Mulberry silk",
+            "look": "Story pallus: scenes woven into the silk"
+          }
+        },
+        {
+          "type": "table_row",
+          "settings": {
+            "craft": "Swarnachari",
+            "place": "Bishnupur, Bankura district, West Bengal",
+            "technique": "Jacquard handloom with zari figuring",
+            "material": "Mulberry silk with zari",
+            "look": "Baluchari scenes picked out in gold"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

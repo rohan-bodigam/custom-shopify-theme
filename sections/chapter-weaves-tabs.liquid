@@ -1,0 +1,400 @@
+{{ 'section-chapter.css' | asset_url | stylesheet_tag }}
+{{ 'section-collection-grid.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #ChapterWeaves-{{ section.id }} {
+    --active-tab-bg: {{ section.settings.active_tab_bg }};
+    --active-tab-text: {{ section.settings.active_tab_text }};
+    --card-bg: {{ section.settings.card_bg }};
+    --border-color: {{ section.settings.border_color }};
+    --grid-cols: {{ section.settings.columns_desktop }};
+  }
+{%- endstyle -%}
+
+<section
+  id="ChapterWeaves-{{ section.id }}"
+  class="chapter-weaves-section section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  <div class="chapter-weaves__container">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="chapter-weaves__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="chapter-weaves__title">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="chapter-weaves__lede">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div
+        class="chapter-weaves__tabs-nav"
+        role="tablist"
+        aria-label="{{ section.settings.heading | default: 'Weave collections' | escape }}"
+      >
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign tab_collection = block.settings.collection
+            assign tab_label = block.settings.title
+            if tab_label == blank and tab_collection != blank
+              assign tab_label = tab_collection.title
+            elsif tab_label == blank
+              assign tab_label = 'Weave ' | append: forloop.index
+            endif
+          -%}
+          <button
+            type="button"
+            role="tab"
+            class="chapter-weaves__tab-btn{% if forloop.first %} is-active{% endif %}"
+            id="TabBtn-{{ section.id }}-{{ block.id }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-controls="TabPanel-{{ section.id }}-{{ block.id }}"
+            data-target="TabPanel-{{ section.id }}-{{ block.id }}"
+            {{ block.shopify_attributes }}
+          >
+            <span>{{ tab_label | escape }}</span>
+            {%- if block.settings.is_soon -%}
+              <span class="badge-soon">{{ block.settings.soon_badge_text | default: 'Soon' | escape }}</span>
+            {%- endif -%}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <div class="chapter-weaves__card">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign tab_collection = block.settings.collection
+            assign tab_label = block.settings.title
+            if tab_label == blank and tab_collection != blank
+              assign tab_label = tab_collection.title
+            elsif tab_label == blank
+              assign tab_label = 'Weave ' | append: forloop.index
+            endif
+
+            assign shop_all_url = block.settings.shop_all_link
+            if shop_all_url == blank and tab_collection != blank
+              assign shop_all_url = tab_collection.url
+            elsif shop_all_url == blank
+              assign shop_all_url = routes.all_products_collection_url
+            endif
+          -%}
+
+          <div
+            id="TabPanel-{{ section.id }}-{{ block.id }}"
+            class="chapter-weaves__panel{% if forloop.first %} is-active{% endif %}"
+            role="tabpanel"
+            aria-labelledby="TabBtn-{{ section.id }}-{{ block.id }}"
+            {% unless forloop.first %}hidden{% endunless %}
+          >
+            {%- if block.settings.is_soon -%}
+              <div class="chapter-weaves__soon-box">
+                <div class="chapter-weaves__soon-icon" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <h3 class="chapter-weaves__soon-title">{{ block.settings.soon_heading | default: 'Cloth Still On The Loom' | escape }}</h3>
+                <p class="chapter-weaves__soon-text">{{ block.settings.soon_text | default: 'The first pieces of this weave are currently on the loom. Check back soon or explore our other collections.' | escape }}</p>
+              </div>
+            {%- else -%}
+              <div class="chapter-weaves__panel-header">
+                <h3 class="chapter-weaves__panel-title">{{ tab_label | escape }}</h3>
+                {%- if block.settings.shop_all_label != blank -%}
+                  <a href="{{ shop_all_url }}" class="chapter-weaves__shop-all">
+                    {{ block.settings.shop_all_label | escape }}
+                  </a>
+                {%- endif -%}
+              </div>
+
+              <div class="chapter-weaves__grid">
+                {%- if tab_collection != blank and tab_collection.products_count > 0 -%}
+                  {%- for product in tab_collection.products limit: section.settings.products_to_show -%}
+                    <div class="chapter-weaves__grid-item">
+                      {% render 'card-product',
+                        card_product: product,
+                        media_aspect_ratio: 'portrait',
+                        show_secondary_image: true,
+                        quick_add: 'standard',
+                        section_id: section.id
+                      %}
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  {% comment %} Elegant placeholder cards if collection is empty or in theme editor preview {% endcomment %}
+                  {%- for i in (1..section.settings.products_to_show) -%}
+                    <div class="chapter-weaves__grid-item">
+                      {% render 'card-product',
+                        media_aspect_ratio: 'portrait',
+                        show_secondary_image: false,
+                        section_id: section.id,
+                        placeholder_image: 'product-apparel-2'
+                      %}
+                    </div>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function () {
+    function initChapterTabs(section) {
+      if (!section) return;
+      const tabButtons = section.querySelectorAll('.chapter-weaves__tab-btn');
+      const tabPanels = section.querySelectorAll('.chapter-weaves__panel');
+
+      tabButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const targetId = btn.getAttribute('data-target');
+          if (!targetId) return;
+
+          tabButtons.forEach(function (b) {
+            b.classList.remove('is-active');
+            b.setAttribute('aria-selected', 'false');
+          });
+
+          tabPanels.forEach(function (panel) {
+            panel.classList.remove('is-active');
+            panel.hidden = true;
+          });
+
+          btn.classList.add('is-active');
+          btn.setAttribute('aria-selected', 'true');
+
+          const activePanel = document.getElementById(targetId);
+          if (activePanel) {
+            activePanel.classList.add('is-active');
+            activePanel.hidden = false;
+          }
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.chapter-weaves-section').forEach(initChapterTabs);
+    });
+
+    if (Shopify && Shopify.designMode) {
+      document.addEventListener('shopify:section:load', function (e) {
+        if (e.target.classList.contains('chapter-weaves-section')) {
+          initChapterTabs(e.target);
+        }
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Chapter Weaves Tabs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by weave"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub-heading",
+      "default": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon."
+    },
+    {
+      "type": "header",
+      "content": "Grid & Products"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 16,
+      "step": 4,
+      "label": "Products to show per collection",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Desktop columns",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Colors & Styling"
+    },
+    {
+      "type": "color",
+      "id": "active_tab_bg",
+      "label": "Active tab pill color",
+      "default": "#4E5540"
+    },
+    {
+      "type": "color",
+      "id": "active_tab_text",
+      "label": "Active tab text color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Enclosing container card color",
+      "default": "#FAF7F2"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Card border color",
+      "default": "#E8DFD5"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "Collection Tab",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab label override (optional)",
+          "info": "Leave blank to use collection title"
+        },
+        {
+          "type": "text",
+          "id": "shop_all_label",
+          "label": "Shop all button label",
+          "default": "Shop All"
+        },
+        {
+          "type": "url",
+          "id": "shop_all_link",
+          "label": "Shop all link override (optional)"
+        },
+        {
+          "type": "header",
+          "content": "Coming Soon Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_soon",
+          "label": "Mark this weave as Coming Soon",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "soon_badge_text",
+          "label": "Badge text",
+          "default": "Soon"
+        },
+        {
+          "type": "text",
+          "id": "soon_heading",
+          "label": "Coming soon title",
+          "default": "Cloth Still On The Loom"
+        },
+        {
+          "type": "textarea",
+          "id": "soon_text",
+          "label": "Coming soon message",
+          "default": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Chapter Weaves Tabs",
+      "blocks": [
+        {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Mul Cotton",
+            "is_soon": false
+          }
+        },
+        {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Baluchari",
+            "is_soon": false
+          }
+        },
+        {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Swarnachari",
+            "is_soon": false
+          }
+        },
+        {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Jamdani",
+            "is_soon": true,
+            "soon_badge_text": "Soon"
+          }
+        },
+        {
+          "type": "collection_tab",
+          "settings": {
+            "title": "Sambalpuri",
+            "is_soon": true,
+            "soon_badge_text": "Soon"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
