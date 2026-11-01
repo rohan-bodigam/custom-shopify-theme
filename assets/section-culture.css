@@ -1,0 +1,363 @@
+/* ==========================================================================
+   Culture Page Styles - House of Kala Katha
+   Banner & Alternating Chapter Cards
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Culture Hero Banner
+   -------------------------------------------------------------------------- */
+.culture-banner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #241317;
+  display: flex;
+  align-items: center;
+}
+
+.culture-banner__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.culture-banner__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+  display: block;
+}
+
+.culture-banner__placeholder {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 40%, #502732 0%, #291218 60%, #17090D 100%);
+}
+
+.culture-banner__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.culture-banner__thread {
+  position: absolute;
+  top: 15%;
+  left: 8%;
+  width: 320px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.65;
+}
+
+.culture-banner__inner {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  padding-left: clamp(20px, 6vw, 80px);
+  padding-right: clamp(20px, 6vw, 80px);
+  max-width: var(--page-width, 1340px);
+  margin: 0 auto;
+}
+
+.culture-banner__content {
+  max-width: 580px;
+}
+
+/* Warp 5-bar Motif */
+.culture-banner__warp {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 22px;
+  margin-bottom: 18px;
+}
+
+.culture-banner__warp i {
+  display: inline-block;
+  width: 1.5px;
+  background: currentColor;
+  opacity: 0.8;
+  border-radius: 1px;
+}
+
+.culture-banner__warp i:nth-child(1) { height: 12px; }
+.culture-banner__warp i:nth-child(2) { height: 18px; }
+.culture-banner__warp i:nth-child(3) { height: 22px; }
+.culture-banner__warp i:nth-child(4) { height: 16px; }
+.culture-banner__warp i:nth-child(5) { height: 10px; }
+
+/* Heading */
+.culture-banner__heading {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+  line-height: 1.1;
+  color: inherit;
+}
+
+.culture-banner__heading--small { font-size: clamp(2rem, 3.5vw, 2.6rem); }
+.culture-banner__heading--medium { font-size: clamp(2.4rem, 4.5vw, 3.4rem); }
+.culture-banner__heading--large { font-size: clamp(2.8rem, 5.5vw, 4.2rem); }
+.culture-banner__heading--display { font-size: clamp(3.2rem, 6.5vw, 5.2rem); }
+
+/* Description */
+.culture-banner__description {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+  font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 0.92;
+  margin: 0;
+  max-width: 48ch;
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   2. Culture Chapters Section (Alternating Cards)
+   -------------------------------------------------------------------------- */
+.culture-chapters-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Delicate wavy background thread decoration on the left margin */
+.culture-chapters__side-thread {
+  position: absolute;
+  left: 0;
+  top: 60px;
+  bottom: 60px;
+  width: 60px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.55;
+}
+
+.culture-chapters__side-thread svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--side-thread-color, #8C4753);
+  fill: none;
+}
+
+.culture-chapters__container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.culture-chapters__head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+
+.culture-chapters__head-title {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 400;
+  color: #171717;
+  margin: 0 0 10px;
+}
+
+.culture-chapters__head-lede {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+  font-size: 1rem;
+  color: #6E6461;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.culture-chapters__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--chapter-gap, 32px);
+}
+
+/* Chapter Card */
+.culture-chapter-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: var(--card-radius, 20px);
+  overflow: hidden;
+  background-color: var(--card-bg, #4E5540);
+  color: var(--card-text, #F7F3EE);
+  box-shadow: 0 4px 20px -8px rgba(23, 23, 23, 0.12), 0 12px 32px -16px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.culture-chapter-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px -6px rgba(23, 23, 23, 0.18), 0 20px 40px -14px rgba(0, 0, 0, 0.24);
+}
+
+/* Alternating Column Ordering */
+.culture-chapter-card--image-right .culture-chapter-card__text {
+  order: 1;
+}
+
+.culture-chapter-card--image-right .culture-chapter-card__media {
+  order: 2;
+}
+
+.culture-chapter-card--image-left .culture-chapter-card__text {
+  order: 2;
+}
+
+.culture-chapter-card--image-left .culture-chapter-card__media {
+  order: 1;
+}
+
+/* Card Text Column */
+.culture-chapter-card__text {
+  padding: clamp(32px, 5vw, 64px) clamp(28px, 4.5vw, 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+/* Pre-heading ("CHAPTER 01") */
+.culture-chapter-card__pre {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: inherit;
+  opacity: 0.75;
+  line-height: 1;
+}
+
+/* Heading ("EAST INDIA") */
+.culture-chapter-card__heading {
+  font-family: var(--f-edit, 'Forum', Georgia, serif);
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+  color: inherit;
+}
+
+/* Sub-heading / Description / States */
+.culture-chapter-card__desc {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+  font-size: clamp(0.92rem, 1.15vw, 1.02rem);
+  font-weight: 400;
+  line-height: 1.55;
+  margin: 0 0 28px;
+  color: inherit;
+  opacity: 0.9;
+  max-width: 44ch;
+}
+
+/* Button CTA ("Read the Chapter") */
+.culture-chapter-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 28px;
+  border-radius: 999px;
+  border: 1.5px solid var(--btn-border, rgba(247, 243, 238, 0.65));
+  background: transparent;
+  color: inherit;
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.culture-chapter-card__btn:hover {
+  background: #F7F3EE;
+  color: var(--card-bg, #171717);
+  border-color: #F7F3EE;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Media Column */
+.culture-chapter-card__media {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.culture-chapter-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Empty image placeholder pattern */
+.culture-chapter-card__media-placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.12);
+  color: inherit;
+  opacity: 0.6;
+}
+
+.culture-chapter-card__media-placeholder svg {
+  width: 48px;
+  height: 48px;
+  stroke: currentColor;
+  fill: none;
+}
+
+/* --------------------------------------------------------------------------
+   3. Responsive Design
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 860px) {
+  .culture-chapter-card {
+    grid-template-columns: 1fr;
+  }
+
+  .culture-chapter-card--image-right .culture-chapter-card__text,
+  .culture-chapter-card--image-left .culture-chapter-card__text {
+    order: 2;
+  }
+
+  .culture-chapter-card--image-right .culture-chapter-card__media,
+  .culture-chapter-card--image-left .culture-chapter-card__media {
+    order: 1;
+    min-height: 280px;
+  }
+
+  .culture-chapter-card__text {
+    padding: 32px 24px;
+  }
+
+  .culture-chapters__side-thread {
+    display: none;
+  }
+}

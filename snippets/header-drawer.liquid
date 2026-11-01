@@ -32,9 +32,9 @@
           <nav class="menu-drawer__navigation">
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
               {%- for link in section.settings.menu.links -%}
-                {%- assign link_title_downcase = link.title | downcase | strip -%}
-                {%- if link_title_downcase contains 'chapter' or link.handle == 'chapters' -%}
-                  <li>
+                <li>
+                  {%- assign link_title_downcase = link.title | downcase | strip -%}
+                  {%- if link_title_downcase contains 'chapter' or link.handle == 'chapters' -%}
                     <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
                       <summary
                         id="HeaderDrawer-{{ link.handle }}"
@@ -132,7 +132,6 @@
                         </div>
                       </div>
                     </details>
-                  </li>
                 {%- elsif link.links != blank -%}
                     <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
                       <summary

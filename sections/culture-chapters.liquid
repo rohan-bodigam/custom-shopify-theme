@@ -1,0 +1,341 @@
+{{ 'section-culture.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #CultureChapters-{{ section.id }} {
+    background-color: {{ section.settings.section_bg_color }};
+    --card-radius: {{ section.settings.card_border_radius }}px;
+    --chapter-gap: {{ section.settings.card_gap }}px;
+    --side-thread-color: {{ section.settings.side_thread_color }};
+  }
+{%- endstyle -%}
+
+<section
+  id="CultureChapters-{{ section.id }}"
+  class="culture-chapters-section section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  {%- if section.settings.show_side_thread -%}
+    <div class="culture-chapters__side-thread" aria-hidden="true">
+      <svg viewBox="0 0 60 800" preserveAspectRatio="none">
+        <path d="M50,0 C10,180 55,360 20,540 C-5,660 45,740 30,800" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+    </div>
+  {%- endif -%}
+
+  <div class="culture-chapters__container">
+    {%- if section.settings.heading != blank or section.settings.lede != blank -%}
+      <div class="culture-chapters__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="culture-chapters__head-title">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.lede != blank -%}
+          <p class="culture-chapters__head-lede">{{ section.settings.lede | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="culture-chapters__list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign is_image_left = false
+          if block.settings.image_position == 'left'
+            assign is_image_left = true
+          elsif block.settings.image_position == 'right'
+            assign is_image_left = false
+          else
+            # 'auto' alternating mode: odd cards text-left / image-right, even cards image-left / text-right
+            assign modulo = forloop.index | modulo: 2
+            if modulo == 0
+              assign is_image_left = true
+            else
+              assign is_image_left = false
+            endif
+          endif
+
+          assign btn_border = block.settings.button_border_color
+          if btn_border == blank
+            assign btn_border = block.settings.text_color | color_modify: 'alpha', 0.6
+          endif
+        -%}
+
+        <article
+          class="culture-chapter-card {% if is_image_left %}culture-chapter-card--image-left{% else %}culture-chapter-card--image-right{% endif %}"
+          style="--card-bg: {{ block.settings.card_bg_color }}; --card-text: {{ block.settings.text_color }}; --btn-border: {{ btn_border }};"
+          {{ block.shopify_attributes }}
+        >
+          <div class="culture-chapter-card__text">
+            {%- if block.settings.pre_heading != blank -%}
+              <span class="culture-chapter-card__pre">{{ block.settings.pre_heading | escape }}</span>
+            {%- endif -%}
+
+            {%- if block.settings.heading != blank -%}
+              <h3 class="culture-chapter-card__heading">{{ block.settings.heading | escape }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.description != blank -%}
+              <p class="culture-chapter-card__desc">{{ block.settings.description | escape }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.button_label != blank -%}
+              <a
+                href="{{ block.settings.button_link | default: '#' }}"
+                class="culture-chapter-card__btn"
+              >
+                {{ block.settings.button_label | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+
+          <div class="culture-chapter-card__media">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 1400
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '400, 600, 800, 1000, 1200, 1400',
+                  alt: block.settings.image.alt | default: block.settings.heading | escape
+              }}
+            {%- else -%}
+              <div class="culture-chapter-card__media-placeholder">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Culture Chapters",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading (optional)"
+    },
+    {
+      "type": "text",
+      "id": "lede",
+      "label": "Section sub-heading (optional)"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section background color",
+      "default": "#F5EFE6"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_side_thread",
+      "label": "Show side thread accent line",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "side_thread_color",
+      "label": "Side thread line color",
+      "default": "#8C4753"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 10,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between cards",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "chapter_card",
+      "name": "Chapter Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "pre_heading",
+          "label": "Pre-heading / Chapter number",
+          "default": "CHAPTER 01"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading / Region title",
+          "default": "EAST INDIA"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description / States",
+          "default": "Where Every Thread Tells a Story. West Bengal, Odisha, Bihar, Jharkhand."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Read the Chapter"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button destination link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Chapter image"
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position",
+          "options": [
+            { "value": "auto", "label": "Auto-alternating (odd: right, even: left)" },
+            { "value": "right", "label": "Right side" },
+            { "value": "left", "label": "Left side" }
+          ],
+          "default": "auto"
+        },
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card background color",
+          "default": "#4E5540"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#F7F3EE"
+        },
+        {
+          "type": "color",
+          "id": "button_border_color",
+          "label": "Button border color (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Culture Chapters",
+      "blocks": [
+        {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 01",
+            "heading": "EAST INDIA",
+            "description": "Where Every Thread Tells a Story. West Bengal, Odisha, Bihar, Jharkhand.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/east-india",
+            "card_bg_color": "#4E5540",
+            "text_color": "#F7F3EE",
+            "image_position": "auto"
+          }
+        },
+        {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 02",
+            "heading": "WEST & CENTRAL INDIA",
+            "description": "Where Colour Meets Craft. Rajasthan, Gujarat, Maharashtra, Madhya Pradesh, Goa.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/west-central-india",
+            "card_bg_color": "#5C1E2D",
+            "text_color": "#F7F3EE",
+            "image_position": "auto"
+          }
+        },
+        {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 03",
+            "heading": "SOUTH INDIA",
+            "description": "Woven in Temples, Temples in the Cloth. Tamil Nadu, Karnataka, Andhra Pradesh, Telangana, Kerala.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/south-india",
+            "card_bg_color": "#263B48",
+            "text_color": "#F7F3EE",
+            "image_position": "auto"
+          }
+        },
+        {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 04",
+            "heading": "NORTH INDIA",
+            "description": "Courts, Cold Winds and the Golden Needle. Jammu & Kashmir, Punjab, Himachal Pradesh, Uttar Pradesh.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/north-india",
+            "card_bg_color": "#6E4D2B",
+            "text_color": "#F7F3EE",
+            "image_position": "auto"
+          }
+        },
+        {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 05",
+            "heading": "NORTH EAST INDIA",
+            "description": "Muga, Hills and the Loom in Every Home. Assam, Meghalaya, Nagaland, Manipur, Mizoram, Tripura, Arunachal Pradesh.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/north-east-india",
+            "card_bg_color": "#7C3524",
+            "text_color": "#F7F3EE",
+            "image_position": "auto"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

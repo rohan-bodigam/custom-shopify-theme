@@ -1,0 +1,208 @@
+{{ 'section-culture.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #CultureBanner-{{ section.id }} {
+    min-height: {{ section.settings.banner_min_height_mobile }}px;
+    color: {{ section.settings.text_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    #CultureBanner-{{ section.id }} {
+      min-height: {{ section.settings.banner_min_height }}px;
+    }
+  }
+
+  #CultureBanner-{{ section.id }} .culture-banner__overlay {
+    background: linear-gradient(
+      to right,
+      {{ section.settings.overlay_color | color_modify: 'alpha', 0.92 }} 0%,
+      {{ section.settings.overlay_color | color_modify: 'alpha', 0.70 }} 38%,
+      {{ section.settings.overlay_color | color_modify: 'alpha', 0.25 }} 70%,
+      transparent 100%
+    );
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+{%- endstyle -%}
+
+<section
+  id="CultureBanner-{{ section.id }}"
+  class="culture-banner"
+  data-section-id="{{ section.id }}"
+>
+  <div class="culture-banner__media">
+    {%- if section.settings.image != blank -%}
+      {%- liquid
+        assign image_class = 'culture-banner__img'
+        if section.settings.mobile_image != blank
+          assign image_class = image_class | append: ' small-hide'
+        endif
+      -%}
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          class: image_class,
+          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 2400',
+          alt: section.settings.image.alt | default: section.settings.heading | escape
+      }}
+
+      {%- if section.settings.mobile_image != blank -%}
+        {{
+          section.settings.mobile_image
+          | image_url: width: 1100
+          | image_tag:
+            loading: 'eager',
+            class: 'culture-banner__img medium-hide large-up-hide',
+            widths: '375, 550, 750, 1100',
+            alt: section.settings.mobile_image.alt | default: section.settings.heading | escape
+        }}
+      {%- endif -%}
+    {%- else -%}
+      <div class="culture-banner__placeholder" role="img" aria-label="Culture banner"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="culture-banner__overlay" aria-hidden="true"></div>
+
+  {%- if section.settings.show_thread_accent -%}
+    <svg class="culture-banner__thread" viewBox="0 0 320 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0,20 C80,40 180,90 320,135" stroke="rgba(247, 243, 238, 0.55)" stroke-width="1.2" stroke-linecap="round" />
+    </svg>
+  {%- endif -%}
+
+  <div class="culture-banner__inner">
+    <div class="culture-banner__content" style="text-align: {{ section.settings.text_alignment }};">
+      {%- if section.settings.show_warp_icon -%}
+        <div class="culture-banner__warp" aria-hidden="true" style="color: {{ section.settings.text_color }};">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="culture-banner__heading culture-banner__heading--{{ section.settings.heading_size }}">
+          {{ section.settings.heading | escape }}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="culture-banner__description">
+          {{ section.settings.description | escape }}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Culture Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile background image (optional)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CULTURE"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "display", "label": "Display (Extra Large)" }
+      ],
+      "default": "display"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Five regions, each with its own landscape, makers and ways of working with thread. Choose a chapter to read it in depth."
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_warp_icon",
+      "label": "Show vertical warp motif",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thread_accent",
+      "label": "Show diagonal thread accent line",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "banner_min_height",
+      "min": 350,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop minimum height",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "banner_min_height_mobile",
+      "min": 250,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "label": "Mobile minimum height",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Gradient overlay opacity",
+      "default": 75
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Gradient overlay tint",
+      "default": "#381119"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F7F3EE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Culture Banner"
+    }
+  ]
+}
+{% endschema %}
