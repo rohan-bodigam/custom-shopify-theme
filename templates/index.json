@@ -525,6 +525,9 @@
     "split_banner": {
       "type": "split-banner",
       "settings": {
+        "collection": "",
+        "show_warp": true,
+        "kicker": "",
         "title": "The Contemporary Collection",
         "heading_uppercase": true,
         "heading_size": "d2",
@@ -532,15 +535,14 @@
         "button_label": "Explore Contemporary",
         "button_link": "",
         "button_style": "light",
-        "show_warp": true,
-        "image_position": "right",
-        "desktop_height": "16_9",
-        "focal_point": "center 30%",
         "fallback_image": "mega-contemporary.webp",
         "alt_text": "Handloom pieces in ikkat, mul cotton and Banaras, side by side",
+        "focal_point": "center 30%",
+        "image_position": "right",
+        "desktop_height": "16_9",
         "background_gradient": "linear-gradient(135deg, #171717 0%, #2b1418 100%)",
-        "text_color": "#F7F3EE",
-        "lede_color": "#DCCFC4",
+        "text_color": "#f7f3ee",
+        "lede_color": "#dccfc4",
         "section_id": "contemporary",
         "custom_class": ""
       }
@@ -552,6 +554,7 @@
           "type": "region",
           "settings": {
             "region_id": "east",
+            "svg_filename": "east.svg",
             "chapter_no": "Chapter 01",
             "region_name": "East India",
             "short_name": "East",
@@ -559,16 +562,16 @@
             "katha": "Bengal’s river delta gave India its finest cotton. Muslin so sheer it was once said to be woven air came from these waters, and the habit of wearing soft, breathable cotton never left. Our East chapter begins with the cloth that carries that habit forward: mul cotton, light enough for a Kolkata summer and strong enough for daily wear.",
             "weaves": "Mul Cotton, Baluchari, Swarnachari",
             "chapter_link": "",
-            "accent_color": "#7A8063",
-            "accent_deep": "#5E634B",
-            "accent_lite": "#B9BE9E",
-            "svg_filename": "east.svg"
+            "accent_color": "#7a8063",
+            "accent_deep": "#5e634b",
+            "accent_lite": "#b9be9e"
           }
         },
         "region_west": {
           "type": "region",
           "settings": {
             "region_id": "west",
+            "svg_filename": "west.svg",
             "chapter_no": "Chapter 02",
             "region_name": "West & Central India",
             "short_name": "West & Central",
@@ -576,16 +579,16 @@
             "katha": "On the banks of the Narmada, a queen once set up looms to give a fort town a living. In the dry country of Rajasthan, weavers learned to make cotton so light it is nearly sheer. This chapter holds two of India’s lightest and most elegant cloths: Maheshwari and Zari Kota, both made for heat, both finished with a little gold.",
             "weaves": "Maheshwari, Zari Kota, Pure Kota",
             "chapter_link": "",
-            "accent_color": "#6B2230",
-            "accent_deep": "#6B2230",
-            "accent_lite": "#E2A3AE",
-            "svg_filename": "west.svg"
+            "accent_color": "#6b2230",
+            "accent_deep": "#6b2230",
+            "accent_lite": "#e2a3ae"
           }
         },
         "region_north": {
           "type": "region",
           "settings": {
             "region_id": "north",
+            "svg_filename": "north.svg",
             "chapter_no": "Chapter 03",
             "region_name": "North India",
             "short_name": "North",
@@ -593,16 +596,16 @@
             "katha": "Varanasi has woven silk and gold for centuries, and its looms still set the standard for the Indian wedding saree. This chapter pairs that weight and richness with its opposite: light chiffon, the sheer, floating cloth that carries the same gold borders at a fraction of the heaviness.",
             "weaves": "Banaras, Chiffon",
             "chapter_link": "",
-            "accent_color": "#B08D57",
-            "accent_deep": "#7A5A31",
-            "accent_lite": "#D1B17E",
-            "svg_filename": "north.svg"
+            "accent_color": "#b08d57",
+            "accent_deep": "#7a5a31",
+            "accent_lite": "#d1b17e"
           }
         },
         "region_south": {
           "type": "region",
           "settings": {
             "region_id": "south",
+            "svg_filename": "south.svg",
             "chapter_no": "Chapter 04",
             "region_name": "South India",
             "short_name": "South",
@@ -610,16 +613,16 @@
             "katha": "Two Telugu-speaking states, two ways of using colour. In Andhra Pradesh, Mangalagiri weavers make crisp cotton with a gold-flecked border. In Telangana, ikkat weavers tie and dye the yarn before it ever touches a loom. Both are practical, beautiful and easy to wear every day.",
             "weaves": "Mangalagiri, Ikkat, Crape Silk",
             "chapter_link": "",
-            "accent_color": "#3F5750",
-            "accent_deep": "#3F5750",
-            "accent_lite": "#9DBDB2",
-            "svg_filename": "south.svg"
+            "accent_color": "#3f5750",
+            "accent_deep": "#3f5750",
+            "accent_lite": "#9dbdb2"
           }
         },
         "region_northeast": {
           "type": "region",
           "settings": {
             "region_id": "northeast",
+            "svg_filename": "northeast.svg",
             "chapter_no": "Chapter 05",
             "region_name": "North East India",
             "short_name": "North East",
@@ -627,10 +630,9 @@
             "katha": "Assam’s golden silk is spun by silkworms that feed on leaves from trees in the Brahmaputra valley. It is one of the few silks in the world that gets shinier with age, and for centuries it was reserved for royalty. Our North East chapter begins with Muga, the cloth that glows.",
             "weaves": "",
             "chapter_link": "",
-            "accent_color": "#4A2A3A",
-            "accent_deep": "#4A2A3A",
-            "accent_lite": "#CFA3B8",
-            "svg_filename": "northeast.svg"
+            "accent_color": "#4a2a3a",
+            "accent_deep": "#4a2a3a",
+            "accent_lite": "#cfa3b8"
           }
         }
       },
@@ -658,36 +660,44 @@
           "type": "service",
           "settings": {
             "icon": "custom",
+            "custom_svg": "",
             "title": "Customisation",
             "description": "Fit, length and blouse tailoring",
-            "link": ""
+            "link": "",
+            "open_in_new_tab": false
           }
         },
         "service_2": {
           "type": "service",
           "settings": {
             "icon": "gift",
+            "custom_svg": "",
             "title": "Gifting",
             "description": "Wrapped in handloom, with a handwritten note",
-            "link": ""
+            "link": "",
+            "open_in_new_tab": false
           }
         },
         "service_3": {
           "type": "service",
           "settings": {
             "icon": "style",
+            "custom_svg": "",
             "title": "Style Consultation",
             "description": "One-to-one, online or in studio",
-            "link": ""
+            "link": "",
+            "open_in_new_tab": false
           }
         },
         "service_4": {
           "type": "service",
           "settings": {
             "icon": "care",
+            "custom_svg": "",
             "title": "Care & Sustainability",
             "description": "Repair, refresh and responsible materials",
-            "link": ""
+            "link": "",
+            "open_in_new_tab": false
           }
         }
       },
@@ -700,12 +710,16 @@
       "settings": {
         "title": "Services",
         "heading_font": "edit",
+        "lede": "",
         "view_all_label": "View All",
         "view_all_url": "#/services",
         "color_scheme": "alt",
+        "custom_bg": "",
+        "card_bg": "",
         "columns_desktop": 4,
         "padding_top": 56,
-        "padding_bottom": 56
+        "padding_bottom": 56,
+        "custom_class": ""
       }
     },
     "testimonials": {
@@ -719,7 +733,8 @@
             "author_name": "Customer",
             "author_location": "India",
             "bought_item": "Mangalagiri Cotton Saree",
-            "avatar_color": "#3F5750",
+            "bought_link": "",
+            "avatar_color": "#3f5750",
             "author_initials": "C"
           }
         },
@@ -731,7 +746,8 @@
             "author_name": "Customer",
             "author_location": "India",
             "bought_item": "Ikkat Three-Piece Suit",
-            "avatar_color": "#7A5A31",
+            "bought_link": "",
+            "avatar_color": "#7a5a31",
             "author_initials": "C"
           }
         },
@@ -743,7 +759,8 @@
             "author_name": "Customer",
             "author_location": "India",
             "bought_item": "Mul Cotton Co-ord Set",
-            "avatar_color": "#5E634B",
+            "bought_link": "",
+            "avatar_color": "#5e634b",
             "author_initials": "C"
           }
         },
@@ -755,7 +772,8 @@
             "author_name": "Customer",
             "author_location": "India",
             "bought_item": "Zari Kota Doria Saree",
-            "avatar_color": "#6B2230",
+            "bought_link": "",
+            "avatar_color": "#6b2230",
             "author_initials": "C"
           }
         },
@@ -767,7 +785,8 @@
             "author_name": "Customer",
             "author_location": "India",
             "bought_item": "Banaras Brocade Dog Coat",
-            "avatar_color": "#8A5231",
+            "bought_link": "",
+            "avatar_color": "#8a5231",
             "author_initials": "C"
           }
         }
@@ -786,8 +805,10 @@
         "show_pv_note": true,
         "pv_note": "Sample quotes, shown to preview the layout.",
         "background_style": "gradient",
+        "custom_bg": "",
         "padding_top": 64,
-        "padding_bottom": 64
+        "padding_bottom": 64,
+        "custom_class": ""
       }
     },
     "faq": {
@@ -797,42 +818,54 @@
           "type": "faq_item",
           "settings": {
             "question": "Is everything handmade?",
-            "answer": "Our pieces are made from handloom and handcrafted cloth. Each product page names the weave, the fibre and the region it comes from."
+            "answer": "Our pieces are made from handloom and handcrafted cloth. Each product page names the weave, the fibre and the region it comes from.",
+            "answer_richtext": "",
+            "open_by_default": false
           }
         },
         "faq_2": {
           "type": "faq_item",
           "settings": {
             "question": "How long does delivery take?",
-            "answer": "In-stock pieces ship within 2 working days and reach most Indian cities in 3-6 days. Made-to-order and customised pieces take 3-5 weeks."
+            "answer": "In-stock pieces ship within 2 working days and reach most Indian cities in 3-6 days. Made-to-order and customised pieces take 3-5 weeks.",
+            "answer_richtext": "",
+            "open_by_default": false
           }
         },
         "faq_3": {
           "type": "faq_item",
           "settings": {
             "question": "Can I return a handloom piece?",
-            "answer": "Yes. Unworn pieces with tags can be returned within 14 days. Customised, altered and pet pieces are final sale unless they arrive damaged."
+            "answer": "Yes. Unworn pieces with tags can be returned within 14 days. Customised, altered and pet pieces are final sale unless they arrive damaged.",
+            "answer_richtext": "",
+            "open_by_default": false
           }
         },
         "faq_4": {
           "type": "faq_item",
           "settings": {
             "question": "Why are there small irregularities?",
-            "answer": "Hand processes leave traces: a slightly soft ikkat edge, a tiny slub in the cloth. These are signs of real handwork, not defects."
+            "answer": "Hand processes leave traces: a slightly soft ikkat edge, a tiny slub in the cloth. These are signs of real handwork, not defects.",
+            "answer_richtext": "",
+            "open_by_default": false
           }
         },
         "faq_5": {
           "type": "faq_item",
           "settings": {
             "question": "How should I care for handloom?",
-            "answer": "Cotton and mul: gentle wash, dry in shade. Silk, Banaras, Muga and chiffon: dry clean first, store folded in muslin and refold every few months."
+            "answer": "Cotton and mul: gentle wash, dry in shade. Silk, Banaras, Muga and chiffon: dry clean first, store folded in muslin and refold every few months.",
+            "answer_richtext": "",
+            "open_by_default": false
           }
         },
         "faq_6": {
           "type": "faq_item",
           "settings": {
             "question": "Do you offer customisation?",
-            "answer": "Yes. Most Contemporary pieces can be adjusted for fit and length, and saree blouses can be stitched to measure. Book a style consultation to start."
+            "answer": "Yes. Most Contemporary pieces can be adjusted for fit and length, and saree blouses can be stitched to measure. Book a style consultation to start.",
+            "answer_richtext": "",
+            "open_by_default": false
           }
         }
       },
@@ -847,12 +880,15 @@
       "settings": {
         "title": "Questions, answered",
         "heading_font": "edit",
+        "lede": "",
         "color_scheme": "alt",
+        "custom_bg": "",
         "max_width": 820,
         "center_align": false,
         "one_open_at_a_time": false,
         "padding_top": 56,
-        "padding_bottom": 56
+        "padding_bottom": 56,
+        "custom_class": ""
       }
     },
     "newsletter": {
@@ -868,36 +904,10 @@
         "success_message": "You’re on the list. The next letter arrives at the start of the month.",
         "disclaimer": "<p>By subscribing you agree to receive marketing emails from House of Kala Katha. You can unsubscribe with one click from any letter. See our <a href=\"#/policy/privacy\">privacy policy</a>.</p>",
         "background_style": "gradient",
+        "custom_bg": "",
         "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "collection": "all",
-        "products_to_show": 8,
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 36
+        "padding_bottom": 80,
+        "custom_class": ""
       }
     }
   },
@@ -912,7 +922,6 @@
     "services",
     "testimonials",
     "faq",
-    "newsletter",
-    "featured_collection"
+    "newsletter"
   ]
 }
