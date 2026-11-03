@@ -12,206 +12,524 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  #ContactSection-{{ section.id }} {
+    --contact-bg: {{ section.settings.background_color | default: '#F7F3EE' }};
+    --contact-heading-color: {{ section.settings.heading_color | default: '#171717' }};
+    --contact-text-color: {{ section.settings.text_color | default: '#57534E' }};
+    --contact-btn-bg: {{ section.settings.button_bg | default: '#6B2230' }};
+    --contact-btn-text: {{ section.settings.button_text | default: '#FFFFFF' }};
+  }
 {%- endstyle -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        {{ section.settings.heading }}
-      </h2>
-    {%- else -%}
-      <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
+<section
+  id="ContactSection-{{ section.id }}"
+  class="contact-page-section section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  <div class="contact-page__container">
+    {%- if section.settings.show_breadcrumbs -%}
+      <nav class="contact-page__crumbs" aria-label="Breadcrumbs">
+        <a href="{{ routes.root_url }}">{{ section.settings.breadcrumbs_home_label | default: 'Home' | escape }}</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{{ section.settings.breadcrumbs_contact_label | default: 'Contact' | escape }}</span>
+      </nav>
     {%- endif -%}
-    {%- liquid
-      assign contact_form_class = 'isolate'
-      if settings.animations_reveal_on_scroll
-        assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
-      endif
-    -%}
-    {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
-      {%- if form.posted_successfully? -%}
-        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
-          {{- 'icon-success.svg' | inline_asset_content -}}
-          {{ 'templates.contact.form.post_success' | t }}
-        </h2>
-      {%- elsif form.errors -%}
-        <div class="form__message">
-          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
-            {{- 'icon-error.svg' | inline_asset_content -}}
-            {{ 'templates.contact.form.error_heading' | t }}
-          </h2>
-        </div>
-        <ul class="form-status-list caption-large" role="list">
-          <li>
-            <a href="#ContactForm-email" class="link">
-              {{ form.errors.translated_fields.email | capitalize }}
-              {{ form.errors.messages.email }}
-            </a>
-          </li>
-        </ul>
-      {%- endif -%}
-      <div class="contact__fields">
-        <div class="field">
-          <input
-            class="field__input"
-            autocomplete="name"
-            type="text"
-            id="ContactForm-name"
-            name="contact[{{ 'templates.contact.form.name' | t }}]"
-            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-            placeholder="{{ 'templates.contact.form.name' | t }}"
-          >
-          <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
-        </div>
-        <div class="field field--with-error">
-          <input
-            autocomplete="email"
-            type="email"
-            id="ContactForm-email"
-            class="field__input"
-            name="contact[email]"
-            spellcheck="false"
-            autocapitalize="off"
-            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-            aria-required="true"
-            {% if form.errors contains 'email' %}
-              aria-invalid="true"
-              aria-describedby="ContactForm-email-error"
-            {% endif %}
-            placeholder="{{ 'templates.contact.form.email' | t }}"
-          >
-          <label class="field__label" for="ContactForm-email">
-            {{- 'templates.contact.form.email' | t }}
-            <span aria-hidden="true">*</span></label
-          >
-          {%- if form.errors contains 'email' -%}
-            <small class="contact__field-error" id="ContactForm-email-error">
-              <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
-              <span class="form__message">
-                <span class="svg-wrapper">
-                  {{- 'icon-error.svg' | inline_asset_content -}}
-                </span>
-                {{- form.errors.translated_fields.email | capitalize }}
-                {{ form.errors.messages.email -}}
-              </span>
-            </small>
+
+    {%- if section.settings.heading != blank -%}
+      <h1 class="contact-page__heading">{{ section.settings.heading | escape }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="contact-page__lede">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+
+    <div class="contact-page__grid">
+      {% comment %} Left Column: Built-in Shopify Contact Form {% endcomment %}
+      <div class="contact-page__form-col">
+        {%- form 'contact', id: 'ContactForm', class: 'contact-form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="contact-form__status contact-form__status--success" tabindex="-1" autofocus>
+              <svg class="contact-form__status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <div>
+                <strong>Thank you!</strong> We have received your message and will reply within one working day.
+              </div>
+            </div>
+          {%- elsif form.errors -%}
+            <div class="contact-form__status contact-form__status--error" tabindex="-1" autofocus>
+              <svg class="contact-form__status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <div>
+                <strong>Please check the following:</strong>
+                <ul>
+                  {%- for field in form.errors -%}
+                    <li>
+                      {%- if field == 'form' -%}
+                        {{ form.errors.messages[field] }}
+                      {%- else -%}
+                        {{ form.errors.translated_fields[field] }} {{ form.errors.messages[field] }}
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="contact-form__grid">
+            {% comment %} Name {% endcomment %}
+            <div class="contact-form__field">
+              <label for="ContactForm-name" class="contact-form__label">Name</label>
+              <input
+                type="text"
+                id="ContactForm-name"
+                name="contact[name]"
+                class="contact-form__input"
+                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                required
+              >
+            </div>
+
+            {% comment %} Email {% endcomment %}
+            <div class="contact-form__field">
+              <label for="ContactForm-email" class="contact-form__label">Email</label>
+              <input
+                type="email"
+                id="ContactForm-email"
+                name="contact[email]"
+                class="contact-form__input"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                spellcheck="false"
+                autocapitalize="off"
+                required
+              >
+            </div>
+
+            {% comment %} Phone {% endcomment %}
+            {%- if section.settings.show_phone -%}
+              <div class="contact-form__field">
+                <label for="ContactForm-phone" class="contact-form__label">Phone</label>
+                <input
+                  type="tel"
+                  id="ContactForm-phone"
+                  name="contact[phone]"
+                  class="contact-form__input"
+                  value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                  pattern="[0-9\-+ ]*"
+                  {% if section.settings.phone_required %}required{% endif %}
+                >
+              </div>
+            {%- endif -%}
+
+            {% comment %} Order number (optional) {% endcomment %}
+            {%- if section.settings.show_order_number -%}
+              <div class="contact-form__field">
+                <label for="ContactForm-order" class="contact-form__label">Order number (optional)</label>
+                <input
+                  type="text"
+                  id="ContactForm-order"
+                  name="contact[Order Number]"
+                  class="contact-form__input"
+                  placeholder="HKK-000000"
+                >
+              </div>
+            {%- endif -%}
+
+            {% comment %} Topic {% endcomment %}
+            {%- if section.settings.show_topic -%}
+              <div class="contact-form__field">
+                <label for="ContactForm-topic" class="contact-form__label">Topic</label>
+                <select id="ContactForm-topic" name="contact[Topic]" class="contact-form__input contact-form__select">
+                  {%- assign topic_lines = section.settings.topic_options | newline_to_br | split: '<br />' -%}
+                  {%- for line in topic_lines -%}
+                    {%- assign topic_trim = line | strip -%}
+                    {%- if topic_trim != blank -%}
+                      <option value="{{ topic_trim | escape }}">{{ topic_trim | escape }}</option>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+
+            {% comment %} Message / Comment {% endcomment %}
+            <div class="contact-form__field contact-form__field--full">
+              <label for="ContactForm-body" class="contact-form__label">Message</label>
+              <textarea
+                rows="6"
+                id="ContactForm-body"
+                name="contact[body]"
+                class="contact-form__input contact-form__textarea"
+                required
+              >{{ form.body }}</textarea>
+            </div>
+          </div>
+
+          <div class="contact-form__submit-wrap">
+            <button type="submit" class="contact-form__button">
+              {{ section.settings.submit_button_label | default: 'Send Message' | escape }}
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+
+      {% comment %} Right Column: Map & Studio Information {% endcomment %}
+      <aside class="contact-page__aside">
+        <div class="contact__map-wrap">
+          {%- if section.settings.map_iframe != blank -%}
+            <div class="contact__map-iframe">
+              {{ section.settings.map_iframe }}
+            </div>
+          {%- elsif section.settings.map_image != blank -%}
+            {{
+              section.settings.map_image
+              | image_url: width: 1000
+              | image_tag:
+                loading: 'lazy',
+                widths: '400, 600, 800, 1000',
+                alt: 'Studio Location Map',
+                class: 'contact__map-img'
+            }}
+          {%- else -%}
+            {% comment %} Illustrated SVG Map from House of Kala Katha design {% endcomment %}
+            <svg class="contact__map-svg" viewBox="0 0 520 300" role="img" aria-label="Illustrated map of the studio location in Hauz Khas Village">
+              <rect width="520" height="300" fill="#E4D7CA"/>
+              <g stroke="#F7F3EE" stroke-width="14" fill="none" stroke-linecap="round">
+                <path d="M-10 210 C120 190 220 230 540 170"/>
+                <path d="M160 -10 L200 320"/>
+                <path d="M360 -10 C340 100 380 200 330 320"/>
+              </g>
+              <g stroke="#F7F3EE" stroke-width="6" fill="none">
+                <path d="M0 90 L520 70"/>
+                <path d="M60 0 L90 300"/>
+                <path d="M460 0 L430 300"/>
+              </g>
+              <path d="M230 40 C300 20 360 60 350 120 C340 170 260 150 230 120 Z" fill="#B7C0A5" opacity=".8"/>
+              <text x="262" y="92" font-family="'Inter', sans-serif" font-size="11" fill="#4E5540">Deer Park</text>
+              <path d="M380 130 C430 120 470 150 450 190 C430 220 390 200 380 170 Z" fill="#9FB7C0" opacity=".7"/>
+              <text x="392" y="166" font-family="'Inter', sans-serif" font-size="11" fill="#2F4A55">Hauz Khas Lake</text>
+              <g transform="translate(300 196)">
+                <circle r="26" fill="#6B2230" opacity=".15"/>
+                <path d="M0 -30 C-14 -30 -22 -20 -22 -9 C-22 6 0 22 0 22 C0 22 22 6 22 -9 C22 -20 14 -30 0 -30Z" fill="#6B2230"/>
+                <circle cy="-10" r="7" fill="#F7F3EE"/>
+              </g>
+              <text x="326" y="226" font-family="'Forum', serif" font-size="16" fill="#171717">House of Kala Katha</text>
+              <text x="326" y="244" font-family="'Inter', sans-serif" font-size="11" fill="#4A4240">Hauz Khas Village, New Delhi</text>
+            </svg>
           {%- endif -%}
         </div>
-      </div>
-      <div class="field">
-        <input
-          type="tel"
-          id="ContactForm-phone"
-          class="field__input"
-          autocomplete="tel"
-          name="contact[{{ 'templates.contact.form.phone' | t }}]"
-          pattern="[0-9\-]*"
-          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-          placeholder="{{ 'templates.contact.form.phone' | t }}"
-        >
-        <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
-      </div>
-      <div class="field">
-        <textarea
-          rows="10"
-          id="ContactForm-body"
-          class="text-area field__input"
-          name="contact[{{ 'templates.contact.form.comment' | t }}]"
-          placeholder="{{ 'templates.contact.form.comment' | t }}"
-        >
-          {{- form.body -}}
-        </textarea>
-        <label class="form__label field__label" for="ContactForm-body">
-          {{- 'templates.contact.form.comment' | t -}}
-        </label>
-      </div>
-      <div class="contact__button">
-        <button type="submit" class="button">
-          {{ 'templates.contact.form.send' | t }}
-        </button>
-      </div>
-    {%- endform -%}
+
+        <div class="contact__info-list">
+          {%- if section.settings.studio_address != blank -%}
+            <div class="contact__info-item">
+              <h4 class="contact__info-label">{{ section.settings.studio_label | default: 'Studio' | escape }}</h4>
+              <div class="contact__info-value">{{ section.settings.studio_address | newline_to_br }}</div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.hours_text != blank -%}
+            <div class="contact__info-item">
+              <h4 class="contact__info-label">{{ section.settings.hours_label | default: 'Hours' | escape }}</h4>
+              <div class="contact__info-value">{{ section.settings.hours_text | newline_to_br }}</div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.write_email != blank -%}
+            <div class="contact__info-item">
+              <h4 class="contact__info-label">{{ section.settings.write_label | default: 'Write' | escape }}</h4>
+              <div class="contact__info-value">
+                <a href="mailto:{{ section.settings.write_email | escape }}">{{ section.settings.write_email | escape }}</a>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.call_phone != blank -%}
+            <div class="contact__info-item">
+              <h4 class="contact__info-label">{{ section.settings.call_label | default: 'Call or WhatsApp' | escape }}</h4>
+              <div class="contact__info-value">
+                <a href="{{ section.settings.call_url | default: 'tel:+919811042716' }}">{{ section.settings.call_phone | escape }}</a>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_socials -%}
+          <div class="contact__socials">
+            {%- if section.settings.social_instagram != blank -%}
+              <a href="{{ section.settings.social_instagram }}" class="contact__social-link" aria-label="Instagram" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r=".6"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.social_pinterest != blank -%}
+              <a href="{{ section.settings.social_pinterest }}" class="contact__social-link" aria-label="Pinterest" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M11 9.5c2.8-1 4.6.6 4 2.8-.5 1.8-2.3 2.4-3.4 1.2M11.6 10.8L9.8 19"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.social_youtube != blank -%}
+              <a href="{{ section.settings.social_youtube }}" class="contact__social-link" aria-label="YouTube" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="6.5" width="17" height="11" rx="3"/><path d="M10.5 9.5l4 2.5-4 2.5z"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.social_whatsapp != blank -%}
+              <a href="{{ section.settings.social_whatsapp }}" class="contact__social-link" aria-label="WhatsApp" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19l1-3.3A7.5 7.5 0 1 1 9 18.6z"/><path d="M9.5 9.5c.3 2 2 3.8 4 4.3l1-1 1.5.8c-.3 1-1.2 1.5-2.3 1.3-2.6-.6-4.6-2.6-5.2-5.2-.2-1.1.3-2 1.3-2.3l.8 1.5z"/></svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </aside>
+    </div>
   </div>
-</div>
+</section>
 
 {% schema %}
 {
-  "name": "t:sections.contact-form.name",
+  "name": "Contact Page",
   "tag": "section",
   "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
   "settings": [
     {
-      "type": "inline_richtext",
+      "type": "header",
+      "content": "Breadcrumbs & Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show breadcrumbs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "breadcrumbs_home_label",
+      "label": "Breadcrumbs home label",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumbs_contact_label",
+      "label": "Breadcrumbs page label",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
       "id": "heading",
-      "default": "t:sections.contact-form.settings.title.default",
-      "label": "t:sections.contact-form.settings.title.label"
+      "label": "Page Heading",
+      "default": "CONTACT"
     },
     {
-      "type": "select",
-      "id": "heading_size",
-      "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
-        }
-      ],
-      "default": "h1",
-      "label": "t:sections.all.heading_size.label"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading / Lede",
+      "default": "Questions about an order, a piece or a fitting. We reply within one working day."
     },
     {
       "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "content": "Form Fields"
+    },
+    {
+      "type": "text",
+      "id": "submit_button_label",
+      "label": "Submit button label",
+      "default": "Send Message"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Show phone field",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "phone_required",
+      "label": "Phone number required",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order_number",
+      "label": "Show order number field",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_topic",
+      "label": "Show topic dropdown",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "topic_options",
+      "label": "Topic options (one per line)",
+      "default": "An order\nA product\nFittings & services\nPress\nSomething else"
+    },
+    {
+      "type": "header",
+      "content": "Map & Location"
+    },
+    {
+      "type": "html",
+      "id": "map_iframe",
+      "label": "Google Maps Embed Code / Iframe",
+      "info": "Paste Google Maps iframe embed code here. Overrides image and default SVG."
+    },
+    {
+      "type": "image_picker",
+      "id": "map_image",
+      "label": "Custom Map Image",
+      "info": "Used if no iframe is provided. Overrides default SVG."
+    },
+    {
+      "type": "header",
+      "content": "Studio Details"
+    },
+    {
+      "type": "text",
+      "id": "studio_label",
+      "label": "Studio label",
+      "default": "Studio"
+    },
+    {
+      "type": "textarea",
+      "id": "studio_address",
+      "label": "Studio address",
+      "default": "House of Kala Katha, 2nd Floor, 14 Hauz Khas Village, New Delhi 110016"
+    },
+    {
+      "type": "text",
+      "id": "hours_label",
+      "label": "Hours label",
+      "default": "Hours"
+    },
+    {
+      "type": "textarea",
+      "id": "hours_text",
+      "label": "Hours text",
+      "default": "Tuesday to Sunday, 11 am to 7 pm. Fittings by appointment."
+    },
+    {
+      "type": "text",
+      "id": "write_label",
+      "label": "Write label",
+      "default": "Write"
+    },
+    {
+      "type": "text",
+      "id": "write_email",
+      "label": "Email address",
+      "default": "care@houseofkalakatha.in"
+    },
+    {
+      "type": "text",
+      "id": "call_label",
+      "label": "Call or WhatsApp label",
+      "default": "Call or WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "call_phone",
+      "label": "Phone / WhatsApp display text",
+      "default": "+91 98110 42716"
+    },
+    {
+      "type": "text",
+      "id": "call_url",
+      "label": "Call link URL",
+      "default": "tel:+919811042716"
+    },
+    {
+      "type": "header",
+      "content": "Social Links"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_socials",
+      "label": "Show social icons",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram link"
+    },
+    {
+      "type": "url",
+      "id": "social_pinterest",
+      "label": "Pinterest link"
+    },
+    {
+      "type": "url",
+      "id": "social_youtube",
+      "label": "YouTube link"
+    },
+    {
+      "type": "url",
+      "id": "social_whatsapp",
+      "label": "WhatsApp link"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Styling"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#57534E"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Submit button background",
+      "default": "#6B2230"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Submit button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 100,
+      "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
+      "label": "Top padding",
+      "default": 48
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 100,
+      "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "label": "Bottom padding",
+      "default": 80
     }
   ],
   "presets": [
     {
-      "name": "t:sections.contact-form.presets.name"
+      "name": "Contact Page"
     }
   ]
 }

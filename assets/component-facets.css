@@ -1255,3 +1255,326 @@ input.mobile-facets__checkbox {
     padding: 0 1rem 1rem;
   }
 }
+
+/* ==========================================================================
+   House of Kala Katha - Figma Collection Filters Redesign
+   ========================================================================== */
+
+/* Page Width and Layout */
+@media screen and (min-width: 990px) {
+  .facets-vertical {
+    display: flex !important;
+    gap: 44px !important;
+    align-items: flex-start !important;
+    background: transparent !important;
+  }
+
+  .facets-vertical .facets-wrapper,
+  .facets-vertical .facets-container,
+  .facets-vertical facet-filters-form {
+    background: transparent !important;
+  }
+
+  .facets-vertical .facets-wrapper {
+    width: 250px !important;
+    min-width: 230px !important;
+    max-width: 260px !important;
+    padding-right: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .facets-vertical .facets__form-vertical {
+    width: 100% !important;
+  }
+
+  .facets-vertical .product-grid-container {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+}
+
+/* Accordion Group Disclosures */
+.facets__disclosure-vertical {
+  border-top: none !important;
+  border-bottom: 1px solid #E6DFD5 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.facets__form-vertical .facets__disclosure-vertical:first-of-type {
+  border-top: 1px solid #E6DFD5 !important;
+}
+
+/* Group Summary / Header */
+.facets-vertical .facets__summary,
+.facets__summary {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 16px 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  list-style: none !important;
+}
+
+.facets__summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.facets__summary-label,
+.facets-vertical .facets__summary-label,
+.facets__summary div > span:first-child {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--ink, #171717) !important;
+  line-height: 1.2 !important;
+}
+
+.facets__summary .facets__selected {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: var(--muted, #6E6461) !important;
+  margin-left: 6px !important;
+}
+
+/* Caret Chevron Animation */
+.facets__summary .icon-caret {
+  width: 10px !important;
+  height: 6px !important;
+  color: #4A4543 !important;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  flex-shrink: 0 !important;
+}
+
+.facets__disclosure-vertical[open] > .facets__summary .icon-caret {
+  transform: rotate(180deg) !important;
+}
+
+/* Content Area */
+.facets-vertical .facets__display-vertical {
+  padding: 4px 0 16px 0 !important;
+  border: none !important;
+}
+
+/* Vertical List of Checkboxes */
+.facets__list--vertical {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 4px 8px 6px 2px !important;
+  list-style: none !important;
+  max-height: 275px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #C4BBB0 transparent !important;
+}
+
+.facets__list--vertical::-webkit-scrollbar {
+  width: 4px !important;
+}
+
+.facets__list--vertical::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.facets__list--vertical::-webkit-scrollbar-thumb {
+  background: #C4BBB0 !important;
+  border-radius: 4px !important;
+}
+
+.facets__list--vertical::-webkit-scrollbar-thumb:hover {
+  background: #A39689 !important;
+}
+
+.facets__list--vertical::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Checkbox Item */
+.facets__item {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.facet-checkbox {
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+
+/* Hidden Native Checkbox */
+.facet-checkbox input[type='checkbox'] {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  z-index: 2 !important;
+}
+
+/* Custom Checkbox Box */
+.facet-custom-box {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  border: 1.5px solid #8C827A !important;
+  border-radius: 3px !important;
+  background-color: transparent !important;
+  box-sizing: border-box !important;
+  margin-right: 12px !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.facet-custom-box svg {
+  width: 10px !important;
+  height: 8px !important;
+  color: #FFFFFF !important;
+  opacity: 0 !important;
+  transform: scale(0.6) !important;
+  transition: opacity 0.15s ease, transform 0.15s ease !important;
+  display: block !important;
+}
+
+/* Checked State */
+.facet-checkbox input[type='checkbox']:checked ~ .facet-custom-box {
+  background-color: var(--ink, #171717) !important;
+  border-color: var(--ink, #171717) !important;
+}
+
+.facet-checkbox input[type='checkbox']:checked ~ .facet-custom-box svg {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+/* Hover State */
+.facet-checkbox:hover .facet-custom-box {
+  border-color: var(--ink, #171717) !important;
+}
+
+/* Label Text */
+.facet-checkbox .facet-checkbox__text-label {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+  color: var(--ink, #171717) !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease !important;
+}
+
+.facet-checkbox:hover .facet-checkbox__text-label {
+  text-decoration: none !important;
+}
+
+/* Remove Dawn's underline on hover */
+.facets-layout-list .facets__label:hover .facet-checkbox__text-label,
+.facets-layout-list input:focus ~ .facet-checkbox__text-label {
+  text-decoration: none !important;
+}
+
+/* Hide Count in Parentheses */
+.facet-checkbox__count {
+  display: none !important;
+}
+
+/* Price Brackets Container */
+.facets__price-brackets-wrap {
+  display: block !important;
+}
+
+/* Hide Default Show More Buttons */
+show-more-button {
+  display: none !important;
+}
+
+/* Active Filter Pills */
+.facets-vertical .active-facets {
+  margin-bottom: 12px !important;
+}
+
+.facets-vertical .active-facets-vertical-filter {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 10px !important;
+}
+
+.facets-vertical .active-facets__button-remove {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--crimson, #6B2230) !important;
+  text-decoration: underline !important;
+}
+
+.facets-vertical .active-facets__button {
+  margin-bottom: 8px !important;
+}
+
+.facets-vertical .active-facets__button-inner {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 12px !important;
+  border-radius: 999px !important;
+  padding: 4px 10px !important;
+  background-color: var(--bg-alt, #EDE3D9) !important;
+  border: 1px solid rgba(23, 23, 23, 0.1) !important;
+  color: var(--ink, #171717) !important;
+}
+
+/* Top Sorting & Count Row */
+.facets-vertical-sort {
+  padding-bottom: 20px !important;
+  margin-bottom: 12px !important;
+  border-bottom: 1px solid #E6DFD5 !important;
+}
+
+.facets-vertical-form {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.facet-filters__label label {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--ink, #171717) !important;
+}
+
+.facet-filters__sort {
+  border: 1px solid #D5CCC0 !important;
+  border-radius: 6px !important;
+  background-color: transparent !important;
+  padding: 6px 30px 6px 12px !important;
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 13px !important;
+  color: var(--ink, #171717) !important;
+}
+
+.product-count-vertical .product-count__text {
+  font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif) !important;
+  font-size: 13px !important;
+  color: var(--muted, #6E6461) !important;
+}
+

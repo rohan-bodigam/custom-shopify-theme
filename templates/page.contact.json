@@ -1,25 +1,45 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "form": {
       "type": "contact-form",
       "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "show_breadcrumbs": true,
+        "breadcrumbs_home_label": "Home",
+        "breadcrumbs_contact_label": "Contact",
+        "heading": "CONTACT",
+        "subheading": "Questions about an order, a piece or a fitting. We reply within one working day.",
+        "submit_button_label": "Send Message",
+        "show_phone": true,
+        "phone_required": false,
+        "show_order_number": true,
+        "show_topic": true,
+        "topic_options": "An order\nA product\nFittings & services\nPress\nSomething else",
+        "map_iframe": "",
+        "studio_label": "Studio",
+        "studio_address": "House of Kala Katha, 2nd Floor, 14 Hauz Khas Village, New Delhi 110016",
+        "hours_label": "Hours",
+        "hours_text": "Tuesday to Sunday, 11 am to 7 pm. Fittings by appointment.",
+        "write_label": "Write",
+        "write_email": "care@houseofkalakatha.in",
+        "call_label": "Call or WhatsApp",
+        "call_phone": "+91 98110 42716",
+        "call_url": "tel:+919811042716",
+        "show_socials": true,
+        "social_instagram": "https://instagram.com",
+        "social_pinterest": "https://pinterest.com",
+        "social_youtube": "https://youtube.com",
+        "social_whatsapp": "https://wa.me/919811042716",
+        "background_color": "#F7F3EE",
+        "heading_color": "#171717",
+        "text_color": "#57534E",
+        "button_bg": "#6B2230",
+        "button_text": "#FFFFFF",
+        "padding_top": 48,
+        "padding_bottom": 80
       }
     }
   },
   "order": [
-    "main",
     "form"
   ]
 }

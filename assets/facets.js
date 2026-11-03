@@ -440,3 +440,38 @@ class FacetRemove extends HTMLElement {
 }
 
 customElements.define('facet-remove', FacetRemove);
+
+class PriceBrackets extends HTMLElement {
+  connectedCallback() {
+    const minInput = this.querySelector('.price-hidden-gte');
+    const maxInput = this.querySelector('.price-hidden-lte');
+    const checkboxes = this.querySelectorAll('.price-bracket-checkbox');
+
+    checkboxes.forEach((cb) => {
+      cb.addEventListener('change', (e) => {
+        const isChecked = e.target.checked;
+        checkboxes.forEach((other) => {
+          if (other !== e.target) other.checked = false;
+        });
+
+        if (isChecked) {
+          if (minInput) minInput.value = e.target.dataset.min || '';
+          if (maxInput) maxInput.value = e.target.dataset.max || '';
+        } else {
+          if (minInput) minInput.value = '';
+          if (maxInput) maxInput.value = '';
+        }
+
+        const form = this.closest('form');
+        if (form) {
+          form.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      });
+    });
+  }
+}
+
+if (!customElements.get('price-brackets')) {
+  customElements.define('price-brackets', PriceBrackets);
+}
+

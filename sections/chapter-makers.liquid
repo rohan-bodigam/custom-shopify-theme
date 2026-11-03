@@ -1,0 +1,407 @@
+{{ 'section-chapter.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign current_handle = page.handle
+  assign heading = section.settings.heading | default: 'Meet the makers'
+  assign header_link_label = section.settings.link_label
+  assign header_link_url = section.settings.link_url
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #ChapterMakers-{{ section.id }} {
+    --makers-bg: {{ section.settings.background_color | default: '#F7F3EE' }};
+    --makers-heading-color: {{ section.settings.heading_color | default: '#171717' }};
+    --makers-link-color: {{ section.settings.link_color | default: '#6B2230' }};
+    --makers-card-bg: {{ section.settings.card_background | default: '#FFFFFF' }};
+    --makers-card-title-color: {{ section.settings.card_title_color | default: '#171717' }};
+    --makers-card-subtitle-color: {{ section.settings.card_subtitle_color | default: '#78716C' }};
+    --makers-card-text-color: {{ section.settings.card_text_color | default: '#57534E' }};
+    --makers-card-radius: {{ section.settings.card_border_radius | default: 12 }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="ChapterMakers-{{ section.id }}"
+  class="chapter-makers-section section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  <div class="chapter-makers__container">
+    {%- if heading != blank or header_link_label != blank -%}
+      <div class="chapter-makers__header">
+        {%- if heading != blank -%}
+          <h2 class="chapter-makers__heading">{{ heading | escape }}</h2>
+        {%- endif -%}
+
+        {%- if header_link_label != blank -%}
+          <a
+            href="{{ header_link_url | default: '#' }}"
+            class="chapter-makers__header-link"
+          >
+            {{ header_link_label | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="chapter-makers__grid chapter-makers__grid--cols-{{ section.settings.columns_desktop | default: '3' }} chapter-makers__grid--mobile-{{ section.settings.columns_mobile | default: '1' }}">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <article class="chapter-maker-card" {{ block.shopify_attributes }}>
+            <div class="chapter-maker-card__media">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 800
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '300, 400, 600, 800',
+                    alt: block.settings.image.alt | default: block.settings.title | escape
+                }}
+              {%- else -%}
+                <div class="chapter-maker-card__placeholder">
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="chapter-maker-card__body">
+              {%- if block.settings.title != blank -%}
+                <h3 class="chapter-maker-card__title">
+                  {%- if block.settings.link_url != blank -%}
+                    <a href="{{ block.settings.link_url }}" class="chapter-maker-card__title-link">
+                      {{ block.settings.title | escape }}
+                    </a>
+                  {%- else -%}
+                    {{ block.settings.title | escape }}
+                  {%- endif -%}
+                </h3>
+              {%- endif -%}
+
+              {%- if block.settings.subtitle != blank -%}
+                <div class="chapter-maker-card__subtitle">{{ block.settings.subtitle | escape }}</div>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <p class="chapter-maker-card__desc">{{ block.settings.description | escape }}</p>
+              {%- endif -%}
+
+              {%- if block.settings.link_url != blank and block.settings.link_label != blank -%}
+                <div class="chapter-maker-card__action">
+                  <a href="{{ block.settings.link_url }}" class="chapter-maker-card__link">
+                    {{ block.settings.link_label | escape }} &rarr;
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {% comment %} Automatic fallback if no blocks added {% endcomment %}
+        {%- if current_handle == 'west-central-india' -%}
+          <article class="chapter-maker-card">
+            <div class="chapter-maker-card__media">
+              <div class="chapter-maker-card__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div class="chapter-maker-card__body">
+              <h3 class="chapter-maker-card__title">Maheshwar cluster</h3>
+              <div class="chapter-maker-card__subtitle">Weaving cluster, Madhya Pradesh</div>
+              <p class="chapter-maker-card__desc">We are finalising our weaving partners in Maheshwar and will introduce them here by name once the first run is complete.</p>
+            </div>
+          </article>
+          <article class="chapter-maker-card">
+            <div class="chapter-maker-card__media">
+              <div class="chapter-maker-card__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div class="chapter-maker-card__body">
+              <h3 class="chapter-maker-card__title">Kaithoon cluster</h3>
+              <div class="chapter-maker-card__subtitle">Weaving cluster, Rajasthan</div>
+              <p class="chapter-maker-card__desc">Our Zari Kota is woven in the Kota region. Maker profiles will follow as soon as the first run is in.</p>
+            </div>
+          </article>
+        {%- elsif current_handle == 'north-india' -%}
+          <article class="chapter-maker-card">
+            <div class="chapter-maker-card__media">
+              <div class="chapter-maker-card__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div class="chapter-maker-card__body">
+              <h3 class="chapter-maker-card__title">Varanasi cluster</h3>
+              <div class="chapter-maker-card__subtitle">Weaving cluster, Uttar Pradesh</div>
+              <p class="chapter-maker-card__desc">Our Banaras silk is woven in Varanasi. We will introduce our weaving partners here, by name and workshop, as the first collection settles.</p>
+            </div>
+          </article>
+        {%- elsif current_handle == 'south-india' -%}
+          <article class="chapter-maker-card">
+            <div class="chapter-maker-card__media">
+              <div class="chapter-maker-card__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div class="chapter-maker-card__body">
+              <h3 class="chapter-maker-card__title">Mangalagiri cluster</h3>
+              <div class="chapter-maker-card__subtitle">Weaving cluster, Andhra Pradesh</div>
+              <p class="chapter-maker-card__desc">We are finalising our Mangalagiri weaving partners and will introduce them here once the first run is complete.</p>
+            </div>
+          </article>
+        {%- elsif current_handle == 'north-east-india' -%}
+          <article class="chapter-maker-card">
+            <div class="chapter-maker-card__media">
+              <div class="chapter-maker-card__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div class="chapter-maker-card__body">
+              <h3 class="chapter-maker-card__title">Sualkuchi cluster</h3>
+              <div class="chapter-maker-card__subtitle">Weaving cluster, Assam</div>
+              <p class="chapter-maker-card__desc">Our Muga is woven in Assam. We will introduce the weavers and reelers by name once the first run is confirmed.</p>
+            </div>
+          </article>
+        {%- else -%}
+          {% comment %} East India fallback {% endcomment %}
+          <article class="chapter-maker-card">
+            <div class="chapter-maker-card__media">
+              <div class="chapter-maker-card__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div class="chapter-maker-card__body">
+              <h3 class="chapter-maker-card__title">Mul cotton clusters</h3>
+              <div class="chapter-maker-card__subtitle">Partner weaving clusters, East India</div>
+              <p class="chapter-maker-card__desc">We are mapping the weaving partners for our mul cotton and will introduce them here by name, with their cluster, once the first run is complete.</p>
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meet the Makers",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Meet the makers"
+    },
+    {
+      "type": "header",
+      "content": "Header Link"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Work With Our Weavers"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "options": [
+        {
+          "value": "2",
+          "label": "2 Columns"
+        },
+        {
+          "value": "3",
+          "label": "3 Columns"
+        },
+        {
+          "value": "4",
+          "label": "4 Columns"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 Column"
+        },
+        {
+          "value": "2",
+          "label": "2 Columns"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Header link color",
+      "default": "#6B2230"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card title color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "card_subtitle_color",
+      "label": "Card subtitle color",
+      "default": "#78716C"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text color",
+      "default": "#57534E"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "maker",
+      "name": "Maker Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title / Name",
+          "default": "Mul cotton clusters"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle / Region / Role",
+          "default": "Partner weaving clusters, East India"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "We are mapping the weaving partners for our mul cotton and will introduce them here by name, with their cluster, once the first run is complete."
+        },
+        {
+          "type": "header",
+          "content": "Link"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Card Link URL"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Button / Link label (Optional)",
+          "info": "Leave blank to link via the card title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meet the Makers",
+      "blocks": [
+        {
+          "type": "maker",
+          "settings": {
+            "title": "Mul cotton clusters",
+            "subtitle": "Partner weaving clusters, East India",
+            "description": "We are mapping the weaving partners for our mul cotton and will introduce them here by name, with their cluster, once the first run is complete."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

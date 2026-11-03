@@ -1,5 +1,65 @@
 {{ 'section-chapter.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign show_col_1 = false
+  if section.settings.col_1_label != blank
+    assign show_col_1 = true
+  endif
+
+  assign show_col_2 = false
+  if section.settings.col_2_label != blank
+    assign show_col_2 = true
+  endif
+
+  assign show_col_3 = false
+  if section.settings.col_3_label != blank
+    assign show_col_3 = true
+  endif
+
+  assign show_col_4 = false
+  if section.settings.col_4_label != blank
+    assign show_col_4 = true
+  endif
+
+  assign show_col_5 = false
+  if section.settings.col_5_label != blank
+    assign show_col_5 = true
+  endif
+
+  assign show_col_6 = false
+  if section.settings.col_6_label != blank
+    assign show_col_6 = true
+  endif
+
+  assign col_count = 0
+  if show_col_1
+    assign col_count = col_count | plus: 1
+  endif
+  if show_col_2
+    assign col_count = col_count | plus: 1
+  endif
+  if show_col_3
+    assign col_count = col_count | plus: 1
+  endif
+  if show_col_4
+    assign col_count = col_count | plus: 1
+  endif
+  if show_col_5
+    assign col_count = col_count | plus: 1
+  endif
+  if show_col_6
+    assign col_count = col_count | plus: 1
+  endif
+
+  # Fallback if all column labels were left blank
+  if col_count == 0
+    assign show_col_1 = true
+    assign show_col_2 = true
+    assign show_col_3 = true
+    assign col_count = 3
+  endif
+-%}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -33,33 +93,71 @@
 
     <div class="chapter-reference__card">
       <div class="chapter-reference__table-wrap">
-        <table class="chapter-reference__table">
+        <table
+          class="chapter-reference__table{% if col_count <= 3 %} chapter-reference__table--compact{% endif %}"
+          data-columns="{{ col_count }}"
+        >
           <thead>
             <tr>
-              <th scope="col">{{ section.settings.col_1_label | default: 'Craft' | escape }}</th>
-              <th scope="col">{{ section.settings.col_2_label | default: 'Place' | escape }}</th>
-              <th scope="col">{{ section.settings.col_3_label | default: 'Technique' | escape }}</th>
-              <th scope="col">{{ section.settings.col_4_label | default: 'Material' | escape }}</th>
-              <th scope="col">{{ section.settings.col_5_label | default: 'Look' | escape }}</th>
+              {%- if show_col_1 -%}
+                <th scope="col">{{ section.settings.col_1_label | escape }}</th>
+              {%- endif -%}
+              {%- if show_col_2 -%}
+                <th scope="col">{{ section.settings.col_2_label | escape }}</th>
+              {%- endif -%}
+              {%- if show_col_3 -%}
+                <th scope="col">{{ section.settings.col_3_label | escape }}</th>
+              {%- endif -%}
+              {%- if show_col_4 -%}
+                <th scope="col">{{ section.settings.col_4_label | escape }}</th>
+              {%- endif -%}
+              {%- if show_col_5 -%}
+                <th scope="col">{{ section.settings.col_5_label | escape }}</th>
+              {%- endif -%}
+              {%- if show_col_6 -%}
+                <th scope="col">{{ section.settings.col_6_label | escape }}</th>
+              {%- endif -%}
             </tr>
           </thead>
           <tbody>
             {%- for block in section.blocks -%}
+              {%- liquid
+                assign val_1 = block.settings.col_1 | default: block.settings.craft
+                assign val_2 = block.settings.col_2 | default: block.settings.place
+                assign val_3 = block.settings.col_3 | default: block.settings.technique
+                assign val_4 = block.settings.col_4 | default: block.settings.material
+                assign val_5 = block.settings.col_5 | default: block.settings.look
+                assign val_6 = block.settings.col_6
+              -%}
               <tr {{ block.shopify_attributes }}>
-                <td>{{ block.settings.craft | escape }}</td>
-                <td>{{ block.settings.place | escape }}</td>
-                <td>{{ block.settings.technique | escape }}</td>
-                <td>{{ block.settings.material | escape }}</td>
-                <td>{{ block.settings.look | escape }}</td>
+                {%- if show_col_1 -%}
+                  <td>{{ val_1 | escape }}</td>
+                {%- endif -%}
+                {%- if show_col_2 -%}
+                  <td>{{ val_2 | escape }}</td>
+                {%- endif -%}
+                {%- if show_col_3 -%}
+                  <td>{{ val_3 | escape }}</td>
+                {%- endif -%}
+                {%- if show_col_4 -%}
+                  <td>{{ val_4 | escape }}</td>
+                {%- endif -%}
+                {%- if show_col_5 -%}
+                  <td>{{ val_5 | escape }}</td>
+                {%- endif -%}
+                {%- if show_col_6 -%}
+                  <td>{{ val_6 | escape }}</td>
+                {%- endif -%}
               </tr>
             {%- else -%}
               {% comment %} Fallback row if no blocks exist {% endcomment %}
               <tr>
-                <td>Mul Cotton</td>
-                <td>Bengal tradition, woven across several clusters</td>
-                <td>Plain or lightly patterned weave on handloom</td>
-                <td>Very fine soft cotton</td>
-                <td>Light, slightly crinkled hand and a soft drape</td>
+                {%- if show_col_1 -%}<td>Mul Cotton</td>{%- endif -%}
+                {%- if show_col_2 -%}<td>Bengal tradition, woven across several clusters</td>{%- endif -%}
+                {%- if show_col_3 -%}<td>Plain or lightly patterned weave on handloom</td>{%- endif -%}
+                {%- if show_col_4 -%}<td>Very fine soft cotton</td>{%- endif -%}
+                {%- if show_col_5 -%}<td>Light, slightly crinkled hand and a soft drape</td>{%- endif -%}
+                {%- if show_col_6 -%}<td></td>{%- endif -%}
               </tr>
             {%- endfor -%}
           </tbody>
@@ -83,37 +181,48 @@
     },
     {
       "type": "header",
-      "content": "Table Column Headers"
+      "content": "Table Columns",
+      "info": "Only columns with a header label will be displayed. Leave a column label blank to completely hide it."
     },
     {
       "type": "text",
       "id": "col_1_label",
-      "label": "Column 1 label",
+      "label": "Column 1 header",
       "default": "Craft"
     },
     {
       "type": "text",
       "id": "col_2_label",
-      "label": "Column 2 label",
-      "default": "Place"
+      "label": "Column 2 header",
+      "default": "Place",
+      "info": "Leave blank to hide this column"
     },
     {
       "type": "text",
       "id": "col_3_label",
-      "label": "Column 3 label",
-      "default": "Technique"
+      "label": "Column 3 header",
+      "default": "Technique",
+      "info": "Leave blank to hide this column"
     },
     {
       "type": "text",
       "id": "col_4_label",
-      "label": "Column 4 label",
-      "default": "Material"
+      "label": "Column 4 header",
+      "default": "Material",
+      "info": "Leave blank to hide this column"
     },
     {
       "type": "text",
       "id": "col_5_label",
-      "label": "Column 5 label",
-      "default": "Look"
+      "label": "Column 5 header",
+      "default": "Look",
+      "info": "Leave blank to hide this column"
+    },
+    {
+      "type": "text",
+      "id": "col_6_label",
+      "label": "Column 6 header",
+      "info": "Optional: leave blank to hide"
     },
     {
       "type": "header",
@@ -171,44 +280,57 @@
   "blocks": [
     {
       "type": "table_row",
-      "name": "Craft Reference Row",
+      "name": "Table Row",
       "settings": [
         {
           "type": "text",
           "id": "craft",
-          "label": "Craft name",
+          "label": "Column 1 value (e.g. Craft / Name)",
           "default": "Mul Cotton"
         },
         {
           "type": "textarea",
           "id": "place",
-          "label": "Place / Region",
+          "label": "Column 2 value (e.g. Place / Traditional Use)",
           "default": "Bengal tradition, woven across several clusters"
         },
         {
           "type": "textarea",
           "id": "technique",
-          "label": "Technique",
+          "label": "Column 3 value (e.g. Technique / Contemporary application)",
           "default": "Plain or lightly patterned weave on handloom"
         },
         {
           "type": "textarea",
           "id": "material",
-          "label": "Material",
+          "label": "Column 4 value (e.g. Material)",
           "default": "Very fine soft cotton"
         },
         {
           "type": "textarea",
           "id": "look",
-          "label": "Look / Drape",
+          "label": "Column 5 value (e.g. Look / Details)",
           "default": "Light, slightly crinkled hand and a soft drape"
+        },
+        {
+          "type": "textarea",
+          "id": "col_6",
+          "label": "Column 6 value (Optional)"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Chapter Quick Reference",
+      "name": "Chapter Quick Reference (5 Cols)",
+      "settings": {
+        "heading": "Quick reference",
+        "col_1_label": "Craft",
+        "col_2_label": "Place",
+        "col_3_label": "Technique",
+        "col_4_label": "Material",
+        "col_5_label": "Look"
+      },
       "blocks": [
         {
           "type": "table_row",
@@ -238,6 +360,67 @@
             "technique": "Jacquard handloom with zari figuring",
             "material": "Mulberry silk with zari",
             "look": "Baluchari scenes picked out in gold"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Then and Now (3 Cols)",
+      "settings": {
+        "heading": "Then and now",
+        "col_1_label": "Craft",
+        "col_2_label": "Traditional use",
+        "col_3_label": "Contemporary application",
+        "col_4_label": "",
+        "col_5_label": "",
+        "col_6_label": ""
+      },
+      "blocks": [
+        {
+          "type": "table_row",
+          "settings": {
+            "craft": "Mul Cotton",
+            "place": "Everyday sarees, dhotis and summer wear",
+            "technique": "Light sarees, relaxed shirts and kurtas, co-ord sets, kidswear"
+          }
+        },
+        {
+          "type": "table_row",
+          "settings": {
+            "craft": "Baluchari",
+            "place": "Courtly and ceremonial sarees",
+            "technique": "Heirloom sarees, statement jackets, framed wall art"
+          }
+        },
+        {
+          "type": "table_row",
+          "settings": {
+            "craft": "Swarnachari",
+            "place": "Royal weddings and festival ceremonies",
+            "technique": "Wedding sarees, celebration attire, luxury accessories"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Technique Comparison (5 Cols)",
+      "settings": {
+        "heading": "Technique, side by side",
+        "col_1_label": "Craft",
+        "col_2_label": "The hands",
+        "col_3_label": "Tool",
+        "col_4_label": "Making the pattern",
+        "col_5_label": "What makes it distinct"
+      },
+      "blocks": [
+        {
+          "type": "table_row",
+          "settings": {
+            "craft": "Mul Cotton",
+            "place": "1–2 weavers working together",
+            "technique": "Pit loom with fly shuttle",
+            "material": "Plain weave with extra warp or weft border threads",
+            "look": "Breathable lightness, fine count yarn and quiet texture"
           }
         }
       ]

@@ -133,6 +133,8 @@
                 aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
                 data-index="{{ forloop.index0 }}"
                 data-src="{{ media | image_url: width: 1400 }}"
+                data-media-id="{{ media.id }}"
+                data-alt="{{ media.alt | default: '' | escape }}"
                 data-caption="{{ img_caption | escape }}"
                 aria-label="View image {{ forloop.index }} - {{ img_caption | escape }}"
               >
@@ -399,6 +401,24 @@
   {{ product.description }}
 </div>
 
+{% comment %} Product Variants for Color & Size Switching {% endcomment %}
+<script id="HokkVariantsJson" type="application/json">
+  [
+    {%- for variant in product.variants -%}
+      {
+        "id": {{ variant.id }},
+        "title": {{ variant.title | json }},
+        "options": {{ variant.options | json }},
+        "available": {{ variant.available }},
+        "price": {{ variant.price }},
+        "compare_at_price": {{ variant.compare_at_price | default: 'null' }},
+        "featured_media_id": {{ variant.featured_media.id | default: 'null' }},
+        "featured_image": {{ variant.featured_image | image_url: width: 1400 | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+</script>
+
 <script>
   (function() {
     'use strict';
@@ -413,6 +433,7 @@
       'ivory': '#EDE8DF',
       'ecru': '#E6DEC8',
       'blue': '#2D4E68',
+      'ice blue': '#A4C3D2',
       'navy': '#1B2A4A',
       'indigo': '#28385E',
       'red': '#8B1E22',
@@ -420,21 +441,25 @@
       'wine': '#5C1D24',
       'green': '#2D4B3E',
       'sage': '#7A8063',
+      'sage green': '#848C74',
       'olive': '#555D3E',
+      'muted olive': '#656D4A',
       'yellow': '#D4A034',
+      'butter yellow': '#E6CF82',
       'gold': '#B08D57',
       'orange': '#C96228',
       'rust': '#9A4B1F',
       'terracotta': '#A84C32',
       'pink': '#D6899E',
       'rose': '#B86B7E',
-      'dusty rose': '#B87D88',
+      'dusty rose': '#BD828F',
       'purple': '#5C3866',
       'violet': '#4E2F60',
       'lavender': '#9683A6',
       'teal': '#28585D',
       'beige': '#D8C7B5',
-      'sand': '#D6C6B8'
+      'sand': '#D6C6B8',
+      'sand beige': '#D5C4B1'
     };
 
     // 2. Knowledge Map for Craft Clusters, Regions & Stories
@@ -489,6 +514,14 @@
       }
     };
 
+    // Helper: decode HTML entities (like &amp; &nbsp; &#39;)
+    function decodeHtmlEntities(str) {
+      if (!str) return '';
+      const txt = document.createElement('textarea');
+      txt.innerHTML = str;
+      return txt.value;
+    }
+
     // 3. Robust Content Parser
     function parseProductDescription() {
       const rawEl = document.getElementById('HokkRawDescription');
@@ -496,16 +529,13 @@
       const html = rawEl.innerHTML || '';
       if (!html.trim()) return;
 
-      // Temporary element to parse DOM
-      const doc = document.createElement('div');
-      doc.innerHTML = html;
-
       // Extract raw text with structure
       const textWithBreaks = html
         .replace(/<br\s*\/?>/gi, '\n')
         .replace(/<\/p>/gi, '\n\n')
         .replace(/<\/h[1-6]>/gi, '\n\n')
-        .replace(/<\/li>/gi, '\n');
+        .replace(/<\/li>/gi, '\n')
+        .replace(/<\/tr>/gi, '\n');
 
       const splitHeaders = [
         /Product Details/i,
@@ -524,10 +554,10 @@
       let leadText = '';
       let restText = textWithBreaks;
       if (splitIdx !== -1) {
-        leadText = textWithBreaks.substring(0, splitIdx).replace(/<[^>]+>/g, '').trim();
+        leadText = decodeHtmlEntities(textWithBreaks.substring(0, splitIdx).replace(/<[^>]+>/g, '')).trim();
         restText = textWithBreaks.substring(splitIdx);
       } else {
-        leadText = textWithBreaks.replace(/<[^>]+>/g, '').trim();
+        leadText = decodeHtmlEntities(textWithBreaks.replace(/<[^>]+>/g, '')).trim();
       }
 
       // Parse lines in restText
@@ -536,28 +566,41 @@
       let activeAcc = null;
       const accContent = { story: [], fabricCare: [], shipping: [], sizeGuide: [] };
 
+      function detectHeading(str) {
+        const clean = decodeHtmlEntities(str.replace(/<[^>]+>/g, ''))
+          .replace(/[\*\#\_\:\-]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        if (/^(the\s+)?story$/i.test(clean)) return 'story';
+        if (/^fabric\s*(&|and)\s*care/i.test(clean) || /^choose your linen fabric/i.test(clean)) return 'fabricCare';
+        if (/^shipping\s*(&|and)\s*returns?/i.test(clean)) return 'shipping';
+        if (/^size\s*guide/i.test(clean) || /^sizing(\s*guide)?/i.test(clean)) return 'sizeGuide';
+        if (/^product\s*(details|specifications)/i.test(clean) || /^design\s*details/i.test(clean)) return 'specs';
+
+        return null;
+      }
+
       for (let rawLine of lines) {
-        const line = rawLine.replace(/<[^>]+>/g, '').trim();
-        if (!line) continue;
+        const decodedLine = decodeHtmlEntities(rawLine.replace(/<[^>]+>/g, '')).trim();
+        if (!decodedLine) continue;
 
-        if (/^(The\s*Story|Story)/i.test(line)) {
-          activeAcc = 'story'; continue;
-        } else if (/^(Fabric\s*(&|and)\s*Care|Choose Your Linen Fabric)/i.test(line)) {
-          activeAcc = 'fabricCare'; continue;
-        } else if (/^(Shipping\s*(&|and)\s*Returns)/i.test(line)) {
-          activeAcc = 'shipping'; continue;
-        } else if (/^(Size\s*Guide)/i.test(line)) {
-          activeAcc = 'sizeGuide'; continue;
-        } else if (/^(Product\s*Details|Product\s*Specifications|Design\s*Details)/i.test(line)) {
-          activeAcc = null; continue;
-        }
-
-        if (activeAcc) {
-          accContent[activeAcc].push(line);
+        const headerType = detectHeading(decodedLine);
+        if (headerType) {
+          if (headerType === 'specs') {
+            activeAcc = null;
+          } else {
+            activeAcc = headerType;
+          }
           continue;
         }
 
-        const kvMatch = line.match(/^([A-Za-z0-9\s\/\-_]+):\s*(.+)$/);
+        if (activeAcc && accContent[activeAcc]) {
+          accContent[activeAcc].push(decodedLine);
+          continue;
+        }
+
+        const kvMatch = decodedLine.match(/^([A-Za-z0-9\s\/\-_]+):\s*(.+)$/);
         if (kvMatch) {
           const k = kvMatch[1].trim();
           const v = kvMatch[2].trim();
@@ -567,10 +610,17 @@
         }
       }
 
-      // Apply Lead text
+      // Apply Lead text with paragraphs
       if (leadText) {
         const leadEl = document.getElementById('pdpLeadDesc');
-        if (leadEl) leadEl.textContent = leadText;
+        if (leadEl) {
+          const paragraphs = leadText.split(/\n{2,}/).map(p => p.trim()).filter(Boolean);
+          if (paragraphs.length > 0) {
+            leadEl.innerHTML = paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+          } else {
+            leadEl.textContent = leadText;
+          }
+        }
       }
 
       // Detect craft & region
@@ -664,20 +714,25 @@
       }
 
       // Populate Accordions
-      // 1. The Story
+      // 1. The Story (only show if provided in description)
+      const storyAcc = document.getElementById('accStory');
       const storyEl = document.getElementById('accStoryContent');
-      if (storyEl) {
-        const storyText = accContent.story.join('\n\n') || matchedCraft.story;
-        const regLink = '/pages/chapter-' + (regionName || 'south-india').toLowerCase().replace(/\s+/g, '-');
-        storyEl.innerHTML = `<p>${escapeHtml(storyText)}</p><p><a class="tlink" href="${regLink}">Read the ${escapeHtml(regionName || 'South India')} Chapter</a></p>`;
+      if (storyAcc && storyEl) {
+        if (accContent.story.length > 0) {
+          storyAcc.style.display = '';
+          const storyText = accContent.story.join('\n\n');
+          const regLink = '/pages/chapter-' + (regionName || 'south-india').toLowerCase().replace(/\s+/g, '-');
+          storyEl.innerHTML = `<p>${escapeHtml(storyText)}</p><p><a class="tlink" href="${regLink}">Read the ${escapeHtml(regionName || 'South India')} Chapter</a></p>`;
+        } else {
+          storyAcc.style.display = 'none';
+        }
       }
 
       // 2. Fabric & care
       const fabEl = document.getElementById('accFabricCareContent');
       if (fabEl) {
         if (accContent.fabricCare.length > 0) {
-          fabEl.innerHTML = accContent.fabricCare.map(p => `<p>${escapeHtml(p)}</p>`).join('') +
-            `<p>Small irregularities in colour and weave are the signature of handwork, not defects.</p>`;
+          fabEl.innerHTML = accContent.fabricCare.map(p => `<p>${escapeHtml(p)}</p>`).join('');
         } else {
           const fabric = specs['Fabric'] || 'Cotton';
           const care = specs['Care'] || specs['Care Instructions'] || 'Dry clean only';
@@ -708,7 +763,110 @@
         .replace(/'/g, '&#039;');
     }
 
-    // 4. Gallery Interactions
+    // 4. Gallery & Variant Interactions
+    let productVariants = [];
+    try {
+      const vEl = document.getElementById('HokkVariantsJson');
+      if (vEl) productVariants = JSON.parse(vEl.textContent);
+    } catch(e) {}
+
+    function filterGalleryByColor(colorName) {
+      if (!colorName) return;
+      const target = colorName.toLowerCase().trim();
+      // Split into keywords (e.g. "Ivory / Ecru" -> ["ivory", "ecru"])
+      const colorWords = target.split(/[\/\,\s\-\&]+/).map(w => w.trim()).filter(w => w.length > 2);
+
+      const thumbs = document.querySelectorAll('.hokk-thumb-btn');
+      let visibleCount = 0;
+      let firstMatchingBtn = null;
+
+      thumbs.forEach(btn => {
+        const alt = (btn.dataset.alt || '').toLowerCase();
+        const caption = (btn.dataset.caption || '').toLowerCase();
+        const combined = alt + ' ' + caption;
+
+        // Check if thumbnail belongs to this color
+        const isMatch = colorWords.some(w => combined.includes(w));
+
+        if (isMatch) {
+          btn.style.display = '';
+          visibleCount++;
+          if (!firstMatchingBtn) firstMatchingBtn = btn;
+        } else {
+          btn.style.display = 'none';
+        }
+      });
+
+      // Fallback: If no images specifically matched the color words by alt text:
+      // Show only the first 4 thumbnails and hide the rest so it never overflows
+      if (visibleCount === 0) {
+        thumbs.forEach((btn, idx) => {
+          if (idx < 4) {
+            btn.style.display = '';
+            if (!firstMatchingBtn) firstMatchingBtn = btn;
+          } else {
+            btn.style.display = 'none';
+          }
+        });
+      }
+
+      // Automatically activate the first matching image of this color
+      if (firstMatchingBtn) {
+        firstMatchingBtn.click();
+      } else {
+        // Fallback: Check if variant has a featured_image
+        const matchingVariant = productVariants.find(v => v.options && v.options.some(opt => opt.toLowerCase() === target));
+        const mainImg = document.getElementById('hokkMainImg');
+        const mainCap = document.getElementById('hokkCaption');
+        if (matchingVariant && matchingVariant.featured_image && mainImg) {
+          mainImg.style.opacity = '0.4';
+          setTimeout(() => {
+            mainImg.src = matchingVariant.featured_image;
+            mainImg.style.opacity = '1';
+          }, 100);
+          if (mainCap) mainCap.textContent = colorName;
+        }
+      }
+    }
+
+    function updateActiveVariant() {
+      const activeSwatch = document.querySelector('.hokk-swatch[aria-pressed="true"]');
+      const activeSize = document.querySelector('.hokk-size-btn[aria-pressed="true"]');
+      const colorVal = activeSwatch ? activeSwatch.dataset.value : null;
+      const sizeVal = activeSize ? activeSize.dataset.value : null;
+
+      const found = productVariants.find(v => {
+        let match = true;
+        if (colorVal && (!v.options || !v.options.includes(colorVal))) match = false;
+        if (sizeVal && (!v.options || !v.options.includes(sizeVal))) match = false;
+        return match;
+      });
+
+      if (found) {
+        const varInput = document.getElementById('HokkVariantId');
+        if (varInput) varInput.value = found.id;
+
+        const submitBtn = document.getElementById('HokkSubmitBtn');
+        const submitText = document.getElementById('HokkSubmitText');
+        const stockText = document.getElementById('pdpStockText');
+        const stockLine = document.getElementById('pdpStockLine');
+
+        if (submitBtn && submitText) {
+          if (found.available) {
+            submitBtn.disabled = false;
+            submitText.textContent = 'Add to Bag';
+            if (stockLine) stockLine.className = 'hokk-stockline';
+            if (stockText) stockText.textContent = 'In stock, ships in 2 working days';
+          } else {
+            submitBtn.disabled = true;
+            submitText.textContent = 'Sold out';
+            if (stockLine) stockLine.className = 'hokk-stockline out';
+            if (stockText) stockText.textContent = 'Sold out';
+          }
+        }
+      }
+    }
+
     function initGallery() {
       const thumbs = document.querySelectorAll('.hokk-thumb-btn');
       const mainImg = document.getElementById('hokkMainImg');
@@ -739,7 +897,7 @@
       });
     }
 
-    // 5. Quantity & Size Guide triggers
+    // 5. Quantity, Swatch & Size Controls
     function initControls() {
       const qMinus = document.getElementById('qtyMinus');
       const qPlus = document.getElementById('qtyPlus');
@@ -762,7 +920,7 @@
         });
       }
 
-      // Swatches color matching
+      // Swatches color matching and image filtering
       const swatches = document.querySelectorAll('.hokk-swatch');
       const colName = document.getElementById('colName');
       swatches.forEach(sw => {
@@ -776,9 +934,12 @@
         sw.addEventListener('click', () => {
           swatches.forEach(s => s.setAttribute('aria-pressed', 'false'));
           sw.setAttribute('aria-pressed', 'true');
-          if (colName && sw.dataset.value) {
-            colName.textContent = sw.dataset.value;
+          const colorVal = sw.dataset.value;
+          if (colName && colorVal) {
+            colName.textContent = colorVal;
           }
+          filterGalleryByColor(colorVal);
+          updateActiveVariant();
         });
       });
 
@@ -788,6 +949,7 @@
         sb.addEventListener('click', () => {
           sizeBtns.forEach(s => s.setAttribute('aria-pressed', 'false'));
           sb.setAttribute('aria-pressed', 'true');
+          updateActiveVariant();
         });
       });
 
@@ -799,6 +961,18 @@
           e.preventDefault();
           accSg.open = true;
           accSg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      }
+
+      // Initialize gallery for the default selected color
+      const initialSwatch = document.querySelector('.hokk-swatch[aria-pressed="true"]');
+      if (initialSwatch && initialSwatch.dataset.value) {
+        filterGalleryByColor(initialSwatch.dataset.value);
+      } else {
+        // Fallback for products without color options: show only first 4 thumbnails
+        const thumbs = document.querySelectorAll('.hokk-thumb-btn');
+        thumbs.forEach((btn, idx) => {
+          if (idx >= 4) btn.style.display = 'none';
         });
       }
     }

@@ -1,0 +1,394 @@
+{{ 'section-chapter.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign current_handle = page.handle
+  assign heading = section.settings.heading | default: 'Motif & colour'
+  assign subheading = section.settings.subheading | default: 'Documented tendencies rather than rules. Weavers have always adapted these to taste, trade and occasion.'
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #ChapterMotifs-{{ section.id }} {
+    --motifs-bg: {{ section.settings.background_color | default: '#EDE3D9' }};
+    --motifs-heading-color: {{ section.settings.heading_color | default: '#171717' }};
+    --motifs-lede-color: {{ section.settings.subheading_color | default: '#57534E' }};
+    --motifs-card-bg: {{ section.settings.card_background | default: '#FFFFFF' }};
+    --motifs-card-border: {{ section.settings.card_border_color | default: '#E6DFD5' }};
+    --motifs-card-title-color: {{ section.settings.card_title_color | default: '#171717' }};
+    --motifs-card-text-color: {{ section.settings.card_text_color | default: '#57534E' }};
+    --motifs-cols-desktop: {{ section.settings.columns_desktop | default: 5 }};
+    --motifs-swatch-size: {{ section.settings.swatch_size | default: 22 }}px;
+  }
+{%- endstyle -%}
+
+<section
+  id="ChapterMotifs-{{ section.id }}"
+  class="chapter-motifs-section section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  <div class="chapter-motifs__container">
+    {%- if heading != blank -%}
+      <h2 class="chapter-motifs__heading">{{ heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- if subheading != blank -%}
+      <p class="chapter-motifs__lede">{{ subheading | escape }}</p>
+    {%- endif -%}
+
+    <div class="chapter-motifs__grid{% if section.settings.columns_mobile == '1' %} chapter-motifs__grid--mobile-1{% endif %}">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign raw_colors = block.settings.swatch_colors | strip
+            assign has_custom_colors = false
+            if raw_colors != blank
+              assign color_list = raw_colors | split: ','
+              assign has_custom_colors = true
+            endif
+          -%}
+          <div class="chapter-motifs__card" {{ block.shopify_attributes }}>
+            {%- if block.settings.title != blank -%}
+              <h4 class="chapter-motifs__card-title">{{ block.settings.title | escape }}</h4>
+            {%- endif -%}
+
+            <div class="chapter-motifs__swatches">
+              {%- if has_custom_colors -%}
+                {%- for color_item in color_list -%}
+                  {%- assign c_trim = color_item | strip -%}
+                  {%- if c_trim != blank -%}
+                    <i class="chapter-motifs__swatch" style="background-color: {{ c_trim }};" title="{{ c_trim | escape }}"></i>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- else -%}
+                {%- if block.settings.color_1 != blank and block.settings.color_1 != 'rgba(0,0,0,0)' -%}
+                  <i class="chapter-motifs__swatch" style="background-color: {{ block.settings.color_1 }};" title="{{ block.settings.color_1 }}"></i>
+                {%- endif -%}
+                {%- if block.settings.color_2 != blank and block.settings.color_2 != 'rgba(0,0,0,0)' -%}
+                  <i class="chapter-motifs__swatch" style="background-color: {{ block.settings.color_2 }};" title="{{ block.settings.color_2 }}"></i>
+                {%- endif -%}
+                {%- if block.settings.color_3 != blank and block.settings.color_3 != 'rgba(0,0,0,0)' -%}
+                  <i class="chapter-motifs__swatch" style="background-color: {{ block.settings.color_3 }};" title="{{ block.settings.color_3 }}"></i>
+                {%- endif -%}
+                {%- if block.settings.color_4 != blank and block.settings.color_4 != 'rgba(0,0,0,0)' -%}
+                  <i class="chapter-motifs__swatch" style="background-color: {{ block.settings.color_4 }};" title="{{ block.settings.color_4 }}"></i>
+                {%- endif -%}
+                {%- if block.settings.color_5 != blank and block.settings.color_5 != 'rgba(0,0,0,0)' -%}
+                  <i class="chapter-motifs__swatch" style="background-color: {{ block.settings.color_5 }};" title="{{ block.settings.color_5 }}"></i>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.description != blank -%}
+              <p class="chapter-motifs__card-desc">{{ block.settings.description | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {% comment %} Automatic defaults if section is added without blocks {% endcomment %}
+        {%- if current_handle == 'west-central-india' -%}
+          <div class="chapter-motifs__card">
+            <h4 class="chapter-motifs__card-title">Maheshwari</h4>
+            <div class="chapter-motifs__swatches">
+              <i class="chapter-motifs__swatch" style="background-color: #2F4A5E;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #C9A04A;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #EFE3CE;"></i>
+            </div>
+            <p class="chapter-motifs__card-desc">Chatai (mat), eent (brick), heera (diamond) and chameli (jasmine) borders; plain, striped or checked bodies.</p>
+          </div>
+          <div class="chapter-motifs__card">
+            <h4 class="chapter-motifs__card-title">Zari Kota</h4>
+            <div class="chapter-motifs__swatches">
+              <i class="chapter-motifs__swatch" style="background-color: #F2ECE2;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #C9A04A;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #8C1F28;"></i>
+            </div>
+            <p class="chapter-motifs__card-desc">A grid of small squares in ivory and soft colour, finished with gold or silver zari borders.</p>
+          </div>
+        {%- elsif current_handle == 'south-india' -%}
+          <div class="chapter-motifs__card">
+            <h4 class="chapter-motifs__card-title">Mangalagiri</h4>
+            <div class="chapter-motifs__swatches">
+              <i class="chapter-motifs__swatch" style="background-color: #1F3A5A;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #C9A04A;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #A4212C;"></i>
+            </div>
+            <p class="chapter-motifs__card-desc">Solid colours, fine checks and stripes, with zari border motifs like small temple spires and dots.</p>
+          </div>
+          <div class="chapter-motifs__card">
+            <h4 class="chapter-motifs__card-title">Ikkat</h4>
+            <div class="chapter-motifs__swatches">
+              <i class="chapter-motifs__swatch" style="background-color: #2A2F5E;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #B3202A;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #E9DDD2;"></i>
+            </div>
+            <p class="chapter-motifs__card-desc">Diamonds, stepped flames, small elephants, parrots and flowers in indigo, crimson and ivory.</p>
+          </div>
+        {%- elsif current_handle == 'north-india' -%}
+          <div class="chapter-motifs__card">
+            <h4 class="chapter-motifs__card-title">Banaras</h4>
+            <div class="chapter-motifs__swatches">
+              <i class="chapter-motifs__swatch" style="background-color: #7A1C2E;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #C9A04A;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #1F2742;"></i>
+            </div>
+            <p class="chapter-motifs__card-desc">Jaal, bel vines, kalga paisley and floral butis in gold and silver zari on rich silk.</p>
+          </div>
+          <div class="chapter-motifs__card">
+            <h4 class="chapter-motifs__card-title">Chiffon</h4>
+            <div class="chapter-motifs__swatches">
+              <i class="chapter-motifs__swatch" style="background-color: #E4A0A0;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #C9A04A;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #F2ECE2;"></i>
+            </div>
+            <p class="chapter-motifs__card-desc">Soft colour, light borders, occasional ombre or woven zari edges.</p>
+          </div>
+        {%- elsif current_handle == 'north-east-india' -%}
+          <div class="chapter-motifs__card">
+            <h4 class="chapter-motifs__card-title">Muga</h4>
+            <div class="chapter-motifs__swatches">
+              <i class="chapter-motifs__swatch" style="background-color: #C9A04A;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #8C1F28;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #2C2C2C;"></i>
+            </div>
+            <p class="chapter-motifs__card-desc">Natural gold ground with flowers, birds and traditional Assamese motifs in contrasting silk.</p>
+          </div>
+        {%- else -%}
+          {% comment %} East India fallback {% endcomment %}
+          <div class="chapter-motifs__card">
+            <h4 class="chapter-motifs__card-title">Mul Cotton</h4>
+            <div class="chapter-motifs__swatches">
+              <i class="chapter-motifs__swatch" style="background-color: #EDE8DF;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #8B1E22;"></i>
+              <i class="chapter-motifs__swatch" style="background-color: #1B2A4A;"></i>
+            </div>
+            <p class="chapter-motifs__card-desc">Stripes, thin checks and quiet woven borders. Designs stay minimal so the softness of the cloth leads.</p>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Motif & Colour",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Motif & colour"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading / Lede",
+      "default": "Documented tendencies rather than rules. Weavers have always adapted these to taste, trade and occasion."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 5,
+      "label": "Desktop columns"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 Column"
+        },
+        {
+          "value": "2",
+          "label": "2 Columns"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "swatch_size",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Swatch circle size",
+      "default": 22
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#EDE3D9"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#57534E"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#E6DFD5"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card title color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card description color",
+      "default": "#57534E"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "motif",
+      "name": "Motif Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Mul Cotton"
+        },
+        {
+          "type": "header",
+          "content": "Color Swatches"
+        },
+        {
+          "type": "text",
+          "id": "swatch_colors",
+          "label": "Quick Colors (Comma-separated hex)",
+          "info": "Optional: paste hex codes like #EDE8DF, #8B1E22, #1B2A4A. Overrides individual pickers below.",
+          "default": "#EDE8DF, #8B1E22, #1B2A4A"
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Color 1",
+          "default": "#EDE8DF"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Color 2",
+          "default": "#8B1E22"
+        },
+        {
+          "type": "color",
+          "id": "color_3",
+          "label": "Color 3",
+          "default": "#1B2A4A"
+        },
+        {
+          "type": "color",
+          "id": "color_4",
+          "label": "Color 4"
+        },
+        {
+          "type": "color",
+          "id": "color_5",
+          "label": "Color 5"
+        },
+        {
+          "type": "header",
+          "content": "Description"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Stripes, thin checks and quiet woven borders. Designs stay minimal so the softness of the cloth leads."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Motif & Colour",
+      "blocks": [
+        {
+          "type": "motif",
+          "settings": {
+            "title": "Mul Cotton",
+            "swatch_colors": "#EDE8DF, #8B1E22, #1B2A4A",
+            "color_1": "#EDE8DF",
+            "color_2": "#8B1E22",
+            "color_3": "#1B2A4A",
+            "description": "Stripes, thin checks and quiet woven borders. Designs stay minimal so the softness of the cloth leads."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

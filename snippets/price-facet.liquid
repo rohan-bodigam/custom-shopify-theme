@@ -1,55 +1,125 @@
 {%- doc -%}
-  Renders the minimum and maximum inputs for a price-range facet.
+  Renders price bracket checkboxes matching Figma design, with underlying min/max inputs for native Shopify price filtering.
 
   @param {filter} filter - The price-range filter that supplies parameter names, selected values, and the maximum price.
-  @param {string} id_prefix - A prefix that makes the minimum and maximum input IDs unique.
-  @param {string} [filter_type] - The facet layout. Set to `vertical` to omit the second currency label; other values use the non-vertical layout.
-
-  @example
-  {% render 'price-facet', filter: filter, id_prefix: 'Filter-', filter_type: 'vertical' %}
+  @param {string} id_prefix - A prefix that makes input IDs unique.
+  @param {string} [filter_type] - The facet layout.
 {%- enddoc -%}
-<span class="field-currency">{{ cart.currency.symbol }}</span>
 
-<div class="field">
+{%- liquid
+  assign raw_min = filter.min_value.value | money_without_currency | replace: ',', '' | plus: 0
+  assign raw_max = filter.max_value.value | money_without_currency | replace: ',', '' | plus: 0
+  assign currency_sym = cart.currency.symbol | default: '₹'
+-%}
+
+<price-brackets class="facets__price-brackets-wrap" data-prefix="{{ id_prefix }}">
+  <ul class="facets__list facets__list--vertical list-unstyled" role="list">
+    {% comment %} Bracket 1: Under 5,000 {% endcomment %}
+    <li class="list-menu__item facets__item">
+      <label class="facets__label facet-checkbox" for="{{ id_prefix }}PriceBracket-1">
+        <input
+          type="checkbox"
+          id="{{ id_prefix }}PriceBracket-1"
+          class="price-bracket-checkbox"
+          data-min=""
+          data-max="5000"
+          {% if raw_max == 5000 and filter.min_value.value == nil %}checked{% endif %}
+        >
+        <span class="facet-custom-box" aria-hidden="true">
+          <svg class="icon icon-checkmark" viewBox="0 0 12 9" fill="none">
+            <path fill="currentColor" fill-rule="evenodd" d="M11.35.643a.5.5 0 0 1 .006.707l-6.77 6.886a.5.5 0 0 1-.719-.006L.638 4.845a.5.5 0 1 1 .724-.69l2.872 3.011 6.41-6.517a.5.5 0 0 1 .707-.006z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+        <span class="facet-checkbox__text">
+          <span class="facet-checkbox__text-label">Under {{ currency_sym }}5,000</span>
+        </span>
+      </label>
+    </li>
+
+    {% comment %} Bracket 2: 5,000 to 10,000 {% endcomment %}
+    <li class="list-menu__item facets__item">
+      <label class="facets__label facet-checkbox" for="{{ id_prefix }}PriceBracket-2">
+        <input
+          type="checkbox"
+          id="{{ id_prefix }}PriceBracket-2"
+          class="price-bracket-checkbox"
+          data-min="5000"
+          data-max="10000"
+          {% if raw_min == 5000 and raw_max == 10000 %}checked{% endif %}
+        >
+        <span class="facet-custom-box" aria-hidden="true">
+          <svg class="icon icon-checkmark" viewBox="0 0 12 9" fill="none">
+            <path fill="currentColor" fill-rule="evenodd" d="M11.35.643a.5.5 0 0 1 .006.707l-6.77 6.886a.5.5 0 0 1-.719-.006L.638 4.845a.5.5 0 1 1 .724-.69l2.872 3.011 6.41-6.517a.5.5 0 0 1 .707-.006z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+        <span class="facet-checkbox__text">
+          <span class="facet-checkbox__text-label">{{ currency_sym }}5,000 to {{ currency_sym }}10,000</span>
+        </span>
+      </label>
+    </li>
+
+    {% comment %} Bracket 3: 10,000 to 20,000 {% endcomment %}
+    <li class="list-menu__item facets__item">
+      <label class="facets__label facet-checkbox" for="{{ id_prefix }}PriceBracket-3">
+        <input
+          type="checkbox"
+          id="{{ id_prefix }}PriceBracket-3"
+          class="price-bracket-checkbox"
+          data-min="10000"
+          data-max="20000"
+          {% if raw_min == 10000 and raw_max == 20000 %}checked{% endif %}
+        >
+        <span class="facet-custom-box" aria-hidden="true">
+          <svg class="icon icon-checkmark" viewBox="0 0 12 9" fill="none">
+            <path fill="currentColor" fill-rule="evenodd" d="M11.35.643a.5.5 0 0 1 .006.707l-6.77 6.886a.5.5 0 0 1-.719-.006L.638 4.845a.5.5 0 1 1 .724-.69l2.872 3.011 6.41-6.517a.5.5 0 0 1 .707-.006z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+        <span class="facet-checkbox__text">
+          <span class="facet-checkbox__text-label">{{ currency_sym }}10,000 to {{ currency_sym }}20,000</span>
+        </span>
+      </label>
+    </li>
+
+    {% comment %} Bracket 4: Over 20,000 {% endcomment %}
+    <li class="list-menu__item facets__item">
+      <label class="facets__label facet-checkbox" for="{{ id_prefix }}PriceBracket-4">
+        <input
+          type="checkbox"
+          id="{{ id_prefix }}PriceBracket-4"
+          class="price-bracket-checkbox"
+          data-min="20000"
+          data-max=""
+          {% if raw_min == 20000 and filter.max_value.value == nil %}checked{% endif %}
+        >
+        <span class="facet-custom-box" aria-hidden="true">
+          <svg class="icon icon-checkmark" viewBox="0 0 12 9" fill="none">
+            <path fill="currentColor" fill-rule="evenodd" d="M11.35.643a.5.5 0 0 1 .006.707l-6.77 6.886a.5.5 0 0 1-.719-.006L.638 4.845a.5.5 0 1 1 .724-.69l2.872 3.011 6.41-6.517a.5.5 0 0 1 .707-.006z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+        <span class="facet-checkbox__text">
+          <span class="facet-checkbox__text-label">Over {{ currency_sym }}20,000</span>
+        </span>
+      </label>
+    </li>
+  </ul>
+
+  {% comment %} Hidden inputs that submit native Shopify price params {% endcomment %}
   <input
-    class="field__input"
+    type="hidden"
+    class="price-hidden-gte"
     name="{{ filter.min_value.param_name }}"
     id="{{ id_prefix }}{{ filter.label | escape }}-GTE"
     {%- if filter.min_value.value -%}
-      value="{{ filter.min_value.value | money_without_currency }}"
+      value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
     {%- endif -%}
-    type="text"
-    inputmode="decimal"
-    placeholder="0"
-    data-pattern="\d| |,|\."
-    data-min="0"
-    data-max="{{ filter.range_max | money_without_currency }}"
   >
-  <label class="field__label" for="{{ id_prefix }}{{ filter.label | escape }}-GTE">
-    {{- 'products.facets.from' | t -}}
-  </label>
-</div>
-
-{%- if filter_type != 'vertical' -%}
-  <span class="field-currency">{{ cart.currency.symbol }}</span>
-{%- endif -%}
-
-<div class="field">
   <input
-    class="field__input"
+    type="hidden"
+    class="price-hidden-lte"
     name="{{ filter.max_value.param_name }}"
     id="{{ id_prefix }}{{ filter.label | escape }}-LTE"
     {%- if filter.max_value.value -%}
-      value="{{ filter.max_value.value | money_without_currency }}"
+      value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
     {%- endif -%}
-    type="text"
-    inputmode="decimal"
-    placeholder="{{ filter.range_max | money_without_currency }}"
-    data-pattern="\d| |,|\."
-    data-min="0"
-    data-max="{{ filter.range_max | money_without_currency }}"
   >
-  <label class="field__label" for="{{ id_prefix }}{{ filter.label | escape }}-LTE">
-    {{- 'products.facets.to' | t -}}
-  </label>
-</div>
+</price-brackets>

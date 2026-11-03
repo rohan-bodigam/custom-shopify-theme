@@ -1,0 +1,332 @@
+{{ 'section-chapter.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign current_handle = page.handle
+  assign heading = section.settings.heading | default: 'How to spot the real thing'
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #ChapterSpot-{{ section.id }} {
+    --spot-bg: {{ section.settings.background_color | default: '#EDE3D9' }};
+    --spot-heading-color: {{ section.settings.heading_color | default: '#171717' }};
+    --spot-text-color: {{ section.settings.text_color | default: '#57534E' }};
+    --spot-badge-bg: {{ section.settings.badge_background | default: '#4E5540' }};
+    --spot-badge-text: {{ section.settings.badge_text_color | default: '#F7F3EE' }};
+    --spot-border-color: {{ section.settings.border_color | default: '#D6C6B8' }};
+  }
+{%- endstyle -%}
+
+<section
+  id="ChapterSpot-{{ section.id }}"
+  class="chapter-spot-section section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  <div class="chapter-spot__container">
+    {%- if heading != blank -%}
+      <h2 class="chapter-spot__heading">{{ heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="chapter-spot__subheading">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+
+    <ol class="chapter-spot__list{% if section.settings.columns_desktop == '1' %} chapter-spot__list--single-column{% endif %}">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <li class="chapter-spot__item" {{ block.shopify_attributes }}>
+            <span class="chapter-spot__badge">
+              {{ block.settings.badge_number | default: forloop.index }}
+            </span>
+            <div class="chapter-spot__text">
+              {{ block.settings.text | escape }}
+            </div>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {% comment %} Automatic defaults if no blocks added {% endcomment %}
+        {%- if current_handle == 'west-central-india' -%}
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">1</span>
+            <div class="chapter-spot__text">Check the Maheshwari border from the back. A true reversible border looks the same on both sides.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">2</span>
+            <div class="chapter-spot__text">Hold Kota Doria to the light. You should see a clear grid of small squares and a loose, airy weave, not a printed check.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">3</span>
+            <div class="chapter-spot__text">Handwoven cloth carries small irregularities. A slightly uneven check is a good sign.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">4</span>
+            <div class="chapter-spot__text">On zari, look for a steady shimmer. Tarnished or flaking metallic thread points to poor-quality zari.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">5</span>
+            <div class="chapter-spot__text">Ask about the fibre mix. Both cloths are usually cotton and silk, which should be stated on the label.</div>
+          </li>
+        {%- elsif current_handle == 'south-india' -%}
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">1</span>
+            <div class="chapter-spot__text">On ikkat, edges should be soft and slightly stepped. A razor-sharp outline suggests a print, not a dyed thread.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">2</span>
+            <div class="chapter-spot__text">Look at the reverse of ikkat. Because the thread itself is dyed, the pattern shows through on the back too.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">3</span>
+            <div class="chapter-spot__text">On Mangalagiri, the border zari should be woven in, not stuck on or printed.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">4</span>
+            <div class="chapter-spot__text">Handloom has small irregularities. A slight shift in a pattern repeat is a good sign.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">5</span>
+            <div class="chapter-spot__text">Ask which cluster the cloth was woven in. A good seller can name the town.</div>
+          </li>
+        {%- elsif current_handle == 'north-india' -%}
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">1</span>
+            <div class="chapter-spot__text">Turn a Banaras saree over. In kadhua brocade, motifs are bound neatly with short floats, not long loose threads.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">2</span>
+            <div class="chapter-spot__text">Zari should look steady and bright, not flaky. Real zari is metallic thread, not printed gold.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">3</span>
+            <div class="chapter-spot__text">Ask for the silk type. Katan, georgette and organza all appear in Banaras weaving and feel different.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">4</span>
+            <div class="chapter-spot__text">For chiffon, read the label. Fibre content, weave and finish should all be stated.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">5</span>
+            <div class="chapter-spot__text">Look at the drape. Good chiffon floats and flows, it does not stick or bunch.</div>
+          </li>
+        {%- elsif current_handle == 'north-east-india' -%}
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">1</span>
+            <div class="chapter-spot__text">Muga should have a natural golden hue, not an even bright yellow. Colour that looks too perfect may be dyed.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">2</span>
+            <div class="chapter-spot__text">Feel the weight. Muga is firm and slightly crisp when new, then softens with washing.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">3</span>
+            <div class="chapter-spot__text">Ask for the GI authentication tag. Genuine Muga from Assam can be certified.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">4</span>
+            <div class="chapter-spot__text">Look at the motifs. Handwoven supplementary-weft motifs are crisp and slightly raised, not flat prints.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">5</span>
+            <div class="chapter-spot__text">Expect a higher price than other silks. Muga supply is small and limited by the silkworm's seasons.</div>
+          </li>
+        {%- else -%}
+          {% comment %} East India fallback {% endcomment %}
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">1</span>
+            <div class="chapter-spot__text">Hold it to the light. Real mul is fine and even, with soft slubs here and there, not stiff or glossy.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">2</span>
+            <div class="chapter-spot__text">Wash a swatch or read the care label. Good mul cotton softens and crinkles a little. Cloth that stays stiff after washing may be heavily starched.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">3</span>
+            <div class="chapter-spot__text">Look at the border. A woven stripe shows on both sides of the cloth, where a printed one sits only on the surface.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">4</span>
+            <div class="chapter-spot__text">Ask for the fibre content. Pure cotton breathes and absorbs sweat, blends do not behave the same way.</div>
+          </li>
+          <li class="chapter-spot__item">
+            <span class="chapter-spot__badge">5</span>
+            <div class="chapter-spot__text">Expect small irregularities. A tiny slub or a slightly uneven stripe is part of handwoven cloth, not a defect.</div>
+          </li>
+        {%- endif -%}
+      {%- endif -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Spot the Real Thing",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How to spot the real thing"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading / Intro (Optional)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 Column"
+        },
+        {
+          "value": "2",
+          "label": "2 Columns"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#EDE3D9"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#57534E"
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Number badge background",
+      "default": "#4E5540"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Number badge text color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Row divider color",
+      "default": "#D6C6B8"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spot_point",
+      "name": "Check Point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_number",
+          "label": "Custom number (Optional)",
+          "info": "Leave blank to auto-number 1, 2, 3..."
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Hold it to the light. Real mul is fine and even, with soft slubs here and there, not stiff or glossy."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How to spot the real thing",
+      "blocks": [
+        {
+          "type": "spot_point",
+          "settings": {
+            "text": "Hold it to the light. Real mul is fine and even, with soft slubs here and there, not stiff or glossy."
+          }
+        },
+        {
+          "type": "spot_point",
+          "settings": {
+            "text": "Wash a swatch or read the care label. Good mul cotton softens and crinkles a little. Cloth that stays stiff after washing may be heavily starched."
+          }
+        },
+        {
+          "type": "spot_point",
+          "settings": {
+            "text": "Look at the border. A woven stripe shows on both sides of the cloth, where a printed one sits only on the surface."
+          }
+        },
+        {
+          "type": "spot_point",
+          "settings": {
+            "text": "Ask for the fibre content. Pure cotton breathes and absorbs sweat, blends do not behave the same way."
+          }
+        },
+        {
+          "type": "spot_point",
+          "settings": {
+            "text": "Expect small irregularities. A tiny slub or a slightly uneven stripe is part of handwoven cloth, not a defect."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
