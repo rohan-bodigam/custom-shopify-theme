@@ -1,0 +1,164 @@
+{
+  "sections": {
+    "hero": {
+      "type": "about-hero",
+      "settings": {
+        "show_breadcrumbs": true,
+        "home_label": "Home",
+        "page_label": "About",
+        "heading": "ABOUT THE HOUSE",
+        "tagline": "One House. Many Traditions. Endless Stories.",
+        "description": "House of Kala Katha brings the textiles of India's regions under one contemporary house, and interprets them through clothing for how people live now."
+      }
+    },
+    "pillars": {
+      "type": "about-pillars",
+      "blocks": {
+        "purpose": {
+          "type": "pillar",
+          "settings": {
+            "title": "Purpose",
+            "text": "To reconnect people with India's handloom heritage by making timeless craftsmanship relevant, desirable and meaningful for the modern world."
+          }
+        },
+        "mission": {
+          "type": "pillar",
+          "settings": {
+            "title": "Mission",
+            "text": "To create contemporary fashion that celebrates Indian artisans, preserves traditional craftsmanship, and delivers exceptional quality through thoughtful design and storytelling."
+          }
+        },
+        "vision": {
+          "type": "pillar",
+          "settings": {
+            "title": "Vision",
+            "text": "To establish House of Kala Katha as a globally recognised fashion house that champions Indian craftsmanship and inspires a new generation to embrace handloom as a way of life."
+          }
+        }
+      },
+      "block_order": [
+        "purpose",
+        "mission",
+        "vision"
+      ],
+      "settings": {
+        "image_position": "left",
+        "image_aspect_ratio": "4/5",
+        "show_thread_accent": true,
+        "card_border_radius": 14,
+        "background_color": "transparent",
+        "heading_color": "#171717",
+        "text_color": "#57534E",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "values": {
+      "type": "about-values",
+      "blocks": {
+        "val_1": {
+          "type": "value_item",
+          "settings": {
+            "title": "CRAFTSMANSHIP",
+            "description": "Honouring the art behind every creation."
+          }
+        },
+        "val_2": {
+          "type": "value_item",
+          "settings": {
+            "title": "HERITAGE",
+            "description": "Preserving India's timeless textile traditions."
+          }
+        },
+        "val_3": {
+          "type": "value_item",
+          "settings": {
+            "title": "AUTHENTICITY",
+            "description": "Rooted in honesty, culture and purpose."
+          }
+        },
+        "val_4": {
+          "type": "value_item",
+          "settings": {
+            "title": "TIMELESSNESS",
+            "description": "Designing beyond trends and seasons."
+          }
+        },
+        "val_5": {
+          "type": "value_item",
+          "settings": {
+            "title": "CONTEMPORARY ELEGANCE",
+            "description": "Blending tradition with modern luxury."
+          }
+        },
+        "val_6": {
+          "type": "value_item",
+          "settings": {
+            "title": "PURPOSE",
+            "description": "Creating with intention and meaning."
+          }
+        },
+        "val_7": {
+          "type": "value_item",
+          "settings": {
+            "title": "SUSTAINABILITY",
+            "description": "Supporting ethical and conscious fashion."
+          }
+        },
+        "val_8": {
+          "type": "value_item",
+          "settings": {
+            "title": "COMMUNITY",
+            "description": "Empowering artisans and celebrating culture together."
+          }
+        }
+      },
+      "block_order": [
+        "val_1",
+        "val_2",
+        "val_3",
+        "val_4",
+        "val_5",
+        "val_6",
+        "val_7",
+        "val_8"
+      ],
+      "settings": {
+        "heading": "What we value",
+        "columns_desktop": "4",
+        "columns_mobile": "1",
+        "card_border_radius": 16,
+        "section_background": "transparent",
+        "container_background": "#FFFFFF",
+        "border_color": "#E5DFD7",
+        "heading_color": "#171717",
+        "item_title_color": "#171717",
+        "item_text_color": "#57534E",
+        "padding_top": 48,
+        "padding_bottom": 80
+      }
+    },
+    "cta": {
+      "type": "about-cta",
+      "settings": {
+        "text": "Our monogram weaves the letter K through the warp threads of a handloom, with a shuttle passing through. It is the simplest way we know to say what we do.",
+        "button_label": "Collaborate With Us",
+        "button_link": "/pages/contact",
+        "enable_gradient": true,
+        "gradient_center": "#5A1C28",
+        "background_color": "#3B1019",
+        "text_color": "#F7F3EE",
+        "button_bg_color": "#FFFFFF",
+        "button_text_color": "#5C1E2D",
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "pillars",
+    "values",
+    "cta"
+  ]
+}

@@ -1,373 +1,572 @@
-{{ 'section-blog-post.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  # Reading time calculation
+  assign words = article.content | strip_html | split: ' ' | size
+  assign read_time = words | divided_by: 200 | at_least: 1
 
-<article class="article-template">
-  {%- for block in section.blocks -%}
-    {%- case block.type -%}
-      {%- when '@app' -%}
-        <div class="page-width page-width--narrow">
-          {% render block %}
-        </div>
-      {%- when 'featured_image' -%}
-        {%- if article.image -%}
-          <div
-            class="article-template__hero-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
-            {{ block.shopify_attributes }}
-          >
-            <div
-              class="article-template__hero-{{ block.settings.image_height }} media"
-              {% if block.settings.image_height == 'adapt' and article.image %}
-                style="padding-bottom: {{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;"
-              {% endif %}
-            >
-              <img
-                srcset="
-                  {% if article.image.width >= 350 %}{{ article.image | image_url: width: 350 }} 350w,{% endif %}
-                  {% if article.image.width >= 750 %}{{ article.image | image_url: width: 750 }} 750w,{% endif %}
-                  {% if article.image.width >= 1100 %}{{ article.image | image_url: width: 1100 }} 1100w,{% endif %}
-                  {% if article.image.width >= 1500 %}{{ article.image | image_url: width: 1500 }} 1500w,{% endif %}
-                  {% if article.image.width >= 2200 %}{{ article.image | image_url: width: 2200 }} 2200w,{% endif %}
-                  {% if article.image.width >= 3000 %}{{ article.image | image_url: width: 3000 }} 3000w,{% endif %}
-                  {{ article.image | image_url }} {{ article.image.width }}w
-                "
-                sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 }}px, (min-width: 750px) calc(100vw - 10rem), 100vw"
-                src="{{ article.image | image_url: width: 1100 }}"
-                loading="eager"
-                fetchpriority="high"
-                width="{{ article.image.width }}"
-                height="{{ article.image.height }}"
-                alt="{{ article.image.alt | escape }}"
-              >
-            </div>
-          </div>
-        {%- endif -%}
+  # Category detection for breadcrumbs
+  assign category_tag = ''
+  for tag in article.tags
+    assign tag_lower = tag | downcase
+    unless tag_lower contains 'india' or tag_lower contains 'west' or tag_lower contains 'east' or tag_lower contains 'south' or tag_lower contains 'north'
+      assign category_tag = tag
+      break
+    endunless
+  endfor
+  if category_tag == blank
+    assign category_tag = section.settings.default_category | default: 'Weaves'
+  endif
 
-      {%- when 'title' -%}
-        <header
-          class="page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
-          {{ block.shopify_attributes }}
-        >
-          <h1
-            class="article-template__title"
-          >
-            {{ article.title | escape }}
-          </h1>
-          {%- if block.settings.blog_show_date -%}
-            <span class="circle-divider caption-with-letter-spacing">
-              {{- article.published_at | time_tag: format: 'date' -}}
-            </span>
-          {%- endif -%}
-          {%- if block.settings.blog_show_author -%}
-            <span class="caption-with-letter-spacing">
-              <span>{{ article.author }}</span>
-            </span>
-          {%- endif -%}
-        </header>
+  # Chapter tag and link detection
+  assign chapter_name = ''
+  assign chapter_link = ''
+  for tag in article.tags
+    assign tag_lower = tag | downcase
+    if tag_lower contains 'west' or tag_lower contains 'central'
+      assign chapter_name = 'West & Central India'
+      assign chapter_link = '/pages/west-central-india'
+    elsif tag_lower contains 'north east' or tag_lower contains 'northeast'
+      assign chapter_name = 'North East India'
+      assign chapter_link = '/pages/north-east-india'
+    elsif tag_lower contains 'east'
+      assign chapter_name = 'East India'
+      assign chapter_link = '/pages/east-india'
+    elsif tag_lower contains 'south'
+      assign chapter_name = 'South India'
+      assign chapter_link = '/pages/south-india'
+    elsif tag_lower contains 'north'
+      assign chapter_name = 'North India'
+      assign chapter_link = '/pages/north-india'
+    endif
+  endfor
 
-      {%- when 'content' -%}
-        <div
-          class="article-template__content page-width page-width--narrow rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          {{ block.shopify_attributes }}
-        >
-          {{ article.content }}
-        </div>
+  if chapter_name == blank
+    assign chapter_name = section.settings.default_chapter_name | default: 'West & Central India'
+    assign chapter_link = section.settings.default_chapter_url | default: '/pages/culture'
+  endif
 
-      {%- when 'share' -%}
-        <div
-          class="article-template__social-sharing page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          {{ block.shopify_attributes }}
-        >
-          {% assign share_url = request.origin | append: article.url %}
-          {% render 'share-button', block: block, share_link: share_url %}
-        </div>
-    {%- endcase -%}
-  {%- endfor -%}
+  # Pre-assign alt text for cover image
+  assign cover_alt = article.image.alt | default: article.title | escape
+-%}
 
-  <div class="article-template__back element-margin-top center{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    <a href="{{ blog.url }}" class="article-template__link link animate-arrow">
-      <span class="icon-wrap">
-        <span class="svg-wrapper">
-          {{- 'icon-arrow.svg' | inline_asset_content -}}
-        </span>
-      </span>
-      {{ 'blogs.article.back_to_blog' | t: title: blog.title | escape }}
-    </a>
-  </div>
-  {%- if blog.comments_enabled? -%}
-    <div class="article-template__comment-wrapper background-secondary">
-      <div
-        id="comments"
-        class="page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-      >
-        {%- if article.comments_count > 0 -%}
-          {%- assign anchorId = '#Comments-' | append: article.id -%}
+{%- style -%}
+  #MainArticle-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.section_background | default: '#F7F3EE' }};
+    --art-heading: {{ section.settings.heading_color | default: '#171717' }};
+    --art-text: {{ section.settings.text_color | default: '#373330' }};
+    --art-muted: {{ section.settings.muted_color | default: '#57534E' }};
+    --art-accent: {{ section.settings.accent_color | default: '#6B2230' }};
+    --art-gold: {{ section.settings.quote_border_color | default: '#C4A482' }};
+    --art-radius: {{ section.settings.image_border_radius | default: 12 }}px;
+  }
 
-          <h2 id="Comments-{{ article.id }}" tabindex="-1">
-            {{ 'blogs.article.comments' | t: count: article.comments_count }}
-          </h2>
-          {% paginate article.comments by 5 %}
-            <div class="article-template__comments">
-              {%- if comment.status == 'pending' and comment.content -%}
-                <article id="{{ comment.id }}" class="article-template__comments-comment">
-                  {{ comment.content }}
-                  <footer class="right">
-                    <span class="circle-divider caption-with-letter-spacing">{{ comment.author }}</span>
-                  </footer>
-                </article>
-              {%- endif -%}
+  .article-single {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-              {%- for comment in article.comments -%}
-                <article id="{{ comment.id }}" class="article-template__comments-comment">
-                  {{ comment.content }}
-                  <footer class="right">
-                    <span class="circle-divider caption-with-letter-spacing">{{ comment.author }}</span
-                    ><span class="caption-with-letter-spacing">
-                      {{- comment.created_at | time_tag: format: 'date' -}}
-                    </span>
-                  </footer>
-                </article>
-              {%- endfor -%}
-              {% render 'pagination', paginate: paginate, anchor: anchorId %}
-            </div>
-          {% endpaginate %}
-        {%- endif -%}
-        {% form 'new_comment', article %}
-          {%- liquid
-            assign post_message = 'blogs.article.success'
-            if blog.moderated? and comment.status == 'unapproved'
-              assign post_message = 'blogs.article.success_moderated'
-            endif
-          -%}
-          <h2>{{ 'blogs.article.comment_form_title' | t }}</h2>
-          {%- if form.errors -%}
-            <div class="form__message" role="alert">
-              <h3 class="form-status caption-large text-body" tabindex="-1" autofocus>
-                <span class="svg-wrapper">
-                  {{- 'icon-error.svg' | inline_asset_content -}}
-                </span>
-                {{ 'templates.contact.form.error_heading' | t }}
-              </h3>
-            </div>
-            <ul class="form-status-list caption-large">
-              {%- for field in form.errors -%}
-                <li>
-                  <a href="#CommentForm-{{ field }}" class="link">
-                    {%- if form.errors.translated_fields[field] contains 'author' -%}
-                      {{ 'blogs.article.name' | t }}
-                    {%- elsif form.errors.translated_fields[field] contains 'body' -%}
-                      {{ 'blogs.article.message' | t }}
-                    {%- else -%}
-                      {{ form.errors.translated_fields[field] }}
-                    {%- endif -%}
-                    {{ form.errors.messages[field] }}
-                  </a>
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- elsif form.posted_successfully? -%}
-            <div class="form-status-list form__message" role="status">
-              <h3 class="form-status" tabindex="-1" autofocus>
-                <span class="svg-wrapper">
-                  {{- 'icon-success.svg' | inline_asset_content -}}
-                </span>
-                {{ post_message | t }}
-              </h3>
-            </div>
-          {%- endif -%}
+  .article-single__container {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+    padding-left: clamp(20px, 4.5vw, 40px);
+    padding-right: clamp(20px, 4.5vw, 40px);
+    box-sizing: border-box;
+  }
 
-          <div
-            {% if blog.moderated? == false %}
-              class="article-template__comments-fields"
-            {% endif %}
-          >
-            <div class="article-template__comment-fields">
-              <div class="field field--with-error">
-                <input
-                  type="text"
-                  name="comment[author]"
-                  id="CommentForm-author"
-                  class="field__input"
-                  autocomplete="name"
-                  value="{{ form.author }}"
-                  aria-required="true"
-                  required
-                  {% if form.errors contains 'author' %}
-                    aria-invalid="true"
-                    aria-describedby="CommentForm-author-error"
-                  {% endif %}
-                  placeholder="{{ 'blogs.article.name' | t }}"
-                >
-                <label class="field__label" for="CommentForm-author">
-                  {{- 'blogs.article.name' | t }}
-                  <span aria-hidden="true">*</span></label
-                >
-                {%- if form.errors contains 'author' -%}
-                  <small id="CommentForm-author-error">
-                    <span class="form__message">
-                      <span class="svg-wrapper">
-                        {{- 'icon-error.svg' | inline_asset_content -}}
-                      </span>
-                      {{- 'blogs.article.name' | t }}
-                      {{ form.errors.messages.author }}.</span
-                    >
-                  </small>
-                {%- endif -%}
-              </div>
-              <div class="field field--with-error">
-                <input
-                  type="email"
-                  name="comment[email]"
-                  id="CommentForm-email"
-                  autocomplete="email"
-                  class="field__input"
-                  value="{{ form.email }}"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  aria-required="true"
-                  required
-                  {% if form.errors contains 'email' %}
-                    aria-invalid="true"
-                    aria-describedby="CommentForm-email-error"
-                  {% endif %}
-                  placeholder="{{ 'blogs.article.email' | t }}"
-                >
-                <label class="field__label" for="CommentForm-email">
-                  {{- 'blogs.article.email' | t }}
-                  <span aria-hidden="true">*</span></label
-                >
-                {%- if form.errors contains 'email' -%}
-                  <small id="CommentForm-email-error">
-                    <span class="form__message">
-                      <span class="svg-wrapper">
-                        {{- 'icon-error.svg' | inline_asset_content -}}
-                      </span>
-                      {{- 'blogs.article.email' | t }}
-                      {{ form.errors.messages.email }}.</span
-                    >
-                  </small>
-                {%- endif -%}
-              </div>
-            </div>
-            <div class="field field--with-error">
-              <textarea
-                rows="5"
-                name="comment[body]"
-                id="CommentForm-body"
-                class="text-area field__input"
-                aria-required="true"
-                required
-                {% if form.errors contains 'body' %}
-                  aria-invalid="true"
-                  aria-describedby="CommentForm-body-error"
-                {% endif %}
-                placeholder="{{ 'blogs.article.message' | t }}"
-              >{{ form.body }}</textarea>
-              <label class="form__label field__label" for="CommentForm-body">
-                {{- 'blogs.article.message' | t }}
-                <span aria-hidden="true">*</span></label
-              >
-            </div>
-            {%- if form.errors contains 'body' -%}
-              <small id="CommentForm-body-error">
-                <span class="form__message">
-                  <span class="svg-wrapper">
-                    {{- 'icon-error.svg' | inline_asset_content -}}
-                  </span>
-                  {{- 'blogs.article.message' | t }}
-                  {{ form.errors.messages.body }}.</span
-                >
-              </small>
-            {%- endif -%}
-          </div>
-          {%- if blog.moderated? -%}
-            <p class="article-template__comment-warning caption">{{ 'blogs.article.moderated' | t }}</p>
-          {%- endif -%}
-          <input type="submit" class="button" value="{{ 'blogs.article.post' | t }}">
-        {% endform %}
-      </div>
-    </div>
+  /* Breadcrumbs */
+  .article-single__crumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: 0.88rem;
+    color: #78716C;
+    margin-bottom: 22px;
+    line-height: 1.4;
+  }
+
+  .article-single__crumbs a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .article-single__crumbs a:hover {
+    color: var(--art-heading, #171717);
+    text-decoration: underline;
+  }
+
+  .article-single__crumbs span[aria-current="page"] {
+    color: var(--art-heading, #171717);
+  }
+
+  /* Article Header */
+  .article-single__header {
+    margin-bottom: 28px;
+  }
+
+  .article-single__title {
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-size: clamp(2.3rem, 4.5vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: 0.02em;
+    color: var(--art-heading, #171717);
+    text-transform: uppercase;
+    margin: 0 0 16px 0;
+  }
+
+  .article-single__lede {
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--art-muted, #57534E);
+    margin: 0 0 16px 0;
+  }
+
+  .article-single__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: 0.92rem;
+    color: var(--art-muted, #57534E);
+  }
+
+  .article-single__chapter-link {
+    color: var(--art-accent, #6B2230);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+  }
+
+  .article-single__chapter-link:hover {
+    opacity: 0.8;
+  }
+
+  /* Cover Image */
+  .article-single__cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--art-radius, 12px);
+    overflow: hidden;
+    background-color: #EAE3D9;
+    box-shadow: 0 10px 32px -4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+    margin: 28px 0 36px 0;
+  }
+
+  .article-single__cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .article-single__cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EFE9E2;
+  }
+
+  .article-single__cover-placeholder .placeholder-svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.35;
+  }
+
+  /* Editorial Prose Content */
+  .article-prose {
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--art-text, #373330);
+  }
+
+  .article-prose p {
+    margin: 0 0 1.6em 0;
+  }
+
+  /* Drop Cap for first letter */
+  {%- if section.settings.enable_drop_cap -%}
+    .article-prose > p:first-of-type::first-letter,
+    .article-prose p:first-child::first-letter {
+      font-family: var(--f-edit, 'Forum', Georgia, serif);
+      font-size: 4rem;
+      line-height: 0.82;
+      float: left;
+      margin: 6px 12px 0 0;
+      color: var(--art-accent, #6B2230);
+      font-weight: 400;
+    }
   {%- endif -%}
-</article>
 
-<script type="application/ld+json">
-  {{ article | structured_data }}
-</script>
+  /* Pull-Quote / Blockquote */
+  .article-prose blockquote {
+    margin: 36px 0;
+    padding: 8px 0 8px 24px;
+    border-left: 2.5px solid var(--art-gold, #C4A482);
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-size: clamp(1.3rem, 1.8vw, 1.55rem);
+    line-height: 1.45;
+    color: var(--art-heading, #171717);
+    font-style: normal;
+  }
+
+  .article-prose blockquote p {
+    margin: 0;
+  }
+
+  .article-prose h2,
+  .article-prose h3 {
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--art-heading, #171717);
+    margin: 40px 0 16px 0;
+  }
+
+  .article-prose h2 {
+    font-size: clamp(1.7rem, 2.4vw, 2.1rem);
+  }
+
+  .article-prose h3 {
+    font-size: clamp(1.4rem, 1.8vw, 1.65rem);
+  }
+
+  .article-prose img {
+    border-radius: var(--art-radius, 12px);
+    max-width: 100%;
+    height: auto;
+    margin: 28px 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+
+  .article-prose a {
+    color: var(--art-accent, #6B2230);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Back to Journal Footer Link */
+  .article-single__footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #E6DFD5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .article-single__back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: 0.94rem;
+    font-weight: 500;
+    color: var(--art-accent, #6B2230);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+
+  .article-single__back-btn:hover {
+    transform: translateX(-4px);
+  }
+
+  /* Responsive Mobile */
+  @media screen and (max-width: 768px) {
+    .article-single__title {
+      font-size: clamp(1.9rem, 6.5vw, 2.4rem);
+    }
+
+    .article-prose {
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .article-prose > p:first-of-type::first-letter,
+    .article-prose p:first-child::first-letter {
+      font-size: 3.4rem;
+      margin: 4px 10px 0 0;
+    }
+  }
+{%- endstyle -%}
+
+<article
+  id="MainArticle-{{ section.id }}"
+  class="article-single"
+  data-section-id="{{ section.id }}"
+>
+  <div class="article-single__container">
+
+    {% comment %} Breadcrumbs {% endcomment %}
+    {%- if section.settings.show_breadcrumbs -%}
+      <nav class="article-single__crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">{{ section.settings.home_label | default: 'Home' | escape }}</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ blog.url | default: '/blogs/journal' }}">{{ blog.title | default: 'Journal' | escape }}</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{{ category_tag | escape }}</span>
+      </nav>
+    {%- endif -%}
+
+    {% comment %} Article Header {% endcomment %}
+    <header class="article-single__header">
+      <h1 class="article-single__title">
+        {{ article.title | escape }}
+      </h1>
+
+      {% comment %} Lede / Excerpt {% endcomment %}
+      {%- if article.excerpt != blank -%}
+        <p class="article-single__lede">
+          {{ article.excerpt | strip_html }}
+        </p>
+      {%- elsif section.settings.show_demo_lede -%}
+        <p class="article-single__lede">
+          {{ section.settings.demo_lede | default: 'The tiny square checks of Kota Doria are not printed. They are made by the way the cloth is woven.' | escape }}
+        </p>
+      {%- endif -%}
+
+      {% comment %} Meta: Date · Read Time · Chapter Link {% endcomment %}
+      <div class="article-single__meta">
+        {%- if section.settings.show_date -%}
+          <span>{{ article.published_at | date: '%-d %B %Y' }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.show_read_time -%}
+          <span>{% if section.settings.show_date %} · {% endif %}{{ read_time }} min read</span>
+        {%- endif -%}
+
+        {%- if section.settings.show_chapter and chapter_name != blank -%}
+          <span>· <a href="{{ chapter_link }}" class="article-single__chapter-link">{{ chapter_name | escape }}</a></span>
+        {%- endif -%}
+      </div>
+    </header>
+
+    {% comment %} Featured Cover Image {% endcomment %}
+    <div class="article-single__cover">
+      {%- if article.image != blank -%}
+        {{
+          article.image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'eager',
+            widths: '600, 900, 1200, 1600',
+            alt: cover_alt,
+            class: 'article-single__cover-img'
+        }}
+      {%- else -%}
+        <div class="article-single__cover-placeholder">
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {% comment %} Article Prose Content {% endcomment %}
+    <div class="article-prose">
+      {%- if article.content != blank and article.content != empty -%}
+        {{ article.content }}
+      {%- else -%}
+        {% comment %} Preview content matching the screenshot {% endcomment %}
+        <p>Kota Doria, also called Kota Masuria, is woven in and around Kaithoon, a village near Kota in Rajasthan. It is easiest to recognise by its checks: a grid of small squares, called khats, spread across the whole cloth.</p>
+        <p>The squares are formed by the weave itself. Cotton and silk threads are interlaced on a loom with a wide-set reed, which leaves tiny open spaces between them. That is why Kota Doria is so light and airy, and why it feels cool against the skin even in the Rajasthan summer.</p>
+        <blockquote>Light enough to forget, bright enough to remember.</blockquote>
+        <p>Zari Kota adds a thread of metallic zari to the border and sometimes the body. The cloth stays light, but picks up a quiet shine, which is why it is a favourite for daytime weddings and festive occasions.</p>
+        <p>When you buy Kota Doria, hold it up to the light. You should be able to see a clear grid of small squares and a loose, open structure. A printed check on ordinary cloth looks flat and has no air in it.</p>
+      {%- endif -%}
+    </div>
+
+    {% comment %} Back to Journal Navigation {% endcomment %}
+    <footer class="article-single__footer">
+      <a href="{{ blog.url | default: '/blogs/journal' }}" class="article-single__back-btn">
+        ← {{ section.settings.back_label | default: 'Back to all stories' | escape }}
+      </a>
+    </footer>
+
+  </div>
+</article>
 
 {% schema %}
 {
-  "name": "t:sections.main-article.name",
+  "name": "Single Article Page",
   "tag": "section",
   "class": "section",
-  "blocks": [
+  "settings": [
     {
-      "type": "@app"
+      "type": "header",
+      "content": "Breadcrumbs & Category"
     },
     {
-      "type": "featured_image",
-      "name": "t:sections.main-article.blocks.featured_image.name",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "select",
-          "id": "image_height",
-          "options": [
-            {
-              "value": "adapt",
-              "label": "t:sections.main-article.blocks.featured_image.settings.image_height.options__1.label"
-            },
-            {
-              "value": "small",
-              "label": "t:sections.main-article.blocks.featured_image.settings.image_height.options__2.label"
-            },
-            {
-              "value": "medium",
-              "label": "t:sections.main-article.blocks.featured_image.settings.image_height.options__3.label"
-            },
-            {
-              "value": "large",
-              "label": "t:sections.main-article.blocks.featured_image.settings.image_height.options__4.label"
-            }
-          ],
-          "default": "adapt",
-          "label": "t:sections.main-article.blocks.featured_image.settings.image_height.label"
-        }
-      ]
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show breadcrumbs",
+      "default": true
     },
     {
-      "type": "title",
-      "name": "t:sections.main-article.blocks.title.name",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "checkbox",
-          "id": "blog_show_date",
-          "default": true,
-          "label": "t:sections.main-article.blocks.title.settings.blog_show_date.label"
-        },
-        {
-          "type": "checkbox",
-          "id": "blog_show_author",
-          "default": false,
-          "label": "t:sections.main-article.blocks.title.settings.blog_show_author.label"
-        }
-      ]
+      "type": "text",
+      "id": "home_label",
+      "label": "Home label",
+      "default": "Home"
     },
     {
-      "type": "content",
-      "name": "t:sections.main-article.blocks.content.name",
-      "limit": 1
+      "type": "text",
+      "id": "default_category",
+      "label": "Default category label",
+      "default": "Weaves",
+      "info": "Used in breadcrumbs if article has no category tag."
     },
     {
-      "type": "share",
-      "name": "t:sections.main-article.blocks.share.name",
-      "limit": 2,
-      "settings": [
-        {
-          "type": "text",
-          "id": "share_label",
-          "label": "t:sections.main-article.blocks.share.settings.text.label",
-          "default": "t:sections.main-article.blocks.share.settings.text.default"
-        }
-      ]
+      "type": "header",
+      "content": "Metadata"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show published date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_time",
+      "label": "Show estimated read time",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_chapter",
+      "label": "Show chapter link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "default_chapter_name",
+      "label": "Default chapter label",
+      "default": "West & Central India"
+    },
+    {
+      "type": "url",
+      "id": "default_chapter_url",
+      "label": "Default chapter link"
+    },
+    {
+      "type": "header",
+      "content": "Editorial Styling"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_drop_cap",
+      "label": "Enable large drop cap for first paragraph",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Drop cap & link accent color",
+      "default": "#6B2230"
+    },
+    {
+      "type": "color",
+      "id": "quote_border_color",
+      "label": "Pull-quote gold border color",
+      "default": "#C4A482"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Image corner radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section background color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body text color",
+      "default": "#373330"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted / lede color",
+      "default": "#57534E"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Back button label",
+      "default": "Back to all stories"
+    },
+    {
+      "type": "header",
+      "content": "Preview Demo Helper"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_demo_lede",
+      "label": "Show demo lede if article has no excerpt",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "demo_lede",
+      "label": "Demo lede text",
+      "default": "The tiny square checks of Kota Doria are not printed. They are made by the way the cloth is woven."
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 72
     }
   ]
 }

@@ -1,0 +1,123 @@
+{%- comment -%}
+  Renders a single journal card matching House of Kala Katha design.
+  Accepts:
+  - article: {Object} Shopify Article object (optional)
+  - sample_index: {Number} 1, 2, or 3 for sample fallback cards
+  - show_tags: {Boolean} Whether to show kicker/tags
+  - show_excerpt: {Boolean} Whether to show excerpt
+  - excerpt_words: {Number} Max words for excerpt
+  - show_date: {Boolean} Whether to show date
+  - show_read_time: {Boolean} Whether to show read time
+  - card_radius: {Number} Border radius in px (default 10)
+{%- endcomment -%}
+
+{%- liquid
+  assign words_count = excerpt_words | default: 25
+  assign radius = card_radius | default: 10
+-%}
+
+{%- if article != blank -%}
+  {%- liquid
+    assign words = article.content | strip_html | split: ' ' | size
+    assign read_time = words | divided_by: 200 | at_least: 1
+
+    assign tag_text = ''
+    if article.tags.size > 0
+      assign tag_text = article.tags | first
+      if article.tags.size > 1
+        assign tag_text = tag_text | append: ' · ' | append: article.tags[1]
+      endif
+    endif
+
+    assign card_alt = article.image.alt | default: article.title | escape
+  -%}
+
+  <a href="{{ article.url }}" class="journal-card" aria-label="{{ article.title | escape }}">
+    <div class="journal-card__media" style="border-radius: {{ radius }}px;">
+      {%- if article.image != blank -%}
+        {{
+          article.image
+          | image_url: width: 800
+          | image_tag:
+            loading: 'lazy',
+            widths: '350, 500, 650, 800',
+            alt: card_alt,
+            class: 'journal-card__img'
+        }}
+      {%- else -%}
+        <div class="journal-card__placeholder">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="journal-card__body">
+      {%- if tag_text != blank and show_tags != false -%}
+        <span class="journal-card__kicker">
+          {{ tag_text | escape }}
+        </span>
+      {%- endif -%}
+
+      <h3 class="journal-card__title">
+        {{ article.title | escape }}
+      </h3>
+
+      {%- if show_excerpt != false -%}
+        <p class="journal-card__excerpt">
+          {%- if article.excerpt != blank -%}
+            {{ article.excerpt | strip_html | truncatewords: words_count }}
+          {%- else -%}
+            {{ article.content | strip_html | truncatewords: words_count }}
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+
+      {%- if show_date or show_read_time -%}
+        <div class="journal-card__meta">
+          {%- if show_date -%}
+            <span>{{ article.published_at | date: '%B %d, %Y' }}</span>
+          {%- endif -%}
+          {%- if show_read_time -%}
+            <span>{% if show_date %} · {% endif %}{{ read_time }} min read</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </a>
+
+{%- else -%}
+  {%- comment -%} Sample Handloom Story Cards {%- endcomment -%}
+  {%- liquid
+    assign s_idx = sample_index | default: 1
+    if s_idx == 1
+      assign s_kicker = 'Weaves · West & Central'
+      assign s_title = 'The Reversible Border of Maheshwar'
+      assign s_dek = 'Why a Maheshwari saree can be worn either way up, and the fort-inspired patterns on its borders.'
+      assign s_svg = 'lifestyle-1'
+    elsif s_idx == 2
+      assign s_kicker = 'Weaves · West & Central'
+      assign s_title = 'Kota Doria and the Little Squares'
+      assign s_dek = 'The tiny square checks of Kota Doria are not printed. They are made by the way the cloth is woven.'
+      assign s_svg = 'lifestyle-2'
+    else
+      assign s_kicker = 'Craft · North'
+      assign s_title = 'How to Read a Banaras Saree'
+      assign s_dek = 'Katan, kadhua, jaal and zari: a short guide to the vocabulary of Varanasi weaving.'
+      assign s_svg = 'collection-1'
+    endif
+  -%}
+
+  <div class="journal-card">
+    <div class="journal-card__media" style="border-radius: {{ radius }}px;">
+      <div class="journal-card__placeholder">
+        {{ s_svg | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    </div>
+    <div class="journal-card__body">
+      <span class="journal-card__kicker">{{ s_kicker }}</span>
+      <h3 class="journal-card__title">{{ s_title }}</h3>
+      <p class="journal-card__excerpt">{{ s_dek }}</p>
+    </div>
+  </div>
+{%- endif -%}
+

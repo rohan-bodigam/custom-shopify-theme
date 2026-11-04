@@ -1,0 +1,313 @@
+{%- liquid
+  assign mono_img = section.settings.monogram_image
+  assign mono_alt = mono_img.alt | default: shop.name | escape
+-%}
+
+{%- style -%}
+  #AboutCTA-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color | default: '#3B1019' }};
+    {%- if section.settings.enable_gradient -%}
+      background: radial-gradient(circle at 50% 35%, {{ section.settings.gradient_center | default: '#5A1C28' }} 0%, {{ section.settings.background_color | default: '#3B1019' }} 70%, #24080F 100%);
+    {%- endif -%}
+    --cta-text-color: {{ section.settings.text_color | default: '#F7F3EE' }};
+    --cta-btn-bg: {{ section.settings.button_bg_color | default: '#FFFFFF' }};
+    --cta-btn-text: {{ section.settings.button_text_color | default: '#5C1E2D' }};
+    --cta-mono-w: {{ section.settings.monogram_width | default: 100 }}px;
+  }
+
+  .about-cta {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .about-cta__wrap {
+    width: 100%;
+    max-width: var(--page-width, 1340px);
+    margin: 0 auto;
+    padding-left: clamp(24px, 5vw, 64px);
+    padding-right: clamp(24px, 5vw, 64px);
+    box-sizing: border-box;
+  }
+
+  .about-cta__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .about-cta__monogram {
+    width: var(--cta-mono-w, 100px);
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-cta__monogram-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .about-cta__monogram-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.35));
+  }
+
+  .about-cta__text {
+    margin: 0 0 32px;
+  }
+
+  .about-cta__text p {
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-size: clamp(1.2rem, 1.9vw, 1.55rem);
+    font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    color: var(--cta-text-color, #F7F3EE);
+    margin: 0;
+    opacity: 0.96;
+  }
+
+  .about-cta__action {
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 36px;
+    border-radius: 999px;
+    background-color: var(--cta-btn-bg, #FFFFFF);
+    color: var(--cta-btn-text, #5C1E2D);
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .about-cta__btn:hover {
+    transform: translateY(-2px);
+    background-color: #F7F3EE;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .about-cta__btn:active {
+    transform: translateY(0);
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-cta__text p {
+      font-size: clamp(1.1rem, 4.5vw, 1.3rem);
+      line-height: 1.5;
+    }
+
+    .about-cta__monogram {
+      margin-bottom: 20px;
+    }
+
+    .about-cta__text {
+      margin-bottom: 28px;
+    }
+
+    .about-cta__btn {
+      padding: 12px 30px;
+      font-size: 0.9rem;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="AboutCTA-{{ section.id }}"
+  class="about-cta"
+  data-section-id="{{ section.id }}"
+>
+  <div class="about-cta__wrap page-width">
+    <div class="about-cta__inner">
+      {%- if mono_img != blank -%}
+        <div class="about-cta__monogram">
+          {{
+            mono_img
+            | image_url: width: 400
+            | image_tag:
+              loading: 'lazy',
+              widths: '100, 150, 200, 300, 400',
+              alt: mono_alt,
+              class: 'about-cta__monogram-img'
+          }}
+        </div>
+      {%- else -%}
+        <div class="about-cta__monogram about-cta__monogram--svg" aria-hidden="true">
+          <svg viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="about-cta__monogram-svg">
+            <line x1="42" y1="14" x2="42" y2="86" stroke="#F7F3EE" stroke-width="1.2" opacity="0.6"/>
+            <line x1="47" y1="14" x2="47" y2="86" stroke="#F7F3EE" stroke-width="1.2" opacity="0.6"/>
+            <line x1="52" y1="14" x2="52" y2="86" stroke="#F7F3EE" stroke-width="1.2" opacity="0.6"/>
+            <line x1="57" y1="14" x2="57" y2="86" stroke="#F7F3EE" stroke-width="1.2" opacity="0.6"/>
+            <line x1="62" y1="14" x2="62" y2="86" stroke="#F7F3EE" stroke-width="1.2" opacity="0.6"/>
+            <line x1="67" y1="14" x2="67" y2="86" stroke="#F7F3EE" stroke-width="1.2" opacity="0.6"/>
+            <path d="M52,22 L52,78 M53,48 Q70,32 76,20 M52,48 Q64,62 88,80" stroke="#F7F3EE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22,48 C22,44 70,42 74,48 C70,54 22,52 22,48 Z" stroke="#F7F3EE" stroke-width="1.8" fill="rgba(59, 16, 25, 0.6)"/>
+            <circle cx="48" cy="48" r="2.5" fill="#F7F3EE"/>
+            <line x1="32" y1="48" x2="64" y2="48" stroke="#F7F3EE" stroke-width="1.2"/>
+          </svg>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="about-cta__text">
+          <p>{{ section.settings.text | escape }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div class="about-cta__action">
+          <a
+            href="{{ section.settings.button_link | default: '/pages/contact' }}"
+            class="about-cta__btn"
+          >
+            {{ section.settings.button_label | escape }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Monogram CTA",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Monogram Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "monogram_image",
+      "label": "Monogram / Logo image (optional)"
+    },
+    {
+      "type": "range",
+      "id": "monogram_width",
+      "min": 50,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Monogram width",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Statement & Text"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Statement text",
+      "default": "Our monogram weaves the letter K through the warp threads of a handloom, with a shuttle passing through. It is the simplest way we know to say what we do."
+    },
+    {
+      "type": "header",
+      "content": "Call to Action Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Collaborate With Us"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Background"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_gradient",
+      "label": "Enable soft radial vignette background",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "gradient_center",
+      "label": "Vignette center highlight",
+      "default": "#5A1C28"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background base color",
+      "default": "#3B1019"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#5C1E2D"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Monogram CTA"
+    }
+  ]
+}
+{% endschema %}

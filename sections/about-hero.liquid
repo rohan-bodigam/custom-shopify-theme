@@ -1,0 +1,207 @@
+{{ 'section-about-hero.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign hero_img = section.settings.image
+  assign hero_alt = hero_img.alt | default: section.settings.heading | escape
+-%}
+
+{%- style -%}
+  #AboutHero-{{ section.id }} {
+    --phero-bg: {{ section.settings.background_color | default: '#D6C6B8' }};
+    min-height: {{ section.settings.min_height_mobile | default: 420 }}px;
+    padding-top: {{ section.settings.padding_top | default: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #AboutHero-{{ section.id }} {
+      min-height: {{ section.settings.min_height_desktop | default: 520 }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="AboutHero-{{ section.id }}"
+  class="about-hero"
+  data-section-id="{{ section.id }}"
+>
+  {%- if hero_img != blank -%}
+    <div class="about-hero__bg" aria-hidden="true">
+      <picture>
+        {%- if section.settings.mobile_image != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ section.settings.mobile_image | image_url: width: 1000 }}">
+        {%- endif -%}
+        <img
+          src="{{ hero_img | image_url: width: 2400 }}"
+          alt="{{ hero_alt }}"
+          loading="eager"
+          fetchpriority="high"
+          class="about-hero__img"
+          width="{{ hero_img.width }}"
+          height="{{ hero_img.height }}"
+        >
+      </picture>
+    </div>
+  {%- endif -%}
+
+  <div class="about-hero__inner page-width">
+    <div class="about-hero__content">
+      {%- if section.settings.show_breadcrumbs -%}
+        <nav class="about-hero__crumbs" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">{{ section.settings.home_label | default: 'Home' | escape }}</a>
+          <span class="sep" aria-hidden="true">/</span>
+          <span aria-current="page">{{ section.settings.page_label | default: page.title | default: 'About' | escape }}</span>
+        </nav>
+      {%- endif -%}
+
+      {%- if section.settings.kicker != blank -%}
+        <span class="about-hero__kicker">{{ section.settings.kicker | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="about-hero__title">{{ section.settings.heading | escape }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.tagline != blank -%}
+        <p class="about-hero__tagline">{{ section.settings.tagline | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="about-hero__lede">{{ section.settings.description | escape }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Breadcrumbs"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show breadcrumbs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "home_label",
+      "label": "Home link label",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "page_label",
+      "label": "Current page label",
+      "default": "About"
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker (Optional)",
+      "placeholder": "e.g. Story"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "ABOUT THE HOUSE"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "One House. Many Traditions. Endless Stories."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description / Lede",
+      "default": "House of Kala Katha brings the textiles of India's regions under one contemporary house, and interprets them through clothing for how people live now."
+    },
+    {
+      "type": "header",
+      "content": "Background Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Background Image (Mobile, optional)"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#D6C6B8"
+    },
+    {
+      "type": "header",
+      "content": "Section Dimensions"
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "min": 360,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop min height",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 240,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "label": "Mobile min height",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Hero"
+    }
+  ]
+}
+{% endschema %}

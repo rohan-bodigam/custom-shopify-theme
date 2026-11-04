@@ -1,0 +1,396 @@
+{%- style -%}
+  #AboutValues-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.section_background | default: 'transparent' }};
+    --values-title-color: {{ section.settings.heading_color | default: '#171717' }};
+    --values-border-color: {{ section.settings.border_color | default: '#E5DFD7' }};
+    --values-card-bg: {{ section.settings.container_background | default: '#FFFFFF' }};
+    --values-item-title-color: {{ section.settings.item_title_color | default: '#171717' }};
+    --values-item-text-color: {{ section.settings.item_text_color | default: '#57534E' }};
+    --values-radius: {{ section.settings.card_border_radius | default: 16 }}px;
+    --values-cols-desk: {{ section.settings.columns_desktop | default: '4' }};
+    --values-cols-mob: {{ section.settings.columns_mobile | default: '1' }};
+  }
+
+  .about-values {
+    position: relative;
+    width: 100%;
+  }
+
+  .about-values__wrap {
+    width: 100%;
+    max-width: var(--page-width, 1340px);
+    margin: 0 auto;
+    padding-left: clamp(24px, 5vw, 64px);
+    padding-right: clamp(24px, 5vw, 64px);
+    box-sizing: border-box;
+  }
+
+  .about-values__header {
+    margin-bottom: clamp(24px, 3.5vw, 36px);
+  }
+
+  .about-values__header.text-center {
+    text-align: center;
+  }
+
+  .about-values__header.text-left {
+    text-align: left;
+  }
+
+  .about-values__title {
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-size: clamp(2rem, 3.6vw, 2.65rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    color: var(--values-title-color, #171717);
+    margin: 0;
+  }
+
+  .about-values__subheading {
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: 0.98rem;
+    color: var(--values-item-text-color, #57534E);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  .about-values__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--values-cols-desk, 4), 1fr);
+    gap: 1px;
+    background-color: var(--values-border-color, #E5DFD7);
+    border: 1px solid var(--values-border-color, #E5DFD7);
+    border-radius: var(--values-radius, 16px);
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
+  }
+
+  .about-values__item {
+    background-color: var(--values-card-bg, #FFFFFF);
+    padding: clamp(24px, 2.6vw, 32px) clamp(20px, 2.4vw, 28px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease;
+  }
+
+  .about-values__item-title {
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--values-item-title-color, #171717);
+    margin: 0 0 10px 0;
+    line-height: 1.25;
+  }
+
+  .about-values__item-desc {
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: clamp(0.86rem, 1vw, 0.94rem);
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--values-item-text-color, #57534E);
+    margin: 0;
+  }
+
+  .about-values__item-desc p {
+    margin: 0;
+  }
+
+  @media screen and (max-width: 990px) {
+    .about-values__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .about-values__grid {
+      grid-template-columns: repeat(var(--values-cols-mob, 1), 1fr);
+    }
+
+    .about-values__item {
+      padding: 22px 18px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="AboutValues-{{ section.id }}"
+  class="about-values"
+  data-section-id="{{ section.id }}"
+>
+  <div class="about-values__wrap">
+    {%- if section.settings.heading != blank -%}
+      <div class="about-values__header text-{{ section.settings.heading_alignment | default: 'left' }}">
+        <h2 class="about-values__title">
+          {{ section.settings.heading | escape }}
+        </h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="about-values__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="about-values__grid">
+      {%- for block in section.blocks -%}
+        <div class="about-values__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.title != blank -%}
+            <h3 class="about-values__item-title">
+              {{ block.settings.title | escape }}
+            </h3>
+          {%- endif -%}
+
+          {%- if block.settings.description != blank -%}
+            <div class="about-values__item-desc">
+              <p>{{ block.settings.description | escape }}</p>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Values",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What we value"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading (Optional)"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Grid Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "options": [
+        {
+          "value": "4",
+          "label": "4 Columns"
+        },
+        {
+          "value": "3",
+          "label": "3 Columns"
+        },
+        {
+          "value": "2",
+          "label": "2 Columns"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 Column"
+        },
+        {
+          "value": "2",
+          "label": "2 Columns"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Container corner radius",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section background",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "container_background",
+      "label": "Card cell background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border & divider line color",
+      "default": "#E5DFD7"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Section heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "item_title_color",
+      "label": "Item title color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "item_text_color",
+      "label": "Item description color",
+      "default": "#57534E"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value_item",
+      "name": "Value Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "CRAFTSMANSHIP"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Honouring the art behind every creation."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "What We Value",
+      "blocks": [
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "CRAFTSMANSHIP",
+            "description": "Honouring the art behind every creation."
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "HERITAGE",
+            "description": "Preserving India's timeless textile traditions."
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "AUTHENTICITY",
+            "description": "Rooted in honesty, culture and purpose."
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "TIMELESSNESS",
+            "description": "Designing beyond trends and seasons."
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "CONTEMPORARY ELEGANCE",
+            "description": "Blending tradition with modern luxury."
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "PURPOSE",
+            "description": "Creating with intention and meaning."
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "SUSTAINABILITY",
+            "description": "Supporting ethical and conscious fashion."
+          }
+        },
+        {
+          "type": "value_item",
+          "settings": {
+            "title": "COMMUNITY",
+            "description": "Empowering artisans and celebrating culture together."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

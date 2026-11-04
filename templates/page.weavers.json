@@ -1,0 +1,106 @@
+{
+  "sections": {
+    "hero": {
+      "type": "weaves-hero",
+      "settings": {
+        "show_breadcrumbs": true,
+        "home_label": "Home",
+        "page_label": "Weavers",
+        "heading": "LOOKING FOR A COLLABORATION? LET'S CREATE SOMETHING TOGETHER.",
+        "description": "We work directly with weavers, printers and embroiderers across our five chapters, and with designers and institutions who share that commitment.",
+        "button_label": "Start a Conversation",
+        "button_link": "#collab",
+        "enable_gradient_blend": true,
+        "background_color": "#5C1E2D",
+        "text_color": "#F7F3EE",
+        "button_bg_color": "#FFFFFF",
+        "button_text_color": "#5C1E2D",
+        "min_height_desktop": 540,
+        "min_height_mobile": 340
+      }
+    },
+    "ways": {
+      "type": "weaves-ways",
+      "blocks": {
+        "track_1": {
+          "type": "way_card",
+          "settings": {
+            "title": "Weavers & artisans",
+            "subtitle": "For clusters, cooperatives and independent makers.",
+            "bullet_points": "Fair, agreed pricing paid on delivery milestones\nYour name and cluster credited on every piece\nDesign support for contemporary products\nAdvance on yarn for confirmed runs"
+          }
+        },
+        "track_2": {
+          "type": "way_card",
+          "settings": {
+            "title": "Designers & creators",
+            "subtitle": "For designers, stylists, photographers and writers.",
+            "bullet_points": "Capsule collaborations with a chosen chapter\nAccess to our maker network and sampling\nJournal features and shared storytelling\nRevenue share on collaboration pieces"
+          }
+        },
+        "track_3": {
+          "type": "way_card",
+          "settings": {
+            "title": "Brands & institutions",
+            "subtitle": "For hospitality, retail, museums and education.",
+            "bullet_points": "Commissioned textiles for interiors and uniforms\nExhibitions and craft residencies\nCorporate and wedding gifting programmes\nWorkshops for students and teams"
+          }
+        }
+      },
+      "block_order": [
+        "track_1",
+        "track_2",
+        "track_3"
+      ],
+      "settings": {
+        "heading": "Three ways to work with us",
+        "columns_desktop": "3",
+        "show_top_border": true,
+        "accent_border_color": "#C4A482",
+        "card_border_radius": 16,
+        "show_thread_accent": true,
+        "section_background": "transparent",
+        "card_background": "#FFFFFF",
+        "heading_color": "#171717",
+        "card_title_color": "#171717",
+        "subtitle_color": "#78716C",
+        "bullet_text_color": "#57534E",
+        "padding_top": 56,
+        "padding_bottom": 72
+      }
+    },
+    "collab": {
+      "type": "weaves-collab-form",
+      "settings": {
+        "heading": "Tell us about your idea",
+        "subheading": "We reply to every message within five working days.",
+        "success_message": "We have received your message and will reply within one working day.",
+        "show_phone": true,
+        "phone_required": false,
+        "show_order_number": true,
+        "show_topic": true,
+        "topic_options": "An order\nA product\nFittings & services\nPress\nSomething else",
+        "submit_button_label": "Send Message",
+        "card_title": "Prefer to talk?",
+        "card_text": "Call our studio or write to collaborate@houseofkalakatha.in",
+        "card_button_label": "Contact Us",
+        "card_button_link": "/pages/contact",
+        "show_thread_accent": true,
+        "section_background": "#F7F3EE",
+        "heading_color": "#171717",
+        "text_color": "#57534E",
+        "button_bg": "#6B2230",
+        "button_text": "#FFFFFF",
+        "card_bg": "#FFFFFF",
+        "card_border_radius": 16,
+        "padding_top": 64,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "ways",
+    "collab"
+  ]
+}

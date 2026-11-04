@@ -1,0 +1,477 @@
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign card_img = section.settings.card_image
+  assign card_img_alt = card_img.alt | default: section.settings.card_title | default: 'Weaving handloom craft' | escape
+-%}
+
+{%- style -%}
+  #WeavesCollab-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.section_background | default: '#F7F3EE' }};
+    --contact-bg: {{ section.settings.section_background | default: '#F7F3EE' }};
+    --contact-heading-color: {{ section.settings.heading_color | default: '#171717' }};
+    --contact-text-color: {{ section.settings.text_color | default: '#57534E' }};
+    --contact-btn-bg: {{ section.settings.button_bg | default: '#6B2230' }};
+    --contact-btn-text: {{ section.settings.button_text | default: '#FFFFFF' }};
+  }
+
+  .weaves-collab {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    scroll-margin-top: 80px;
+  }
+
+  .weaves-collab__wrap {
+    width: 100%;
+    max-width: var(--page-width, 1340px);
+    margin: 0 auto;
+    padding-left: clamp(24px, 5vw, 64px);
+    padding-right: clamp(24px, 5vw, 64px);
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .weaves-collab__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(36px, 6vw, 84px);
+    align-items: flex-start;
+  }
+
+  .weaves-collab__header {
+    margin-bottom: clamp(24px, 3.5vw, 36px);
+  }
+
+  .weaves-collab__title {
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-size: clamp(2.2rem, 3.8vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    color: var(--contact-heading-color, #171717);
+    margin: 0 0 12px 0;
+  }
+
+  .weaves-collab__lede {
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: clamp(0.96rem, 1.2vw, 1.05rem);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--contact-text-color, #57534E);
+    margin: 0;
+    max-width: 54ch;
+  }
+
+  /* Right Card Styling */
+  .weaves-collab__card-wrap {
+    position: relative;
+  }
+
+  .weaves-collab__card {
+    background-color: {{ section.settings.card_bg | default: '#FFFFFF' }};
+    border-radius: {{ section.settings.card_border_radius | default: 16 }}px;
+    overflow: hidden;
+    box-shadow: 0 12px 34px -6px rgba(0, 0, 0, 0.07), 0 4px 12px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+  }
+
+  .weaves-collab__card-media {
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    background-color: #E8E2DC;
+  }
+
+  .weaves-collab__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .weaves-collab__card:hover .weaves-collab__card-img {
+    transform: scale(1.03);
+  }
+
+  .weaves-collab__card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EFE9E2;
+  }
+
+  .weaves-collab__card-placeholder .placeholder-svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.25;
+  }
+
+  .weaves-collab__card-body {
+    padding: clamp(24px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .weaves-collab__card-title {
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-size: clamp(1.4rem, 1.8vw, 1.65rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--contact-heading-color, #171717);
+    margin: 0;
+  }
+
+  .weaves-collab__card-text {
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--contact-text-color, #57534E);
+    margin: 0;
+  }
+
+  .weaves-collab__card-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 28px;
+    border-radius: 999px;
+    background-color: transparent;
+    color: var(--contact-btn-bg, #6B2230);
+    border: 1.5px solid var(--contact-btn-bg, #6B2230);
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    cursor: pointer;
+    width: fit-content;
+    margin-top: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .weaves-collab__card-btn:hover {
+    background-color: var(--contact-btn-bg, #6B2230);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(107, 34, 48, 0.22);
+  }
+
+  .weaves-collab__thread-accent {
+    position: absolute;
+    right: -36px;
+    bottom: -28px;
+    width: 180px;
+    height: 180px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.75;
+  }
+
+  /* Responsive Mobile */
+  @media screen and (max-width: 860px) {
+    .weaves-collab__grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .contact-form__button {
+      width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="WeavesCollab-{{ section.id }}"
+  class="weaves-collab"
+  data-section-id="{{ section.id }}"
+>
+  <div id="collab" style="position: absolute; top: 0; left: 0; height: 1px; width: 1px; pointer-events: none; opacity: 0; scroll-margin-top: 80px;"></div>
+  <div class="weaves-collab__wrap">
+    <div class="weaves-collab__grid">
+
+      {% comment %} Left Column: The Contact Page Form {% endcomment %}
+      <div class="weaves-collab__form-col">
+        {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+          <div class="weaves-collab__header">
+            {%- if section.settings.heading != blank -%}
+              <h2 class="weaves-collab__title">
+                {{ section.settings.heading | escape }}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.subheading != blank -%}
+              <p class="weaves-collab__lede">
+                {{ section.settings.subheading | escape }}
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {% render 'contact-form-inner',
+          form_id: 'WeavesCollabForm',
+          show_phone: section.settings.show_phone,
+          phone_required: section.settings.phone_required,
+          show_order_number: section.settings.show_order_number,
+          show_topic: section.settings.show_topic,
+          topic_options: section.settings.topic_options,
+          submit_button_label: section.settings.submit_button_label,
+          success_message: section.settings.success_message
+        %}
+      </div>
+
+      {% comment %} Right Column: Maker Card {% endcomment %}
+      <div class="weaves-collab__card-col">
+        <div class="weaves-collab__card-wrap">
+          {%- if section.settings.show_thread_accent -%}
+            <svg class="weaves-collab__thread-accent" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M0,40 C50,60 90,100 140,140" stroke="#9A3B46" stroke-width="1.5" stroke-linecap="round" opacity="0.8" />
+            </svg>
+          {%- endif -%}
+
+          <div class="weaves-collab__card">
+            <div class="weaves-collab__card-media">
+              {%- if card_img != blank -%}
+                {{
+                  card_img
+                  | image_url: width: 1000
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '400, 600, 800, 1000',
+                    alt: card_img_alt,
+                    class: 'weaves-collab__card-img'
+                }}
+              {%- else -%}
+                <div class="weaves-collab__card-placeholder" role="img" aria-label="Weaving craft hands">
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="weaves-collab__card-body">
+              {%- if section.settings.card_title != blank -%}
+                <h3 class="weaves-collab__card-title">
+                  {{ section.settings.card_title | escape }}
+                </h3>
+              {%- endif -%}
+
+              {%- if section.settings.card_text != blank -%}
+                <p class="weaves-collab__card-text">
+                  {{ section.settings.card_text | escape }}
+                </p>
+              {%- endif -%}
+
+              {%- if section.settings.card_button_label != blank -%}
+                <a
+                  href="{{ section.settings.card_button_link | default: '/pages/contact' }}"
+                  class="weaves-collab__card-btn"
+                >
+                  {{ section.settings.card_button_label | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Weaves Collab Form",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Tell us about your idea"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "We reply to every message within five working days."
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "We have received your message and will reply within one working day."
+    },
+    {
+      "type": "header",
+      "content": "Contact Form Fields (Matches Contact Page)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Show phone field",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "phone_required",
+      "label": "Make phone required",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order_number",
+      "label": "Show order number field",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_topic",
+      "label": "Show topic dropdown",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "topic_options",
+      "label": "Topic dropdown options (one per line)",
+      "default": "An order\nA product\nFittings & services\nPress\nSomething else"
+    },
+    {
+      "type": "text",
+      "id": "submit_button_label",
+      "label": "Submit button label",
+      "default": "Send Message"
+    },
+    {
+      "type": "header",
+      "content": "Right Sidebar Card"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_image",
+      "label": "Card image"
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Card title",
+      "default": "Prefer to talk?"
+    },
+    {
+      "type": "textarea",
+      "id": "card_text",
+      "label": "Card text",
+      "default": "Call our studio or write to collaborate@houseofkalakatha.in"
+    },
+    {
+      "type": "text",
+      "id": "card_button_label",
+      "label": "Card button label",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "card_button_link",
+      "label": "Card button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thread_accent",
+      "label": "Show red thread accent line",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section background color",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#57534E"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Submit button background",
+      "default": "#6B2230"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Submit button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Sidebar card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Weaves Collab Form"
+    }
+  ]
+}
+{% endschema %}

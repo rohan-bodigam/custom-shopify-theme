@@ -47,132 +47,16 @@
     <div class="contact-page__grid">
       {% comment %} Left Column: Built-in Shopify Contact Form {% endcomment %}
       <div class="contact-page__form-col">
-        {%- form 'contact', id: 'ContactForm', class: 'contact-form' -%}
-          {%- if form.posted_successfully? -%}
-            <div class="contact-form__status contact-form__status--success" tabindex="-1" autofocus>
-              <svg class="contact-form__status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 6L9 17l-5-5"/>
-              </svg>
-              <div>
-                <strong>Thank you!</strong> We have received your message and will reply within one working day.
-              </div>
-            </div>
-          {%- elsif form.errors -%}
-            <div class="contact-form__status contact-form__status--error" tabindex="-1" autofocus>
-              <svg class="contact-form__status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
-              <div>
-                <strong>Please check the following:</strong>
-                <ul>
-                  {%- for field in form.errors -%}
-                    <li>
-                      {%- if field == 'form' -%}
-                        {{ form.errors.messages[field] }}
-                      {%- else -%}
-                        {{ form.errors.translated_fields[field] }} {{ form.errors.messages[field] }}
-                      {%- endif -%}
-                    </li>
-                  {%- endfor -%}
-                </ul>
-              </div>
-            </div>
-          {%- endif -%}
-
-          <div class="contact-form__grid">
-            {% comment %} Name {% endcomment %}
-            <div class="contact-form__field">
-              <label for="ContactForm-name" class="contact-form__label">Name</label>
-              <input
-                type="text"
-                id="ContactForm-name"
-                name="contact[name]"
-                class="contact-form__input"
-                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-                required
-              >
-            </div>
-
-            {% comment %} Email {% endcomment %}
-            <div class="contact-form__field">
-              <label for="ContactForm-email" class="contact-form__label">Email</label>
-              <input
-                type="email"
-                id="ContactForm-email"
-                name="contact[email]"
-                class="contact-form__input"
-                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-                spellcheck="false"
-                autocapitalize="off"
-                required
-              >
-            </div>
-
-            {% comment %} Phone {% endcomment %}
-            {%- if section.settings.show_phone -%}
-              <div class="contact-form__field">
-                <label for="ContactForm-phone" class="contact-form__label">Phone</label>
-                <input
-                  type="tel"
-                  id="ContactForm-phone"
-                  name="contact[phone]"
-                  class="contact-form__input"
-                  value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-                  pattern="[0-9\-+ ]*"
-                  {% if section.settings.phone_required %}required{% endif %}
-                >
-              </div>
-            {%- endif -%}
-
-            {% comment %} Order number (optional) {% endcomment %}
-            {%- if section.settings.show_order_number -%}
-              <div class="contact-form__field">
-                <label for="ContactForm-order" class="contact-form__label">Order number (optional)</label>
-                <input
-                  type="text"
-                  id="ContactForm-order"
-                  name="contact[Order Number]"
-                  class="contact-form__input"
-                  placeholder="HKK-000000"
-                >
-              </div>
-            {%- endif -%}
-
-            {% comment %} Topic {% endcomment %}
-            {%- if section.settings.show_topic -%}
-              <div class="contact-form__field">
-                <label for="ContactForm-topic" class="contact-form__label">Topic</label>
-                <select id="ContactForm-topic" name="contact[Topic]" class="contact-form__input contact-form__select">
-                  {%- assign topic_lines = section.settings.topic_options | newline_to_br | split: '<br />' -%}
-                  {%- for line in topic_lines -%}
-                    {%- assign topic_trim = line | strip -%}
-                    {%- if topic_trim != blank -%}
-                      <option value="{{ topic_trim | escape }}">{{ topic_trim | escape }}</option>
-                    {%- endif -%}
-                  {%- endfor -%}
-                </select>
-              </div>
-            {%- endif -%}
-
-            {% comment %} Message / Comment {% endcomment %}
-            <div class="contact-form__field contact-form__field--full">
-              <label for="ContactForm-body" class="contact-form__label">Message</label>
-              <textarea
-                rows="6"
-                id="ContactForm-body"
-                name="contact[body]"
-                class="contact-form__input contact-form__textarea"
-                required
-              >{{ form.body }}</textarea>
-            </div>
-          </div>
-
-          <div class="contact-form__submit-wrap">
-            <button type="submit" class="contact-form__button">
-              {{ section.settings.submit_button_label | default: 'Send Message' | escape }}
-            </button>
-          </div>
-        {%- endform -%}
+        {% render 'contact-form-inner',
+          form_id: 'ContactForm',
+          show_phone: section.settings.show_phone,
+          phone_required: section.settings.phone_required,
+          show_order_number: section.settings.show_order_number,
+          show_topic: section.settings.show_topic,
+          topic_options: section.settings.topic_options,
+          submit_button_label: section.settings.submit_button_label,
+          success_message: section.settings.success_message
+        %}
       </div>
 
       {% comment %} Right Column: Map & Studio Information {% endcomment %}

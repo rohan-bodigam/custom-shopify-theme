@@ -1,0 +1,147 @@
+{%- comment -%}
+  Renders the universal contact form used across House of Kala Katha.
+  Accepts:
+  - form_id: {String} ID attribute for the form and its inputs (default: 'ContactForm')
+  - show_phone: {Boolean} Whether to display the phone field
+  - phone_required: {Boolean} Whether phone is required
+  - show_order_number: {Boolean} Whether to display the order number field
+  - show_topic: {Boolean} Whether to display the topic dropdown
+  - topic_options: {String} Newline-separated list of topic options
+  - submit_button_label: {String} Label for the submit button
+  - success_message: {String} Message displayed on successful submit
+{%- endcomment -%}
+
+{%- liquid
+  assign actual_form_id = form_id | default: 'ContactForm'
+  assign btn_label = submit_button_label | default: 'Send Message'
+  assign default_success = 'We have received your message and will reply within one working day.'
+  assign s_msg = success_message | default: default_success
+-%}
+
+{%- form 'contact', id: actual_form_id, class: 'contact-form' -%}
+  {%- if form.posted_successfully? -%}
+    <div class="contact-form__status contact-form__status--success" tabindex="-1" autofocus>
+      <svg class="contact-form__status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+      <div>
+        <strong>Thank you!</strong> {{ s_msg | escape }}
+      </div>
+    </div>
+  {%- elsif form.errors -%}
+    <div class="contact-form__status contact-form__status--error" tabindex="-1" autofocus>
+      <svg class="contact-form__status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <div>
+        <strong>Please check the following:</strong>
+        <ul>
+          {%- for field in form.errors -%}
+            <li>
+              {%- if field == 'form' -%}
+                {{ form.errors.messages[field] }}
+              {%- else -%}
+                {{ form.errors.translated_fields[field] }} {{ form.errors.messages[field] }}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="contact-form__grid">
+    {% comment %} Name {% endcomment %}
+    <div class="contact-form__field">
+      <label for="{{ actual_form_id }}-name" class="contact-form__label">Name</label>
+      <input
+        type="text"
+        id="{{ actual_form_id }}-name"
+        name="contact[name]"
+        class="contact-form__input"
+        value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+        required
+      >
+    </div>
+
+    {% comment %} Email {% endcomment %}
+    <div class="contact-form__field">
+      <label for="{{ actual_form_id }}-email" class="contact-form__label">Email</label>
+      <input
+        type="email"
+        id="{{ actual_form_id }}-email"
+        name="contact[email]"
+        class="contact-form__input"
+        value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+        spellcheck="false"
+        autocapitalize="off"
+        required
+      >
+    </div>
+
+    {% comment %} Phone {% endcomment %}
+    {%- if show_phone -%}
+      <div class="contact-form__field">
+        <label for="{{ actual_form_id }}-phone" class="contact-form__label">Phone</label>
+        <input
+          type="tel"
+          id="{{ actual_form_id }}-phone"
+          name="contact[phone]"
+          class="contact-form__input"
+          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          pattern="[0-9\-+ ]*"
+          {% if phone_required %}required{% endif %}
+        >
+      </div>
+    {%- endif -%}
+
+    {% comment %} Order number (optional) {% endcomment %}
+    {%- if show_order_number -%}
+      <div class="contact-form__field">
+        <label for="{{ actual_form_id }}-order" class="contact-form__label">Order number (optional)</label>
+        <input
+          type="text"
+          id="{{ actual_form_id }}-order"
+          name="contact[Order Number]"
+          class="contact-form__input"
+          placeholder="HKK-000000"
+        >
+      </div>
+    {%- endif -%}
+
+    {% comment %} Topic {% endcomment %}
+    {%- if show_topic -%}
+      <div class="contact-form__field">
+        <label for="{{ actual_form_id }}-topic" class="contact-form__label">Topic</label>
+        <select id="{{ actual_form_id }}-topic" name="contact[Topic]" class="contact-form__input contact-form__select">
+          {%- assign topic_lines = topic_options | newline_to_br | split: '<br />' -%}
+          {%- for line in topic_lines -%}
+            {%- assign topic_trim = line | strip -%}
+            {%- if topic_trim != blank -%}
+              <option value="{{ topic_trim | escape }}">{{ topic_trim | escape }}</option>
+            {%- endif -%}
+          {%- endfor -%}
+        </select>
+      </div>
+    {%- endif -%}
+
+    {% comment %} Message / Comment {% endcomment %}
+    <div class="contact-form__field contact-form__field--full">
+      <label for="{{ actual_form_id }}-body" class="contact-form__label">Message</label>
+      <textarea
+        rows="6"
+        id="{{ actual_form_id }}-body"
+        name="contact[body]"
+        class="contact-form__input contact-form__textarea"
+        required
+      >{{ form.body }}</textarea>
+    </div>
+  </div>
+
+  <div class="contact-form__submit-wrap">
+    <button type="submit" class="contact-form__button">
+      {{ btn_label | escape }}
+    </button>
+  </div>
+{%- endform -%}
+

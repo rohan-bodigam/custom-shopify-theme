@@ -1,0 +1,394 @@
+{%- liquid
+  assign featured_img = section.settings.image
+  assign img_alt = featured_img.alt | default: 'Weaving handloom warp' | escape
+-%}
+
+{%- style -%}
+  #AboutPillars-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color | default: 'transparent' }};
+    --pillar-heading-color: {{ section.settings.heading_color | default: '#171717' }};
+    --pillar-text-color: {{ section.settings.text_color | default: '#57534E' }};
+    --pillar-radius: {{ section.settings.card_border_radius | default: 14 }}px;
+    --pillar-aspect: {{ section.settings.image_aspect_ratio | default: '4/5' }};
+  }
+
+  .about-pillars {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .about-pillars__wrap {
+    width: 100%;
+    max-width: var(--page-width, 1340px);
+    margin: 0 auto;
+    padding-left: clamp(24px, 5vw, 64px);
+    padding-right: clamp(24px, 5vw, 64px);
+    box-sizing: border-box;
+  }
+
+  .about-pillars__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.08fr;
+    gap: clamp(40px, 6.5vw, 92px);
+    align-items: center;
+  }
+
+  .about-pillars__grid--reverse {
+    grid-template-columns: 1.08fr 1fr;
+  }
+
+  .about-pillars__grid--reverse .about-pillars__media-col {
+    order: 2;
+  }
+
+  .about-pillars__grid--reverse .about-pillars__content-col {
+    order: 1;
+  }
+
+  .about-pillars__media-wrap {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-pillars__thread-accent {
+    position: absolute;
+    left: -28px;
+    top: 36%;
+    width: 110px;
+    height: 120px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  .about-pillars__media {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    border-radius: var(--pillar-radius, 14px);
+    overflow: hidden;
+    box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+    background-color: #EBE5DF;
+  }
+
+  .about-pillars__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: var(--pillar-aspect, 4 / 5);
+  }
+
+  .about-pillars__placeholder {
+    width: 100%;
+    aspect-ratio: var(--pillar-aspect, 4 / 5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E8E2DC;
+  }
+
+  .about-pillars__placeholder .placeholder-svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.35;
+  }
+
+  .about-pillars__content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .about-pillars__item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .about-pillars__item-heading {
+    font-family: var(--f-edit, 'Forum', Georgia, serif);
+    font-size: clamp(1.65rem, 2.4vw, 2.15rem);
+    font-weight: 400;
+    line-height: 1.18;
+    letter-spacing: 0.015em;
+    color: var(--pillar-heading-color, #171717);
+    margin: 0;
+  }
+
+  .about-pillars__item-text {
+    font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
+    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--pillar-text-color, #57534E);
+    margin: 0;
+    max-width: 58ch;
+  }
+
+  .about-pillars__item-text p {
+    margin: 0;
+  }
+
+  @media screen and (max-width: 820px) {
+    .about-pillars__grid,
+    .about-pillars__grid--reverse {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .about-pillars__grid--reverse .about-pillars__media-col {
+      order: 0;
+    }
+
+    .about-pillars__grid--reverse .about-pillars__content-col {
+      order: 1;
+    }
+
+    .about-pillars__content {
+      gap: 26px;
+    }
+
+    .about-pillars__thread-accent {
+      left: -12px;
+      top: 40%;
+      width: 80px;
+      height: 90px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="AboutPillars-{{ section.id }}"
+  class="about-pillars"
+  data-section-id="{{ section.id }}"
+>
+  <div class="about-pillars__wrap">
+    <div class="about-pillars__grid{% if section.settings.image_position == 'right' %} about-pillars__grid--reverse{% endif %}">
+      
+      <div class="about-pillars__media-col">
+        <div class="about-pillars__media-wrap">
+          {%- if section.settings.show_thread_accent -%}
+            <svg class="about-pillars__thread-accent" viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M0,150 C45,135 75,95 105,75 C135,55 150,20 160,0" stroke="#9A3B46" stroke-width="1.4" stroke-linecap="round" opacity="0.75" />
+            </svg>
+          {%- endif -%}
+
+          <div class="about-pillars__media">
+            {%- if featured_img != blank -%}
+              {{
+                featured_img
+                | image_url: width: 1400
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '400, 600, 800, 1000, 1200, 1400',
+                  alt: img_alt,
+                  class: 'about-pillars__img'
+              }}
+            {%- else -%}
+              <div class="about-pillars__placeholder" role="img" aria-label="Weaving loom">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      <div class="about-pillars__content-col">
+        <div class="about-pillars__content">
+          {%- for block in section.blocks -%}
+            <div class="about-pillars__item" {{ block.shopify_attributes }}>
+              {%- if block.settings.title != blank -%}
+                <h2 class="about-pillars__item-heading">
+                  {{ block.settings.title | escape }}
+                </h2>
+              {%- endif -%}
+
+              {%- if block.settings.text != blank -%}
+                <div class="about-pillars__item-text">
+                  <p>{{ block.settings.text | escape }}</p>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Pillars",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Featured image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        {
+          "value": "4/5",
+          "label": "Portrait (4:5)"
+        },
+        {
+          "value": "3/4",
+          "label": "Portrait (3:4)"
+        },
+        {
+          "value": "1/1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "auto",
+          "label": "Natural"
+        }
+      ],
+      "default": "4/5"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thread_accent",
+      "label": "Show decorative thread line accent",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Image corner radius",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#57534E"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Purpose"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "To reconnect people with India's handloom heritage by making timeless craftsmanship relevant, desirable and meaningful for the modern world."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Purpose & Mission",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "title": "Purpose",
+            "text": "To reconnect people with India's handloom heritage by making timeless craftsmanship relevant, desirable and meaningful for the modern world."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "title": "Mission",
+            "text": "To create contemporary fashion that celebrates Indian artisans, preserves traditional craftsmanship, and delivers exceptional quality through thoughtful design and storytelling."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "title": "Vision",
+            "text": "To establish House of Kala Katha as a globally recognised fashion house that champions Indian craftsmanship and inspires a new generation to embrace handloom as a way of life."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

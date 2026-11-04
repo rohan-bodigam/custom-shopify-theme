@@ -3,13 +3,31 @@
     "main": {
       "type": "main-blog",
       "settings": {
-        "layout": "collage",
-        "show_image": true,
-        "image_height": "medium",
-        "show_date": true,
-        "show_author": false,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "show_breadcrumbs": true,
+        "home_label": "Home",
+        "heading": "Journal",
+        "subheading": "Notes from looms, dye yards and workshops, and guides to reading the textiles you wear.",
+        "show_featured_article": true,
+        "featured_kicker": "Featured",
+        "exclude_featured_from_grid": true,
+        "show_placeholder_cards": true,
+        "grid_heading": "All stories",
+        "show_thread_accent": true,
+        "columns_desktop": "3",
+        "articles_per_page": 9,
+        "show_tags": true,
+        "show_excerpt": true,
+        "excerpt_words": 25,
+        "show_date": false,
+        "show_read_time": false,
+        "section_background": "#F7F3EE",
+        "card_background": "transparent",
+        "heading_color": "#171717",
+        "text_color": "#57534E",
+        "accent_color": "#9A3B46",
+        "card_border_radius": 10,
+        "padding_top": 48,
+        "padding_bottom": 80
       }
     }
   },
