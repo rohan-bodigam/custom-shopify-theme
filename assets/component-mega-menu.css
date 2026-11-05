@@ -80,7 +80,7 @@
 }
 
 /* ==========================================================================
-   Header Wrapper & Glassmorphism
+   Header Wrapper & Layout: Centered Navigation (House of Kala Katha Reference)
    ========================================================================== */
 
 .header-wrapper {
@@ -89,13 +89,58 @@
   -webkit-backdrop-filter: blur(16px) saturate(1.15) !important;
   border-bottom: 1px solid rgba(23, 23, 23, 0.12) !important;
   transition: background 0.3s ease, border-color 0.3s ease;
+  position: relative !important;
+  z-index: 60 !important;
 }
 
-.header {
-  padding-top: 14px !important;
-  padding-bottom: 14px !important;
-  max-width: 1240px !important;
-  margin: 0 auto !important;
+@media screen and (min-width: 990px) {
+  .header,
+  .header--middle-left,
+  .header--middle-center {
+    display: grid !important;
+    grid-template-areas: 'heading navigation icons' !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    align-items: center !important;
+    column-gap: 20px !important;
+    max-width: 1440px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding-left: 36px !important;
+    padding-right: 36px !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .header__heading,
+  .header__heading-link {
+    grid-area: heading !important;
+    justify-self: start !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .header__inline-menu {
+    grid-area: navigation !important;
+    justify-self: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+
+  .header__icons {
+    grid-area: icons !important;
+    justify-self: end !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
 }
 
 /* Brand Logo */
@@ -111,163 +156,146 @@
 }
 
 .header__heading-logo {
-  height: 46px !important;
+  height: 44px !important;
   width: auto !important;
   max-height: 48px !important;
   object-fit: contain !important;
 }
 
-/* Base header menu item font & underline styling */
+/* Centered Navigation Menu - Neatly spaced items matching screenshot */
 .header__inline-menu .list-menu--inline {
   display: flex !important;
   align-items: center !important;
-  gap: 2px !important;
+  justify-content: center !important;
+  gap: 10px !important;
   margin: 0 auto !important;
+  padding: 0 !important;
+  list-style: none !important;
 }
 
-.header__inline-menu .list-menu__item {
-  font-family: var(--f-ui, 'Inter', sans-serif) !important;
-  font-size: 14px;
+.header__inline-menu li {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.header__inline-menu .list-menu__item,
+.header__inline-menu a.header__menu-item,
+.header__inline-menu summary.header__menu-item {
+  font-family: var(--f-ui, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif) !important;
+  font-size: 14.5px !important;
   font-weight: 500 !important;
-  color: var(--ink, #171717) !important;
-  padding: 8px 11px !important;
+  color: #171717 !important;
+  padding: 8px 12px !important;
   letter-spacing: 0.01em !important;
   position: relative !important;
-  transition: color 0.2s ease !important;
+  transition: color 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
   text-decoration: none !important;
   border-radius: 2px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  line-height: 1.4 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .header__inline-menu .list-menu__item:hover,
-.header__inline-menu .header__active-menu-item {
-  color: var(--crimson, #6B2230) !important;
+.header__inline-menu .header__active-menu-item,
+.header__inline-menu details[open] > summary.header__menu-item {
+  color: #6B2230 !important;
 }
 
-
-
-/* Animated underline on top-level text links */
-.header__inline-menu > ul > li > a.list-menu__item::after {
+/* Animated Wine Underline */
+.header__inline-menu a.list-menu__item::after,
+.header__inline-menu summary.list-menu__item::after {
   content: "" !important;
   position: absolute !important;
-  left: 11px !important;
-  right: 11px !important;
+  left: 12px !important;
+  right: 12px !important;
   bottom: 2px !important;
   height: 1.5px !important;
-  background-color: var(--crimson, #6B2230) !important;
+  background-color: #6B2230 !important;
   transform: scaleX(0) !important;
   transform-origin: left !important;
   transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 
-.header__inline-menu > ul > li > a.list-menu__item:hover::after,
-.header__inline-menu > ul > li > a.list-menu__item[aria-current="page"]::after {
+.header__inline-menu a.list-menu__item:hover::after,
+.header__inline-menu a.list-menu__item[aria-current="page"]::after,
+.header__inline-menu details[open] > summary.list-menu__item::after {
   transform: scaleX(1) !important;
 }
 
-
-
-/* Chapters Trigger (Clean inline text with chevron matching Reference) */
-.header__menu-item--pill {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 5px !important;
-  padding: 8px 11px !important;
-  margin: 0 !important;
-  border: none !important;
-  border-radius: 2px !important;
-  background: transparent !important;
-  color: var(--ink, #171717) !important;
-  font-family: var(--f-ui, 'Inter', sans-serif) !important;
-  font-size: 14px;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  box-shadow: none !important;
-  position: relative !important;
-  transition: color 0.2s ease !important;
-}
-
-.header__menu-item--pill:hover,
-.mega-menu--chapters[open] .header__menu-item--pill {
-  background: transparent !important;
-  border-color: transparent !important;
-  color: var(--crimson, #6B2230) !important;
-}
-
-
-
-.header__menu-pill-text {
-  letter-spacing: 0.01em;
-}
-
-.header__menu-pill-caret {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s ease;
-}
-
+/* Caret / Chevron styling for Chapters and dropdowns */
+.header__chevron,
 .header__menu-pill-caret svg,
 .header__menu-item svg.icon-caret {
-  width: 8px !important;
-  height: 8px !important;
+  width: 9px !important;
+  height: 6px !important;
   stroke: currentColor !important;
-  stroke-width: 1.8 !important;
-  display: block;
+  stroke-width: 1.6 !important;
+  margin-left: 4px !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 
-.mega-menu--chapters[open] .header__menu-pill-caret {
-  transform: rotate(180deg);
+details[open] > summary .header__chevron,
+details[open] > summary .header__menu-pill-caret svg,
+details[open] > summary .icon-caret {
+  transform: rotate(180deg) !important;
 }
 
 /* Right-hand Action Icons */
-.header__icons {
-  display: flex !important;
-  align-items: center !important;
-  gap: 4px !important;
-}
-
 .header__icon,
 .header__icon--theme,
 .header__icon--account,
 .header__icon--cart,
 .header__icon--search {
-  width: 42px !important;
-  height: 42px !important;
-  min-width: 42px !important;
-  min-height: 42px !important;
-  display: grid !important;
-  place-items: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   border-radius: 50% !important;
-  color: var(--ink, #171717) !important;
-  transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease !important;
+  color: #171717 !important;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease !important;
   text-decoration: none !important;
   padding: 0 !important;
   background: transparent !important;
+  border: none !important;
+  position: relative !important;
 }
 
 .header__icon:hover {
-  background: var(--acc-soft, rgba(107, 34, 48, 0.08)) !important;
-  color: var(--crimson, #6B2230) !important;
+  background: rgba(107, 34, 48, 0.08) !important;
+  color: #6B2230 !important;
   transform: translateY(-1px) !important;
 }
 
-
-
 .header__icon svg {
-  width: 20px !important;
-  height: 20px !important;
+  width: 21px !important;
+  height: 21px !important;
   stroke: currentColor !important;
   fill: none !important;
   stroke-width: 1.6 !important;
 }
 
-/* Ensure modal search toggle behaves correctly (no QX overlap) */
+/* Ensure modal search toggle behaves correctly */
 .header__icon--summary > span {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 20px !important;
-  height: 20px !important;
+  width: 21px !important;
+  height: 21px !important;
   position: relative !important;
 }
 
@@ -276,30 +304,35 @@
 }
 
 details[open] > .header__icon--summary .header__icon-close {
-  display: grid !important;
-  place-items: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-close) {
   display: none !important;
 }
 
-
-
+/* Bag Count Badge (Wine circle matching screenshot) */
 .cart-count-bubble {
   position: absolute !important;
-  top: 4px !important;
-  right: 2px !important;
-  min-width: 18px !important;
+  top: 1px !important;
+  right: -2px !important;
+  width: 18px !important;
   height: 18px !important;
-  padding: 0 5px !important;
-  border-radius: 9px !important;
+  min-width: 18px !important;
+  border-radius: 50% !important;
   background: #6B2230 !important;
-  color: #F7F3EE !important;
-  font: 600 0.68rem/18px var(--f-ui, sans-serif) !important;
-  display: grid !important;
-  place-items: center !important;
-  line-height: 18px !important;
+  color: #FFFFFF !important;
+  font-family: var(--f-ui, 'Inter', sans-serif) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  box-shadow: 0 0 0 2px #F7F3EE !important;
 }
 
 /* ==========================================================================
