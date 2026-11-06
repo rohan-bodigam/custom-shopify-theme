@@ -91,7 +91,7 @@
 /* Pre-heading ("Chapter 01") */
 .chapter-banner__pre {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  font-size: 12.8px;
   font-weight: 500;
   letter-spacing: 0.05em;
   color: var(--chapter-text, #F7F3EE);
@@ -103,7 +103,7 @@
 /* Main Display Title ("EAST INDIA") */
 .chapter-banner__heading {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2.6rem, 5.8vw, 4.8rem);
+  font-size: clamp(38.4px, 6vw, 73.6px);
   font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -115,7 +115,7 @@
 /* Tagline ("Where Every Thread Tells a Story") */
 .chapter-banner__tagline {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-size: clamp(17.6px, 1.5vw, 21.6px);
   font-weight: 400;
   color: var(--chapter-text, #F7F3EE);
   opacity: 0.96;
@@ -222,7 +222,7 @@
 
 .chapter-weaves__title {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2.2rem, 3.4vw, 2.85rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   font-weight: 400;
   color: #171717;
   letter-spacing: 0.02em;
@@ -232,7 +232,7 @@
 
 .chapter-weaves__lede {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-size: clamp(18.4px, 1.8vw, 21.6px);
   color: #6E6461;
   margin: 0;
   line-height: 1.5;
@@ -550,7 +550,7 @@
 
 .chapter-about__heading {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -561,7 +561,7 @@
 
 .chapter-about__prose {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: clamp(0.96rem, 1.2vw, 1.05rem);
+  font-size: 18.08px;
   font-weight: 400;
   line-height: 1.7;
   color: #383431;
@@ -649,7 +649,7 @@
 
 .chapter-landscape__heading {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2.2rem, 3.4vw, 3rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   font-weight: 400;
   color: #171717;
   letter-spacing: 0.02em;
@@ -659,7 +659,7 @@
 
 .chapter-landscape__prose {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: clamp(0.96rem, 1.2vw, 1.05rem);
+  font-size: 18.08px;
   font-weight: 400;
   line-height: 1.75;
   color: #423E3B;
@@ -728,7 +728,7 @@
 
 .chapter-reference__heading {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2.2rem, 3.4vw, 2.85rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   font-weight: 400;
   color: #171717;
   letter-spacing: 0.02em;
@@ -827,7 +827,7 @@
 
 .chapter-weaves-read__title {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2.2rem, 3.4vw, 2.85rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   font-weight: 400;
   color: #171717;
   letter-spacing: 0.04em;
@@ -838,7 +838,7 @@
 
 .chapter-weaves-read__lede {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-size: clamp(18.4px, 1.8vw, 21.6px);
   color: #6E6461;
   margin: 0;
   line-height: 1.5;
@@ -1051,7 +1051,7 @@
 
 .chapter-future__heading {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2.2rem, 3.4vw, 3rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   font-weight: 400;
   color: inherit;
   letter-spacing: 0.04em;
@@ -1075,7 +1075,7 @@
 /* Right Column: Prose */
 .chapter-future__prose {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: clamp(0.96rem, 1.2vw, 1.05rem);
+  font-size: 18.08px;
   font-weight: 400;
   line-height: 1.75;
   color: inherit;

@@ -315,7 +315,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 }
 
 .text-body {
-  font-size: 1.6rem;
+  font-size: 16px;
   letter-spacing: 0.01rem;
   line-height: 1.65;
   font-family: var(--f-ui, 'Inter', sans-serif);
@@ -327,7 +327,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 body {
   font-family: var(--f-ui, 'Inter', sans-serif);
   font-weight: 400;
-  font-size: 1.6rem;
+  font-size: 16px;
   line-height: 1.65;
   color: var(--ink, #171717);
 }
@@ -350,14 +350,14 @@ h1,
 .d1 {
   font-family: var(--f-display, 'Cinzel', serif);
   font-weight: 500;
-  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  font-size: clamp(38.4px, 6vw, 73.6px);
   line-height: 1.04;
 }
 
 .d2 {
   font-family: var(--f-display, 'Cinzel', serif);
   font-weight: 500;
-  font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+  font-size: clamp(28.8px, 3.6vw, 43.2px);
   line-height: 1.12;
 }
 
@@ -393,7 +393,7 @@ h2,
   font-family: var(--f-edit, 'Forum', serif);
   font-style: normal;
   font-weight: 400;
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   line-height: 1.15;
   letter-spacing: 0.02em;
   color: var(--ink, #171717);
@@ -405,7 +405,7 @@ h3,
   font-family: var(--f-edit, 'Forum', serif);
   font-style: normal;
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 24px;
   line-height: 1.2;
   letter-spacing: 0.02em;
   color: var(--ink, #171717);
@@ -427,8 +427,10 @@ h6,
 
 h4,
 .h4 {
-  font-size: 1.4rem;
-  line-height: 1.25;
+  font-family: var(--f-ui, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
 }
 
 h5,
@@ -447,12 +449,70 @@ h6,
 /* Editorial Lead Text */
 .lead,
 p.lead,
-.lead-text {
+.lead-text,
+.lede,
+p.lede {
   font-family: var(--f-edit, 'Forum', serif);
   font-weight: 400;
-  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  font-size: clamp(18.4px, 1.8vw, 21.6px);
   line-height: 1.55;
   color: var(--ink-2, #4A4240);
+}
+
+/* Prose Paragraphs */
+.prose p {
+  font-size: 18.08px;
+  line-height: 1.75;
+}
+
+/* Small Text */
+.small {
+  font-size: 13.76px;
+}
+
+/* Product Titles */
+.pinfo h1,
+.hokk-title,
+.product__title h1 {
+  font-size: clamp(28.8px, 3vw, 38.4px);
+}
+
+/* Eyebrows, Badges, and Labels */
+.kicker {
+  font-size: 12.8px;
+}
+
+.hero-kick {
+  font-size: 11.84px;
+}
+
+.badge,
+.cart-count-bubble {
+  font-size: 10.88px;
+}
+
+.soon-tag,
+.mega-ct-soon {
+  font-size: 10.56px;
+}
+
+.tag,
+.pcard .tag {
+  font-size: 11.2px;
+}
+
+/* Hero Subtitles */
+.hero .sub,
+.hero-rot .sub,
+.hero-rot .hero-desc,
+.phero .tagline {
+  font-size: clamp(17.6px, 1.5vw, 21.6px);
+}
+
+.phero--alt .sub,
+.phero-alt .tagline,
+.alt-hero-sub {
+  font-size: clamp(16px, 1.5vw, 19.2px);
 }
 
 /* Product Card Names */

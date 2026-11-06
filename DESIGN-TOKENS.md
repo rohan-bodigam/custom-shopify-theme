@@ -41,7 +41,26 @@ Applied when the visitor's system is dark, or `data-theme="dark"` is set on the 
 | Editorial text (sub-headings, product names, lead text) | Forum | `--f-edit` |
 | UI, body, prices, buttons | Inter | `--f-ui` |
 
-Scale: `.d1` 500 clamp(2.4rem, 6vw, 4.6rem)/1.04 Cinzel; `.d2` 500 clamp(1.8rem, 3.6vw, 2.7rem)/1.12 Cinzel; `.h2` 400 clamp(1.6rem, 3vw, 2.2rem)/1.15 Forum; `.h3` 400 1.5rem/1.2 Forum; lead text 400 clamp(1.15rem, 1.8vw, 1.35rem)/1.55 Forum; body 400 16px/1.65 Inter; product name 400 1.12rem/1.3 Forum; price 500 1.35rem Inter with tabular numbers.
+Scale (exact Figma design tokens, assuming 1rem = 16px):
+- Display heading (`.d1`): `clamp(38.4px, 6vw, 73.6px)` (starts at 38.4px, scales with viewport)
+- Secondary display (`.d2`): `clamp(28.8px, 3.6vw, 43.2px)` (starts at 28.8px, scales with viewport)
+- Section heading (`.h2`, `h2`): `clamp(25.6px, 3vw, 35.2px)` (starts at 25.6px, scales with viewport)
+- Heading (`.h3`, `h3`): `24px`
+- Small heading (`.h4`, `h4`): `16px`
+- Product title (`.pinfo h1`, `.hokk-title`): `clamp(28.8px, 3vw, 38.4px)`
+- Default paragraph text (`body`, `p`, `.text-body`): `16px`
+- Prose paragraph (`.prose p`): `18.08px`
+- Intro/lede text (`.lede`, `.lead`, `p.lead`, `p.lede`): `clamp(18.4px, 1.8vw, 21.6px)`
+- Small text (`.small`): `13.76px`
+- Hero subtitles:
+  - Standard hero subtitle (`.hero .sub`, `.hero-rot .sub`, `.phero .tagline`): `clamp(17.6px, 1.5vw, 21.6px)`
+  - Alternate hero subtitle (`.phero--alt .sub`, `.phero-alt .tagline`): `clamp(16px, 1.5vw, 19.2px)`
+- Eyebrows, badges, and labels:
+  - Pre-heading eyebrow (`.kicker`): `12.8px`
+  - Hero kicker eyebrow (`.hero-kick`): `11.84px`
+  - Badge counter (`.badge`, `.cart-count-bubble`): `10.88px`
+  - Soon tag (`.soon-tag`, `.mega-ct-soon`): `10.56px`
+  - Product tags (`.tag`, `.pcard .tag`): `11.2px`
 
 ## Layout
 

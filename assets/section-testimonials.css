@@ -36,7 +36,7 @@
 .testimonials-sec .sec-head .h2 {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
   font-weight: 400;
-  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   line-height: 1.15;
   letter-spacing: -0.01em;
   color: #F7F3EE;
@@ -52,7 +52,7 @@
 
 .testimonials-sec .sec-head .lede {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-size: clamp(18.4px, 1.8vw, 21.6px);
   line-height: 1.55;
   color: #E7DCD2;
   margin: 10px 0 0;
@@ -189,7 +189,7 @@
 }
 
 .testimonials-sec .who .small {
-  font-size: 0.78rem;
+  font-size: 13.76px;
   color: #C9B9AD;
   display: inline-block;
   margin-top: 2px;

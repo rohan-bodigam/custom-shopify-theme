@@ -27,7 +27,7 @@
 .explore-sec .sec-head h2 {
   font-family: var(--f-display, 'Cinzel', Georgia, serif);
   font-weight: 500;
-  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-size: clamp(28.8px, 3.6vw, 43.2px);
   line-height: 1.15;
   letter-spacing: 0.02em;
   margin: 0;
@@ -40,7 +40,7 @@
 
 .explore-sec .sec-head .lede {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  font-size: clamp(18.4px, 1.8vw, 21.6px);
   line-height: 1.55;
   color: var(--ink-2, #4A4240);
   margin: 10px 0 0;

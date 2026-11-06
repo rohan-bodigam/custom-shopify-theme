@@ -103,15 +103,15 @@
   color: inherit;
 }
 
-.culture-banner__heading--small { font-size: clamp(2rem, 3.5vw, 2.6rem); }
-.culture-banner__heading--medium { font-size: clamp(2.4rem, 4.5vw, 3.4rem); }
-.culture-banner__heading--large { font-size: clamp(2.8rem, 5.5vw, 4.2rem); }
-.culture-banner__heading--display { font-size: clamp(3.2rem, 6.5vw, 5.2rem); }
+.culture-banner__heading--small { font-size: clamp(25.6px, 3vw, 35.2px); }
+.culture-banner__heading--medium { font-size: clamp(28.8px, 3.6vw, 43.2px); }
+.culture-banner__heading--large { font-size: clamp(28.8px, 3.6vw, 43.2px); }
+.culture-banner__heading--display { font-size: clamp(38.4px, 6vw, 73.6px); }
 
 /* Description */
 .culture-banner__description {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+  font-size: clamp(17.6px, 1.5vw, 21.6px);
   font-weight: 400;
   line-height: 1.6;
   opacity: 0.92;
@@ -165,7 +165,7 @@
 
 .culture-chapters__head-title {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   font-weight: 400;
   color: #171717;
   margin: 0 0 10px;
@@ -173,7 +173,7 @@
 
 .culture-chapters__head-lede {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: 1rem;
+  font-size: clamp(18.4px, 1.8vw, 21.6px);
   color: #6E6461;
   margin: 0;
   line-height: 1.5;
@@ -233,7 +233,7 @@
 /* Pre-heading ("CHAPTER 01") */
 .culture-chapter-card__pre {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: 0.78rem;
+  font-size: 12.8px;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -246,7 +246,7 @@
 /* Heading ("EAST INDIA") */
 .culture-chapter-card__heading {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  font-size: clamp(28.8px, 3.6vw, 43.2px);
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: 0.03em;
@@ -258,7 +258,7 @@
 /* Sub-heading / Description / States */
 .culture-chapter-card__desc {
   font-family: var(--f-ui, 'Inter', system-ui, -apple-system, sans-serif);
-  font-size: clamp(0.92rem, 1.15vw, 1.02rem);
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.55;
   margin: 0 0 28px;

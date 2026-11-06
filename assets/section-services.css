@@ -52,7 +52,7 @@
 .services-sec .sec-head .h2 {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
   font-weight: 400;
-  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-size: clamp(25.6px, 3vw, 35.2px);
   line-height: 1.15;
   letter-spacing: -0.01em;
   color: var(--ink, #171717);
@@ -68,7 +68,7 @@
 
 .services-sec .sec-head .lede {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-size: clamp(18.4px, 1.8vw, 21.6px);
   line-height: 1.55;
   color: var(--ink-2, #4A4240);
   margin: 0;
@@ -179,7 +179,7 @@ a.services-sec .svc,
 .services-sec .svc h3 {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 24px;
   line-height: 1.25;
   color: var(--ink, #171717);
   margin: 0;
