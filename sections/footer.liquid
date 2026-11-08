@@ -1,25 +1,12 @@
-{% comment %}theme-check-disable UndefinedObject{% endcomment %}
 {{ 'section-footer.css' | asset_url | stylesheet_tag }}
-{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-  .footer {
-    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
-  }
-
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
   @media screen and (min-width: 750px) {
-    .footer {
-      margin-top: {{ section.settings.margin_top }}px;
-    }
-
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
@@ -27,517 +14,566 @@
   }
 {%- endstyle -%}
 
-<footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
-  {%- liquid
-    assign has_social_icons = true
-    if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
-      assign has_social_icons = false
+{%- liquid
+  assign brand_block_present = false
+  assign menu_count = 0
+
+  for block in section.blocks
+    if block.type == 'brand'
+      assign brand_block_present = true
+    elsif block.type == 'link_list' or block.type == 'text'
+      assign menu_count = menu_count | plus: 1
     endif
+  endfor
 
-    if settings.brand_image == blank and settings.brand_headline == blank and settings.brand_description == blank
-      assign brand_empty = true
-    endif
+  if menu_count == 0
+    assign menu_count = 3
+  endif
+-%}
 
-    if section.blocks.size == 1 and section.blocks[0].type == 'brand_information' and brand_empty and has_social_icons == false and section.settings.newsletter_enable == false and section.settings.enable_follow_on_shop == false
-      assign only_empty_brand = true
-    endif
-  -%}
-  {%- if section.blocks.size > 0
-    or section.settings.newsletter_enable
-    or section.settings.show_social
-    and has_social_icons == true
-    or section.settings.enable_follow_on_shop
-  -%}
-    {%- unless only_empty_brand -%}
-      <div class="footer__content-top page-width">
-        {%- if section.blocks.size > 0 -%}
-          {%- liquid
-            if section.blocks.size == 9
-              assign footer_grid_class = 'grid--3-col-tablet'
-            elsif section.blocks.size > 6
-              assign footer_grid_class = 'grid--4-col-desktop'
-            elsif section.blocks.size > 4
-              assign footer_grid_class = 'grid--3-col-tablet'
-            endif
-          -%}
-          <div
-            class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet {{ footer_grid_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            {% if settings.animations_reveal_on_scroll %}
-              data-cascade
-            {% endif %}
-          >
-            {%- for block in section.blocks -%}
-              <div
-                class="footer-block grid__item{% if block.type == 'link_list' %} footer-block--menu{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {{ block.shopify_attributes }}
-                {% if settings.animations_reveal_on_scroll %}
-                  data-cascade
-                  style="--animation-order: {{ forloop.index }};"
-                {% endif %}
-              >
-                {%- if block.settings.heading != blank -%}
-                  <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
-                {%- endif -%}
-
-                {%- case block.type -%}
-                  {%- when '@app' -%}
-                    {% render block %}
-                  {%- when 'text' -%}
-                    <div class="footer-block__details-content rte">
-                      {{ block.settings.subtext }}
-                    </div>
-                  {%- when 'link_list' -%}
-                    {%- if block.settings.menu != blank -%}
-                      <ul class="footer-block__details-content list-unstyled">
-                        {%- for link in block.settings.menu.links -%}
-                          <li>
-                            <a
-                              href="{{ link.url }}"
-                              class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
-                            >
-                              {{ link.title | escape }}
-                            </a>
-                          </li>
-                        {%- endfor -%}
-                      </ul>
-                    {%- endif -%}
-                  {%- when 'brand_information' -%}
-                    <div class="footer-block__brand-info">
-                      {%- if settings.brand_image != blank -%}
-                        {%- assign brand_image_height = settings.brand_image_width
-                          | divided_by: settings.brand_image.aspect_ratio
-                        -%}
-                        <div
-                          class="footer-block__image-wrapper"
-                          style="max-width: min(100%, {{ settings.brand_image_width }}px);"
-                        >
-                          {{
-                            settings.brand_image
-                            | image_url: width: 1100
-                            | image_tag:
-                              loading: 'lazy',
-                              widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
-                              height: brand_image_height,
-                              width: settings.brand_image_width
-                          }}
-                        </div>
-                      {%- endif -%}
-                      {%- if settings.brand_headline != blank -%}
-                        <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
-                      {%- endif -%}
-                      {%- if settings.brand_description != blank -%}
-                        <div class="rte">{{ settings.brand_description }}</div>
-                      {%- endif -%}
-                      {%- if block.settings.show_social and has_social_icons -%}
-                        {%- render 'social-icons', class: 'footer__list-social' -%}
-                      {%- endif -%}
-                    </div>
-                  {%- when 'image' -%}
-                    <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
-                      {%- if block.settings.image != blank -%}
-                        {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
-                        <div
-                          class="footer-block__image-wrapper"
-                          style="max-width: min(100%, {{ block.settings.image_width }}px);"
-                        >
-                          <img
-                            srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
-                            src="{{ block.settings.image | image_url: width: 760 }}"
-                            alt="{{ block.settings.image.alt | escape }}"
-                            loading="lazy"
-                            width="{{ block.settings.image.width }}"
-                            height="{{ block.settings.image.height }}"
-                          >
-                        </div>
-                      {%- else -%}
-                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
-                      {%- endif -%}
-                    </div>
-                {%- endcase -%}
-              </div>
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
-
-        <div
-          class="footer-block--newsletter{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-          {% endif %}
-        >
-          {%- if section.settings.newsletter_enable -%}
-            <div class="footer-block__newsletter">
-              {%- if section.settings.newsletter_heading != blank -%}
-                <h2 class="footer-block__heading inline-richtext">{{ section.settings.newsletter_heading }}</h2>
-              {%- endif -%}
-              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="newsletter-form__field-wrapper">
-                  <div class="field">
-                    <input
-                      id="NewsletterForm--{{ section.id }}"
-                      type="email"
-                      name="contact[email]"
-                      class="field__input"
-                      value="{{ form.email }}"
-                      aria-required="true"
-                      autocorrect="off"
-                      autocapitalize="off"
-                      autocomplete="email"
-                      {% if form.errors %}
-                        autofocus
-                        aria-invalid="true"
-                        aria-describedby="ContactFooter-error"
-                      {% elsif form.posted_successfully? %}
-                        aria-describedby="ContactFooter-success"
-                      {% endif %}
-                      placeholder="{{ 'newsletter.label' | t }}"
-                      required
-                    >
-                    <label class="field__label" for="NewsletterForm--{{ section.id }}">
-                      {{ 'newsletter.label' | t }}
-                    </label>
-                    <button
-                      type="submit"
-                      class="newsletter-form__button field__button"
-                      name="commit"
-                      id="Subscribe"
-                      aria-label="{{ 'newsletter.button_label' | t }}"
-                    >
-                      <span class="svg-wrapper">
-                        {{- 'icon-arrow.svg' | inline_asset_content -}}
-                      </span>
-                    </button>
-                  </div>
-                  {%- if form.errors -%}
-                    <small class="newsletter-form__message form__message" id="ContactFooter-error">
-                      <span class="svg-wrapper">
-                        {{- 'icon-error.svg' | inline_asset_content -}}
-                      </span>
-                      {{- form.errors.translated_fields.email | capitalize }}
-                      {{ form.errors.messages.email -}}
-                    </small>
-                  {%- endif -%}
+<footer class="footer-sec section-{{ section.id }}-padding" role="contentinfo">
+  <div class="wrap">
+    <div class="ft" style="--ft-cols: {{ menu_count }};">
+      {%- comment %} If no Brand block was added in Theme Editor, render Brand column as Block 1 using section settings {% endcomment -%}
+      {%- unless brand_block_present -%}
+        {%- liquid
+          assign brand_logo = section.settings.brand_logo | default: settings.logo
+          assign brand_logo_width = section.settings.brand_logo_width | default: 200
+          assign brand_desc = section.settings.brand_description | default: 'Stories of India, Woven For You.'
+          assign show_social = section.settings.brand_show_social
+          assign ig_url = settings.social_instagram_link | default: '#'
+          assign pin_url = settings.social_pinterest_link | default: '#'
+          assign yt_url = settings.social_youtube_link | default: '#'
+          assign wa_url = '#'
+          assign fb_url = settings.social_facebook_link
+          assign tw_url = settings.social_twitter_link
+        -%}
+        <div class="ft-col ft-col--brand">
+          <a href="{{ routes.root_url }}" class="ft-logo-link" aria-label="{{ shop.name }}">
+            {%- if brand_logo != blank -%}
+              {%- assign logo_alt = brand_logo.alt | default: shop.name | escape -%}
+              {%- assign logo_height = brand_logo_width | divided_by: brand_logo.aspect_ratio | round -%}
+              {{
+                brand_logo
+                | image_url: width: 600
+                | image_tag:
+                  class: 'ft-logo-img',
+                  widths: '180, 200, 240, 300, 400',
+                  width: brand_logo_width,
+                  height: logo_height,
+                  alt: logo_alt
+              }}
+            {%- else -%}
+              <div class="ft-logo-lockup">
+                <div class="ft-logo-mark" aria-hidden="true">
+                  <svg viewBox="0 0 48 36" width="36" height="27" fill="none" stroke="#D1B17E" stroke-width="1.6">
+                    <path d="M12 6v24M12 18l14-12M12 18l14 12M4 14h28M4 18h28M4 22h28" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </div>
-                {%- if form.posted_successfully? -%}
-                  <h3
-                    class="newsletter-form__message newsletter-form__message--success form__message"
-                    id="ContactFooter-success"
-                    tabindex="-1"
-                    autofocus
-                  >
-                    <span class="svg-wrapper">
-                      {{- 'icon-success.svg' | inline_asset_content -}}
-                    </span>
-                    {{- 'newsletter.success' | t }}
-                  </h3>
-                {%- endif -%}
-              {%- endform -%}
-            </div>
+                <div class="ft-logo-text">
+                  <span class="ft-logo-sub">HOUSE OF</span>
+                  <span class="ft-logo-main">KALA KATHA</span>
+                </div>
+              </div>
+            {%- endif -%}
+          </a>
+
+          {%- if brand_desc != blank -%}
+            <p class="ft-desc">{{ brand_desc }}</p>
           {%- endif -%}
 
-          {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
-            <div class="footer__follow-on-shop">
-              {{ shop | login_button: action: 'follow' }}
+          {%- if show_social -%}
+            <div class="ft-socials" aria-label="Social media">
+              {%- if ig_url != blank -%}
+                <a href="{{ ig_url }}" class="ft-social-link" aria-label="Instagram" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="4" width="16" height="16" rx="4.5"/>
+                    <circle cx="12" cy="12" r="3.6"/>
+                    <circle cx="16.8" cy="7.2" r=".6"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if pin_url != blank -%}
+                <a href="{{ pin_url }}" class="ft-social-link" aria-label="Pinterest" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"/>
+                    <path d="M11 9.5c2.8-1 4.6.6 4 2.8-.5 1.8-2.3 2.4-3.4 1.2M11.6 10.8L9.8 19"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if yt_url != blank -%}
+                <a href="{{ yt_url }}" class="ft-social-link" aria-label="YouTube" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3.5" y="6.5" width="17" height="11" rx="3"/>
+                    <path d="M10.5 9.5l4 2.5-4 2.5z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if wa_url != blank -%}
+                <a href="{{ wa_url }}" class="ft-social-link" aria-label="WhatsApp" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 19l1-3.3A7.5 7.5 0 1 1 9 18.6z"/>
+                    <path d="M9.5 9.5c.3 2 2 3.8 4 4.3l1-1 1.5.8c-.3 1-1.2 1.5-2.3 1.3-2.6-.6-4.6-2.6-5.2-5.2-.2-1.1.3-2 1.3-2.3l.8 1.5z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if fb_url != blank -%}
+                <a href="{{ fb_url }}" class="ft-social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if tw_url != blank -%}
+                <a href="{{ tw_url }}" class="ft-social-link" aria-label="X / Twitter" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4l6.5 7.5L4 20h2l5.3-6.1L16 20h4l-6.8-7.8L19.5 4h-2l-5 5.8L8 4H4z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
             </div>
-          {%- endif -%}
-
-          {%- if section.settings.show_social and has_social_icons -%}
-            {%- render 'social-icons', class: 'footer__list-social' -%}
           {%- endif -%}
         </div>
-      </div>
-    {%- endunless -%}
-  {%- endif -%}
+      {%- endunless -%}
 
-  <div
-    class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-    {% if settings.animations_reveal_on_scroll %}
-      data-cascade
-    {% endif %}
-  >
-    <div class="footer__content-bottom-wrapper page-width">
-      <div class="footer__column footer__localization isolate">
-        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-          <localization-form>
-            {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
-              <div>
-                <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
-                {%- render 'country-localization', localPosition: 'FooterCountry' -%}
-              </div>
-            {%- endform -%}
-          </localization-form>
-        {%- endif -%}
+      {%- comment %} Loop through configured blocks {% endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'brand' -%}
+            {%- liquid
+              assign brand_logo = block.settings.logo | default: section.settings.brand_logo | default: settings.logo
+              assign brand_logo_width = block.settings.logo_width | default: section.settings.brand_logo_width | default: 200
+              assign brand_desc = block.settings.description | default: section.settings.brand_description | default: 'Stories of India, Woven For You.'
+              assign show_social = block.settings.show_social
+              assign ig_url = block.settings.instagram_link | default: settings.social_instagram_link | default: '#'
+              assign pin_url = block.settings.pinterest_link | default: settings.social_pinterest_link | default: '#'
+              assign yt_url = block.settings.youtube_link | default: settings.social_youtube_link | default: '#'
+              assign wa_url = block.settings.whatsapp_link | default: '#'
+              assign fb_url = block.settings.facebook_link | default: settings.social_facebook_link
+              assign tw_url = block.settings.twitter_link | default: settings.social_twitter_link
+            -%}
+            <div class="ft-col ft-col--brand" {{ block.shopify_attributes }}>
+              <a href="{{ routes.root_url }}" class="ft-logo-link" aria-label="{{ shop.name }}">
+                {%- if brand_logo != blank -%}
+                  {%- assign logo_alt = brand_logo.alt | default: shop.name | escape -%}
+                  {%- assign logo_height = brand_logo_width | divided_by: brand_logo.aspect_ratio | round -%}
+                  {{
+                    brand_logo
+                    | image_url: width: 600
+                    | image_tag:
+                      class: 'ft-logo-img',
+                      widths: '180, 200, 240, 300, 400',
+                      width: brand_logo_width,
+                      height: logo_height,
+                      alt: logo_alt
+                  }}
+                {%- else -%}
+                  <div class="ft-logo-lockup">
+                    <div class="ft-logo-mark" aria-hidden="true">
+                      <svg viewBox="0 0 48 36" width="36" height="27" fill="none" stroke="#D1B17E" stroke-width="1.6">
+                        <path d="M12 6v24M12 18l14-12M12 18l14 12M4 14h28M4 18h28M4 22h28" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="ft-logo-text">
+                      <span class="ft-logo-sub">HOUSE OF</span>
+                      <span class="ft-logo-main">KALA KATHA</span>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </a>
 
-        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-          <localization-form>
-            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-              <div>
-                <h2 class="caption-large text-body" id="FooterLanguageLabel">
-                  {{ 'localization.language_label' | t }}
-                </h2>
-                {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
+              {%- if brand_desc != blank -%}
+                <p class="ft-desc">{{ brand_desc }}</p>
+              {%- endif -%}
+
+              {%- if show_social -%}
+                <div class="ft-socials" aria-label="Social media">
+                  {%- if ig_url != blank -%}
+                    <a href="{{ ig_url }}" class="ft-social-link" aria-label="Instagram" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="4.5"/>
+                        <circle cx="12" cy="12" r="3.6"/>
+                        <circle cx="16.8" cy="7.2" r=".6"/>
+                      </svg>
+                    </a>
+                  {%- endif -%}
+                  {%- if pin_url != blank -%}
+                    <a href="{{ pin_url }}" class="ft-social-link" aria-label="Pinterest" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="8"/>
+                        <path d="M11 9.5c2.8-1 4.6.6 4 2.8-.5 1.8-2.3 2.4-3.4 1.2M11.6 10.8L9.8 19"/>
+                      </svg>
+                    </a>
+                  {%- endif -%}
+                  {%- if yt_url != blank -%}
+                    <a href="{{ yt_url }}" class="ft-social-link" aria-label="YouTube" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3.5" y="6.5" width="17" height="11" rx="3"/>
+                        <path d="M10.5 9.5l4 2.5-4 2.5z"/>
+                      </svg>
+                    </a>
+                  {%- endif -%}
+                  {%- if wa_url != blank -%}
+                    <a href="{{ wa_url }}" class="ft-social-link" aria-label="WhatsApp" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 19l1-3.3A7.5 7.5 0 1 1 9 18.6z"/>
+                        <path d="M9.5 9.5c.3 2 2 3.8 4 4.3l1-1 1.5.8c-.3 1-1.2 1.5-2.3 1.3-2.6-.6-4.6-2.6-5.2-5.2-.2-1.1.3-2 1.3-2.3l.8 1.5z"/>
+                      </svg>
+                    </a>
+                  {%- endif -%}
+                  {%- if fb_url != blank -%}
+                    <a href="{{ fb_url }}" class="ft-social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                      </svg>
+                    </a>
+                  {%- endif -%}
+                  {%- if tw_url != blank -%}
+                    <a href="{{ tw_url }}" class="ft-social-link" aria-label="X / Twitter" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4l6.5 7.5L4 20h2l5.3-6.1L16 20h4l-6.8-7.8L19.5 4h-2l-5 5.8L8 4H4z"/>
+                      </svg>
+                    </a>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+          {%- when 'link_list' -%}
+            {%- liquid
+              assign footer_menu = linklists[block.settings.menu]
+              assign menu_heading = block.settings.heading
+              if menu_heading == blank and footer_menu != blank and footer_menu.title != blank
+                assign menu_heading = footer_menu.title
+              endif
+            -%}
+            <div class="ft-col ft-col--menu" {{ block.shopify_attributes }}>
+              {%- if menu_heading != blank -%}
+                <h4 class="ft-heading">{{ menu_heading }}</h4>
+              {%- endif -%}
+
+              <ul class="ft-links list-unstyled">
+                {%- if footer_menu.links.size > 0 -%}
+                  {%- for link in footer_menu.links -%}
+                    <li>
+                      <a href="{{ link.url }}" class="ft-link{% if link.current %} ft-link--active{% endif %}">
+                        {{ link.title }}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- comment %} Fallback items when menu is selected but has no items yet or during setup {% endcomment -%}
+                  {%- assign lower_h = menu_heading | downcase -%}
+                  {%- if lower_h contains 'chapter' -%}
+                    <li><a href="{{ routes.root_url }}pages/chapter-east" class="ft-link">East India</a></li>
+                    <li><a href="{{ routes.root_url }}pages/chapter-west-central" class="ft-link">West & Central India</a></li>
+                    <li><a href="{{ routes.root_url }}pages/chapter-north" class="ft-link">North India</a></li>
+                    <li><a href="{{ routes.root_url }}pages/chapter-south" class="ft-link">South India</a></li>
+                    <li><a href="{{ routes.root_url }}pages/chapter-northeast" class="ft-link">North East India</a></li>
+                    <li><a href="{{ routes.root_url }}pages/contemporary" class="ft-link">Contemporary</a></li>
+                    <li><a href="{{ routes.root_url }}pages/kids" class="ft-link">Kids</a></li>
+                    <li><a href="{{ routes.root_url }}pages/pet" class="ft-link">Pet</a></li>
+                  {%- elsif lower_h contains 'shop' -%}
+                    <li><a href="{{ routes.all_products_collection_url }}" class="ft-link">All pieces</a></li>
+                    <li><a href="{{ routes.collections_url }}/sarees" class="ft-link">Sarees</a></li>
+                    <li><a href="{{ routes.collections_url }}/men" class="ft-link">Men</a></li>
+                    <li><a href="{{ routes.collections_url }}/women" class="ft-link">Women</a></li>
+                    <li><a href="{{ routes.collections_url }}/kids" class="ft-link">Kids</a></li>
+                    <li><a href="{{ routes.collections_url }}/pets" class="ft-link">Pets</a></li>
+                  {%- elsif lower_h contains 'house' -%}
+                    <li><a href="{{ routes.root_url }}pages/about" class="ft-link">About</a></li>
+                    <li><a href="{{ routes.root_url }}pages/culture" class="ft-link">Culture</a></li>
+                    <li><a href="{{ routes.root_url }}blogs/journal" class="ft-link">Journal</a></li>
+                    <li><a href="{{ routes.root_url }}pages/weavers" class="ft-link">Weavers</a></li>
+                    <li><a href="{{ routes.root_url }}pages/services" class="ft-link">Services</a></li>
+                  {%- elsif lower_h contains 'help' -%}
+                    <li><a href="{{ routes.root_url }}pages/contact" class="ft-link">Contact</a></li>
+                    <li><a href="{{ routes.root_url }}pages/shipping-policy" class="ft-link">Shipping policy</a></li>
+                    <li><a href="{{ routes.root_url }}pages/refund-policy" class="ft-link">Refund policy</a></li>
+                    <li><a href="{{ routes.root_url }}pages/services" class="ft-link">Care guide</a></li>
+                    <li><a href="{{ routes.cart_url }}" class="ft-link">Your bag</a></li>
+                  {%- else -%}
+                    <li><a href="{{ routes.root_url }}" class="ft-link">Home</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}" class="ft-link">Catalog</a></li>
+                    <li><a href="{{ routes.root_url }}pages/contact" class="ft-link">Contact</a></li>
+                  {%- endif -%}
+                {%- endif -%}
+              </ul>
+            </div>
+
+          {%- when 'text' -%}
+            <div class="ft-col ft-col--text" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h4 class="ft-heading">{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              <div class="ft-text-content">
+                {{ block.settings.subtext }}
               </div>
-            {%- endform -%}
-          </localization-form>
-        {%- endif -%}
-      </div>
-      <div class="footer__column footer__column--info">
-        {%- if section.settings.payment_enable -%}
-          <div class="footer__payment">
-            <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-            <ul class="list list-payment" role="list">
-              {%- for type in shop.enabled_payment_types -%}
-                <li class="list-payment__item">
-                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
-      </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
     </div>
-    <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
-      <div class="footer__copyright caption">
-        <small class="copyright__content"
-          >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
-        </small>
-        <small class="copyright__content">{{ powered_by_link }}</small>
-        {%- if section.settings.show_policy -%}
-          <ul class="policies list-unstyled">
+
+    {%- if section.settings.payment_enable and shop.enabled_payment_types.size > 0 -%}
+      <div class="ft-pay" aria-label="Payment methods">
+        {%- for type in shop.enabled_payment_types -%}
+          <span>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment %} Bottom Legal Bar {% endcomment -%}
+    <div class="ft-bot">
+      <div class="ft-bot-left">
+        <span class="ft-copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.copyright_text | default: 'All rights reserved.' }}</span>
+        {%- if section.settings.bottom_note != blank -%}
+          <p class="ft-note">{{ section.settings.bottom_note }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_policy -%}
+        <div class="ft-legal">
+          {%- if shop.policies.size > 0 -%}
             {%- for policy in shop.policies -%}
               {%- if policy != blank -%}
-                <li>
-                  <small class="copyright__content"
-                    ><a href="{{ policy.url }}">{{ policy.title | escape }}</a></small
-                  >
-                </li>
+                <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
               {%- endif -%}
             {%- endfor -%}
-          </ul>
-        {%- endif -%}
-      </div>
+          {%- else -%}
+            <a href="{{ routes.root_url }}pages/privacy-policy">Privacy policy</a>
+            <a href="{{ routes.root_url }}pages/refund-policy">Refund policy</a>
+            <a href="{{ routes.root_url }}pages/shipping-policy">Shipping policy</a>
+            <a href="{{ routes.root_url }}pages/terms-of-service">Terms of service</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </footer>
 
 {% schema %}
 {
-  "name": "t:sections.footer.name",
+  "name": "Footer",
+  "max_blocks": 8,
   "blocks": [
     {
-      "type": "@app"
-    },
-    {
-      "type": "link_list",
-      "name": "t:sections.footer.blocks.link_list.name",
+      "type": "brand",
+      "name": "Brand & Socials",
+      "limit": 1,
       "settings": [
         {
-          "type": "inline_richtext",
-          "id": "heading",
-          "default": "t:sections.footer.blocks.link_list.settings.heading.default",
-          "label": "t:sections.footer.blocks.link_list.settings.heading.label"
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
         },
         {
-          "type": "link_list",
-          "id": "menu",
-          "default": "footer",
-          "label": "t:sections.footer.blocks.link_list.settings.menu.label"
-        }
-      ]
-    },
-    {
-      "type": "brand_information",
-      "name": "t:sections.footer.blocks.brand_information.name",
-      "settings": [
+          "type": "range",
+          "id": "logo_width",
+          "min": 100,
+          "max": 350,
+          "step": 10,
+          "unit": "px",
+          "label": "Logo width",
+          "default": 200
+        },
         {
-          "type": "paragraph",
-          "content": "t:sections.footer.blocks.brand_information.settings.paragraph.content"
+          "type": "textarea",
+          "id": "description",
+          "label": "Tagline / Description",
+          "default": "Stories of India, Woven For You."
         },
         {
           "type": "checkbox",
           "id": "show_social",
-          "default": true,
-          "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
-          "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
+          "label": "Show social links",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Social Links",
+          "info": "Optional overrides. If empty, falls back to Theme Settings."
+        },
+        {
+          "type": "url",
+          "id": "whatsapp_link",
+          "label": "WhatsApp link"
+        },
+        {
+          "type": "url",
+          "id": "instagram_link",
+          "label": "Instagram link"
+        },
+        {
+          "type": "url",
+          "id": "pinterest_link",
+          "label": "Pinterest link"
+        },
+        {
+          "type": "url",
+          "id": "youtube_link",
+          "label": "YouTube link"
+        },
+        {
+          "type": "url",
+          "id": "facebook_link",
+          "label": "Facebook link"
+        },
+        {
+          "type": "url",
+          "id": "twitter_link",
+          "label": "X / Twitter link"
+        }
+      ]
+    },
+    {
+      "type": "link_list",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading",
+          "info": "Leave blank to automatically use the Menu's title from admin."
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer",
+          "info": "Select a menu created in Content > Menus (or Online Store > Navigation)."
         }
       ]
     },
     {
       "type": "text",
-      "name": "t:sections.footer.blocks.text.name",
+      "name": "Text",
       "settings": [
         {
           "type": "inline_richtext",
           "id": "heading",
-          "default": "t:sections.footer.blocks.text.settings.heading.default",
-          "label": "t:sections.footer.blocks.text.settings.heading.label"
+          "label": "Heading",
+          "default": "About us"
         },
         {
           "type": "richtext",
           "id": "subtext",
-          "default": "t:sections.footer.blocks.text.settings.subtext.default",
-          "label": "t:sections.footer.blocks.text.settings.subtext.label"
-        }
-      ]
-    },
-    {
-      "type": "image",
-      "name": "Image",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "range",
-          "id": "image_width",
-          "min": 50,
-          "max": 550,
-          "step": 5,
-          "unit": "px",
-          "label": "Width",
-          "default": 100
-        },
-        {
-          "type": "select",
-          "id": "alignment",
-          "label": "Alignment",
-          "options": [
-            {
-              "value": "",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "center"
+          "label": "Text",
+          "default": "<p>Share store details, address or promotions here.</p>"
         }
       ]
     }
   ],
   "settings": [
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "type": "header",
+      "content": "Brand Information (Fallback)",
+      "info": "Used when the Brand block is not added in the blocks list."
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo",
+      "label": "Brand Logo"
+    },
+    {
+      "type": "range",
+      "id": "brand_logo_width",
+      "min": 100,
+      "max": 350,
+      "step": 10,
+      "unit": "px",
+      "label": "Brand logo width",
+      "default": 200
+    },
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "label": "Tagline / Description",
+      "default": "Stories of India, Woven For You."
+    },
+    {
+      "type": "checkbox",
+      "id": "brand_show_social",
+      "label": "Show social links",
+      "default": true
     },
     {
       "type": "header",
-      "content": "t:sections.footer.settings.header__1.content",
-      "info": "t:sections.footer.settings.header__1.info"
+      "content": "Bottom Bar"
     },
     {
-      "type": "checkbox",
-      "id": "newsletter_enable",
-      "default": true,
-      "label": "t:sections.footer.settings.newsletter_enable.label"
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "All rights reserved."
     },
     {
-      "type": "inline_richtext",
-      "id": "newsletter_heading",
-      "default": "t:sections.footer.settings.newsletter_heading.default",
-      "label": "t:sections.footer.settings.newsletter_heading.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.footer.settings.header__9.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_follow_on_shop",
-      "default": true,
-      "label": "t:sections.footer.settings.enable_follow_on_shop.label",
-      "info": "t:sections.footer.settings.enable_follow_on_shop.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_social",
-      "default": true,
-      "label": "t:sections.footer.settings.show_social.label",
-      "info": "t:sections.footer.settings.show_social.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_country_selector",
-      "default": true,
-      "label": "t:sections.footer.settings.enable_country_selector.label",
-      "info": "t:sections.footer.settings.enable_country_selector.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_language_selector",
-      "default": true,
-      "label": "t:sections.footer.settings.enable_language_selector.label",
-      "info": "t:sections.footer.settings.enable_language_selector.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "payment_enable",
-      "default": true,
-      "label": "t:sections.footer.settings.payment_enable.label"
+      "type": "text",
+      "id": "bottom_note",
+      "label": "Bottom note",
+      "default": "Prices, reviews and contact details shown are illustrative pending final data."
     },
     {
       "type": "checkbox",
       "id": "show_policy",
-      "default": true,
-      "label": "t:sections.footer.settings.show_policy.label",
-      "info": "t:sections.footer.settings.show_policy.info"
+      "label": "Show policy links",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_enable",
+      "label": "Show payment icons",
+      "default": false
     },
     {
       "type": "header",
-      "content": "t:sections.all.spacing"
-    },
-    {
-      "type": "range",
-      "id": "margin_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.footer.settings.margin_top.label",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "content": "Section Padding"
     },
     {
       "type": "range",
       "id": "padding_top",
-      "min": 0,
-      "max": 100,
+      "min": 36,
+      "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
+      "label": "Padding top",
+      "default": 72
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "min": 0,
+      "min": 16,
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "label": "Padding bottom",
+      "default": 28
     }
   ],
   "default": {
     "blocks": [
       {
-        "type": "link_list"
+        "type": "brand"
       },
       {
-        "type": "text"
+        "type": "link_list",
+        "settings": {
+          "heading": "Chapters",
+          "menu": "footer"
+        }
+      },
+      {
+        "type": "link_list",
+        "settings": {
+          "heading": "Shop",
+          "menu": "footer"
+        }
+      },
+      {
+        "type": "link_list",
+        "settings": {
+          "heading": "The House",
+          "menu": "footer"
+        }
       }
     ]
   }

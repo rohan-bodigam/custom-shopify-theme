@@ -1438,3 +1438,87 @@ class CartPerformance {
     );
   }
 }
+
+/* ==========================================================================
+   Shuttle Thread Trail (House of Kala Katha)
+   Source: reference/index.html (line 8020-8042)
+   ========================================================================== */
+(function initThreadTrail() {
+  if (typeof window === 'undefined') return;
+  if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  function setup() {
+    if (document.querySelector('canvas.trail')) return;
+    const cv = document.createElement('canvas');
+    cv.className = 'trail';
+    cv.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(cv);
+
+    const ctx = cv.getContext('2d');
+    if (!ctx) return;
+
+    let W = 0, H = 0, raf = 0;
+    const pts = [];
+    const LIFE = 460;
+
+    const size = () => {
+      const d = Math.min(2, window.devicePixelRatio || 1);
+      W = window.innerWidth;
+      H = window.innerHeight;
+      cv.width = W * d;
+      cv.height = H * d;
+      cv.style.width = W + 'px';
+      cv.style.height = H + 'px';
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+    };
+
+    size();
+    window.addEventListener('resize', size, { passive: true });
+
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        if (e.pointerType !== 'mouse') return;
+        pts.push({ x: e.clientX + 15, y: e.clientY + 15, t: performance.now() });
+        if (!raf) raf = requestAnimationFrame(draw);
+      },
+      { passive: true }
+    );
+
+    document.addEventListener('mouseleave', () => {
+      pts.length = 0;
+    });
+
+    function draw() {
+      const now = performance.now();
+      while (pts.length && now - pts[0].t > LIFE) pts.shift();
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = document.documentElement.dataset.theme === 'dark' ? '#D1B17E' : '#6B2230';
+
+      for (let i = 2; i < pts.length; i++) {
+        const a = pts[i - 2];
+        const b = pts[i - 1];
+        const c = pts[i];
+        const k = 1 - (now - c.t) / LIFE;
+        ctx.globalAlpha = Math.max(0, k) * 0.8;
+        ctx.lineWidth = 0.4 + 1.5 * k;
+        ctx.beginPath();
+        ctx.moveTo((a.x + b.x) / 2, (a.y + b.y) / 2);
+        ctx.quadraticCurveTo(b.x, b.y, (b.x + c.x) / 2, (b.y + c.y) / 2);
+        ctx.stroke();
+      }
+
+      ctx.globalAlpha = 1;
+      raf = pts.length ? requestAnimationFrame(draw) : 0;
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup);
+  } else {
+    setup();
+  }
+})();
+

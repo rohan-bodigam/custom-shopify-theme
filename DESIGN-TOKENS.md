@@ -70,6 +70,13 @@ Scale (exact Figma design tokens, assuming 1rem = 16px):
 - Breakpoints: 1100, 1000, 920 (main phone/tablet switch), 900, 700, 620, 600, 420 (px, max-width); 921 and up for desktop-only rules. Also `hover: none` and `pointer: fine` queries separate touch from mouse.
 - Respect `prefers-reduced-motion`, `prefers-color-scheme` and print styles (all present in the prototype).
 
+## Custom Shuttle Cursor
+
+For desktop mouse pointers (`@media (pointer: fine)`):
+- **Default cursor**: Handloom weaving shuttle SVG (wooden body `#A0703F`, silver metal tip `#C9CED6`, ivory outline `#F7F3EE`, wound with crimson yarn `#6B2230` and a trailing thread). Hotspot at `(3, 3)`.
+- **Interactive cursor** (`a`, `button`, `summary`, `[role="button"]`, etc.): Shuttle with golden halo (`#B08D57` at 22% opacity), brighter wood `#C79A55` and crimson yarn `#B3202A`.
+- **Thread trail**: Smooth fading quadratic bezier canvas trail (`canvas.trail`) matching the brand thread color that flows from the shuttle tip on pointermove. Disabled automatically on touchscreens or when `prefers-reduced-motion: reduce` is set.
+
 ## Logos and brand marks
 
 In `site/img/`: `lockupIvory.png` (full logo on dark), `wordCrimson.png` / `wordIvory.png` (wordmark), `monoCrimson.png` / `monoIvory.png` (monogram). Service icons are custom vectors in brand maroon and gold, drawn inline in the page.
