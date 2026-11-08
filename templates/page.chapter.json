@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "banner": {
@@ -14,9 +23,10 @@
         "button_link": "",
         "min_height_desktop": 560,
         "min_height_mobile": 460,
-        "text_color": "#F7F3EE",
-        "button_bg_color": "#F7F3EE",
-        "button_text_color": "#5C1E2D"
+        "background_color": "",
+        "text_color": "#f7f3ee",
+        "button_bg_color": "#f7f3ee",
+        "button_text_color": "#5c1e2d"
       }
     },
     "weaves_tabs": {
@@ -25,38 +35,66 @@
         "tab_1": {
           "type": "collection_tab",
           "settings": {
+            "collection": "",
             "title": "Mul Cotton",
-            "is_soon": false
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
         },
         "tab_2": {
           "type": "collection_tab",
           "settings": {
+            "collection": "",
             "title": "Baluchari",
-            "is_soon": false
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
         },
         "tab_3": {
           "type": "collection_tab",
           "settings": {
+            "collection": "",
             "title": "Swarnachari",
-            "is_soon": false
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
         },
         "tab_4": {
           "type": "collection_tab",
           "settings": {
+            "collection": "",
             "title": "Jamdani",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
             "is_soon": true,
-            "soon_badge_text": "Soon"
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
         },
         "tab_5": {
           "type": "collection_tab",
           "settings": {
+            "collection": "",
             "title": "Sambalpuri",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
             "is_soon": true,
-            "soon_badge_text": "Soon"
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
         }
       },
@@ -68,14 +106,14 @@
         "tab_5"
       ],
       "settings": {
-        "heading": "Shop by weave",
+        "heading": "Shop by North",
         "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
         "products_to_show": 4,
         "columns_desktop": 4,
-        "active_tab_bg": "#4E5540",
-        "active_tab_text": "#F7F3EE",
-        "card_bg": "#FAF7F2",
-        "border_color": "#E8DFD5",
+        "active_tab_bg": "#4e5540",
+        "active_tab_text": "#f7f3ee",
+        "card_bg": "#faf7f2",
+        "border_color": "#e8dfd5",
         "padding_top": 48,
         "padding_bottom": 64
       }
@@ -91,8 +129,8 @@
         "fact_1_label": "states",
         "fact_2_value": "Handloom",
         "fact_2_label": "made in small runs",
-        "background_color": "#F6F2EA",
-        "warp_icon_color": "#B08D57",
+        "background_color": "#f6f2ea",
+        "warp_icon_color": "#b08d57",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -105,7 +143,7 @@
         "paragraph_2": "",
         "paragraph_3": "",
         "image_position_mobile": "below_text",
-        "background_color": "#FFFFFF",
+        "background_color": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -120,7 +158,8 @@
             "place": "Bengal tradition, woven across several clusters",
             "technique": "Plain or lightly patterned weave on handloom",
             "material": "Very fine soft cotton",
-            "look": "Light, slightly crinkled hand and a soft drape"
+            "look": "Light, slightly crinkled hand and a soft drape",
+            "col_6": ""
           }
         },
         "row_2": {
@@ -130,7 +169,8 @@
             "place": "Bishnupur, Bankura district, West Bengal",
             "technique": "Jacquard handloom, figured pallu and border",
             "material": "Mulberry silk",
-            "look": "Story pallus: scenes woven into the silk"
+            "look": "Story pallus: scenes woven into the silk",
+            "col_6": ""
           }
         },
         "row_3": {
@@ -140,7 +180,8 @@
             "place": "Bishnupur, Bankura district, West Bengal",
             "technique": "Jacquard handloom with zari figuring",
             "material": "Mulberry silk with zari",
-            "look": "Baluchari scenes picked out in gold"
+            "look": "Baluchari scenes picked out in gold",
+            "col_6": ""
           }
         }
       },
@@ -156,10 +197,11 @@
         "col_3_label": "Technique",
         "col_4_label": "Material",
         "col_5_label": "Look",
-        "background_color": "#F6F2EA",
-        "card_background_color": "#FFFFFF",
-        "header_background_color": "#F7F4EE",
-        "border_color": "#E8DFD5",
+        "col_6_label": "",
+        "background_color": "#f6f2ea",
+        "card_background_color": "#ffffff",
+        "header_background_color": "#f7f4ee",
+        "border_color": "#e8dfd5",
         "padding_top": 56,
         "padding_bottom": 64
       }
@@ -212,9 +254,9 @@
       "settings": {
         "heading": "THE WEAVES",
         "subheading": "Where each craft comes from, how it is made and how to recognise it.",
-        "background_color": "#F6F2EA",
-        "card_background": "#FFFFFF",
-        "link_color": "#6B2230",
+        "background_color": "#f6f2ea",
+        "card_background": "#ffffff",
+        "link_color": "#6b2230",
         "padding_top": 48,
         "padding_bottom": 64
       }
@@ -227,9 +269,11 @@
           "settings": {
             "title": "Mul Cotton",
             "swatch_colors": "#EDE8DF, #8B1E22, #1B2A4A",
-            "color_1": "#EDE8DF",
-            "color_2": "#8B1E22",
-            "color_3": "#1B2A4A",
+            "color_1": "#ede8df",
+            "color_2": "#8b1e22",
+            "color_3": "#1b2a4a",
+            "color_4": "",
+            "color_5": "",
             "description": "Stripes, thin checks and quiet woven borders. Designs stay minimal so the softness of the cloth leads."
           }
         }
@@ -242,12 +286,14 @@
         "subheading": "Documented tendencies rather than rules. Weavers have always adapted these to taste, trade and occasion.",
         "columns_desktop": 5,
         "columns_mobile": "2",
-        "background_color": "#EDE3D9",
-        "card_background": "#FFFFFF",
-        "card_border_color": "#E6DFD5",
-        "card_title_color": "#171717",
-        "card_text_color": "#57534E",
         "swatch_size": 22,
+        "background_color": "#ede3d9",
+        "heading_color": "#171717",
+        "subheading_color": "#57534e",
+        "card_background": "#ffffff",
+        "card_border_color": "#e6dfd5",
+        "card_title_color": "#171717",
+        "card_text_color": "#57534e",
         "padding_top": 56,
         "padding_bottom": 64
       }
@@ -258,30 +304,35 @@
         "point_1": {
           "type": "spot_point",
           "settings": {
+            "badge_number": "",
             "text": "Hold it to the light. Real mul is fine and even, with soft slubs here and there, not stiff or glossy."
           }
         },
         "point_2": {
           "type": "spot_point",
           "settings": {
+            "badge_number": "",
             "text": "Wash a swatch or read the care label. Good mul cotton softens and crinkles a little. Cloth that stays stiff after washing may be heavily starched."
           }
         },
         "point_3": {
           "type": "spot_point",
           "settings": {
+            "badge_number": "",
             "text": "Look at the border. A woven stripe shows on both sides of the cloth, where a printed one sits only on the surface."
           }
         },
         "point_4": {
           "type": "spot_point",
           "settings": {
+            "badge_number": "",
             "text": "Ask for the fibre content. Pure cotton breathes and absorbs sweat, blends do not behave the same way."
           }
         },
         "point_5": {
           "type": "spot_point",
           "settings": {
+            "badge_number": "",
             "text": "Expect small irregularities. A tiny slub or a slightly uneven stripe is part of handwoven cloth, not a defect."
           }
         }
@@ -295,13 +346,14 @@
       ],
       "settings": {
         "heading": "How to spot the real thing",
+        "subheading": "",
         "columns_desktop": "2",
-        "background_color": "#EDE3D9",
+        "background_color": "#ede3d9",
         "heading_color": "#171717",
-        "text_color": "#57534E",
-        "badge_background": "#4E5540",
-        "badge_text_color": "#F7F3EE",
-        "border_color": "#D6C6B8",
+        "text_color": "#57534e",
+        "badge_background": "#4e5540",
+        "badge_text_color": "#f7f3ee",
+        "border_color": "#d6c6b8",
         "padding_top": 56,
         "padding_bottom": 64
       }
@@ -315,10 +367,10 @@
         "paragraph_1": "",
         "paragraph_2": "",
         "paragraph_3": "",
-        "background_color": "#4A1420",
-        "text_color": "#F7F3EE",
-        "warp_color": "#C4A661",
-        "thread_color": "#8C283C",
+        "background_color": "#4a1420",
+        "text_color": "#f7f3ee",
+        "warp_color": "#c4a661",
+        "thread_color": "#8c283c",
         "padding_top": 64,
         "padding_bottom": 64
       }
@@ -347,13 +399,13 @@
         "columns_desktop": "3",
         "columns_mobile": "1",
         "card_border_radius": 12,
-        "background_color": "#F7F3EE",
+        "background_color": "#f7f3ee",
         "heading_color": "#171717",
-        "link_color": "#6B2230",
-        "card_background": "#FFFFFF",
+        "link_color": "#6b2230",
+        "card_background": "#ffffff",
         "card_title_color": "#171717",
-        "card_subtitle_color": "#78716C",
-        "card_text_color": "#57534E",
+        "card_subtitle_color": "#78716c",
+        "card_text_color": "#57534e",
         "padding_top": 56,
         "padding_bottom": 64
       }
@@ -372,5 +424,3 @@
     "makers"
   ]
 }
-
-
