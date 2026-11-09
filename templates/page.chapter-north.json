@@ -395,8 +395,8 @@
       ],
       "name": "Chapter Weaves Tabs",
       "settings": {
-        "heading": "Shop by weave",
-        "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
+        "heading": "Shop This Chapter",
+        "subheading": "",
         "products_to_show": 4,
         "columns_desktop": 4,
         "active_tab_bg": "#4E5540",
