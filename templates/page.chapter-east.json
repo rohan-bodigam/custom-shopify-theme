@@ -385,6 +385,40 @@
         "padding_top": 56,
         "padding_bottom": 64
       }
+    },
+    "chapter_weaves_tabs_TrkxHN": {
+      "type": "chapter-weaves-tabs",
+      "blocks": {
+        "collection_tab_iD88k3": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mul-cotton",
+            "title": "This chapter",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "shopify://collections",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        }
+      },
+      "block_order": [
+        "collection_tab_iD88k3"
+      ],
+      "name": "Chapter Weaves Tabs",
+      "settings": {
+        "heading": "Shop this Chapter",
+        "subheading": "",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "active_tab_bg": "#4E5540",
+        "active_tab_text": "#F7F3EE",
+        "card_bg": "#FAF7F2",
+        "border_color": "#E8DFD5",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -397,6 +431,7 @@
     "motifs",
     "spot",
     "future",
-    "makers"
+    "makers",
+    "chapter_weaves_tabs_TrkxHN"
   ]
 }
