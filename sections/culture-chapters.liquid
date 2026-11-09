@@ -109,9 +109,26 @@
                   alt: block.settings.image.alt | default: block.settings.heading | escape
               }}
             {%- else -%}
-              <div class="culture-chapter-card__media-placeholder">
-                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-              </div>
+              {%- liquid
+                assign fallback_img = 'bnEast.webp'
+                if forloop.index == 2 or block.settings.heading contains 'WEST'
+                  assign fallback_img = 'bnWest.webp'
+                elsif forloop.index == 3 or block.settings.heading contains 'SOUTH'
+                  assign fallback_img = 'bnSouth.webp'
+                elsif forloop.index == 4 or block.settings.heading contains 'NORTH INDIA'
+                  assign fallback_img = 'bnNorth.webp'
+                elsif forloop.index == 5 or block.settings.heading contains 'NORTH EAST'
+                  assign fallback_img = 'bnNorthEast.webp'
+                endif
+              -%}
+              <img
+                src="{{ fallback_img | asset_url }}"
+                alt="{{ block.settings.heading | default: 'Chapter' | escape }}"
+                loading="lazy"
+                width="1400"
+                height="800"
+                style="width:100%;height:100%;object-fit:cover;"
+              >
             {%- endif -%}
           </div>
         </article>

@@ -59,7 +59,14 @@
         }}
       {%- endif -%}
     {%- else -%}
-      <div class="culture-banner__placeholder" role="img" aria-label="Culture banner"></div>
+      <img
+        src="{{ 'pgCulture.webp' | asset_url }}"
+        alt="{{ section.settings.heading | default: 'Culture' | escape }}"
+        class="culture-banner__img"
+        loading="eager"
+        width="2400"
+        height="1200"
+      >
     {%- endif -%}
   </div>
 

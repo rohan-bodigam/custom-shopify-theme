@@ -16,6 +16,22 @@
         "text_color": "#F7F3EE"
       }
     },
+    "marquee": {
+      "type": "marquee",
+      "settings": {
+        "speed": 35,
+        "direction": "left",
+        "pause_on_hover": true,
+        "background_color": "#5c1e2d",
+        "text_color": "#f7f3ee",
+        "diamond_color": "#b08d57",
+        "border_color": "#4a1420",
+        "border_opacity": 30,
+        "font_size": 13,
+        "padding_vertical": 12,
+        "item_gap": 28
+      }
+    },
     "chapters": {
       "type": "culture-chapters",
       "blocks": {
@@ -105,6 +121,7 @@
   },
   "order": [
     "banner",
+    "marquee",
     "chapters"
   ]
 }
