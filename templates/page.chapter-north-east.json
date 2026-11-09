@@ -1,0 +1,340 @@
+{
+  "sections": {
+    "banner": {
+      "type": "chapter-banner",
+      "settings": {
+        "show_breadcrumbs": true,
+        "breadcrumbs_parent_label": "All Chapters",
+        "breadcrumbs_parent_link": "/pages/culture",
+        "pre_heading": "Chapter 05",
+        "heading": "North East India",
+        "tagline": "Muga, Hills and the Loom in Every Home",
+        "states": "Assam · Meghalaya · Nagaland · Manipur · Mizoram · Tripura · Arunachal Pradesh",
+        "button_label": "Shop This Chapter",
+        "button_link": "",
+        "min_height_desktop": 560,
+        "min_height_mobile": 460,
+        "background_color": "#7C3524",
+        "text_color": "#f7f3ee",
+        "button_bg_color": "#f7f3ee",
+        "button_text_color": "#7c3524"
+      }
+    },
+    "weaves_tabs": {
+      "type": "chapter-weaves-tabs",
+      "blocks": {
+        "tab_1": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "",
+            "title": "Muga",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "tab_2": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "",
+            "title": "Eri",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": true,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "tab_3": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "",
+            "title": "Puan",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": true,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3"
+      ],
+      "settings": {
+        "heading": "Shop by North East",
+        "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "active_tab_bg": "#7C3524",
+        "active_tab_text": "#f7f3ee",
+        "card_bg": "#faf7f2",
+        "border_color": "#e8dfd5",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "about": {
+      "type": "chapter-about",
+      "settings": {
+        "heading": "ABOUT THIS CHAPTER",
+        "show_warp_icon": true,
+        "katha": "Assam’s golden silk is spun by silkworms that feed on leaves from trees in the Brahmaputra valley. It is one of the few silks in the world that gets shinier with age, and for centuries it was reserved for royalty. Our North East chapter begins with Muga, the cloth that glows.",
+        "about": "The North East is a region of hills, rivers and tea gardens, with a weaving culture that is as varied as its communities. Muga silk is one of Assam’s most prized textiles. It is golden by nature, not by dye, and has a famously long life: Muga is valued for its durability, and its sheen is said to improve with every wash. It is woven into sarees, mekhela chadors, stoles and, increasingly, tailored clothes.",
+        "fact_1_value": "7",
+        "fact_1_label": "states",
+        "fact_2_value": "Handloom",
+        "fact_2_label": "made in small runs",
+        "background_color": "#f6f2ea",
+        "warp_icon_color": "#b08d57",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "landscape": {
+      "type": "chapter-landscape",
+      "settings": {
+        "heading": "The landscape behind the loom",
+        "paragraph_1": "The Brahmaputra valley is green, wet and wide. The Muga silkworm, Antheraea assamensis, is native to Assam and feeds on the leaves of som and soalu trees, which grow in the region’s humid climate.",
+        "paragraph_2": "Sualkuchi, on the north bank of the Brahmaputra near Guwahati, is the best-known silk weaving town in Assam. Many households there have a loom, and weaving is part of daily life.",
+        "paragraph_3": "Muga is deeply rooted in Assamese identity. It is worn at weddings and Bihu, offered as a gift of respect and passed from generation to generation. The silk has a protected geographical indication, which recognises Assam as its home.",
+        "image_position_mobile": "below_text",
+        "background_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "quick_reference": {
+      "type": "chapter-quick-reference",
+      "blocks": {
+        "row_1": {
+          "type": "table_row",
+          "settings": {
+            "craft": "Muga",
+            "place": "Sualkuchi and the Brahmaputra valley, Assam",
+            "technique": "Handloom weaving of reeled Muga silk, with supplementary weft motifs",
+            "material": "Muga silk",
+            "look": "Natural golden-yellow sheen, firm hand, durable",
+            "col_6": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_1"
+      ],
+      "settings": {
+        "heading": "Quick reference",
+        "col_1_label": "Craft",
+        "col_2_label": "Place",
+        "col_3_label": "Technique",
+        "col_4_label": "Material",
+        "col_5_label": "Look",
+        "col_6_label": "",
+        "background_color": "#f6f2ea",
+        "card_background_color": "#ffffff",
+        "header_background_color": "#f7f4ee",
+        "border_color": "#e8dfd5",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
+    },
+    "weaves_read": {
+      "type": "chapter-weaves-read",
+      "blocks": {
+        "weave_1": {
+          "type": "weave_card",
+          "settings": {
+            "is_featured": true,
+            "kicker": "Assam",
+            "title": "MUGA",
+            "description": "Muga is the golden silk of Assam, produced by the semi-domesticated silkworm Antheraea assamensis. The silkworms feed on som and soalu leaves, and the thread they spin has a natural golden-yellow colour that needs no dye. The cocoons are reeled by hand and the thread is woven into cloth, most famously the mekhela chador and sarees. Muga is strong and long-lasting, and the sheen deepens with washing rather than fading. Traditional motifs are woven in supplementary weft and often draw on nature: flowers, birds and local flora. Light enough to wear in warm weather and rich enough for a wedding, Muga is the North East’s most precious silk.",
+            "quote": "It does not fade. It glows more with every wash.",
+            "link_label": "Shop Muga",
+            "link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "weave_1"
+      ],
+      "settings": {
+        "heading": "THE WEAVES",
+        "subheading": "Where each craft comes from, how it is made and how to recognise it.",
+        "background_color": "#f6f2ea",
+        "card_background": "#ffffff",
+        "link_color": "#6b2230",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "motifs": {
+      "type": "chapter-motifs",
+      "blocks": {
+        "motif_1": {
+          "type": "motif",
+          "settings": {
+            "title": "Muga",
+            "swatch_colors": "#C9A04A, #8C1F28, #2C2C2C",
+            "color_1": "#c9a04a",
+            "color_2": "#8c1f28",
+            "color_3": "#2c2c2c",
+            "color_4": "",
+            "color_5": "",
+            "description": "Natural gold ground with flowers, birds and traditional Assamese motifs in contrasting silk."
+          }
+        }
+      },
+      "block_order": [
+        "motif_1"
+      ],
+      "settings": {
+        "heading": "Motif & colour",
+        "subheading": "Documented tendencies rather than rules. Weavers have always adapted these to taste, trade and occasion.",
+        "columns_desktop": 5,
+        "columns_mobile": "2",
+        "swatch_size": 22,
+        "background_color": "#ede3d9",
+        "heading_color": "#171717",
+        "subheading_color": "#57534e",
+        "card_background": "#ffffff",
+        "card_border_color": "#e6dfd5",
+        "card_title_color": "#171717",
+        "card_text_color": "#57534e",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
+    },
+    "spot": {
+      "type": "chapter-spot",
+      "blocks": {
+        "point_1": {
+          "type": "spot_point",
+          "settings": {
+            "badge_number": "",
+            "text": "Muga should have a natural golden hue, not an even bright yellow. Colour that looks too perfect may be dyed."
+          }
+        },
+        "point_2": {
+          "type": "spot_point",
+          "settings": {
+            "badge_number": "",
+            "text": "Feel the weight. Muga is firm and slightly crisp when new, then softens with washing."
+          }
+        },
+        "point_3": {
+          "type": "spot_point",
+          "settings": {
+            "badge_number": "",
+            "text": "Ask for the GI authentication tag. Genuine Muga from Assam can be certified."
+          }
+        },
+        "point_4": {
+          "type": "spot_point",
+          "settings": {
+            "badge_number": "",
+            "text": "Look at the motifs. Handwoven supplementary-weft motifs are crisp and slightly raised, not flat prints."
+          }
+        },
+        "point_5": {
+          "type": "spot_point",
+          "settings": {
+            "badge_number": "",
+            "text": "Expect a higher price than other silks. Muga supply is small and limited by the silkworm’s seasons."
+          }
+        }
+      },
+      "block_order": [
+        "point_1",
+        "point_2",
+        "point_3",
+        "point_4",
+        "point_5"
+      ],
+      "settings": {
+        "heading": "How to spot the real thing",
+        "subheading": "",
+        "columns_desktop": "2",
+        "background_color": "#ede3d9",
+        "heading_color": "#171717",
+        "text_color": "#57534e",
+        "badge_background": "#7c3524",
+        "badge_text_color": "#f7f3ee",
+        "border_color": "#d6c6b8",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
+    },
+    "future": {
+      "type": "chapter-future",
+      "settings": {
+        "heading": "THE FUTURE OF THESE CRAFTS",
+        "show_warp_icon": true,
+        "show_thread_accent": true,
+        "paragraph_1": "Muga’s future depends on its supply of silkworms and host trees, which in turn depends on forests and the farmers who tend them. Climate change and the cost of rearing have put pressure on production.",
+        "paragraph_2": "Fair prices and certified origin are the best protection. Buyers who choose genuine Muga keep rearers, reelers and weavers in the craft.",
+        "paragraph_3": "",
+        "background_color": "#4a1420",
+        "text_color": "#f7f3ee",
+        "warp_color": "#c4a661",
+        "thread_color": "#8c283c",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "makers": {
+      "type": "chapter-makers",
+      "blocks": {
+        "maker_1": {
+          "type": "maker",
+          "settings": {
+            "title": "Sualkuchi cluster",
+            "subtitle": "Weaving cluster, Assam",
+            "description": "Our Muga is woven in Assam. We will introduce the weavers and reelers by name once the first run is confirmed.",
+            "link_url": "",
+            "link_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "maker_1"
+      ],
+      "settings": {
+        "heading": "Meet the makers",
+        "link_label": "Work With Our Weavers",
+        "link_url": "",
+        "columns_desktop": "3",
+        "columns_mobile": "1",
+        "card_border_radius": 12,
+        "background_color": "#f7f3ee",
+        "heading_color": "#171717",
+        "link_color": "#6b2230",
+        "card_background": "#ffffff",
+        "card_title_color": "#171717",
+        "card_subtitle_color": "#78716c",
+        "card_text_color": "#57534e",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "weaves_tabs",
+    "about",
+    "landscape",
+    "quick_reference",
+    "weaves_read",
+    "motifs",
+    "spot",
+    "future",
+    "makers"
+  ]
+}
+
