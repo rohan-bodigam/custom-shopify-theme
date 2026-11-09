@@ -23,7 +23,7 @@
         "button_link": "",
         "min_height_desktop": 560,
         "min_height_mobile": 460,
-        "background_color": "#263B48",
+        "background_color": "#263b48",
         "text_color": "#f7f3ee",
         "button_bg_color": "#f7f3ee",
         "button_text_color": "#263b48"
@@ -35,7 +35,7 @@
         "tab_1": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "mangalgiri-cotton",
             "title": "Mangalagiri",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -48,7 +48,7 @@
         "tab_2": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "ikkat",
             "title": "Ikkat",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -61,37 +61,11 @@
         "tab_3": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "crape-silk",
             "title": "Crape Silk",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
             "is_soon": false,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
-        "tab_4": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Kanchipuram",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
-        "tab_5": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Kasavu",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
             "soon_badge_text": "Soon",
             "soon_heading": "Cloth Still On The Loom",
             "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
@@ -101,16 +75,14 @@
       "block_order": [
         "tab_1",
         "tab_2",
-        "tab_3",
-        "tab_4",
-        "tab_5"
+        "tab_3"
       ],
       "settings": {
         "heading": "Shop by South",
         "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
         "products_to_show": 4,
         "columns_desktop": 4,
-        "active_tab_bg": "#263B48",
+        "active_tab_bg": "#263b48",
         "active_tab_text": "#f7f3ee",
         "card_bg": "#faf7f2",
         "border_color": "#e8dfd5",
@@ -121,10 +93,11 @@
     "about": {
       "type": "chapter-about",
       "settings": {
+        "map_image": "shopify://shop_images/mapSouth.jpg",
         "heading": "ABOUT THIS CHAPTER",
         "show_warp_icon": true,
-        "katha": "Two Telugu-speaking states, two ways of using colour. In Andhra Pradesh, Mangalagiri weavers make crisp cotton with a gold-flecked border. In Telangana, ikkat weavers tie and dye the yarn before it ever touches a loom. Both are practical, beautiful and easy to wear every day.",
-        "about": "The South chapter in our house is built around the Telugu states. Mangalagiri, near Vijayawada in Andhra Pradesh, is known for sturdy handloom cotton with a signature border. Ikkat, woven most famously in Pochampally in Telangana, is a resist-dyed technique where patterns are dyed into the yarn first. One cloth is clear and structured, the other soft-edged and graphic, and together they cover nearly everything from a work shirt to a wedding saree.",
+        "katha": "Two Telugu-speaking states use colour in two different ways. In Mangalagiri, near Vijayawada, weavers make crisp cotton with a gold-flecked border, and in Pochampally, ikkat weavers tie and dye the yarn before it touches a loom.",
+        "about": "One cloth is clean and structured, and the other is soft-edged and graphic. Between them they cover nearly everything, from a work shirt to a wedding saree.",
         "fact_1_value": "5",
         "fact_1_label": "states",
         "fact_2_value": "Handloom",
@@ -138,6 +111,7 @@
     "landscape": {
       "type": "chapter-landscape",
       "settings": {
+        "image": "shopify://shop_images/bnSouth.webp",
         "heading": "The landscape behind the loom",
         "paragraph_1": "Andhra Pradesh and Telangana sit on the Deccan plateau, with the Krishna and Godavari running through them. Cotton grows well here, and the region has long had both farmers and weavers who understood it.",
         "paragraph_2": "Mangalagiri, in Guntur district, is a temple town on the road to Vijayawada. Its handloom cotton is plain by design: solid colours, fine checks and stripes, set off by a border with small zari motifs.",
@@ -201,12 +175,13 @@
           "type": "weave_card",
           "settings": {
             "is_featured": true,
+            "image": "shopify://shop_images/bnSouth.webp",
             "kicker": "Mangalagiri, Andhra Pradesh",
             "title": "MANGALAGIRI",
             "description": "Mangalagiri is a handloom cotton tradition from the temple town of the same name near Vijayawada. The cloth is known for being crisp, durable and easy to wear in heat. A Mangalagiri saree usually has a plain, solid body, sometimes with fine checks or stripes, and its best-known feature is the Nizam border: a woven border with small gold zari motifs set against a clean ground. Because the body is so plain, the colour and the border do all the work. The result is a saree that works for the office, for festivals and for travel, and a fabric that is equally good in shirts, kurtas and children’s clothes. It softens with every wash while keeping its shape.",
             "quote": "Plain on purpose, so the border can shine.",
             "link_label": "Shop Mangalagiri",
-            "link_url": ""
+            "link_url": "shopify://collections/mangalgiri-cotton"
           }
         },
         "weave_2": {
@@ -215,16 +190,29 @@
             "is_featured": false,
             "kicker": "Pochampally and the Telugu states",
             "title": "IKKAT",
-            "description": "Ikkat is a resist-dyeing technique in which the yarn is tied and dyed before weaving. Sections of thread are bound tightly so they resist the dye, then the bundle is dyed, retied and dyed again to build up colour. When the dyed yarn is set on the loom, the pattern appears in the cloth with its characteristic soft, feathered edges. In single ikkat only one set of threads (warp or weft) is dyed this way, in double ikkat both are. Pochampally in Telangana is famous for its geometric designs: diamonds, stepped flames, and small elephants, parrots and flowers. Ikkat comes in cotton and silk and moves easily from sarees to shirts and co-ord sets.",
+            "description": "Ikkat is yarn tied and dyed before weaving, so the pattern has soft, feathered edges. Look at the reverse, because real ikkat shows the pattern on both sides, and that is the check to make if you want to buy Pochampally ikat.",
             "quote": "The pattern is dyed before it is woven.",
             "link_label": "Shop Ikkat",
-            "link_url": ""
+            "link_url": "shopify://collections/ikkat"
+          }
+        },
+        "weave_card_Dw7Lpc": {
+          "type": "weave_card",
+          "settings": {
+            "is_featured": false,
+            "kicker": "South India",
+            "title": "Crape Silk",
+            "description": "Crape silk is tightly twisted silk with a fine pebbled surface and a drape that falls close to the body, and ours is kept plain with a narrow gold edge.",
+            "quote": "The pattern is dyed before it is woven.",
+            "link_label": "Shop Ikkat",
+            "link_url": "shopify://collections/crape-silk"
           }
         }
       },
       "block_order": [
         "weave_1",
-        "weave_2"
+        "weave_2",
+        "weave_card_Dw7Lpc"
       ],
       "settings": {
         "heading": "THE WEAVES",
@@ -370,6 +358,7 @@
         "maker_1": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/handsWarp_cc295daf-e31e-433f-9ace-e181437e061d.jpg",
             "title": "Mangalagiri cluster",
             "subtitle": "Weaving cluster, Andhra Pradesh",
             "description": "We are finalising our Mangalagiri weaving partners and will introduce them here once the first run is complete.",
@@ -380,6 +369,7 @@
         "maker_2": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/blueLoom.jpg",
             "title": "Pochampally cluster",
             "subtitle": "Ikkat cluster, Telangana",
             "description": "Our ikkat comes from the Telugu states. Cluster and maker profiles will be added to each product as they are confirmed.",
@@ -409,6 +399,40 @@
         "padding_top": 56,
         "padding_bottom": 64
       }
+    },
+    "chapter_weaves_tabs_FJQef6": {
+      "type": "chapter-weaves-tabs",
+      "blocks": {
+        "collection_tab_qJECAn": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalgiri-cotton",
+            "title": "This Chapter",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "shopify://collections",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        }
+      },
+      "block_order": [
+        "collection_tab_qJECAn"
+      ],
+      "name": "Chapter Weaves Tabs",
+      "settings": {
+        "heading": "Shop This Chapter",
+        "subheading": "",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "active_tab_bg": "#4E5540",
+        "active_tab_text": "#F7F3EE",
+        "card_bg": "#FAF7F2",
+        "border_color": "#E8DFD5",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -421,7 +445,7 @@
     "motifs",
     "spot",
     "future",
-    "makers"
+    "makers",
+    "chapter_weaves_tabs_FJQef6"
   ]
 }
-
