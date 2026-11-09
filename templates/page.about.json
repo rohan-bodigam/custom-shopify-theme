@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,9 +15,15 @@
         "show_breadcrumbs": true,
         "home_label": "Home",
         "page_label": "About",
+        "kicker": "",
         "heading": "ABOUT THE HOUSE",
         "tagline": "One House. Many Traditions. Endless Stories.",
-        "description": "House of Kala Katha brings the textiles of India's regions under one contemporary house, and interprets them through clothing for how people live now."
+        "description": "Kala Katha means \"the story of an art\", and we bring the textiles of India's regions under one house and turn them into clothes for how people live now.",
+        "background_color": "#d6c6b8",
+        "min_height_desktop": 520,
+        "min_height_mobile": 400,
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "pillars": {
@@ -18,21 +33,21 @@
           "type": "pillar",
           "settings": {
             "title": "Purpose",
-            "text": "To reconnect people with India's handloom heritage by making timeless craftsmanship relevant, desirable and meaningful for the modern world."
+            "text": "Our purpose is to bring people back to India's handloom by making it something they want to wear, not just admire."
           }
         },
         "mission": {
           "type": "pillar",
           "settings": {
             "title": "Mission",
-            "text": "To create contemporary fashion that celebrates Indian artisans, preserves traditional craftsmanship, and delivers exceptional quality through thoughtful design and storytelling."
+            "text": "Our mission is to make clothes that credit the people who weave them, keep traditional techniques in use and are made to last."
           }
         },
         "vision": {
           "type": "pillar",
           "settings": {
             "title": "Vision",
-            "text": "To establish House of Kala Katha as a globally recognised fashion house that champions Indian craftsmanship and inspires a new generation to embrace handloom as a way of life."
+            "text": "Our vision is a house known around the world for Indian craft, and a new generation that wears handloom every day."
           }
         }
       },
@@ -46,9 +61,9 @@
         "image_aspect_ratio": "4/5",
         "show_thread_accent": true,
         "card_border_radius": 14,
-        "background_color": "transparent",
+        "background_color": "rgba(0,0,0,0)",
         "heading_color": "#171717",
-        "text_color": "#57534E",
+        "text_color": "#57534e",
         "padding_top": 64,
         "padding_bottom": 64
       }
@@ -125,15 +140,17 @@
       ],
       "settings": {
         "heading": "What we value",
+        "subheading": "",
+        "heading_alignment": "left",
         "columns_desktop": "4",
         "columns_mobile": "1",
         "card_border_radius": 16,
-        "section_background": "transparent",
-        "container_background": "#FFFFFF",
-        "border_color": "#E5DFD7",
+        "section_background": "rgba(0,0,0,0)",
+        "container_background": "#ffffff",
+        "border_color": "#e5dfd7",
         "heading_color": "#171717",
         "item_title_color": "#171717",
-        "item_text_color": "#57534E",
+        "item_text_color": "#57534e",
         "padding_top": 48,
         "padding_bottom": 80
       }
@@ -141,15 +158,16 @@
     "cta": {
       "type": "about-cta",
       "settings": {
-        "text": "Our monogram weaves the letter K through the warp threads of a handloom, with a shuttle passing through. It is the simplest way we know to say what we do.",
+        "monogram_width": 100,
+        "text": "Our monogram weaves the letter K through the warp of a handloom, with a shuttle passing through, and it is the simplest way we know to say what we do.",
         "button_label": "Collaborate With Us",
         "button_link": "/pages/contact",
         "enable_gradient": true,
-        "gradient_center": "#5A1C28",
-        "background_color": "#3B1019",
-        "text_color": "#F7F3EE",
-        "button_bg_color": "#FFFFFF",
-        "button_text_color": "#5C1E2D",
+        "gradient_center": "#5a1c28",
+        "background_color": "#3b1019",
+        "text_color": "#f7f3ee",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#5c1e2d",
         "padding_top": 88,
         "padding_bottom": 88
       }

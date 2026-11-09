@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "banner": {
@@ -6,7 +15,9 @@
         "show_breadcrumbs": true,
         "tagline": "Five chapters, one house",
         "show_collection_description": true,
-        "bg_color": "#EDE3D9",
+        "custom_description": "",
+        "image": "shopify://shop_images/hokk-womens-banner-three-models.png",
+        "bg_color": "#ede3d9",
         "text_color": "#171717",
         "min_height": 520
       }
@@ -16,6 +27,7 @@
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 3,
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "portrait",
         "image_shape": "default",
@@ -26,7 +38,6 @@
         "enable_filtering": true,
         "filter_type": "vertical",
         "enable_sorting": true,
-        "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 48
       }
