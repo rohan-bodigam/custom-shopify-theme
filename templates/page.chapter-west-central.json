@@ -23,7 +23,7 @@
         "button_link": "",
         "min_height_desktop": 560,
         "min_height_mobile": 460,
-        "background_color": "#5C1E2D",
+        "background_color": "#5c1e2d",
         "text_color": "#f7f3ee",
         "button_bg_color": "#f7f3ee",
         "button_text_color": "#5c1e2d"
@@ -35,7 +35,7 @@
         "tab_1": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "maheshwari-silk-sarees",
             "title": "Maheshwari",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -48,7 +48,7 @@
         "tab_2": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "zari-kota",
             "title": "Zari Kota",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -61,37 +61,11 @@
         "tab_3": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "pure-kota",
             "title": "Pure Kota",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
             "is_soon": false,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
-        "tab_4": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Bandhani",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
-        "tab_5": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Chanderi",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
             "soon_badge_text": "Soon",
             "soon_heading": "Cloth Still On The Loom",
             "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
@@ -101,16 +75,14 @@
       "block_order": [
         "tab_1",
         "tab_2",
-        "tab_3",
-        "tab_4",
-        "tab_5"
+        "tab_3"
       ],
       "settings": {
         "heading": "Shop by West",
         "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
         "products_to_show": 4,
         "columns_desktop": 4,
-        "active_tab_bg": "#5C1E2D",
+        "active_tab_bg": "#5c1e2d",
         "active_tab_text": "#f7f3ee",
         "card_bg": "#faf7f2",
         "border_color": "#e8dfd5",
@@ -121,10 +93,11 @@
     "about": {
       "type": "chapter-about",
       "settings": {
+        "map_image": "shopify://shop_images/mapWest.jpg",
         "heading": "ABOUT THIS CHAPTER",
         "show_warp_icon": true,
-        "katha": "On the banks of the Narmada, a queen once set up looms to give a fort town a living. In the dry country of Rajasthan, weavers learned to make cotton so light it is nearly sheer. This chapter holds two of India’s lightest and most elegant cloths: Maheshwari and Zari Kota, both made for heat, both finished with a little gold.",
-        "about": "West and Central India hold some of the country’s most refined everyday textiles. Maheshwari comes from the temple and fort town of Maheshwar in Madhya Pradesh. Kota Doria comes from Kaithoon and its neighbouring villages near Kota in Rajasthan, where a gold-thread version known as Zari Kota is woven. Both are light, both suit hot weather, and both are easy to wear at weddings, in offices and on ordinary days.",
+        "katha": "On the banks of the Narmada, a queen once set up looms to give a fort town a living. In the dry country near Kota, weavers learned to make cloth so light it is almost sheer.",
+        "about": "This chapter holds two of India's lightest, most elegant cloths, Maheshwari and Kota. Both are made for heat, both are finished with a little gold, and both work at a wedding, in an office or on an ordinary Tuesday.",
         "fact_1_value": "5",
         "fact_1_label": "states",
         "fact_2_value": "Handloom",
@@ -138,6 +111,7 @@
     "landscape": {
       "type": "chapter-landscape",
       "settings": {
+        "image": "shopify://shop_images/handsWeave.jpg",
         "heading": "The landscape behind the loom",
         "paragraph_1": "Maheshwar sits above the Narmada river, with its ghats and fort rising over the water. The fort’s carved stone and its river-facing walls became a pattern library for the town’s weavers, who borrowed brick, matting and flower forms for their borders.",
         "paragraph_2": "In Rajasthan, the Kota region is dry and sunlit. Cloth made here needs to be cool and airy, which is exactly what Kota Doria is: a very open weave of cotton and silk that lets air through and drapes lightly.",
@@ -201,9 +175,10 @@
           "type": "weave_card",
           "settings": {
             "is_featured": true,
+            "image": "shopify://shop_images/handsWeave.jpg",
             "kicker": "Maheshwar, Madhya Pradesh",
             "title": "MAHESHWARI",
-            "description": "Maheshwari is woven in the fort town of Maheshwar on the Narmada. The tradition is widely credited to the eighteenth century, when Rani Ahilyabai Holkar of Indore encouraged weavers to settle and work in the town. The cloth is known for being light, soft and easy to drape, usually in cotton and silk. Its best-known feature is the reversible border: the same pattern appears on both sides, so the saree can be worn either way. Border motifs traditionally draw on the architecture of the fort, with forms known as chatai (mat), eent (brick), heera (diamond) and chameli (jasmine). Bodies are often plain, striped or checked, in colours that stay calm so the border can lead.",
+            "description": "Maheshwari is cotton-silk from Maheshwar, with a reversible border you can wear either way out and border motifs that take their shapes from the fort. A Maheshwari saree online should come from Maheshwar itself, and every one here does.",
             "quote": "A border you can wear either side up.",
             "link_label": "Shop Maheshwari",
             "link_url": ""
@@ -215,16 +190,29 @@
             "is_featured": false,
             "kicker": "Kaithoon and Kota, Rajasthan",
             "title": "ZARI KOTA",
-            "description": "Kota Doria, also called Kota Masuria, is woven in and around Kaithoon, a village near Kota. It is defined by its open, square-check structure, called khat, which is created by weaving cotton and silk together on a loom with a very open reed. The result is a fine, translucent cloth that lets air through, which is why it is so loved in summer. Zari Kota adds fine zari, a metallic thread, to the borders and sometimes the body, so the same airy cloth picks up a gentle shine. Hold it up to the light and you will see the grid of small squares. Zari Kota is a wedding-season favourite because it looks festive without feeling heavy.",
+            "description": "Zari Kota has Kota Doria's open square check, the khat, with fine zari in the border, and it is festive enough for a daytime wedding and light enough for May. It is cut as a saree today and will soon come as Kota Doria suits online.",
             "quote": "Light enough to forget, bright enough to remember.",
             "link_label": "Shop Zari Kota",
+            "link_url": ""
+          }
+        },
+        "weave_card_GgNHpx": {
+          "type": "weave_card",
+          "settings": {
+            "is_featured": false,
+            "kicker": "Kaithoon and Kota, Rajasthan",
+            "title": "PURE KOTA",
+            "description": "Pure Kota is sheer Kota silk used as a canvas, and some sarees are hand painted while others come with a pen Kalamkari blouse piece",
+            "quote": "Light enough to forget, bright enough to remember.",
+            "link_label": "Shop Pure Kota",
             "link_url": ""
           }
         }
       },
       "block_order": [
         "weave_1",
-        "weave_2"
+        "weave_2",
+        "weave_card_GgNHpx"
       ],
       "settings": {
         "heading": "THE WEAVES",
@@ -370,6 +358,7 @@
         "maker_1": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/handsWeave.jpg",
             "title": "Maheshwar cluster",
             "subtitle": "Weaving cluster, Madhya Pradesh",
             "description": "We are finalising our weaving partners in Maheshwar and will introduce them here by name once the first run is complete.",
@@ -380,6 +369,7 @@
         "maker_2": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/weaverWarp.jpg",
             "title": "Kaithoon cluster",
             "subtitle": "Weaving cluster, Rajasthan",
             "description": "Our Zari Kota is woven in the Kota region. Maker profiles will follow as soon as the first run is in.",
@@ -424,4 +414,3 @@
     "makers"
   ]
 }
-
