@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "banner": {
@@ -26,7 +35,7 @@
         "tab_1": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "mul-cotton",
             "title": "Mul Cotton",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -39,7 +48,7 @@
         "tab_2": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "meenakari-baluchari",
             "title": "Baluchari",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -52,37 +61,11 @@
         "tab_3": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "meenakari-swarnachari",
             "title": "Swarnachari",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
             "is_soon": false,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
-        "tab_4": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Jamdani",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
-        "tab_5": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Sambalpuri",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
             "soon_badge_text": "Soon",
             "soon_heading": "Cloth Still On The Loom",
             "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
@@ -92,9 +75,7 @@
       "block_order": [
         "tab_1",
         "tab_2",
-        "tab_3",
-        "tab_4",
-        "tab_5"
+        "tab_3"
       ],
       "settings": {
         "heading": "Shop by East",
@@ -112,10 +93,11 @@
     "about": {
       "type": "chapter-about",
       "settings": {
+        "map_image": "shopify://shop_images/mapEast.jpg",
         "heading": "ABOUT THIS CHAPTER",
         "show_warp_icon": true,
-        "katha": "Bengal’s river delta gave India its finest cotton. Muslin so sheer it was once said to be woven air came from these waters, and the habit of wearing soft, breathable cotton never left. Our East chapter begins with the cloth that carries that habit forward: mul cotton, light enough for a Kolkata summer and strong enough for daily wear.",
-        "about": "East India is humid, green and full of rivers, and its textile life grew around that climate. Cotton that breathes, spun fine and woven loosely, was the obvious answer. Mul cotton is the everyday descendant of that tradition. It is not a showy cloth. It is the one people reach for first, because it is soft on the skin, drapes without weight and gets better after every wash.",
+        "katha": "Bengal's river delta gave India its finest cotton. Muslin so sheer it was called woven air came from these waters, and the habit of wearing soft, breathable cloth never left. The same region gave us Bishnupur's silks, with whole stories woven across the pallu.",
+        "about": "This chapter holds both sides of that tradition: mul cotton for every day, and Baluchari and Swarnachari for the days you will remember. Together they show why East Indian handloom sarees are some of the lightest and most detailed in the country.",
         "fact_1_value": "4",
         "fact_1_label": "states",
         "fact_2_value": "Handloom",
@@ -129,6 +111,7 @@
     "landscape": {
       "type": "chapter-landscape",
       "settings": {
+        "image": "shopify://shop_images/handsWarp_a23c496c-25a6-42bf-a3bb-1f27235316e6.jpg",
         "heading": "The landscape behind the loom",
         "paragraph_1": "The Ganga and Brahmaputra meet the sea in the world’s largest delta. Warm, wet air favours fine cotton, and for centuries Bengal’s weavers worked near river ports, so cloth moved quickly from loom to market and from there across the world.",
         "paragraph_2": "Fine cotton asks for patience. Yarn that is spun thin is fragile, and a weaver in a humid climate has a real advantage: damp air keeps the thread from snapping. Many of the traditional centres sit close to water for exactly this reason.",
@@ -204,12 +187,13 @@
           "type": "weave_card",
           "settings": {
             "is_featured": true,
+            "image": "shopify://shop_images/handsWarp_a23c496c-25a6-42bf-a3bb-1f27235316e6.jpg",
             "kicker": "West Bengal and beyond",
             "title": "MUL COTTON",
             "description": "Mul, or mulmul, is the name for a very fine, soft, lightweight cotton. The word is tied to the muslin tradition of Bengal, where the thinnest yarns were woven into cloth that felt almost weightless. A good mul cotton has a close, even weave, a gentle crinkle after washing and a drape that falls rather than stands. It breathes in heat and layers easily in cooler months. In the house, mul cotton is used for sarees with woven stripe borders, for relaxed kurtas and shirts, for co-ord sets and for children’s clothes, where softness matters most. Look for an even surface, a cloth that softens with wear and borders that are woven in, not printed on.",
             "quote": "Mul is the cloth you stop noticing, which is the point.",
             "link_label": "Shop Mul Cotton",
-            "link_url": ""
+            "link_url": "shopify://collections/mul-cotton"
           }
         },
         "weave_2": {
@@ -218,7 +202,7 @@
             "is_featured": false,
             "kicker": "Bishnupur, West Bengal",
             "title": "BALUCHARI",
-            "description": "Baluchari is Bengal’s narrative silk. The pallu is woven as a set of framed scenes, often from the epics or from old court life, built up thread by thread with an extra weft on a jacquard loom. Bishnupur, a temple town known for its terracotta, is the centre of the craft today. Our Single Thread Baluchari keeps to one colour of figuring weft, so the pictures read like an engraving. Meenakari Baluchari adds small inlays of a second and third colour, the way enamel is set into gold.",
+            "description": "Baluchari is Bishnupur silk with scenes from the epics woven across the pallu. If you want a Baluchari saree online from a seller who names the weave, this is where to start. Single Thread Baluchari uses one colour of figuring thread, and Meenakari adds small inlays of colour.",
             "quote": "The pallu is a picture book you can wear.",
             "link_label": "Shop Baluchari",
             "link_url": ""
@@ -230,8 +214,8 @@
             "is_featured": false,
             "kicker": "Bishnupur, West Bengal",
             "title": "SWARNACHARI",
-            "description": "Swarnachari is Baluchari’s festive sibling. The same framed scenes run across the pallu, but they are woven in gold or silver zari rather than silk, so the figures catch the light. Our Meenakari Swarnachari sarees add coloured highlights inside the zari, in the manner of enamel work, on deep red, green and blue grounds.",
-            "quote": "Baluchari tells the story; Swarnachari lights it up.",
+            "description": "Swarnachari is Baluchari's festive sibling, with the same story pallus picked out in gold or silver zari.",
+            "quote": "Swarnachari tells the story; Swarnachari lights it up.",
             "link_label": "Shop Swarnachari",
             "link_url": ""
           }
@@ -372,6 +356,7 @@
         "maker_1": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/handsWarp_a23c496c-25a6-42bf-a3bb-1f27235316e6.jpg",
             "title": "Mul cotton clusters",
             "subtitle": "Partner weaving clusters, East India",
             "description": "We are mapping the weaving partners for our mul cotton and will introduce them here by name, with their cluster, once the first run is complete.",
@@ -415,4 +400,3 @@
     "makers"
   ]
 }
-
