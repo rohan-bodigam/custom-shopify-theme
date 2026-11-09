@@ -47,7 +47,7 @@
         "kicker": "Indian Craft. Everyday Life.",
         "heading": "Stories of India, Woven For You",
         "heading_size": "hxl",
-        "text": "Contemporary clothing from India’s handloom traditions, gathered under one house in five regional chapters, and cut for men, women, kids and pets.",
+        "text": "&nbsp;Handloom from five regions of India, brought together in one house and cut for men, women.",
         "button_label_1": "Explore the Chapters",
         "button_link_1": "#/chapters",
         "button_style_1": "light",
@@ -235,7 +235,7 @@
             "fallback_image": "",
             "focal_point": "center 30%",
             "title": "Heritage",
-            "description": "Sarees and sets from the five regional chapters.",
+            "description": "Sarees and sets from our five regional chapters, each named for its weave.",
             "count_label": "788 pieces",
             "show_count": true,
             "link": "/collections/heritage"
@@ -248,7 +248,7 @@
             "fallback_image": "mega-contemporary.webp",
             "focal_point": "58% 40%",
             "title": "Contemporary",
-            "description": "Many looms, one wardrobe: ikkat, chiffon, mul cotton and Banaras, cut for how you live now.",
+            "description": "Ikkat, chiffon, mul cotton and Banaras are cut for work, weekends and evenings out.",
             "count_label": "60 pieces",
             "show_count": true,
             "link": "/pages/contemporary"
@@ -261,7 +261,7 @@
             "fallback_image": "mega-men.webp",
             "focal_point": "55% 30%",
             "title": "Men",
-            "description": "Shirts, jackets and bundis in handwoven cloth.",
+            "description": "Shirts, kurtas, bundis and sherwanis make up our handwoven clothing for men, made to be worn well beyond festival season.",
             "count_label": "40 pieces",
             "show_count": true,
             "link": "/collections/men"
@@ -274,7 +274,7 @@
             "fallback_image": "mega-women.webp",
             "focal_point": "64% 40%",
             "title": "Women",
-            "description": "Sarees, dresses and brocade, from many looms.",
+            "description": "Our handwoven clothing for women covers sarees, co-ords, dresses and brocade, for weddings, work and everything in between.",
             "count_label": "788 pieces",
             "show_count": true,
             "link": "/collections/women"
@@ -282,6 +282,7 @@
         },
         "kids": {
           "type": "featured_collection",
+          "disabled": true,
           "settings": {
             "collection": "",
             "fallback_image": "mega-kids.webp",
@@ -295,6 +296,7 @@
         },
         "pets": {
           "type": "featured_collection",
+          "disabled": true,
           "settings": {
             "collection": "",
             "fallback_image": "mega-pet.webp",
@@ -320,7 +322,7 @@
         "title": "Shop by collection",
         "heading_uppercase": true,
         "heading_size": "d1",
-        "lede": "Six ways into the house. Choose one to see everything in it.",
+        "lede": "Six ways into the house: this is handloom clothing India has worn for generations, cut for how you dress now.",
         "show_view_all": true,
         "view_all_label": "Shop All",
         "view_all_link": "/collections/all",
@@ -342,7 +344,7 @@
           "settings": {
             "chapter_no": "Chapter 01",
             "title": "East India",
-            "tagline": "Where Every Thread Tells a Story",
+            "tagline": "Mul cotton and Bishnupur silks make light cloth for a humid delta, with pallus woven as whole stories.",
             "states_count": "4 states",
             "image": "shopify://shop_images/mapEast.jpg",
             "fallback_image": "mapEast.jpg",
@@ -358,7 +360,7 @@
           "settings": {
             "chapter_no": "Chapter 02",
             "title": "West & Central India",
-            "tagline": "Where Colour Meets Craft",
+            "tagline": "Maheshwari and Kota are two of India's lightest cloths, and both are finished with a little gold.",
             "states_count": "5 states",
             "fallback_image": "mapWest.jpg",
             "collection": "",
@@ -373,7 +375,7 @@
           "settings": {
             "chapter_no": "Chapter 03",
             "title": "North India",
-            "tagline": "Where Heritage Lives in Every Detail",
+            "tagline": "Banaras brocade is the wedding saree, and light chiffon is a lighter way to wear its colours.",
             "states_count": "4 states",
             "fallback_image": "mapNorth.jpg",
             "collection": "",
@@ -388,7 +390,7 @@
           "settings": {
             "chapter_no": "Chapter 04",
             "title": "South India",
-            "tagline": "Where Tradition Meets Contemporary Design",
+            "tagline": "Mangalagiri cotton and Pochampally ikkat make crisp everyday cloth from the Telugu states.",
             "states_count": "4 states",
             "fallback_image": "mapSouth.jpg",
             "collection": "",
@@ -403,7 +405,7 @@
           "settings": {
             "chapter_no": "Chapter 05",
             "title": "North East India",
-            "tagline": "Where Nature Inspires Every Weave",
+            "tagline": "Muga is Assam's golden silk, and it gets brighter every time you wash it.",
             "states_count": "8 states · Revealing soon",
             "fallback_image": "mapNorthEast.jpg",
             "collection": "",
@@ -426,7 +428,7 @@
         "title": "Heritage",
         "heading_uppercase": true,
         "heading_size": "d1",
-        "lede": "One house, five chapters. Each region’s weaves, told through the cloth, the makers and the land that shaped them.",
+        "lede": "We are one house with five chapters, and each chapter covers a region's weaves, the people who make them and the land that shaped them.",
         "show_link": true,
         "link_label": "Explore Culture",
         "link_url": "#/culture",
@@ -509,7 +511,7 @@
         "title": "Explore Your Product",
         "heading_uppercase": false,
         "heading_size": "h2",
-        "lede": "Start with who it is for, then choose a weave or a category. Every piece names its weave and region.",
+        "lede": "Start with who it is for, then pick a weave or a category, and every piece will tell you its weave and where it was made.",
         "show_link": true,
         "link_label": "Shop All",
         "link_url": "",
@@ -531,7 +533,7 @@
         "title": "The Contemporary Collection",
         "heading_uppercase": true,
         "heading_size": "d2",
-        "lede": "Ikkat, chiffon, mul cotton and Banaras on one rail, cut for offices, weekends and evenings out. Many looms, one wardrobe.",
+        "lede": "Contemporary handloom clothing without the occasion is what this collection is for: ikkat, chiffon, mul cotton and Banaras on one rail, cut for offices, weekends and evenings out.",
         "button_label": "Explore Contemporary",
         "button_link": "",
         "button_style": "light",
@@ -540,7 +542,7 @@
         "focal_point": "center 30%",
         "image_position": "right",
         "desktop_height": "16_9",
-        "background_gradient": "linear-gradient(135deg, #171717 0%, #2b1418 100%)",
+        "background_gradient": "linear-gradient(135deg, rgba(23, 23, 23, 1), rgba(43, 20, 24, 1) 100%)",
         "text_color": "#f7f3ee",
         "lede_color": "#dccfc4",
         "section_id": "contemporary",
@@ -645,7 +647,7 @@
       ],
       "settings": {
         "title": "The Craft Map",
-        "lede": "Choose a region on the map or the list to read its story and jump straight to its weaves.",
+        "lede": "Pick a region on the map to read its story and go straight to its weaves.",
         "show_warp": true,
         "map_note": "Choose a region to lift it out and read its story. Stylised, not to scale.",
         "color_scheme": "default",
@@ -662,7 +664,7 @@
             "icon": "custom",
             "custom_svg": "",
             "title": "Customisation",
-            "description": "Fit, length and blouse tailoring",
+            "description": "We tailor fit, length and blouses to your measurements.",
             "link": "",
             "open_in_new_tab": false
           }
@@ -673,7 +675,7 @@
             "icon": "gift",
             "custom_svg": "",
             "title": "Gifting",
-            "description": "Wrapped in handloom, with a handwritten note",
+            "description": "We wrap every gift in handloom, with a handwritten note.",
             "link": "",
             "open_in_new_tab": false
           }
@@ -684,7 +686,7 @@
             "icon": "style",
             "custom_svg": "",
             "title": "Style Consultation",
-            "description": "One-to-one, online or in studio",
+            "description": "You can book a one-to-one session online or at the studio.",
             "link": "",
             "open_in_new_tab": false
           }
@@ -695,7 +697,7 @@
             "icon": "care",
             "custom_svg": "",
             "title": "Care & Sustainability",
-            "description": "Repair, refresh and responsible materials",
+            "description": "We repair, refresh and reuse, and we choose responsible materials.",
             "link": "",
             "open_in_new_tab": false
           }
@@ -898,7 +900,7 @@
         "title": "Letters from the loom",
         "heading_font": "display",
         "heading_uppercase": true,
-        "lede": "One letter a month: a new chapter drop, a maker we met, and a textile worth knowing. No daily sales emails.",
+        "lede": "We send one letter a month with a new chapter, a maker we have met and a textile worth knowing, and never daily sale emails.",
         "email_placeholder": "Your email address",
         "button_label": "Subscribe",
         "success_message": "You’re on the list. The next letter arrives at the start of the month.",
