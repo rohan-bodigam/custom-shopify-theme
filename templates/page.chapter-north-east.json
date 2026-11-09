@@ -23,7 +23,7 @@
         "button_link": "",
         "min_height_desktop": 560,
         "min_height_mobile": 460,
-        "background_color": "#7C3524",
+        "background_color": "#7c3524",
         "text_color": "#f7f3ee",
         "button_bg_color": "#f7f3ee",
         "button_text_color": "#7c3524"
@@ -35,7 +35,7 @@
         "tab_1": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "mangalgiri-lehangas",
             "title": "Muga",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -44,45 +44,17 @@
             "soon_heading": "Cloth Still On The Loom",
             "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
-        },
-        "tab_2": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Eri",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
-        "tab_3": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Puan",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
         }
       },
       "block_order": [
-        "tab_1",
-        "tab_2",
-        "tab_3"
+        "tab_1"
       ],
       "settings": {
         "heading": "Shop by North East",
         "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
         "products_to_show": 4,
         "columns_desktop": 4,
-        "active_tab_bg": "#7C3524",
+        "active_tab_bg": "#7c3524",
         "active_tab_text": "#f7f3ee",
         "card_bg": "#faf7f2",
         "border_color": "#e8dfd5",
@@ -93,10 +65,11 @@
     "about": {
       "type": "chapter-about",
       "settings": {
+        "map_image": "shopify://shop_images/mapNorthEast.jpg",
         "heading": "ABOUT THIS CHAPTER",
         "show_warp_icon": true,
-        "katha": "Assam’s golden silk is spun by silkworms that feed on leaves from trees in the Brahmaputra valley. It is one of the few silks in the world that gets shinier with age, and for centuries it was reserved for royalty. Our North East chapter begins with Muga, the cloth that glows.",
-        "about": "The North East is a region of hills, rivers and tea gardens, with a weaving culture that is as varied as its communities. Muga silk is one of Assam’s most prized textiles. It is golden by nature, not by dye, and has a famously long life: Muga is valued for its durability, and its sheen is said to improve with every wash. It is woven into sarees, mekhela chadors, stoles and, increasingly, tailored clothes.",
+        "katha": "Assam's golden silk comes from silkworms that feed on som and soalu leaves in the Brahmaputra valley. It is one of the few silks that gets shinier with age, and for centuries it was kept for royalty.",
+        "about": "Muga is woven into sarees, mekhela chadors and stoles, and now into tailored clothes too. If you want to buy Assam silk online from a seller who names where it was woven, this chapter is for you",
         "fact_1_value": "7",
         "fact_1_label": "states",
         "fact_2_value": "Handloom",
@@ -110,6 +83,7 @@
     "landscape": {
       "type": "chapter-landscape",
       "settings": {
+        "image": "shopify://shop_images/gamosaLoom.webp",
         "heading": "The landscape behind the loom",
         "paragraph_1": "The Brahmaputra valley is green, wet and wide. The Muga silkworm, Antheraea assamensis, is native to Assam and feeds on the leaves of som and soalu trees, which grow in the region’s humid climate.",
         "paragraph_2": "Sualkuchi, on the north bank of the Brahmaputra near Guwahati, is the best-known silk weaving town in Assam. Many households there have a loom, and weaving is part of daily life.",
@@ -161,12 +135,13 @@
           "type": "weave_card",
           "settings": {
             "is_featured": true,
+            "image": "shopify://shop_images/gamosaLoom.webp",
             "kicker": "Assam",
             "title": "MUGA",
-            "description": "Muga is the golden silk of Assam, produced by the semi-domesticated silkworm Antheraea assamensis. The silkworms feed on som and soalu leaves, and the thread they spin has a natural golden-yellow colour that needs no dye. The cocoons are reeled by hand and the thread is woven into cloth, most famously the mekhela chador and sarees. Muga is strong and long-lasting, and the sheen deepens with washing rather than fading. Traditional motifs are woven in supplementary weft and often draw on nature: flowers, birds and local flora. Light enough to wear in warm weather and rich enough for a wedding, Muga is the North East’s most precious silk.",
+            "description": "Muga is golden by nature and not by dye, it is firm when new and softer with wear, and the shine deepens with every wash. Look for the GI tag, especially if you plan to buy Muga silk online.",
             "quote": "It does not fade. It glows more with every wash.",
             "link_label": "Shop Muga",
-            "link_url": ""
+            "link_url": "shopify://collections"
           }
         }
       },
@@ -303,6 +278,7 @@
         "maker_1": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/gamosaLoom.webp",
             "title": "Sualkuchi cluster",
             "subtitle": "Weaving cluster, Assam",
             "description": "Our Muga is woven in Assam. We will introduce the weavers and reelers by name once the first run is confirmed.",
@@ -331,6 +307,40 @@
         "padding_top": 56,
         "padding_bottom": 64
       }
+    },
+    "chapter_weaves_tabs_MeJrwV": {
+      "type": "chapter-weaves-tabs",
+      "blocks": {
+        "collection_tab_PjG3UE": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalgiri-lehangas",
+            "title": "This Chapter",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "shopify://collections",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        }
+      },
+      "block_order": [
+        "collection_tab_PjG3UE"
+      ],
+      "name": "Chapter Weaves Tabs",
+      "settings": {
+        "heading": "Shop This Chapter",
+        "subheading": "",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "active_tab_bg": "#4E5540",
+        "active_tab_text": "#F7F3EE",
+        "card_bg": "#FAF7F2",
+        "border_color": "#E8DFD5",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -343,7 +353,7 @@
     "motifs",
     "spot",
     "future",
-    "makers"
+    "makers",
+    "chapter_weaves_tabs_MeJrwV"
   ]
 }
-
