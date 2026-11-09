@@ -19,28 +19,34 @@
           "settings": {
             "logo_width": 200,
             "description": "Stories of India, Woven For You.",
-            "show_social": true
+            "show_social": true,
+            "whatsapp_link": "",
+            "instagram_link": "",
+            "pinterest_link": "",
+            "youtube_link": "",
+            "facebook_link": "",
+            "twitter_link": ""
           }
         },
         "menu_1": {
           "type": "link_list",
           "settings": {
             "heading": "Chapters",
-            "menu": "footer"
+            "menu": "footer-shop-collections"
           }
         },
         "menu_2": {
           "type": "link_list",
           "settings": {
             "heading": "Shop",
-            "menu": "footer"
+            "menu": "footer-policies"
           }
         },
         "menu_3": {
           "type": "link_list",
           "settings": {
             "heading": "The House",
-            "menu": "footer"
+            "menu": "footer-customer-care"
           }
         }
       },
@@ -51,6 +57,7 @@
         "menu_3"
       ],
       "settings": {
+        "brand_logo_width": 200,
         "brand_description": "Stories of India, Woven For You.",
         "brand_show_social": true,
         "copyright_text": "All rights reserved.",
