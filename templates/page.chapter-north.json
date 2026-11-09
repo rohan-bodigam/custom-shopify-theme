@@ -23,7 +23,7 @@
         "button_link": "",
         "min_height_desktop": 560,
         "min_height_mobile": 460,
-        "background_color": "#6E4D2B",
+        "background_color": "#6e4d2b",
         "text_color": "#f7f3ee",
         "button_bg_color": "#f7f3ee",
         "button_text_color": "#6e4d2b"
@@ -35,7 +35,7 @@
         "tab_1": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "banaras-1",
             "title": "Banaras",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -48,7 +48,7 @@
         "tab_2": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "chiffon-zari",
             "title": "Chiffon",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
@@ -57,46 +57,18 @@
             "soon_heading": "Cloth Still On The Loom",
             "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
-        },
-        "tab_3": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Chikankari",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
-        "tab_4": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "",
-            "title": "Pashmina",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": true,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
         }
       },
       "block_order": [
         "tab_1",
-        "tab_2",
-        "tab_3",
-        "tab_4"
+        "tab_2"
       ],
       "settings": {
-        "heading": "Shop by North",
+        "heading": "Shop by Weave",
         "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
         "products_to_show": 4,
         "columns_desktop": 4,
-        "active_tab_bg": "#6E4D2B",
+        "active_tab_bg": "#6e4d2b",
         "active_tab_text": "#f7f3ee",
         "card_bg": "#faf7f2",
         "border_color": "#e8dfd5",
@@ -107,10 +79,11 @@
     "about": {
       "type": "chapter-about",
       "settings": {
+        "map_image": "shopify://shop_images/mapNorth.jpg",
         "heading": "ABOUT THIS CHAPTER",
         "show_warp_icon": true,
-        "katha": "Varanasi has woven silk and gold for centuries, and its looms still set the standard for the Indian wedding saree. This chapter pairs that weight and richness with its opposite: light chiffon, the sheer, floating cloth that carries the same gold borders at a fraction of the heaviness.",
-        "about": "North India is where the Mughal courts met the looms of Varanasi, and where textile design took on its enduring vocabulary of paisley, vine and trellis. Banaras weaving is the region’s great tradition: dense, luminous and made to be inherited. Chiffon sits next to it as a lighter way into the same palette, a fabric of fine, twisted yarn that moves in the air and takes a woven border beautifully.",
+        "katha": "Varanasi has woven silk and gold for centuries, and its looms still set the standard for the Indian wedding saree. If you have been looking for a real Banarasi saree online, one woven by hand in Varanasi rather than copied on a powerloom, start here.",
+        "about": "Next to it sits chiffon, Banaras's opposite, a sheer, floating cloth that carries the same gold borders at a fraction of the weight.",
         "fact_1_value": "4",
         "fact_1_label": "states",
         "fact_2_value": "Handloom",
@@ -124,6 +97,7 @@
     "landscape": {
       "type": "chapter-landscape",
       "settings": {
+        "image": "shopify://shop_images/brocadeLoom.jpg",
         "heading": "The landscape behind the loom",
         "paragraph_1": "Varanasi sits on the Ganga, and its weaving quarters have long clustered in the lanes behind the ghats. Silk came upriver, gold and silver thread came from specialist workshops, and designs followed the tastes of courts and temples.",
         "paragraph_2": "Courtly demand shaped the cloth. Mughal patrons favoured flowers, vines and trellis patterns, and Banaras weavers turned those into the jaal, the all-over lattice that is still the region’s signature.",
@@ -187,12 +161,13 @@
           "type": "weave_card",
           "settings": {
             "is_featured": true,
+            "image": "shopify://shop_images/brocadeLoom.jpg",
             "kicker": "Varanasi, Uttar Pradesh",
             "title": "BANARAS",
-            "description": "Banaras, or Banarasi, weaving is the great brocade tradition of North India. A Banaras saree is woven in silk, most often katan silk, with patterns built from gold or silver zari. In the kadhua method, each motif is woven separately with its own small bobbin, which keeps the reverse clean and the motif firm, at the cost of weeks of extra work. Designs follow a long vocabulary: the jaal lattice, the bel vine, the kalga paisley and floral butis scattered across the body. Patterns are set up on punched cards above the loom, but the weaver’s eye still decides the tension and the beat. A Banaras piece is heavy, luminous and made to last across generations.",
+            "description": "Banaras is katan silk with patterns woven in gold and silver zari. In the kadhua method each motif is woven on its own, so the back stays clean, and you should turn it over before you buy. A Banarasi saree online should pass the same test. If you are looking for Banarasi brocade online, the same cloth comes as sherwanis and by the metre.",
             "quote": "Gold that is woven in, not put on.",
             "link_label": "Shop Banaras",
-            "link_url": ""
+            "link_url": "shopify://collections/banaras-1"
           }
         },
         "weave_2": {
@@ -201,10 +176,10 @@
             "is_featured": false,
             "kicker": "A light fabric for the same palette",
             "title": "CHIFFON",
-            "description": "Chiffon is a lightweight, sheer fabric woven in plain weave from very fine, tightly twisted yarns. The twist gives it a slightly rough, grainy hand and a drape that floats. Traditionally made of silk, it is now also made from other fibres, which is why each product page states the fibre. Chiffon works well for sarees and dupattas because it holds a woven or embroidered border without weighing it down. It dyes in clear, soft colours and photographs beautifully. In the house, chiffon is our lighter way to wear the colours and borders of the north: festive without being heavy, and easy to carry for long days and warm evenings.",
+            "description": "Chiffon is fine, twisted yarn woven into a sheer cloth that floats, and it holds a zari border without weighing it down, so it is festive without being heavy.",
             "quote": "Festive, without the weight.",
             "link_label": "Shop Chiffon",
-            "link_url": ""
+            "link_url": "shopify://collections/chiffon-zari"
           }
         }
       },
@@ -356,6 +331,7 @@
         "maker_1": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/brocadeLoom.jpg",
             "title": "Varanasi cluster",
             "subtitle": "Weaving cluster, Uttar Pradesh",
             "description": "Our Banaras silk is woven in Varanasi. We will introduce our weaving partners here, by name and workshop, as the first collection settles.",
@@ -366,6 +342,7 @@
         "maker_2": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/loomRed.jpg",
             "title": "Chiffon partners",
             "subtitle": "Fabric partners",
             "description": "We are finalising our chiffon sourcing and will state fibre, mill or loom and finishing on each product page.",
@@ -395,6 +372,40 @@
         "padding_top": 56,
         "padding_bottom": 64
       }
+    },
+    "chapter_weaves_tabs_ipxqpD": {
+      "type": "chapter-weaves-tabs",
+      "blocks": {
+        "collection_tab_cjdmH4": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "banaras-1",
+            "title": "This Chapter",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "shopify://collections",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        }
+      },
+      "block_order": [
+        "collection_tab_cjdmH4"
+      ],
+      "name": "Chapter Weaves Tabs",
+      "settings": {
+        "heading": "Shop by weave",
+        "subheading": "Choose a weave to see its pieces. Cloth still on the loom is marked Soon.",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "active_tab_bg": "#4E5540",
+        "active_tab_text": "#F7F3EE",
+        "card_bg": "#FAF7F2",
+        "border_color": "#E8DFD5",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -407,7 +418,7 @@
     "motifs",
     "spot",
     "future",
-    "makers"
+    "makers",
+    "chapter_weaves_tabs_ipxqpD"
   ]
 }
-
