@@ -820,7 +820,7 @@
           "type": "faq_item",
           "settings": {
             "question": "Is everything handmade?",
-            "answer": "Our pieces are made from handloom and handcrafted cloth. Each product page names the weave, the fibre and the region it comes from.",
+            "answer": "Every piece is made from handloom or hand-finished cloth, and each product page names its weave, fibre and region.",
             "answer_richtext": "",
             "open_by_default": false
           }
@@ -829,7 +829,7 @@
           "type": "faq_item",
           "settings": {
             "question": "How long does delivery take?",
-            "answer": "In-stock pieces ship within 2 working days and reach most Indian cities in 3-6 days. Made-to-order and customised pieces take 3-5 weeks.",
+            "answer": "In-stock pieces ship within 2 working days and reach most Indian cities in 3–6 days, and delivery is free on orders above ₹7,500. Made-to-order and custom pieces take 3–5 weeks.",
             "answer_richtext": "",
             "open_by_default": false
           }

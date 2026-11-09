@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "form": {
@@ -7,7 +16,7 @@
         "breadcrumbs_home_label": "Home",
         "breadcrumbs_contact_label": "Contact",
         "heading": "CONTACT",
-        "subheading": "Questions about an order, a piece or a fitting. We reply within one working day.",
+        "subheading": "If you have questions about an order, a piece or a fitting, write to us and we will reply within one working day.",
         "submit_button_label": "Send Message",
         "show_phone": true,
         "phone_required": false,
@@ -16,7 +25,7 @@
         "topic_options": "An order\nA product\nFittings & services\nPress\nSomething else",
         "map_iframe": "",
         "studio_label": "Studio",
-        "studio_address": "House of Kala Katha, 2nd Floor, 14 Hauz Khas Village, New Delhi 110016",
+        "studio_address": "Our studio is at 2nd Floor, 14 Hauz Khas Village, New Delhi 110016, and it is open Tuesday to Sunday, 11 am to 7 pm, with fittings by appointment.",
         "hours_label": "Hours",
         "hours_text": "Tuesday to Sunday, 11 am to 7 pm. Fittings by appointment.",
         "write_label": "Write",
@@ -29,11 +38,11 @@
         "social_pinterest": "https://pinterest.com",
         "social_youtube": "https://youtube.com",
         "social_whatsapp": "https://wa.me/919811042716",
-        "background_color": "#F7F3EE",
+        "background_color": "#f7f3ee",
         "heading_color": "#171717",
-        "text_color": "#57534E",
-        "button_bg": "#6B2230",
-        "button_text": "#FFFFFF",
+        "text_color": "#57534e",
+        "button_bg": "#6b2230",
+        "button_text": "#ffffff",
         "padding_top": 48,
         "padding_bottom": 80
       }
