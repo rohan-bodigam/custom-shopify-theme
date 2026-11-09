@@ -1,7 +1,83 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
+    "culture_banner_8DRi7b": {
+      "type": "culture-banner",
+      "name": "Culture Banner",
+      "settings": {
+        "heading": "CULTURE",
+        "heading_size": "display",
+        "description": "Five regions, each with its own landscape, makers and ways of working with thread. Choose a chapter to read it in depth.",
+        "text_alignment": "left",
+        "show_warp_icon": true,
+        "show_thread_accent": true,
+        "banner_min_height": 520,
+        "banner_min_height_mobile": 400,
+        "overlay_opacity": 75,
+        "overlay_color": "#381119",
+        "text_color": "#f7f3ee"
+      }
+    },
+    "culture_chapters_eyEQzE": {
+      "type": "culture-chapters",
+      "blocks": {
+        "chapter_card_KTr4qp": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "Collection 01",
+            "heading": "Heritage",
+            "description": "",
+            "button_label": "Read the Chapter",
+            "button_link": "shopify://collections",
+            "image_position": "auto",
+            "card_bg_color": "#4e5540",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "chapter_card_4tVd6x": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 02",
+            "heading": "CONTEMPORARY",
+            "description": "",
+            "button_label": "Read the Chapter",
+            "button_link": "shopify://collections/contemporary-women",
+            "image_position": "auto",
+            "card_bg_color": "#5c1e2d",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "chapter_card_KTr4qp",
+        "chapter_card_4tVd6x"
+      ],
+      "name": "Culture Chapters",
+      "settings": {
+        "heading": "",
+        "lede": "",
+        "section_bg_color": "#f5efe6",
+        "show_side_thread": true,
+        "side_thread_color": "#8c4753",
+        "card_border_radius": 20,
+        "card_gap": 32,
+        "padding_top": 56,
+        "padding_bottom": 80
+      }
+    },
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
@@ -9,6 +85,8 @@
     }
   },
   "order": [
-    "main"
+    "main",
+    "culture_banner_8DRi7b",
+    "culture_chapters_eyEQzE"
   ]
 }
