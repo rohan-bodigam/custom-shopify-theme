@@ -360,6 +360,12 @@ details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-c
   to { opacity: 1; }
 }
 
+.section-header:has(.mega-menu[open]),
+body:has(.mega-menu[open]) .section-header,
+.mega-menu[open] {
+  z-index: 1000 !important;
+}
+
 .mega-menu__content {
   position: absolute;
   left: 0;
@@ -371,7 +377,7 @@ details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-c
   border-top: 1px solid var(--line);
   box-shadow: 0 30px 60px -25px rgba(40, 10, 16, 0.35);
   padding: 34px 0 40px;
-  z-index: 100;
+  z-index: 1000 !important;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px);
@@ -379,6 +385,7 @@ details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-c
 }
 
 .mega-menu[open] .mega-menu__content {
+  z-index: 1000 !important;
   opacity: 1;
   visibility: visible;
   transform: translateY(0);

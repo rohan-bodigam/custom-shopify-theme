@@ -8,6 +8,7 @@
    -------------------------------------------------------------------------- */
 .chapter-banner {
   position: relative;
+  z-index: 1;
   width: 100%;
   overflow: hidden;
   background-color: var(--chapter-bg, #4E5540);
@@ -39,7 +40,7 @@
 
 .chapter-banner__inner {
   position: relative;
-  z-index: 3;
+  z-index: 2;
   width: 100%;
   max-width: var(--page-width, 1340px);
   margin: 0 auto;
