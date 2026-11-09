@@ -94,6 +94,7 @@
         "show_topic": true,
         "topic_options": "An order\nA product\nFittings & services\nPress\nSomething else",
         "submit_button_label": "Send Message",
+        "card_image": "shopify://shop_images/handsWeave.jpg",
         "card_title": "Prefer to talk?",
         "card_text": "If you prefer to talk, call our studio or write to collaborate@houseofkalakatha.in.",
         "card_button_label": "Contact Us",
