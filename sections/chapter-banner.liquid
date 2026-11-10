@@ -56,6 +56,25 @@
       min-height: {{ section.settings.min_height_desktop }}px;
     }
   }
+
+  #ChapterBanner-{{ section.id }} .chapter-banner__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: 
+      linear-gradient(100deg, rgba(23, 23, 23, 0.94) 0%, rgba(40, 12, 18, 0.86) 34%, rgba(107, 34, 48, 0.55) 64%, rgba(107, 34, 48, 0.12) 85%, transparent 100%),
+      linear-gradient(0deg, rgba(23, 23, 23, 0.65) 0%, transparent 40%);
+    opacity: {{ section.settings.overlay_opacity | default: 90 | divided_by: 100.0 }};
+  }
+
+  @media screen and (max-width: 900px) {
+    #ChapterBanner-{{ section.id }} .chapter-banner__overlay {
+      background: 
+        linear-gradient(180deg, rgba(23, 12, 14, 0.65) 0%, rgba(40, 12, 18, 0.85) 50%, rgba(23, 12, 14, 0.94) 100%),
+        linear-gradient(90deg, rgba(23, 23, 23, 0.75) 0%, rgba(23, 23, 23, 0.35) 100%);
+    }
+  }
 {%- endstyle -%}
 
 <section
@@ -95,6 +114,7 @@
     {%- else -%}
       <div class="chapter-banner__placeholder" role="img" aria-label="{{ heading | escape }}"></div>
     {%- endif -%}
+    <div class="chapter-banner__overlay" aria-hidden="true"></div>
   </div>
 
   <div class="chapter-banner__inner">
@@ -244,6 +264,21 @@
       "unit": "px",
       "label": "Mobile minimum height",
       "default": 460
+    },
+    {
+      "type": "header",
+      "content": "Contrast Overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Image overlay opacity",
+      "default": 90,
+      "info": "Controls dark gradient overlay contrast on banner images."
     },
     {
       "type": "header",

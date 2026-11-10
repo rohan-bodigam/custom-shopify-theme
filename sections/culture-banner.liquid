@@ -13,14 +13,25 @@
   }
 
   #CultureBanner-{{ section.id }} .culture-banner__overlay {
-    background: linear-gradient(
-      to right,
-      {{ section.settings.overlay_color | color_modify: 'alpha', 0.92 }} 0%,
-      {{ section.settings.overlay_color | color_modify: 'alpha', 0.70 }} 38%,
-      {{ section.settings.overlay_color | color_modify: 'alpha', 0.25 }} 70%,
-      transparent 100%
-    );
-    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    background: 
+      linear-gradient(
+        100deg,
+        rgba(23, 23, 23, 0.94) 0%,
+        {{ section.settings.overlay_color | default: '#5C1E2D' | color_modify: 'alpha', 0.86 }} 34%,
+        {{ section.settings.overlay_color | default: '#5C1E2D' | color_modify: 'alpha', 0.55 }} 64%,
+        {{ section.settings.overlay_color | default: '#5C1E2D' | color_modify: 'alpha', 0.12 }} 85%,
+        transparent 100%
+      ),
+      linear-gradient(0deg, rgba(23, 23, 23, 0.65) 0%, transparent 40%);
+    opacity: {{ section.settings.overlay_opacity | default: 90 | divided_by: 100.0 }};
+  }
+
+  @media screen and (max-width: 900px) {
+    #CultureBanner-{{ section.id }} .culture-banner__overlay {
+      background: 
+        linear-gradient(180deg, rgba(23, 12, 14, 0.65) 0%, {{ section.settings.overlay_color | default: '#5C1E2D' | color_modify: 'alpha', 0.85 }} 50%, rgba(23, 12, 14, 0.94) 100%),
+        linear-gradient(90deg, rgba(23, 23, 23, 0.75) 0%, rgba(23, 23, 23, 0.35) 100%);
+    }
   }
 {%- endstyle -%}
 

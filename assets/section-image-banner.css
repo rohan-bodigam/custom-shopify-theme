@@ -563,26 +563,26 @@
   display: block;
 }
 
-/* Dual Direction Gradient for Optimal Text Legibility */
+/* Dual Direction Gradient for Optimal Text Legibility (Figma/Prototype index.html spec) */
 .hero-rot__overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background: 
-    linear-gradient(90deg, rgba(23, 12, 14, 0.72) 0%, rgba(23, 12, 14, 0.42) 36%, rgba(23, 12, 14, 0) 62%),
-    linear-gradient(0deg, rgba(23, 12, 14, 0.55) 0%, rgba(23, 12, 14, 0) 40%);
+    linear-gradient(100deg, rgba(23, 23, 23, 0.94) 0%, rgba(40, 12, 18, 0.86) 34%, rgba(107, 34, 48, 0.55) 64%, rgba(107, 34, 48, 0.12) 85%, transparent 100%),
+    linear-gradient(0deg, rgba(23, 23, 23, 0.65) 0%, transparent 40%);
 }
 
-/* .hero-rot::before {
+.hero-rot::before {
   display: none;
-} */
+}
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 900px) {
   .hero-rot__overlay {
     background: 
-      linear-gradient(180deg, rgba(23, 12, 14, 0.45) 0%, rgba(23, 12, 14, 0.72) 40%, rgba(23, 12, 14, 0.85) 100%),
-      linear-gradient(90deg, rgba(23, 12, 14, 0.6) 0%, rgba(23, 12, 14, 0.2) 100%);
+      linear-gradient(180deg, rgba(23, 12, 14, 0.65) 0%, rgba(40, 12, 18, 0.85) 50%, rgba(23, 12, 14, 0.94) 100%),
+      linear-gradient(90deg, rgba(23, 23, 23, 0.75) 0%, rgba(23, 23, 23, 0.35) 100%);
   }
 }
 
