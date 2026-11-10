@@ -737,6 +737,7 @@
         "service_3",
         "service_4"
       ],
+      "disabled": true,
       "settings": {
         "title": "Services",
         "heading_font": "edit",
@@ -828,6 +829,7 @@
         "testimonial_4",
         "testimonial_5"
       ],
+      "disabled": true,
       "settings": {
         "title": "From the people who wear it",
         "heading_font": "edit",
