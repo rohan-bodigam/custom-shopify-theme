@@ -483,57 +483,6 @@
       initScrollThread();
     }
   })();
-
-  // Chapters mega menu interactive hover preview handler
-  (function() {
-    function initMegaMenus() {
-      const megaBoxes = document.querySelectorAll('.mega-in.mega6');
-      if (!megaBoxes.length) return;
-
-      megaBoxes.forEach(function(box) {
-        if (box._megaInitialized) return;
-        box._megaInitialized = true;
-
-        const links = box.querySelectorAll('.mega-cm-link');
-        const card = box.querySelector('.cm-feature');
-        const heading = box.querySelector('.cm-cap b');
-        const subtitle = box.querySelector('.cm-cap span');
-        const imgs = box.querySelectorAll('.cm-img');
-
-        if (!links.length || !card) return;
-
-        links.forEach(function(link) {
-          function activate() {
-            const key = link.dataset.cprev;
-            const title = link.dataset.title;
-            const sub = link.dataset.sub;
-            const url = link.dataset.url;
-
-            links.forEach(function(l) { l.classList.toggle('hot', l === link); });
-
-            imgs.forEach(function(img) {
-              img.classList.toggle('on', img.dataset.cimg === key);
-            });
-
-            if (heading && title) heading.textContent = title;
-            if (subtitle && sub) subtitle.textContent = sub;
-            if (card && url) card.setAttribute('href', url);
-          }
-
-          link.addEventListener('mouseenter', activate);
-          link.addEventListener('focus', activate);
-        });
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initMegaMenus);
-    } else {
-      initMegaMenus();
-    }
-
-    document.addEventListener('shopify:section:load', initMegaMenus);
-  })();
 {% endjavascript %}
 
 <script type="application/ld+json">
@@ -754,32 +703,6 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 20
-    },
-    {
-      "type": "header",
-      "content": "Chapters Mega Menu Preview"
-    },
-    {
-      "type": "image_picker",
-      "id": "mega_promo_image",
-      "label": "Custom Promo Card Image"
-    },
-    {
-      "type": "text",
-      "id": "mega_promo_heading",
-      "label": "Promo Card Heading",
-      "default": "HERITAGE"
-    },
-    {
-      "type": "text",
-      "id": "mega_promo_subtext",
-      "label": "Promo Card Subtitle",
-      "default": "Sarees and sets from the five regional chapters."
-    },
-    {
-      "type": "url",
-      "id": "mega_promo_link",
-      "label": "Promo Card Link"
     }
   ],
   "blocks": [

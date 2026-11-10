@@ -178,6 +178,7 @@
   align-items: center !important;
   margin: 0 !important;
   padding: 0 !important;
+  position: relative !important;
 }
 
 .header__inline-menu .list-menu__item,
@@ -343,21 +344,51 @@ details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-c
   position: static;
 }
 
-.mega-menu--chapters[open]::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(23, 23, 23, 0.28);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  z-index: 90;
-  pointer-events: none;
-  animation: megaScrimIn 0.22s ease forwards;
+/* Chapters Dropdown Sub Menu */
+.mega-menu.mega-menu--chapters {
+  position: relative !important;
 }
 
-@keyframes megaScrimIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.mega-menu--chapters[open]::before {
+  display: none !important;
+}
+
+.mega-menu__content.mega-menu__content--chapters {
+  position: absolute !important;
+  left: 0 !important;
+  right: auto !important;
+  top: calc(100% + 4px) !important;
+  width: max-content !important;
+  min-width: 250px !important;
+  max-width: 320px !important;
+  padding: 16px 18px 14px !important;
+  background-color: var(--bg, #F7F3EE) !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(23, 23, 23, 0.12) !important;
+  box-shadow: 0 16px 36px -8px rgba(40, 10, 16, 0.22), 0 4px 12px rgba(23, 23, 23, 0.05) !important;
+  box-sizing: border-box !important;
+  transform-origin: top left !important;
+}
+
+/* Invisible hover bridge */
+.mega-menu__content--chapters::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -12px !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 12px !important;
+}
+
+/* Hover support on desktop for header menus */
+@media (hover: hover) and (min-width: 990px) {
+  header-menu:hover > details > summary.header__menu-item {
+    color: #6B2230 !important;
+  }
+  header-menu:hover > details > summary .header__chevron,
+  header-menu:hover > details > summary .icon-caret {
+    transform: rotate(180deg) !important;
+  }
 }
 
 .section-header:has(.mega-menu[open]),
@@ -441,33 +472,28 @@ body:has(.mega-menu[open]) .section-header,
 }
 
 /* ==========================================================================
-   3-Column Mega Menu Layout (.mega6)
+   Chapters Dropdown Sub Menu Styling
    ========================================================================== */
 
-.mega-in.mega6 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.25fr;
-  gap: 48px;
-  align-items: start;
-  max-width: 1240px;
-  margin: 0 auto;
-}
-
-.mega-heading {
-  font-family: var(--f-display);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  margin: 0 0 18px 0;
+.chapters-dropdown-inner {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  width: 100%;
 }
 
-.mega-heading-link {
-  color: inherit;
+.chapters-dropdown-header {
+  margin: 0 0 10px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line, rgba(23, 23, 23, 0.1));
+}
+
+.chapters-dropdown-header .mega-heading-link {
+  font-family: var(--f-display, 'Cinzel', serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink, #171717);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -475,8 +501,8 @@ body:has(.mega-menu[open]) .section-header,
   transition: color 0.2s ease;
 }
 
-.mega-heading-link:hover {
-  color: var(--crimson);
+.chapters-dropdown-header .mega-heading-link:hover {
+  color: var(--crimson, #6B2230);
 }
 
 .mega-dot {
@@ -489,215 +515,78 @@ body:has(.mega-menu[open]) .section-header,
 }
 
 .mega-dot--crimson {
-  background: var(--crimson);
+  background: var(--crimson, #6B2230);
 }
 
 .mega-dot--gold {
-  background: var(--gold);
+  background: var(--gold, #B08D57);
 }
 
-/* Column 1: Chapters List */
-.mega-list--regions {
+.chapters-dropdown-inner .mega-list--regions {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
-.mega-region-link {
+.chapters-dropdown-inner .mega-region-link {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 0;
-  font-family: var(--f-ui);
+  padding: 7px 10px;
+  margin: 0 -8px;
+  border-radius: 8px;
+  font-family: var(--f-ui, 'Inter', sans-serif);
   font-size: 14px;
-  color: var(--ink-2);
+  color: var(--ink-2, #4A4240);
   text-decoration: none;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-.mega-region-link:hover {
-  color: var(--crimson);
+.chapters-dropdown-inner .mega-region-link:hover {
+  background: var(--acc-soft, rgba(107, 34, 48, 0.08));
+  color: var(--crimson, #6B2230);
   transform: translateX(4px);
 }
 
-.mega-ct-soon {
+.chapters-dropdown-inner .mega-region-name {
+  flex-grow: 1;
+}
+
+.chapters-dropdown-inner .mega-ct-soon {
   margin-left: auto;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 500;
-  color: var(--muted);
+  color: var(--muted, #6E6461);
   font-variant-numeric: tabular-nums;
   padding: 2px 8px;
-  background: rgba(23, 23, 23, 0.04);
+  background: rgba(23, 23, 23, 0.05);
   border-radius: 999px;
 }
 
-.mega-view-all {
-  margin-top: 14px;
-  padding-top: 10px;
-  border-top: 1px dashed var(--line);
+.chapters-dropdown-inner .mega-view-all {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line, rgba(23, 23, 23, 0.12));
 }
 
-.mega-all-link {
-  font-family: var(--f-ui);
-  font-size: 0.94rem;
+.chapters-dropdown-inner .mega-all-link {
+  font-family: var(--f-ui, 'Inter', sans-serif);
+  font-size: 0.88rem;
   font-weight: 600;
-  color: var(--crimson);
+  color: var(--crimson, #6B2230);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  padding: 3px 2px;
   transition: transform 0.2s ease;
 }
 
-.mega-all-link:hover {
+.chapters-dropdown-inner .mega-all-link:hover {
   text-decoration: underline;
   transform: translateX(3px);
-}
-
-/* Column 2: Collections List */
-.mega-cm-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.mega-cm-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 14px;
-  margin: 0 -14px;
-  border-radius: 10px;
-  font-family: var(--f-ui);
-  font-size: 14px;
-  color: var(--ink-2);
-  text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.25s ease;
-}
-
-.mega-cm-link .cm-nm {
-  color: var(--ink-2);
-  transition: color 0.2s ease;
-}
-
-.mega-cm-link .cm-ar svg {
-  width: 15px;
-  height: 15px;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease;
-  color: var(--crimson);
-  display: block;
-}
-
-.mega-cm-link:hover,
-.mega-cm-link.hot,
-.mega-cm-link:focus-visible {
-  background: var(--acc-soft);
-  transform: translateX(4px);
-}
-
-.mega-cm-link:hover .cm-nm,
-.mega-cm-link.hot .cm-nm {
-  color: var(--crimson);
-  font-weight: 600;
-}
-
-.mega-cm-link:hover .cm-ar svg,
-.mega-cm-link.hot .cm-ar svg {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Column 3: Featured Preview Card */
-.mega-col--feature {
-  display: flex;
-  flex-direction: column;
-}
-
-.cm-feature {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  min-height: 270px;
-  background: var(--crimson);
-  color: var(--ivory);
-  display: flex;
-  align-items: flex-end;
-  box-shadow: var(--sh2);
-  text-decoration: none;
-}
-
-.cm-img {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background-size: cover;
-  background-position: center 30%;
-  opacity: 0;
-  transform: scale(1.06);
-  transition: opacity 0.45s ease, transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.cm-img.on {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.cm-feature::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(180deg, rgba(23, 23, 23, 0) 35%, rgba(60, 15, 22, 0.92) 100%);
-  pointer-events: none;
-}
-
-.cm-cap {
-  position: relative;
-  z-index: 3;
-  padding: 22px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
-}
-
-.cm-cap b {
-  font-family: var(--f-display);
-  font-size: 1.35rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: #FFFFFF;
-}
-
-.cm-cap span {
-  font-family: var(--f-edit);
-  font-size: 1rem;
-  line-height: 1.4;
-  color: #EADFD5;
-}
-
-/* ==========================================================================
-   Responsive Breakpoints
-   ========================================================================== */
-
-@media (max-width: 1100px) {
-  .mega-in.mega6 {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-
-  .mega-col--feature {
-    display: none;
-  }
 }
 
 @media (max-width: 989px) {
