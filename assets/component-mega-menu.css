@@ -466,6 +466,19 @@ body:has(.mega-menu[open]) .section-header,
   gap: 10px;
 }
 
+.mega-heading-link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.2s ease;
+}
+
+.mega-heading-link:hover {
+  color: var(--crimson);
+}
+
 .mega-dot {
   width: 8px;
   height: 8px;
