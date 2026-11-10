@@ -1,6 +1,7 @@
 {{ 'section-collection-banner.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
+  assign banner_image = nil
   assign banner_image_url = ''
 
   # 1. Primary: Collection Metafield 'custom.collection_banner'
@@ -12,23 +13,31 @@
       assign banner_obj = banner_meta
     endif
 
-    if banner_obj.src != blank or banner_obj.width != blank
-      assign banner_image_url = banner_obj | image_url: width: 2400
-    elsif banner_obj contains 'http' or banner_obj contains '//' or banner_obj contains 'shopify' or banner_obj contains '/'
-      assign banner_image_url = banner_obj
+    # Detect Image / Media object vs string
+    if banner_obj.preview_image != blank
+      assign banner_image = banner_obj.preview_image
+      assign banner_image_url = banner_obj.preview_image | image_url: width: 2880
+    elsif banner_obj.width != blank
+      assign banner_image = banner_obj
+      assign banner_image_url = banner_obj | image_url: width: 2880
+    elsif banner_obj.url != blank
+      assign banner_image_url = banner_obj.url
     else
-      assign banner_image_url = banner_obj | image_url: width: 2400
+      assign banner_image = banner_obj
+      assign banner_image_url = banner_obj | image_url: width: 2880
     endif
   endif
 
   # 2. Secondary fallback: Collection featured image (if enabled)
   if banner_image_url == blank and section.settings.use_collection_image and collection.image != blank
-    assign banner_image_url = collection.image | image_url: width: 2400
+    assign banner_image = collection.image
+    assign banner_image_url = collection.image | image_url: width: 2880
   endif
 
   # 3. Tertiary fallback: Theme customizer fallback image (if set)
   if banner_image_url == blank and section.settings.fallback_image != blank
-    assign banner_image_url = section.settings.fallback_image | image_url: width: 2400
+    assign banner_image = section.settings.fallback_image
+    assign banner_image_url = section.settings.fallback_image | image_url: width: 2880
   endif
 
   # Determine banner image state
@@ -50,6 +59,8 @@
   if banner_desc == blank
     assign banner_desc = collection.description
   endif
+
+  assign overlay_op = section.settings.overlay_opacity | default: 45 | divided_by: 100.0
 -%}
 
 {%- style -%}
@@ -61,8 +72,63 @@
     --banner-min-h-d: {{ section.settings.banner_min_height | default: 420 }}px;
     --banner-min-h-m: {{ section.settings.banner_min_height_mobile | default: 280 }}px;
     --overlay-color: {{ section.settings.overlay_color | default: '#171717' }};
-    --overlay-opacity: {{ section.settings.overlay_opacity | default: 45 | divided_by: 100.0 }};
+    --overlay-opacity: {{ overlay_op }};
     --image-text-color: {{ section.settings.image_text_color | default: '#F7F3EE' }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__media,
+  #CollectionBanner-{{ section.id }} .collection-banner__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__img,
+  #CollectionBanner-{{ section.id }} .collection-banner__media img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    z-index: 1;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(23, 23, 23, 0.72) 0%,
+      rgba(23, 23, 23, 0.45) 45%,
+      rgba(23, 23, 23, 0.20) 100%
+    );
+    opacity: {{ overlay_op }};
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__inner {
+    position: relative;
+    z-index: 3;
   }
 {%- endstyle -%}
 
@@ -100,20 +166,56 @@
       {%- endif -%}
     </div>
 
-    <div
-      class="pic"
-      style="background-image: url('{{ banner_image_url }}');"
-      role="img"
-      aria-label="{{ collection.title | escape }}"
-    ></div>
+    <div class="pic">
+      {%- if banner_image != blank -%}
+        {{
+          banner_image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'pic-img',
+            widths: '375, 550, 750, 1100, 1600',
+            alt: collection.title | escape
+        }}
+      {%- elsif banner_image_url != blank -%}
+        <img
+          src="{{ banner_image_url }}"
+          alt="{{ collection.title | escape }}"
+          class="pic-img"
+          width="{{ banner_image.width | default: 1600 }}"
+          height="{{ banner_image.height | default: 900 }}"
+          loading="eager"
+          fetchpriority="high"
+        >
+      {%- endif -%}
+    </div>
   {%- elsif has_image -%}
-    <div
-      class="collection-banner__bg"
-      style="background-image: url('{{ banner_image_url }}');"
-      role="img"
-      aria-label="{{ collection.title | escape }}"
-    ></div>
-    <div class="collection-banner__overlay"></div>
+    <div class="collection-banner__media" style="background-image: url('{{ banner_image_url }}');">
+      {%- if banner_image != blank -%}
+        {{
+          banner_image
+          | image_url: width: 2880
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'collection-banner__img',
+            widths: '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 2880',
+            alt: collection.title | escape
+        }}
+      {%- elsif banner_image_url != blank -%}
+        <img
+          src="{{ banner_image_url }}"
+          alt="{{ collection.title | escape }}"
+          class="collection-banner__img"
+          width="{{ banner_image.width | default: 2400 }}"
+          height="{{ banner_image.height | default: 1200 }}"
+          loading="eager"
+          fetchpriority="high"
+        >
+      {%- endif -%}
+      <div class="collection-banner__overlay"></div>
+    </div>
     <div class="collection-banner__inner page-width">
       {%- if section.settings.show_breadcrumbs -%}
         <nav class="crumbs" aria-label="Breadcrumb">

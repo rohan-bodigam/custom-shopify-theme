@@ -162,20 +162,41 @@
   }
 }
 
+.collection-phero .collection-banner__media,
 .collection-phero .collection-banner__bg {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   z-index: 1;
+  overflow: hidden;
+}
+
+.collection-phero .collection-banner__img,
+.collection-phero .collection-banner__media img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  z-index: 1;
 }
 
 .collection-phero .collection-banner__overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   background: linear-gradient(
@@ -249,11 +270,24 @@
 }
 
 .collection-phero.collection-banner--layout-split .pic {
+  position: relative;
+  min-height: 340px;
+  overflow: hidden;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  position: relative;
-  min-height: 340px;
+}
+
+.collection-phero.collection-banner--layout-split .pic img,
+.collection-phero.collection-banner--layout-split .pic-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
 }
 
 .collection-phero.collection-banner--layout-split .pic::before {
