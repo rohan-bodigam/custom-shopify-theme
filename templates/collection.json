@@ -12,14 +12,12 @@
     "banner": {
       "type": "main-collection-banner",
       "settings": {
+        "bg_color": "rgba(0,0,0,0)",
+        "text_color": "#171717",
         "show_breadcrumbs": true,
         "tagline": "Five chapters, one house",
         "show_collection_description": true,
-        "custom_description": "",
-        "image": "shopify://shop_images/hokk-womens-banner-three-models.png",
-        "bg_color": "#ede3d9",
-        "text_color": "#171717",
-        "min_height": 520
+        "custom_description": ""
       }
     },
     "product-grid": {
