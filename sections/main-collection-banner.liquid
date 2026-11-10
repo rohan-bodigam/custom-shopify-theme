@@ -1,18 +1,45 @@
 {{ 'section-collection-banner.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
+  assign banner_image_url = ''
+
+  # 1. Primary: Collection Metafield 'custom.collection_banner'
+  assign banner_meta = collection.metafields.custom.collection_banner
+  if banner_meta != blank
+    if banner_meta.value != blank
+      assign banner_obj = banner_meta.value
+    else
+      assign banner_obj = banner_meta
+    endif
+
+    if banner_obj.src != blank or banner_obj.width != blank
+      assign banner_image_url = banner_obj | image_url: width: 2400
+    elsif banner_obj contains 'http' or banner_obj contains '//' or banner_obj contains 'shopify' or banner_obj contains '/'
+      assign banner_image_url = banner_obj
+    else
+      assign banner_image_url = banner_obj | image_url: width: 2400
+    endif
+  endif
+
+  # 2. Secondary fallback: Collection featured image (if enabled)
+  if banner_image_url == blank and section.settings.use_collection_image and collection.image != blank
+    assign banner_image_url = collection.image | image_url: width: 2400
+  endif
+
+  # 3. Tertiary fallback: Theme customizer fallback image (if set)
+  if banner_image_url == blank and section.settings.fallback_image != blank
+    assign banner_image_url = section.settings.fallback_image | image_url: width: 2400
+  endif
+
+  # Determine banner image state
+  assign has_image = false
+  if banner_image_url != blank
+    assign has_image = true
+  endif
+
+  assign heading_size = section.settings.heading_size | default: 'medium'
   assign bg_color = section.settings.bg_color | default: '#EDE3D9'
   assign text_color = section.settings.text_color | default: '#171717'
-  assign min_height = section.settings.min_height | default: 520
-
-  assign hero_image_url = ''
-  if collection.image != blank
-    assign hero_image_url = collection.image | image_url: width: 1400
-  elsif section.settings.image != blank
-    assign hero_image_url = section.settings.image | image_url: width: 1400
-  else
-    assign hero_image_url = 'mega-heritage.webp' | asset_url
-  endif
 
   assign banner_tagline = collection.metafields.custom.tagline
   if banner_tagline == blank
@@ -29,49 +56,120 @@
   #CollectionBanner-{{ section.id }} {
     --phero-bg: {{ bg_color }};
     --phero-ink: {{ text_color }};
-    min-height: {{ min_height }}px;
+    --banner-pt: {{ section.settings.no_image_padding_top | default: 44 }}px;
+    --banner-pb: {{ section.settings.no_image_padding_bottom | default: 40 }}px;
+    --banner-min-h-d: {{ section.settings.banner_min_height | default: 420 }}px;
+    --banner-min-h-m: {{ section.settings.banner_min_height_mobile | default: 280 }}px;
+    --overlay-color: {{ section.settings.overlay_color | default: '#171717' }};
+    --overlay-opacity: {{ section.settings.overlay_opacity | default: 45 | divided_by: 100.0 }};
+    --image-text-color: {{ section.settings.image_text_color | default: '#F7F3EE' }};
   }
 {%- endstyle -%}
 
 <section
   id="CollectionBanner-{{ section.id }}"
-  class="collection-phero light"
+  class="collection-phero {% if has_image %}collection-banner--has-image collection-banner--layout-{{ section.settings.image_layout | default: 'background' }}{% else %}collection-banner--no-image light{% endif %} collection-banner--align-{{ section.settings.text_alignment | default: 'left' }}"
   data-section-id="{{ section.id }}"
 >
-  <div class="txt">
-    {%- if section.settings.show_breadcrumbs -%}
-      <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="{{ routes.root_url }}">Home</a>
-        <span class="crumbs-sep" aria-hidden="true">/</span>
-        <a href="{{ routes.collections_url }}">Shop</a>
-        <span class="crumbs-sep" aria-hidden="true">/</span>
-        <span class="crumbs-current">{{ collection.title | escape }}</span>
-      </nav>
-    {%- endif -%}
+  {%- if has_image and section.settings.image_layout == 'split' -%}
+    <div class="txt">
+      {%- if section.settings.show_breadcrumbs -%}
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          <span class="crumbs-sep" aria-hidden="true">/</span>
+          <a href="{{ routes.collections_url }}">Shop</a>
+          <span class="crumbs-sep" aria-hidden="true">/</span>
+          <span class="crumbs-current">{{ collection.title | escape }}</span>
+        </nav>
+      {%- endif -%}
 
-    <h1 class="d1 collection-banner__title">
-      {{- collection.title | escape -}}
-    </h1>
+      <h1 class="collection-banner__title collection-banner__title--{{ heading_size }}">
+        {{- collection.title | escape -}}
+      </h1>
 
-    {%- if banner_tagline != blank -%}
-      <p class="tagline collection-banner__tagline">
-        {{- banner_tagline | escape -}}
-      </p>
-    {%- endif -%}
+      {%- if banner_tagline != blank -%}
+        <p class="tagline collection-banner__tagline">
+          {{- banner_tagline | escape -}}
+        </p>
+      {%- endif -%}
 
-    {%- if section.settings.show_collection_description and banner_desc != blank -%}
-      <div class="lede collection-banner__description rte">
-        {{ banner_desc }}
-      </div>
-    {%- endif -%}
-  </div>
+      {%- if section.settings.show_collection_description and banner_desc != blank -%}
+        <div class="lede collection-banner__description rte">
+          {{ banner_desc }}
+        </div>
+      {%- endif -%}
+    </div>
 
-  <div
-    class="pic"
-    style="background-image: url('{{ hero_image_url }}');"
-    role="img"
-    aria-label="{{ collection.title | escape }}"
-  ></div>
+    <div
+      class="pic"
+      style="background-image: url('{{ banner_image_url }}');"
+      role="img"
+      aria-label="{{ collection.title | escape }}"
+    ></div>
+  {%- elsif has_image -%}
+    <div
+      class="collection-banner__bg"
+      style="background-image: url('{{ banner_image_url }}');"
+      role="img"
+      aria-label="{{ collection.title | escape }}"
+    ></div>
+    <div class="collection-banner__overlay"></div>
+    <div class="collection-banner__inner page-width">
+      {%- if section.settings.show_breadcrumbs -%}
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          <span class="crumbs-sep" aria-hidden="true">/</span>
+          <a href="{{ routes.collections_url }}">Shop</a>
+          <span class="crumbs-sep" aria-hidden="true">/</span>
+          <span class="crumbs-current">{{ collection.title | escape }}</span>
+        </nav>
+      {%- endif -%}
+
+      <h1 class="collection-banner__title collection-banner__title--{{ heading_size }}">
+        {{- collection.title | escape -}}
+      </h1>
+
+      {%- if banner_tagline != blank -%}
+        <p class="tagline collection-banner__tagline">
+          {{- banner_tagline | escape -}}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.show_collection_description and banner_desc != blank -%}
+        <div class="lede collection-banner__description rte">
+          {{ banner_desc }}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <div class="collection-banner__inner page-width">
+      {%- if section.settings.show_breadcrumbs -%}
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          <span class="crumbs-sep" aria-hidden="true">/</span>
+          <a href="{{ routes.collections_url }}">Shop</a>
+          <span class="crumbs-sep" aria-hidden="true">/</span>
+          <span class="crumbs-current">{{ collection.title | escape }}</span>
+        </nav>
+      {%- endif -%}
+
+      <h1 class="collection-banner__title collection-banner__title--{{ heading_size }}">
+        {{- collection.title | escape -}}
+      </h1>
+
+      {%- if banner_tagline != blank -%}
+        <p class="tagline collection-banner__tagline">
+          {{- banner_tagline | escape -}}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.show_collection_description and banner_desc != blank -%}
+        <div class="lede collection-banner__description rte">
+          {{ banner_desc }}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -79,6 +177,161 @@
   "name": "Collection Banner",
   "class": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Banner Image (Metafield: custom.collection_banner)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Banner images are set per collection in Shopify Admin via the 'custom.collection_banner' metafield. If a collection has no banner metafield set, this section automatically activates reduced-height mode without breaking the heading."
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "Fallback banner image (optional)",
+      "info": "Universal default image used if a collection does not have its own custom.collection_banner metafield. Leave empty to keep clean compact text-only mode."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_collection_image",
+      "default": false,
+      "label": "Use collection featured image as secondary fallback"
+    },
+    {
+      "type": "select",
+      "id": "image_layout",
+      "options": [
+        {
+          "value": "background",
+          "label": "Full-width background image"
+        },
+        {
+          "value": "split",
+          "label": "Side-by-side (text left, image right)"
+        }
+      ],
+      "default": "background",
+      "label": "Image banner layout",
+      "info": "Applies when a banner image is present"
+    },
+    {
+      "type": "range",
+      "id": "banner_min_height",
+      "min": 280,
+      "max": 600,
+      "step": 20,
+      "default": 420,
+      "unit": "px",
+      "label": "Banner min-height with image (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "banner_min_height_mobile",
+      "min": 200,
+      "max": 400,
+      "step": 20,
+      "default": 280,
+      "unit": "px",
+      "label": "Banner min-height with image (mobile)"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Image overlay color",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 45,
+      "unit": "%",
+      "label": "Image overlay darkness"
+    },
+    {
+      "type": "color",
+      "id": "image_text_color",
+      "label": "Text color over image",
+      "default": "#F7F3EE"
+    },
+    {
+      "type": "header",
+      "content": "No-Image (Reduced Height) Styling"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color (no image)",
+      "default": "#EDE3D9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color (no image)",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "no_image_padding_top",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "default": 44,
+      "unit": "px",
+      "label": "Padding top (no image)"
+    },
+    {
+      "type": "range",
+      "id": "no_image_padding_bottom",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Padding bottom (no image)"
+    },
+    {
+      "type": "header",
+      "content": "Typography & Content"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium (Recommended)"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium",
+      "label": "Heading size"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left",
+      "label": "Text alignment"
+    },
     {
       "type": "checkbox",
       "id": "show_breadcrumbs",
@@ -89,7 +342,7 @@
       "type": "text",
       "id": "tagline",
       "default": "Five chapters, one house",
-      "label": "Tagline",
+      "label": "Default tagline",
       "info": "Falls back to collection metafield 'custom.tagline' if present"
     },
     {
@@ -103,34 +356,6 @@
       "id": "custom_description",
       "label": "Custom description override (optional)",
       "info": "Overrides collection description if provided"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Fallback / default banner image",
-      "info": "Used when the collection does not have its own featured image"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background color",
-      "default": "#EDE3D9"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text color",
-      "default": "#171717"
-    },
-    {
-      "type": "range",
-      "id": "min_height",
-      "min": 400,
-      "max": 700,
-      "step": 20,
-      "default": 520,
-      "unit": "px",
-      "label": "Minimum banner height"
     }
   ]
 }
