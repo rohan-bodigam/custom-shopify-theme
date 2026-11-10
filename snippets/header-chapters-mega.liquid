@@ -46,7 +46,7 @@
               {%- assign chap_title_down = chap.title | downcase -%}
               {%- assign dot_color = '#B08D57' -%}
               {%- assign is_soon = false -%}
-              {%- if chap_title_down contains 'north east' or chap_title_down contains 'northeast' -%}
+              {%- if chap_title_down contains 'north east' or chap_title_down contains 'northeast' or chap_title_down contains 'soon' -%}
                 {%- assign dot_color = '#8A2B3D' -%}
                 {%- assign is_soon = true -%}
               {%- elsif chap_title_down contains 'east' -%}
@@ -59,15 +59,29 @@
                 {%- assign dot_color = '#2D4F3B' -%}
               {%- endif -%}
 
+              {%- assign clean_chap_title = chap.title | remove: '(Soon)' | remove: 'Soon' | remove: '(soon)' | remove: 'soon' | strip -%}
+              {%- assign chap_words = clean_chap_title | split: ' ' -%}
+              {%- capture formatted_chap_title -%}
+                {%- for w in chap_words -%}
+                  {%- assign w_low = w | downcase -%}
+                  {%- if w_low == 'and' or w_low == '&' or w_low == 'of' or w_low == 'in' -%}
+                    {{ w_low }}
+                  {%- else -%}
+                    {{ w_low | capitalize }}
+                  {%- endif -%}
+                  {%- unless forloop.last %} {% endunless -%}
+                {%- endfor -%}
+              {%- endcapture -%}
+
               {%- if chap_title_down contains 'all chapter' or chap_title_down contains 'view all' -%}
                 <li class="mega-view-all">
-                  <a href="{{ chap.url }}" class="mega-all-link">{{ chap.title | escape }}</a>
+                  <a href="{{ chap.url }}" class="mega-all-link">{{ formatted_chap_title | strip | escape }}</a>
                 </li>
               {%- else -%}
                 <li>
                   <a href="{{ chap.url }}" class="mega-region-link">
                     <span class="mega-dot" style="background: {{ dot_color }};"></span>
-                    <span class="mega-region-name">{{ chap.title | escape }}</span>
+                    <span class="mega-region-name">{{ formatted_chap_title | strip | escape }}</span>
                     {%- if is_soon -%}<span class="mega-ct-soon">Soon</span>{%- endif -%}
                   </a>
                 </li>

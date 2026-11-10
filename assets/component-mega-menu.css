@@ -363,16 +363,22 @@ details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-c
   position: static;
 }
 
-/* Chapters Dropdown Sub Menu */
-.mega-menu.mega-menu--chapters {
+/* Chapters & Custom Dropdown Sub Menus */
+.mega-menu.mega-menu--chapters,
+.mega-menu.mega-menu--dropdown,
+.header-menu--chapters details.mega-menu,
+.header-menu--dropdown details.mega-menu {
   position: relative !important;
 }
 
-.mega-menu--chapters[open]::before {
+.mega-menu--chapters[open]::before,
+.mega-menu--dropdown[open]::before {
   display: none !important;
 }
 
-.mega-menu__content.mega-menu__content--chapters {
+.mega-menu__content.mega-menu__content--chapters,
+.mega-menu__content.mega-menu__content--dropdown,
+.mega-menu__content:has(.chapters-dropdown-inner) {
   position: absolute !important;
   left: 0 !important;
   right: auto !important;
@@ -390,7 +396,9 @@ details[open] > .header__icon--summary > span > .svg-wrapper:not(.header__icon-c
 }
 
 /* Invisible hover bridge */
-.mega-menu__content--chapters::before {
+.mega-menu__content--chapters::before,
+.mega-menu__content--dropdown::before,
+.mega-menu__content:has(.chapters-dropdown-inner)::before {
   content: "" !important;
   position: absolute !important;
   top: -12px !important;
@@ -581,6 +589,50 @@ body:has(.mega-menu[open]) .section-header,
 
 .chapters-dropdown-inner .mega-region-name {
   flex-grow: 1;
+  font-family: var(--f-ui, 'Inter', sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2, #4A4240);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  text-transform: capitalize;
+}
+
+.chapters-dropdown-inner .mega-sublist {
+  list-style: none;
+  margin: 3px 0 6px 20px;
+  padding: 0 0 0 10px;
+  border-left: 1px solid var(--line, rgba(23, 23, 23, 0.12));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chapters-dropdown-inner .mega-sublink {
+  font-family: var(--f-ui, 'Inter', sans-serif);
+  font-size: 13px;
+  color: var(--muted, #6E6461);
+  text-decoration: none;
+  padding: 3px 6px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: block;
+}
+
+.chapters-dropdown-inner .mega-sublink:hover,
+.chapters-dropdown-inner .mega-sublink--active {
+  color: var(--crimson, #6B2230);
+  background: var(--acc-soft, rgba(107, 34, 48, 0.08));
+}
+
+/* Fallback for standard header dropdown */
+.header__submenu {
+  min-width: 250px !important;
+  background-color: var(--bg, #F7F3EE) !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(23, 23, 23, 0.12) !important;
+  box-shadow: 0 16px 36px -8px rgba(40, 10, 16, 0.22), 0 4px 12px rgba(23, 23, 23, 0.05) !important;
+  padding: 14px 16px !important;
 }
 
 .chapters-dropdown-inner .mega-ct-soon {
