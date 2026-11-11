@@ -1,7 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 36,
         "padding_bottom": 16
@@ -12,15 +22,42 @@
       "blocks": {
         "collection_1": {
           "type": "featured_collection",
-          "settings": {}
+          "settings": {
+            "collection": "",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
         },
         "collection_2": {
           "type": "featured_collection",
-          "settings": {}
+          "settings": {
+            "collection": "",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
         },
         "collection_3": {
           "type": "featured_collection",
-          "settings": {}
+          "settings": {
+            "collection": "",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
         }
       },
       "block_order": [
@@ -29,15 +66,22 @@
         "collection_3"
       ],
       "settings": {
-        "title": "Heritage Collections",
-        "heading_size": "d2",
-        "heading_uppercase": true,
-        "lede": "Sarees and sets woven from regional master handloom clusters.",
-        "columns_desktop": 3,
         "show_warp": true,
-        "color_scheme": "scheme-1",
+        "title": "Heritage Collections",
+        "heading_uppercase": true,
+        "heading_size": "d2",
+        "lede": "Sarees and sets woven from regional master handloom clusters.",
+        "show_view_all": true,
+        "view_all_label": "Shop All",
+        "view_all_link": "shopify://collections/all",
+        "columns_desktop": 3,
+        "card_min_height": 340,
         "padding_top": 20,
-        "padding_bottom": 64
+        "padding_bottom": 64,
+        "color_scheme": "scheme-1",
+        "section_bg": "",
+        "custom_class": "",
+        "section_id": "shopby"
       }
     }
   },
@@ -46,4 +90,3 @@
     "collection_list"
   ]
 }
-
