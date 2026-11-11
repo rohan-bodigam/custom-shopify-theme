@@ -444,6 +444,13 @@
       'sage green': '#848C74',
       'olive': '#555D3E',
       'muted olive': '#656D4A',
+      'peach': '#F5B89B',
+      'peach window': '#F5B89B',
+      'coral': '#E07A5F',
+      'copper': '#B87333',
+      'mustard': '#D4A017',
+      'charcoal': '#36454F',
+      'crimson': '#6B2230',
       'yellow': '#D4A034',
       'butter yellow': '#E6CF82',
       'gold': '#B08D57',
@@ -773,52 +780,87 @@
     function filterGalleryByColor(colorName) {
       if (!colorName) return;
       const target = colorName.toLowerCase().trim();
-      // Split into keywords (e.g. "Ivory / Ecru" -> ["ivory", "ecru"])
-      const colorWords = target.split(/[\/\,\s\-\&]+/).map(w => w.trim()).filter(w => w.length > 2);
+      const thumbs = Array.from(document.querySelectorAll('.hokk-thumb-btn'));
+      if (!thumbs.length) return;
 
-      const thumbs = document.querySelectorAll('.hokk-thumb-btn');
-      let visibleCount = 0;
-      let firstMatchingBtn = null;
+      const productTitleEl = document.querySelector('.hokk-title');
+      const productTitle = productTitleEl ? productTitleEl.textContent.toLowerCase().trim() : '';
+
+      // 1. Map of variant featured media IDs to detect variant groups
+      const allVariantMediaIds = new Map();
+      productVariants.forEach(v => {
+        if (v.featured_media_id && v.featured_media_id !== 'null' && v.options) {
+          const cOpt = v.options[0] ? v.options[0].toLowerCase().trim() : '';
+          allVariantMediaIds.set(String(v.featured_media_id), cOpt);
+        }
+      });
+
+      // Find the featured_media_id for the selected color variant
+      const matchingVariant = productVariants.find(v => 
+        v.options && v.options.some(opt => opt.toLowerCase().trim() === target)
+      );
+      const targetMediaId = (matchingVariant && matchingVariant.featured_media_id && matchingVariant.featured_media_id !== 'null') 
+        ? String(matchingVariant.featured_media_id) 
+        : null;
+
+      // 2. Identify thumbnails for this color using 3 tiers:
+      let matchedThumbs = [];
+
+      // Tier 1: Match by Image ALT Text
+      // Match exact color name, or check if alt includes the full color name (e.g. "Peach Window")
+      // Explicitly ignore alt text that is just the generic product title (e.g. "Windowlight")
+      const altMatches = thumbs.filter(btn => {
+        const alt = (btn.dataset.alt || '').toLowerCase().trim();
+        if (!alt || alt === productTitle) return false;
+        return alt === target || alt.includes(target);
+      });
+
+      if (altMatches.length > 0) {
+        matchedThumbs = altMatches;
+      }
+
+      // Tier 2: Match by Variant Featured Media ID + Sequential Group
+      // If no specific alt text matches, group images starting from this variant's media
+      // up to the next variant's media
+      if (matchedThumbs.length === 0 && targetMediaId) {
+        const startIdx = thumbs.findIndex(btn => String(btn.dataset.mediaId) === targetMediaId);
+        if (startIdx !== -1) {
+          matchedThumbs.push(thumbs[startIdx]);
+          for (let i = startIdx + 1; i < thumbs.length; i++) {
+            const nextMediaId = String(thumbs[i].dataset.mediaId);
+            const nextVariantColor = allVariantMediaIds.get(nextMediaId);
+            if (nextVariantColor && nextVariantColor !== target) {
+              break; // Stop at next color variant's image
+            }
+            matchedThumbs.push(thumbs[i]);
+            if (matchedThumbs.length >= 4) break;
+          }
+        }
+      }
+
+      // Tier 3: Fallback for products without variant images
+      if (matchedThumbs.length === 0) {
+        matchedThumbs = thumbs.slice(0, 4);
+      }
+
+      // 3. ENFORCE STRICT LIMIT: Show AT MOST 4 thumbnails on the left, hide all others!
+      const finalVisibleThumbs = matchedThumbs.slice(0, 4);
 
       thumbs.forEach(btn => {
-        const alt = (btn.dataset.alt || '').toLowerCase();
-        const caption = (btn.dataset.caption || '').toLowerCase();
-        const combined = alt + ' ' + caption;
-
-        // Check if thumbnail belongs to this color
-        const isMatch = colorWords.some(w => combined.includes(w));
-
-        if (isMatch) {
+        if (finalVisibleThumbs.includes(btn)) {
           btn.style.display = '';
-          visibleCount++;
-          if (!firstMatchingBtn) firstMatchingBtn = btn;
         } else {
           btn.style.display = 'none';
         }
       });
 
-      // Fallback: If no images specifically matched the color words by alt text:
-      // Show only the first 4 thumbnails and hide the rest so it never overflows
-      if (visibleCount === 0) {
-        thumbs.forEach((btn, idx) => {
-          if (idx < 4) {
-            btn.style.display = '';
-            if (!firstMatchingBtn) firstMatchingBtn = btn;
-          } else {
-            btn.style.display = 'none';
-          }
-        });
-      }
-
-      // Automatically activate the first matching image of this color
-      if (firstMatchingBtn) {
-        firstMatchingBtn.click();
-      } else {
-        // Fallback: Check if variant has a featured_image
-        const matchingVariant = productVariants.find(v => v.options && v.options.some(opt => opt.toLowerCase() === target));
+      // 4. Automatically activate the first matching image of this color
+      if (finalVisibleThumbs.length > 0) {
+        finalVisibleThumbs[0].click();
+      } else if (matchingVariant && matchingVariant.featured_image) {
         const mainImg = document.getElementById('hokkMainImg');
         const mainCap = document.getElementById('hokkCaption');
-        if (matchingVariant && matchingVariant.featured_image && mainImg) {
+        if (mainImg) {
           mainImg.style.opacity = '0.4';
           setTimeout(() => {
             mainImg.src = matchingVariant.featured_image;
