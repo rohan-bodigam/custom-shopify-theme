@@ -53,10 +53,123 @@
         "padding_top": 12,
         "padding_bottom": 12
       }
+    },
+    "culture_banner_eCTnJm": {
+      "type": "culture-banner",
+      "name": "Culture Banner",
+      "settings": {
+        "heading": "CULTURE",
+        "heading_size": "display",
+        "description": "Five regions, each with its own landscape, makers and ways of working with thread. Choose a chapter to read it in depth.",
+        "text_alignment": "left",
+        "show_warp_icon": true,
+        "show_thread_accent": true,
+        "banner_min_height": 520,
+        "banner_min_height_mobile": 400,
+        "overlay_opacity": 75,
+        "overlay_color": "#381119",
+        "text_color": "#F7F3EE"
+      }
+    },
+    "culture_chapters_fJngXT": {
+      "type": "culture-chapters",
+      "blocks": {
+        "chapter_card_xiDxz6": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 01",
+            "heading": "EAST INDIA",
+            "description": "Where Every Thread Tells a Story. West Bengal, Odisha, Bihar, Jharkhand.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/east-india",
+            "image_position": "auto",
+            "card_bg_color": "#4e5540",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "chapter_card_jhPyi3": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 02",
+            "heading": "WEST & CENTRAL INDIA",
+            "description": "Where Colour Meets Craft. Rajasthan, Gujarat, Maharashtra, Madhya Pradesh, Goa.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/west-central-india",
+            "image_position": "auto",
+            "card_bg_color": "#5c1e2d",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "chapter_card_pmjNBB": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 03",
+            "heading": "SOUTH INDIA",
+            "description": "Woven in Temples, Temples in the Cloth. Tamil Nadu, Karnataka, Andhra Pradesh, Telangana, Kerala.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/south-india",
+            "image_position": "auto",
+            "card_bg_color": "#263b48",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "chapter_card_CwyaYt": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 04",
+            "heading": "NORTH INDIA",
+            "description": "Courts, Cold Winds and the Golden Needle. Jammu & Kashmir, Punjab, Himachal Pradesh, Uttar Pradesh.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/north-india",
+            "image_position": "auto",
+            "card_bg_color": "#6e4d2b",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "chapter_card_ww4pwk": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 05",
+            "heading": "NORTH EAST INDIA",
+            "description": "Muga, Hills and the Loom in Every Home. Assam, Meghalaya, Nagaland, Manipur, Mizoram, Tripura, Arunachal Pradesh.",
+            "button_label": "Read the Chapter",
+            "button_link": "/pages/north-east-india",
+            "image_position": "auto",
+            "card_bg_color": "#7c3524",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "chapter_card_xiDxz6",
+        "chapter_card_jhPyi3",
+        "chapter_card_pmjNBB",
+        "chapter_card_CwyaYt",
+        "chapter_card_ww4pwk"
+      ],
+      "name": "Culture Chapters",
+      "settings": {
+        "heading": "",
+        "lede": "",
+        "section_bg_color": "#F5EFE6",
+        "show_side_thread": true,
+        "side_thread_color": "#8C4753",
+        "card_border_radius": 20,
+        "card_gap": 32,
+        "padding_top": 56,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
     "announcement-bar",
-    "header"
+    "header",
+    "culture_banner_eCTnJm",
+    "culture_chapters_fJngXT"
   ]
 }
