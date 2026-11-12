@@ -20,7 +20,7 @@
         "heading": "West & Central India",
         "tagline": "Where Colour Meets Craft",
         "states": "Rajasthan · Gujarat · Maharashtra · Madhya Pradesh · Goa",
-        "button_label": "Shop This Chapter",
+        "button_label": "",
         "button_link": "shopify://pages/west-central-india",
         "min_height_desktop": 560,
         "min_height_mobile": 460,
@@ -183,7 +183,7 @@
             "description": "Maheshwari is cotton-silk from Maheshwar, with a reversible border you can wear either way out and border motifs that take their shapes from the fort. A Maheshwari saree online should come from Maheshwar itself, and every one here does.",
             "quote": "A border you can wear either side up.",
             "link_label": "Shop Maheshwari",
-            "link_url": ""
+            "link_url": "shopify://collections/maheshwari-silk-sarees"
           }
         },
         "weave_2": {
@@ -195,7 +195,7 @@
             "description": "Zari Kota has Kota Doria's open square check, the khat, with fine zari in the border, and it is festive enough for a daytime wedding and light enough for May. It is cut as a saree today and will soon come as Kota Doria suits online.",
             "quote": "Light enough to forget, bright enough to remember.",
             "link_label": "Shop Zari Kota",
-            "link_url": ""
+            "link_url": "shopify://collections/zari-kota"
           }
         },
         "weave_card_GgNHpx": {
@@ -207,7 +207,7 @@
             "description": "Pure Kota is sheer Kota silk used as a canvas, and some sarees are hand painted while others come with a pen Kalamkari blouse piece",
             "quote": "Light enough to forget, bright enough to remember.",
             "link_label": "Shop Pure Kota",
-            "link_url": ""
+            "link_url": "shopify://collections/pure-kota"
           }
         }
       },
