@@ -197,7 +197,7 @@
         </div>
 
         {% comment %} Stock Status Indicator {% endcomment %}
-        <div class="hokk-stockline {% unless product.available %}out{% else %}{% if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 3 %}low{% endif %}{% endunless %}" id="pdpStockLine">
+        {% comment %} <div class="hokk-stockline {% unless product.available %}out{% else %}{% if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= 3 %}low{% endif %}{% endunless %}" id="pdpStockLine">
           <i></i>
           <span id="pdpStockText">
             {%- if product.available -%}
@@ -210,7 +210,7 @@
               Sold out
             {%- endif -%}
           </span>
-        </div>
+        </div> {% endcomment %}
 
         {% comment %} Editorial Lead Paragraph (Parsed dynamically) {% endcomment %}
         <div class="hokk-lead-desc" id="pdpLeadDesc">

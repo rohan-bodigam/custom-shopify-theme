@@ -9,16 +9,123 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "disabled": true,
+    "banner": {
+      "type": "culture-banner",
       "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
+        "heading": "COLLECTIONS",
+        "heading_size": "display",
+        "description": "Explore our curated collections of Indian handloom textiles, tailored for modern wardrobes across five regional chapters.",
+        "text_alignment": "left",
+        "show_warp_icon": true,
+        "show_thread_accent": true,
+        "banner_min_height": 520,
+        "banner_min_height_mobile": 400,
+        "overlay_opacity": 75,
+        "overlay_color": "#381119",
+        "text_color": "#f7f3ee"
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "settings": {
+        "speed": 35,
+        "direction": "left",
+        "pause_on_hover": true,
+        "background_color": "#5c1e2d",
+        "text_color": "#f7f3ee",
+        "diamond_color": "#b08d57",
+        "border_color": "#4a1420",
+        "border_opacity": 30,
+        "hover_color": "#b08d57",
+        "font_size": 16,
+        "padding_vertical": 12,
+        "item_gap": 28,
+        "accessibility_label": "Weaves in the house",
+        "custom_class": ""
+      }
+    },
+    "chapters": {
+      "type": "culture-chapters",
+      "blocks": {
+        "collection_card_1": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "COLLECTION 01",
+            "heading": "Heritage",
+            "description": "Sarees and sets woven by master craftspeople from India's five regional handloom chapters.",
+            "button_label": "Explore Heritage",
+            "button_link": "/pages/heritage",
+            "image_position": "auto",
+            "card_bg_color": "#4e5540",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "collection_card_2": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "COLLECTION 02",
+            "heading": "Contemporary",
+            "description": "Many looms, one wardrobe: ikkat, chiffon, mul cotton and Banaras cut for how you live now.",
+            "button_label": "Explore Contemporary",
+            "button_link": "/pages/contemporary",
+            "image_position": "auto",
+            "card_bg_color": "#5c1e2d",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "collection_card_3": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "COLLECTION 03",
+            "heading": "Men",
+            "description": "Shirts, jackets and bundis tailored from authentic regional handloom cloth.",
+            "button_label": "Explore Men",
+            "button_link": "/pages/men",
+            "image_position": "auto",
+            "card_bg_color": "#2d3e4f",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "collection_card_4": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "COLLECTION 04",
+            "heading": "Women",
+            "description": "Handcrafted sarees, contemporary separates and festive brocade.",
+            "button_label": "Explore Women",
+            "button_link": "/pages/women",
+            "image_position": "auto",
+            "card_bg_color": "#5c3846",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_1",
+        "collection_card_2",
+        "collection_card_3",
+        "collection_card_4"
+      ],
+      "settings": {
+        "heading": "The Collections",
+        "lede": "Discover each collection and the regional artisan traditions behind it.",
+        "section_bg_color": "#f5efe6",
+        "show_side_thread": true,
+        "side_thread_color": "#8c4753",
+        "card_border_radius": 20,
+        "card_gap": 32,
+        "padding_top": 56,
+        "padding_bottom": 80
       }
     }
   },
   "order": [
-    "main"
+    "banner",
+    "marquee",
+    "chapters"
   ]
 }
