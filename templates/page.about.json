@@ -19,6 +19,7 @@
         "heading": "ABOUT THE HOUSE",
         "tagline": "One House. Many Traditions. Endless Stories.",
         "description": "Kala Katha means \"the story of an art\", and we bring the textiles of India's regions under one house and turn them into clothes for how people live now.",
+        "image": "shopify://shop_images/pgAbout.webp",
         "overlay_opacity": 90,
         "background_color": "#d6c6b8",
         "min_height_desktop": 520,
@@ -265,6 +266,7 @@
     "cta": {
       "type": "about-cta",
       "settings": {
+        "monogram_image": "shopify://shop_images/No_background_-_white_c7d0deb6-052d-4cc1-9cfd-0157864c84f9.png",
         "monogram_width": 100,
         "text": "Our monogram weaves the letter K through the warp of a handloom, with a shuttle passing through, and it is the simplest way we know to say what we do.",
         "button_label": "Collaborate With Us",
