@@ -51,10 +51,10 @@
           "type": "chapter_card",
           "settings": {
             "pre_heading": "CHAPTER 01",
-            "heading": "Heritage",
-            "description": "",
+            "heading": "East India",
+            "description": "Where Every Thread Tells a Story. West Bengal, Odisha, Bihar, Jharkhand.",
             "button_label": "Read the Chapter",
-            "button_link": "",
+            "button_link": "shopify://pages/east-india",
             "image_position": "auto",
             "card_bg_color": "#4e5540",
             "text_color": "#f7f3ee",
@@ -65,12 +65,54 @@
           "type": "chapter_card",
           "settings": {
             "pre_heading": "CHAPTER 02",
-            "heading": "Contemporary",
-            "description": "",
+            "heading": "West & Central India",
+            "description": "Where Colour Meets Craft. Rajasthan, Gujarat, Maharashtra, Madhya Pradesh, Goa.",
             "button_label": "Read the Chapter",
-            "button_link": "",
+            "button_link": "shopify://pages/west-central-india",
             "image_position": "auto",
             "card_bg_color": "#5c1e2d",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "chapter_card_batapB": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 03",
+            "heading": "North India",
+            "description": "Where Heritage Lives in Every Detail. Uttar Pradesh, Kashmir, Himachal Pradesh, Punjab.",
+            "button_label": "Read the Chapter",
+            "button_link": "shopify://pages/north-india",
+            "image_position": "auto",
+            "card_bg_color": "#4e5540",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "chapter_card_zkWPyg": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 04",
+            "heading": "South India",
+            "description": "Where Tradition Meets Contemporary Design. Tamil Nadu, Andhra Pradesh & Telangana, Kerala, Karnataka.",
+            "button_label": "Read the Chapter",
+            "button_link": "shopify://pages/south-india",
+            "image_position": "auto",
+            "card_bg_color": "#5c1e2d",
+            "text_color": "#f7f3ee",
+            "button_border_color": ""
+          }
+        },
+        "chapter_card_DyGNAx": {
+          "type": "chapter_card",
+          "settings": {
+            "pre_heading": "CHAPTER 05",
+            "heading": "North East India",
+            "description": "Where Nature Inspires Every Weave. Assam, Nagaland, Mizoram, Manipur, Meghalaya, Tripura, Arunachal Pradesh, Sikkim.",
+            "button_label": "Read the Chapter",
+            "button_link": "shopify://pages/north-east-india",
+            "image_position": "auto",
+            "card_bg_color": "#4e5540",
             "text_color": "#f7f3ee",
             "button_border_color": ""
           }
@@ -78,7 +120,10 @@
       },
       "block_order": [
         "chapter_1",
-        "chapter_2"
+        "chapter_2",
+        "chapter_card_batapB",
+        "chapter_card_zkWPyg",
+        "chapter_card_DyGNAx"
       ],
       "settings": {
         "heading": "",
