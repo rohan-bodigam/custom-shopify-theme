@@ -17,6 +17,24 @@
         "padding_bottom": 16
       }
     },
+    "culture_banner_RHDP6C": {
+      "type": "culture-banner",
+      "name": "Culture Banner",
+      "settings": {
+        "image": "shopify://shop_images/Men_ae3a61b5-0fd5-4afe-9a24-234fb3fc39ed.jpg",
+        "heading": "Men",
+        "heading_size": "display",
+        "description": "Kurtas, shirts, bundis and dhoti sets in Mangalagiri, Banaras, Ikkat, Maheshwari and more, for weddings, festivals and every day in between.",
+        "text_alignment": "left",
+        "show_warp_icon": true,
+        "show_thread_accent": false,
+        "banner_min_height": 520,
+        "banner_min_height_mobile": 400,
+        "overlay_opacity": 75,
+        "overlay_color": "#381119",
+        "text_color": "#131313"
+      }
+    },
     "collection_list": {
       "type": "collection-list",
       "blocks": {
@@ -73,6 +91,7 @@
   },
   "order": [
     "main",
+    "culture_banner_RHDP6C",
     "collection_list"
   ]
 }
