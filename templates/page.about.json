@@ -19,6 +19,7 @@
         "heading": "ABOUT THE HOUSE",
         "tagline": "One House. Many Traditions. Endless Stories.",
         "description": "Kala Katha means \"the story of an art\", and we bring the textiles of India's regions under one house and turn them into clothes for how people live now.",
+        "overlay_opacity": 90,
         "background_color": "#d6c6b8",
         "min_height_desktop": 520,
         "min_height_mobile": 400,
@@ -57,6 +58,7 @@
         "vision"
       ],
       "settings": {
+        "image": "shopify://shop_images/weaverWarp.jpg",
         "image_position": "left",
         "image_aspect_ratio": "4/5",
         "show_thread_accent": true,
@@ -66,6 +68,111 @@
         "text_color": "#57534e",
         "padding_top": 64,
         "padding_bottom": 64
+      }
+    },
+    "heritage_NXNY6c": {
+      "type": "heritage",
+      "blocks": {
+        "chapter_aHxghU": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 01",
+            "title": "East India",
+            "tagline": "Where Every Thread Tells a Story",
+            "states_count": "4 states",
+            "fallback_image": "mapEast.jpg",
+            "collection": "",
+            "link": "#/chapter/east",
+            "accent_color": "#7a8063",
+            "accent_deep": "#5e634b",
+            "accent_lite": "#b9be9e"
+          }
+        },
+        "chapter_nxMErt": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 02",
+            "title": "West & Central India",
+            "tagline": "Where Colour Meets Craft",
+            "states_count": "5 states",
+            "fallback_image": "mapWest.jpg",
+            "collection": "",
+            "link": "#/chapter/west",
+            "accent_color": "#6b2230",
+            "accent_deep": "#6b2230",
+            "accent_lite": "#e2a3ae"
+          }
+        },
+        "chapter_qXeiLD": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 03",
+            "title": "North India",
+            "tagline": "Where Heritage Lives in Every Detail",
+            "states_count": "4 states",
+            "fallback_image": "mapNorth.jpg",
+            "collection": "",
+            "link": "#/chapter/north",
+            "accent_color": "#b08d57",
+            "accent_deep": "#7a5a31",
+            "accent_lite": "#d1b17e"
+          }
+        },
+        "chapter_Jin6Az": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 04",
+            "title": "South India",
+            "tagline": "Where Tradition Meets Contemporary Design",
+            "states_count": "4 states",
+            "fallback_image": "mapSouth.jpg",
+            "collection": "",
+            "link": "#/chapter/south",
+            "accent_color": "#3f5750",
+            "accent_deep": "#3f5750",
+            "accent_lite": "#9dbdb2"
+          }
+        },
+        "chapter_Bt794b": {
+          "type": "chapter",
+          "settings": {
+            "chapter_no": "Chapter 05",
+            "title": "North East India",
+            "tagline": "Where Nature Inspires Every Weave",
+            "states_count": "8 states · Revealing soon",
+            "fallback_image": "mapNorthEast.jpg",
+            "collection": "",
+            "link": "#/chapter/northeast",
+            "accent_color": "#4a2a3a",
+            "accent_deep": "#4a2a3a",
+            "accent_lite": "#cfa3b8"
+          }
+        }
+      },
+      "block_order": [
+        "chapter_aHxghU",
+        "chapter_nxMErt",
+        "chapter_qXeiLD",
+        "chapter_Jin6Az",
+        "chapter_Bt794b"
+      ],
+      "name": "Heritage Chapters",
+      "settings": {
+        "show_warp": true,
+        "title": "&nbsp;The five chapters&nbsp;",
+        "heading_uppercase": true,
+        "heading_size": "d2",
+        "lede": "Our first journey through India, region by region.",
+        "show_link": true,
+        "link_label": "Explore Culture",
+        "link_url": "",
+        "columns_desktop": 5,
+        "section_bg": "",
+        "color_scheme": "",
+        "padding_top": 64,
+        "padding_bottom": 80,
+        "section_id": "heritage",
+        "custom_class": ""
       }
     },
     "values": {
@@ -176,6 +283,7 @@
   "order": [
     "hero",
     "pillars",
+    "heritage_NXNY6c",
     "values",
     "cta"
   ]
