@@ -458,6 +458,12 @@
 .chapter-weaves-section .product-card-wrapper .card__media {
   border-radius: 12px !important;
   overflow: hidden !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}
+
+.chapter-weaves-section .card-wrapper {
+  cursor: pointer;
 }
 
 .chapter-weaves-section .card__content {
@@ -481,6 +487,9 @@
 .chapter-weaves-section .card__heading a {
   color: inherit !important;
   text-decoration: none !important;
+  position: relative !important;
+  z-index: 2 !important;
+  cursor: pointer !important;
 }
 
 .chapter-weaves-section .card__heading a:hover {

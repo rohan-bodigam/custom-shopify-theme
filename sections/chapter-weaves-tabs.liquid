@@ -98,15 +98,23 @@
             class="chapter-weaves__panel{% if forloop.first %} is-active{% endif %}"
             role="tabpanel"
             aria-labelledby="TabBtn-{{ section.id }}-{{ block.id }}"
-            {% unless forloop.first %}hidden{% endunless %}
+            {% unless forloop.first %}
+              hidden
+            {% endunless %}
           >
             {%- if block.settings.is_soon -%}
               <div class="chapter-weaves__soon-box">
-                <div class="chapter-weaves__soon-icon" aria-hidden="true">
-                  <i></i><i></i><i></i><i></i><i></i>
-                </div>
-                <h3 class="chapter-weaves__soon-title">{{ block.settings.soon_heading | default: 'Cloth Still On The Loom' | escape }}</h3>
-                <p class="chapter-weaves__soon-text">{{ block.settings.soon_text | default: 'The first pieces of this weave are currently on the loom. Check back soon or explore our other collections.' | escape }}</p>
+                <div class="chapter-weaves__soon-icon" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+                <h3 class="chapter-weaves__soon-title">
+                  {{ block.settings.soon_heading | default: 'Cloth Still On The Loom' | escape }}
+                </h3>
+                <p class="chapter-weaves__soon-text">
+                  {{
+                    block.settings.soon_text
+                    | default: 'The first pieces of this weave are currently on the loom. Check back soon or explore our other collections.'
+                    | escape
+                  }}
+                </p>
               </div>
             {%- else -%}
               <div class="chapter-weaves__panel-header">
@@ -119,7 +127,20 @@
               </div>
 
               <div class="chapter-weaves__grid">
-                {%- if tab_collection != blank and tab_collection.products_count > 0 -%}
+                {%- assign tab_products = tab_collection.products -%}
+                {%- if tab_collection != blank and tab_products.size > 0 -%}
+                  {%- for product in tab_products limit: section.settings.products_to_show -%}
+                    <div class="chapter-weaves__grid-item">
+                      {% render 'card-product',
+                        card_product: product,
+                        media_aspect_ratio: 'portrait',
+                        show_secondary_image: true,
+                        quick_add: 'standard',
+                        section_id: section.id
+                      %}
+                    </div>
+                  {%- endfor -%}
+                {%- elsif tab_collection != blank and tab_collection.all_products_count > 0 -%}
                   {%- for product in tab_collection.products limit: section.settings.products_to_show -%}
                     <div class="chapter-weaves__grid-item">
                       {% render 'card-product',

@@ -101,6 +101,13 @@
   top: 0;
 }
 
+a.card__media {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 .card .media {
   width: 100%;
 }
