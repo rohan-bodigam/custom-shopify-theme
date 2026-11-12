@@ -34,19 +34,6 @@
     "weaves_tabs": {
       "type": "chapter-weaves-tabs",
       "blocks": {
-        "tab_1": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "mul-cotton",
-            "title": "Mul Cotton",
-            "shop_all_label": "Shop All",
-            "shop_all_link": "",
-            "is_soon": false,
-            "soon_badge_text": "Soon",
-            "soon_heading": "Cloth Still On The Loom",
-            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
-          }
-        },
         "tab_2": {
           "type": "collection_tab",
           "settings": {
@@ -60,7 +47,7 @@
             "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
         },
-        "tab_3": {
+        "tab_1": {
           "type": "collection_tab",
           "settings": {
             "collection": "meenakari-swarnachari",
@@ -72,12 +59,39 @@
             "soon_heading": "Cloth Still On The Loom",
             "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
           }
+        },
+        "tab_3": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "single-thread-baluchari",
+            "title": "Single Thread Baluchari",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_Daiyyi": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mul-cotton",
+            "title": "Mul Cotton",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
         }
       },
       "block_order": [
-        "tab_1",
         "tab_2",
-        "tab_3"
+        "tab_1",
+        "tab_3",
+        "collection_tab_Daiyyi"
       ],
       "settings": {
         "heading": "Shop by East",
