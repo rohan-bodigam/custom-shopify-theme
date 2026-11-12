@@ -111,8 +111,8 @@
         "collection_card_4"
       ],
       "settings": {
-        "heading": "The Collections",
-        "lede": "Discover each collection and the regional artisan traditions behind it.",
+        "heading": "",
+        "lede": "",
         "section_bg_color": "#f5efe6",
         "show_side_thread": true,
         "side_thread_color": "#8c4753",
