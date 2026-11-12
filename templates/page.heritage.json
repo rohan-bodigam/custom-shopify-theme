@@ -23,7 +23,7 @@
         "collection_1": {
           "type": "featured_collection",
           "settings": {
-            "collection": "",
+            "collection": "banaras-1",
             "fallback_image": "",
             "focal_point": "center 30%",
             "title": "",
@@ -36,7 +36,7 @@
         "collection_2": {
           "type": "featured_collection",
           "settings": {
-            "collection": "",
+            "collection": "chiffon-zari",
             "fallback_image": "",
             "focal_point": "center 30%",
             "title": "",
@@ -49,7 +49,163 @@
         "collection_3": {
           "type": "featured_collection",
           "settings": {
-            "collection": "",
+            "collection": "crape-silk",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_Dd8A98": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "ikkat",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_GcWi7a": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "maheshwari-silk-sarees",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_96ftrJ": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mangalgiri-cotton",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_beddQj": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mangalgiri-kalamkari",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_reG6i7": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mangalgiri-lehangas",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_KxNp8f": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mangalgiri-lt-pattu-cotton",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_xyHnPm": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mangalgiri-pattu-embroidery",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_hqEUne": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mangalgiri-screen-print",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_DTxeQm": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mangalgiri-silk-silk",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_3GMVHj": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mangalgiri-with-kalamkari",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_8MYErd": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "meenakari-baluchari",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_7yhbLh": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "meenakari-swarnachari",
             "fallback_image": "",
             "focal_point": "center 30%",
             "title": "",
@@ -63,7 +219,19 @@
       "block_order": [
         "collection_1",
         "collection_2",
-        "collection_3"
+        "collection_3",
+        "featured_collection_Dd8A98",
+        "featured_collection_GcWi7a",
+        "featured_collection_96ftrJ",
+        "featured_collection_beddQj",
+        "featured_collection_reG6i7",
+        "featured_collection_KxNp8f",
+        "featured_collection_xyHnPm",
+        "featured_collection_hqEUne",
+        "featured_collection_DTxeQm",
+        "featured_collection_3GMVHj",
+        "featured_collection_8MYErd",
+        "featured_collection_7yhbLh"
       ],
       "settings": {
         "show_warp": true,
@@ -83,10 +251,92 @@
         "custom_class": "",
         "section_id": "shopby"
       }
+    },
+    "collection_list_rUxRjX": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_xqNfBg": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "mul-cotton",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_PbgdPY": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pure-kota",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_9L94Ci": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "single-thread-baluchari",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        },
+        "featured_collection_8pgzU4": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "zari-kota",
+            "fallback_image": "",
+            "focal_point": "center 30%",
+            "title": "",
+            "description": "",
+            "count_label": "",
+            "show_count": true,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_xqNfBg",
+        "featured_collection_PbgdPY",
+        "featured_collection_9L94Ci",
+        "featured_collection_8pgzU4"
+      ],
+      "settings": {
+        "show_warp": true,
+        "title": "",
+        "heading_uppercase": true,
+        "heading_size": "d2",
+        "lede": "",
+        "show_view_all": false,
+        "view_all_label": "Shop All",
+        "view_all_link": "shopify://collections/all",
+        "columns_desktop": 3,
+        "card_min_height": 340,
+        "padding_top": 20,
+        "padding_bottom": 64,
+        "color_scheme": "scheme-1",
+        "section_bg": "",
+        "custom_class": "",
+        "section_id": "shopby"
+      }
     }
   },
   "order": [
     "main",
-    "collection_list"
+    "collection_list",
+    "collection_list_rUxRjX"
   ]
 }

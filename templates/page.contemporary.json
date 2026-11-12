@@ -23,7 +23,7 @@
         "collection_1": {
           "type": "featured_collection",
           "settings": {
-            "collection": "",
+            "collection": "contemporary-women",
             "fallback_image": "",
             "focal_point": "center 30%",
             "title": "",
@@ -36,20 +36,7 @@
         "collection_2": {
           "type": "featured_collection",
           "settings": {
-            "collection": "",
-            "fallback_image": "",
-            "focal_point": "center 30%",
-            "title": "",
-            "description": "",
-            "count_label": "",
-            "show_count": true,
-            "link": ""
-          }
-        },
-        "collection_3": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "",
+            "collection": "20-oct-contemporary-men",
             "fallback_image": "",
             "focal_point": "center 30%",
             "title": "",
@@ -62,8 +49,7 @@
       },
       "block_order": [
         "collection_1",
-        "collection_2",
-        "collection_3"
+        "collection_2"
       ],
       "settings": {
         "show_warp": true,
