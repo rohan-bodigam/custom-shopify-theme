@@ -268,7 +268,7 @@
         "monogram_width": 100,
         "text": "Our monogram weaves the letter K through the warp of a handloom, with a shuttle passing through, and it is the simplest way we know to say what we do.",
         "button_label": "Collaborate With Us",
-        "button_link": "/pages/contact",
+        "button_link": "shopify://pages/contact",
         "enable_gradient": true,
         "gradient_center": "#5a1c28",
         "background_color": "#3b1019",
