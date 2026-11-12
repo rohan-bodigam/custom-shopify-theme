@@ -12,18 +12,18 @@
     "image_banner": {
       "type": "image-banner",
       "blocks": {
-        "slide_1": {
+        "slide_6aLP8r": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage_banners_1.png",
+            "image": "shopify://shop_images/Homepage-04.jpg",
             "focal_point": "center center",
-            "alt_text": "Stories of India - Celebration and Family Gathering"
+            "alt_text": ""
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage_banners_2.png",
+            "image": "shopify://shop_images/Homepage-02.jpg",
             "focal_point": "center center",
             "alt_text": "Handcrafted Indian Textiles and Heritage Craft"
           }
@@ -31,25 +31,25 @@
         "slide_3": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage_banners_3.png",
+            "image": "shopify://shop_images/Homepage-03.jpg",
             "focal_point": "center center",
             "alt_text": "Contemporary Handloom Clothing"
-          }
-        },
-        "slide_6aLP8r": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Homepage_banners_4.png",
-            "focal_point": "center center",
-            "alt_text": ""
           }
         },
         "slide_9LJdqk": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage_banners_5.png",
+            "image": "shopify://shop_images/Homepage-05.jpg",
             "focal_point": "center center",
             "alt_text": ""
+          }
+        },
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Homepage-01.jpg",
+            "focal_point": "center center",
+            "alt_text": "Stories of India - Celebration and Family Gathering"
           }
         },
         "slide_dVz7Ra": {
@@ -62,11 +62,11 @@
         }
       },
       "block_order": [
-        "slide_1",
+        "slide_6aLP8r",
         "slide_2",
         "slide_3",
-        "slide_6aLP8r",
         "slide_9LJdqk",
+        "slide_1",
         "slide_dVz7Ra"
       ],
       "settings": {
