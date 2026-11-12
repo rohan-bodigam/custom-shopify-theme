@@ -165,7 +165,7 @@
         "lede": "Our first journey through India, region by region.",
         "show_link": true,
         "link_label": "Explore Culture",
-        "link_url": "",
+        "link_url": "shopify://pages/culture",
         "columns_desktop": 5,
         "section_bg": "",
         "color_scheme": "",
