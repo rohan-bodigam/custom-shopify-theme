@@ -20,7 +20,7 @@
         "heading": "East India",
         "tagline": "Where Every Thread Tells a Story",
         "states": "West Bengal · Odisha · Bihar · Jharkhand",
-        "button_label": "Shop This Chapter",
+        "button_label": "",
         "button_link": "",
         "min_height_desktop": 560,
         "min_height_mobile": 460,
@@ -207,7 +207,7 @@
             "description": "Baluchari is Bishnupur silk with scenes from the epics woven across the pallu. If you want a Baluchari saree online from a seller who names the weave, this is where to start. Single Thread Baluchari uses one colour of figuring thread, and Meenakari adds small inlays of colour.",
             "quote": "The pallu is a picture book you can wear.",
             "link_label": "Shop Baluchari",
-            "link_url": ""
+            "link_url": "shopify://collections/meenakari-baluchari"
           }
         },
         "weave_3": {
@@ -219,7 +219,7 @@
             "description": "Swarnachari is Baluchari's festive sibling, with the same story pallus picked out in gold or silver zari.",
             "quote": "Swarnachari tells the story; Swarnachari lights it up.",
             "link_label": "Shop Swarnachari",
-            "link_url": ""
+            "link_url": "shopify://collections/meenakari-swarnachari"
           }
         }
       },
