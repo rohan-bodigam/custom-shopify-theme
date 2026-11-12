@@ -9,6 +9,24 @@
  */
 {
   "sections": {
+    "culture_banner_iGVYcE": {
+      "type": "culture-banner",
+      "name": "Culture Banner",
+      "settings": {
+        "image": "shopify://shop_images/Contemporary.jpg",
+        "heading": "Contemporary",
+        "heading_size": "display",
+        "description": "Handloom, reimagined for a new generation. Ikkat, chiffon, mul cotton and Banaras sit side by side here, cut for offices, weekends and evenings out. Each piece names its weave.",
+        "text_alignment": "left",
+        "show_warp_icon": true,
+        "show_thread_accent": true,
+        "banner_min_height": 520,
+        "banner_min_height_mobile": 400,
+        "overlay_opacity": 75,
+        "overlay_color": "#381119",
+        "text_color": "#F7F3EE"
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
@@ -72,6 +90,7 @@
     }
   },
   "order": [
+    "culture_banner_iGVYcE",
     "main",
     "collection_list"
   ]
