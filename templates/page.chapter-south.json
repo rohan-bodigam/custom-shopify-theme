@@ -38,7 +38,7 @@
           "type": "collection_tab",
           "settings": {
             "collection": "mangalgiri-cotton",
-            "title": "Mangalagiri",
+            "title": "Mangalagiri Cotton",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
             "is_soon": false,
@@ -50,8 +50,8 @@
         "tab_2": {
           "type": "collection_tab",
           "settings": {
-            "collection": "ikkat",
-            "title": "Ikkat",
+            "collection": "mangalgiri-kalamkari",
+            "title": "Mangalgiri Kalamkari",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
             "is_soon": false,
@@ -63,8 +63,112 @@
         "tab_3": {
           "type": "collection_tab",
           "settings": {
+            "collection": "mangalgiri-lehangas",
+            "title": "Mangalgiri Lehenga",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_bCUqhx": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalgiri-pattu-embroidery",
+            "title": "Mangalgiri Pattu Embroidery",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_Br6eN6": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalgiri-lt-pattu-cotton",
+            "title": "Mangalgiri Pattu Cotton",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_eCeMq7": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalgiri-screen-print",
+            "title": "Mangalgiri Screen Print",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_ttHH4k": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalgiri-dothi-pancha",
+            "title": "Mangalgiri Dothi Pancha",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_8H7FyW": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalgiri-silk-silk",
+            "title": "Mangalgiri Silk",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_mFf9ic": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "mangalgiri-with-kalamkari",
+            "title": "Mangalgiri With Kalamkari",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_ND6Qwt": {
+          "type": "collection_tab",
+          "settings": {
+            "collection": "ikkat",
+            "title": "Pochampally Ikkat",
+            "shop_all_label": "Shop All",
+            "shop_all_link": "",
+            "is_soon": false,
+            "soon_badge_text": "Soon",
+            "soon_heading": "Cloth Still On The Loom",
+            "soon_text": "The first pieces of this weave are currently on the loom. Check back soon or explore our other collections."
+          }
+        },
+        "collection_tab_8RhHTC": {
+          "type": "collection_tab",
+          "settings": {
             "collection": "crape-silk",
-            "title": "Crape Silk",
+            "title": "Crepe Silk",
             "shop_all_label": "Shop All",
             "shop_all_link": "",
             "is_soon": false,
@@ -77,7 +181,15 @@
       "block_order": [
         "tab_1",
         "tab_2",
-        "tab_3"
+        "tab_3",
+        "collection_tab_bCUqhx",
+        "collection_tab_Br6eN6",
+        "collection_tab_eCeMq7",
+        "collection_tab_ttHH4k",
+        "collection_tab_8H7FyW",
+        "collection_tab_mFf9ic",
+        "collection_tab_ND6Qwt",
+        "collection_tab_8RhHTC"
       ],
       "settings": {
         "heading": "Shop by South",
