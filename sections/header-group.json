@@ -132,6 +132,7 @@
         },
         "chapter_card_ww4pwk": {
           "type": "chapter_card",
+          "disabled": true,
           "settings": {
             "pre_heading": "CHAPTER 05",
             "heading": "NORTH EAST INDIA",
