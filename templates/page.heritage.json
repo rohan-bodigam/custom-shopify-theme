@@ -17,6 +17,24 @@
         "padding_bottom": 16
       }
     },
+    "culture_banner_LL6XVy": {
+      "type": "culture-banner",
+      "name": "Culture Banner",
+      "settings": {
+        "image": "shopify://shop_images/Heritage.jpg",
+        "heading": "Heritage",
+        "heading_size": "display",
+        "description": "Sarees and sets from the five regional chapters, each named for its weave and the region that made it.",
+        "text_alignment": "left",
+        "show_warp_icon": true,
+        "show_thread_accent": false,
+        "banner_min_height": 520,
+        "banner_min_height_mobile": 400,
+        "overlay_opacity": 75,
+        "overlay_color": "#381119",
+        "text_color": "#131313"
+      }
+    },
     "collection_list": {
       "type": "collection-list",
       "blocks": {
@@ -336,6 +354,7 @@
   },
   "order": [
     "main",
+    "culture_banner_LL6XVy",
     "collection_list",
     "collection_list_rUxRjX"
   ]
