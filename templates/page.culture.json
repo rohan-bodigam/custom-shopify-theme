@@ -12,6 +12,7 @@
     "banner": {
       "type": "culture-banner",
       "settings": {
+        "image": "shopify://shop_images/All_Chapters.jpg",
         "heading": "CULTURE",
         "heading_size": "display",
         "description": "Five regions, each with its own landscape, makers and ways of working with thread. Choose a chapter to read it in depth.",
