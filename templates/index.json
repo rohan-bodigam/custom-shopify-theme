@@ -260,7 +260,7 @@
           "type": "featured_collection",
           "settings": {
             "collection": "20-oct-contemporary-men",
-            "image": "shopify://shop_images/download_30742ef2-99a1-422e-97dc-1b0e699381e4.png",
+            "image": "shopify://shop_images/pgContact.webp",
             "fallback_image": "",
             "focal_point": "center 30%",
             "title": "Heritage",
@@ -274,6 +274,7 @@
           "type": "featured_collection",
           "settings": {
             "collection": "contemporary-women",
+            "image": "shopify://shop_images/bnContemporary.webp",
             "fallback_image": "mega-contemporary.webp",
             "focal_point": "58% 40%",
             "title": "Contemporary",
@@ -287,6 +288,7 @@
           "type": "featured_collection",
           "settings": {
             "collection": "20-oct-contemporary-men",
+            "image": "shopify://shop_images/bnMen.webp",
             "fallback_image": "mega-men.webp",
             "focal_point": "55% 30%",
             "title": "Men",
@@ -300,6 +302,7 @@
           "type": "featured_collection",
           "settings": {
             "collection": "mangalgiri-kalamkari",
+            "image": "shopify://shop_images/bnWomen.webp",
             "fallback_image": "mega-women.webp",
             "focal_point": "64% 40%",
             "title": "Women",
