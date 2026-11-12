@@ -381,7 +381,7 @@
             "image": "shopify://shop_images/mapEast.jpg",
             "fallback_image": "mapEast.jpg",
             "collection": "",
-            "link": "#/chapter/east",
+            "link": "shopify://pages/east-india",
             "accent_color": "#7a8063",
             "accent_deep": "#5e634b",
             "accent_lite": "#b9be9e"
@@ -396,7 +396,7 @@
             "states_count": "5 states",
             "fallback_image": "mapWest.jpg",
             "collection": "",
-            "link": "#/chapter/west",
+            "link": "shopify://pages/west-central-india",
             "accent_color": "#6b2230",
             "accent_deep": "#6b2230",
             "accent_lite": "#e2a3ae"
@@ -411,7 +411,7 @@
             "states_count": "4 states",
             "fallback_image": "mapNorth.jpg",
             "collection": "",
-            "link": "#/chapter/north",
+            "link": "shopify://pages/north-india",
             "accent_color": "#b08d57",
             "accent_deep": "#7a5a31",
             "accent_lite": "#d1b17e"
@@ -426,7 +426,7 @@
             "states_count": "4 states",
             "fallback_image": "mapSouth.jpg",
             "collection": "",
-            "link": "#/chapter/south",
+            "link": "shopify://pages/south-india",
             "accent_color": "#3f5750",
             "accent_deep": "#3f5750",
             "accent_lite": "#9dbdb2"
@@ -441,7 +441,7 @@
             "states_count": "8 states · Revealing soon",
             "fallback_image": "mapNorthEast.jpg",
             "collection": "",
-            "link": "#/chapter/northeast",
+            "link": "shopify://pages/north-east-india",
             "accent_color": "#4a2a3a",
             "accent_deep": "#4a2a3a",
             "accent_lite": "#cfa3b8"
@@ -567,7 +567,7 @@
         "heading_size": "d2",
         "lede": "Contemporary handloom clothing without the occasion is what this collection is for: ikkat, chiffon, mul cotton and Banaras on one rail, cut for offices, weekends and evenings out.",
         "button_label": "Explore Contemporary",
-        "button_link": "",
+        "button_link": "shopify://pages/contemporary",
         "button_style": "light",
         "fallback_image": "mega-contemporary.webp",
         "alt_text": "Handloom pieces in ikkat, mul cotton and Banaras, side by side",
@@ -595,7 +595,7 @@
             "tagline": "Where Every Thread Tells a Story",
             "katha": "Bengal’s river delta gave India its finest cotton. Muslin so sheer it was once said to be woven air came from these waters, and the habit of wearing soft, breathable cotton never left. Our East chapter begins with the cloth that carries that habit forward: mul cotton, light enough for a Kolkata summer and strong enough for daily wear.",
             "weaves": "Mul Cotton, Baluchari, Swarnachari",
-            "chapter_link": "",
+            "chapter_link": "shopify://pages/east-india",
             "accent_color": "#7a8063",
             "accent_deep": "#5e634b",
             "accent_lite": "#b9be9e"
@@ -612,7 +612,7 @@
             "tagline": "Where Colour Meets Craft",
             "katha": "On the banks of the Narmada, a queen once set up looms to give a fort town a living. In the dry country of Rajasthan, weavers learned to make cotton so light it is nearly sheer. This chapter holds two of India’s lightest and most elegant cloths: Maheshwari and Zari Kota, both made for heat, both finished with a little gold.",
             "weaves": "Maheshwari, Zari Kota, Pure Kota",
-            "chapter_link": "",
+            "chapter_link": "shopify://pages/west-central-india",
             "accent_color": "#6b2230",
             "accent_deep": "#6b2230",
             "accent_lite": "#e2a3ae"
@@ -629,7 +629,7 @@
             "tagline": "Where Heritage Lives in Every Detail",
             "katha": "Varanasi has woven silk and gold for centuries, and its looms still set the standard for the Indian wedding saree. This chapter pairs that weight and richness with its opposite: light chiffon, the sheer, floating cloth that carries the same gold borders at a fraction of the heaviness.",
             "weaves": "Banaras, Chiffon",
-            "chapter_link": "",
+            "chapter_link": "shopify://pages/north-india",
             "accent_color": "#b08d57",
             "accent_deep": "#7a5a31",
             "accent_lite": "#d1b17e"
@@ -646,7 +646,7 @@
             "tagline": "Where Tradition Meets Contemporary Design",
             "katha": "Two Telugu-speaking states, two ways of using colour. In Andhra Pradesh, Mangalagiri weavers make crisp cotton with a gold-flecked border. In Telangana, ikkat weavers tie and dye the yarn before it ever touches a loom. Both are practical, beautiful and easy to wear every day.",
             "weaves": "Mangalagiri, Ikkat, Crape Silk",
-            "chapter_link": "",
+            "chapter_link": "shopify://pages/south-india",
             "accent_color": "#3f5750",
             "accent_deep": "#3f5750",
             "accent_lite": "#9dbdb2"
@@ -663,7 +663,7 @@
             "tagline": "Where Nature Inspires Every Weave",
             "katha": "Assam’s golden silk is spun by silkworms that feed on leaves from trees in the Brahmaputra valley. It is one of the few silks in the world that gets shinier with age, and for centuries it was reserved for royalty. Our North East chapter begins with Muga, the cloth that glows.",
             "weaves": "",
-            "chapter_link": "",
+            "chapter_link": "shopify://pages/north-east-india",
             "accent_color": "#4a2a3a",
             "accent_deep": "#4a2a3a",
             "accent_lite": "#cfa3b8"
