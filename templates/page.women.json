@@ -17,6 +17,24 @@
         "padding_bottom": 16
       }
     },
+    "culture_banner_jDP8Mg": {
+      "type": "culture-banner",
+      "name": "Culture Banner",
+      "settings": {
+        "image": "shopify://shop_images/Women_f2e47034-537e-4c18-8dc1-2473dbb0f7da.jpg",
+        "heading": "CULTURE",
+        "heading_size": "display",
+        "description": "Sarees from eleven weaves, lehenga sets, dresses and brocade, each piece named for its weave and the region that made it.",
+        "text_alignment": "left",
+        "show_warp_icon": true,
+        "show_thread_accent": false,
+        "banner_min_height": 520,
+        "banner_min_height_mobile": 400,
+        "overlay_opacity": 75,
+        "overlay_color": "#381119",
+        "text_color": "#131313"
+      }
+    },
     "collection_list": {
       "type": "collection-list",
       "blocks": {
@@ -350,6 +368,7 @@
   },
   "order": [
     "main",
+    "culture_banner_jDP8Mg",
     "collection_list",
     "collection_list_CxiEUt"
   ]
