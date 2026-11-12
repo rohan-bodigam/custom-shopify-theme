@@ -18,7 +18,7 @@
         "description": "Five regions, each with its own landscape, makers and ways of working with thread. Choose a chapter to read it in depth.",
         "text_alignment": "left",
         "show_warp_icon": true,
-        "show_thread_accent": true,
+        "show_thread_accent": false,
         "banner_min_height": 520,
         "banner_min_height_mobile": 400,
         "overlay_opacity": 75,
