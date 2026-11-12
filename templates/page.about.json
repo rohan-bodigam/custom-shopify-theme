@@ -82,7 +82,7 @@
             "states_count": "4 states",
             "fallback_image": "mapEast.jpg",
             "collection": "",
-            "link": "#/chapter/east",
+            "link": "shopify://pages/east-india",
             "accent_color": "#7a8063",
             "accent_deep": "#5e634b",
             "accent_lite": "#b9be9e"
@@ -97,7 +97,7 @@
             "states_count": "5 states",
             "fallback_image": "mapWest.jpg",
             "collection": "",
-            "link": "#/chapter/west",
+            "link": "shopify://pages/west-central-india",
             "accent_color": "#6b2230",
             "accent_deep": "#6b2230",
             "accent_lite": "#e2a3ae"
@@ -112,7 +112,7 @@
             "states_count": "4 states",
             "fallback_image": "mapNorth.jpg",
             "collection": "",
-            "link": "#/chapter/north",
+            "link": "shopify://pages/north-india",
             "accent_color": "#b08d57",
             "accent_deep": "#7a5a31",
             "accent_lite": "#d1b17e"
@@ -127,7 +127,7 @@
             "states_count": "4 states",
             "fallback_image": "mapSouth.jpg",
             "collection": "",
-            "link": "#/chapter/south",
+            "link": "shopify://pages/south-india",
             "accent_color": "#3f5750",
             "accent_deep": "#3f5750",
             "accent_lite": "#9dbdb2"
@@ -142,7 +142,7 @@
             "states_count": "8 states · Revealing soon",
             "fallback_image": "mapNorthEast.jpg",
             "collection": "",
-            "link": "#/chapter/northeast",
+            "link": "shopify://pages/north-east-india",
             "accent_color": "#4a2a3a",
             "accent_deep": "#4a2a3a",
             "accent_lite": "#cfa3b8"
