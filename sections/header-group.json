@@ -68,7 +68,7 @@
         "banner_min_height_mobile": 400,
         "overlay_opacity": 75,
         "overlay_color": "#381119",
-        "text_color": "#F7F3EE"
+        "text_color": "#f7f3ee"
       }
     },
     "culture_chapters_fJngXT": {
@@ -104,6 +104,7 @@
         },
         "chapter_card_pmjNBB": {
           "type": "chapter_card",
+          "disabled": true,
           "settings": {
             "pre_heading": "CHAPTER 03",
             "heading": "SOUTH INDIA",
@@ -118,6 +119,7 @@
         },
         "chapter_card_CwyaYt": {
           "type": "chapter_card",
+          "disabled": true,
           "settings": {
             "pre_heading": "CHAPTER 04",
             "heading": "NORTH INDIA",
@@ -157,9 +159,9 @@
       "settings": {
         "heading": "",
         "lede": "",
-        "section_bg_color": "#F5EFE6",
+        "section_bg_color": "#f5efe6",
         "show_side_thread": true,
-        "side_thread_color": "#8C4753",
+        "side_thread_color": "#8c4753",
         "card_border_radius": 20,
         "card_gap": 32,
         "padding_top": 56,
