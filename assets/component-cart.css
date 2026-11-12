@@ -220,3 +220,456 @@ cart-items {
     gap: 1rem;
   }
 }
+
+/* ========================================================
+   House of Kala Katha - Luxury Bag Page (Reference Match)
+   ======================================================== */
+
+body.template-cart {
+  background-color: #F7F3EE;
+}
+
+body.template-cart #MainContent {
+  background-color: #F7F3EE;
+}
+
+.cart-page-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.cart-page-heading {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(28px, 3.8vw, 38px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #171717;
+  text-transform: uppercase;
+  margin: 0 0 32px;
+  line-height: 1.15;
+}
+
+.bag-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 989px) {
+  .bag-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .cart-page-wrap {
+    padding: 24px 16px 60px;
+  }
+}
+
+/* --- Left Column: Line Items --- */
+.bag-line-items {
+  border-top: 1px solid rgba(23, 23, 23, 0.12);
+}
+
+.bag-line {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(23, 23, 23, 0.12);
+  align-items: start;
+}
+
+@media (max-width: 550px) {
+  .bag-line {
+    grid-template-columns: 80px 1fr auto;
+    gap: 14px;
+    padding: 18px 0;
+  }
+}
+
+.bag-line__img-wrap {
+  width: 96px;
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #EFEAE4;
+  display: block;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+@media (max-width: 550px) {
+  .bag-line__img-wrap {
+    width: 80px;
+  }
+}
+
+.bag-line__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.bag-line__img-wrap:hover .bag-line__img {
+  transform: scale(1.03);
+}
+
+.bag-line__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.bag-line__title {
+  margin: 0 0 4px;
+  font-family: 'Forum', Georgia, serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.bag-line__title a {
+  color: #171717;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.bag-line__title a:hover {
+  color: #5C1E2D;
+}
+
+.bag-line__meta {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  color: #78716C;
+  margin: 2px 0 16px;
+  line-height: 1.4;
+}
+
+.bag-line__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* --- Quantity Pill Selector --- */
+.bag-qty-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 999px;
+  background: #FFFFFF;
+  padding: 0 4px;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.bag-qty-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: #171717;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bag-qty-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #5C1E2D;
+}
+
+.bag-qty-input {
+  width: 36px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #171717;
+  padding: 0;
+  margin: 0;
+  -moz-appearance: textfield;
+}
+
+.bag-qty-input::-webkit-outer-spin-button,
+.bag-qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bag-qty-input:focus {
+  outline: none;
+}
+
+/* --- Remove Button --- */
+.bag-line__remove-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.bag-line__remove-link {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  color: #78716C;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+
+.bag-line__remove-link:hover {
+  color: #5C1E2D;
+}
+
+/* --- Price --- */
+.bag-line__price {
+  text-align: right;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #171717;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.bag-line__price--old {
+  display: block;
+  font-size: 13px;
+  color: #78716C;
+  text-decoration: line-through;
+}
+
+.bag-line__price--final {
+  color: #5C1E2D;
+}
+
+/* --- Gift / Order Note --- */
+.bag-order-note-wrap {
+  margin-top: 28px;
+}
+
+.bag-order-note-label {
+  display: block;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #171717;
+  margin-bottom: 8px;
+}
+
+.bag-order-note-textarea {
+  width: 100%;
+  max-width: 540px;
+  border: 1px solid rgba(23, 23, 23, 0.18);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  background: #FFFFFF;
+  color: #171717;
+  resize: vertical;
+}
+
+.bag-order-note-hint {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 12.5px;
+  color: #78716C;
+  margin: 6px 0 0;
+}
+
+/* --- Right Column: Order Summary Card --- */
+.bag-summary-card {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 30px 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(23, 23, 23, 0.06);
+  position: sticky;
+  top: calc(var(--nav-h, 72px) + 24px);
+}
+
+.bag-summary-title {
+  font-family: 'Forum', Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #171717;
+  margin: 0 0 18px;
+  line-height: 1.2;
+}
+
+.bag-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14.5px;
+  color: #4A4240;
+}
+
+.bag-summary-row--total {
+  border-top: 1px solid rgba(23, 23, 23, 0.12);
+  margin-top: 10px;
+  padding-top: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #171717;
+}
+
+.bag-summary-tax-note {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  color: #78716C;
+  margin: 8px 0 0;
+  line-height: 1.45;
+}
+
+.bag-summary-shipping-threshold {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  color: #4A4240;
+  margin: 10px 0 0;
+  line-height: 1.4;
+}
+
+.bag-summary-shipping-threshold--unlocked {
+  color: #2D6A4F;
+  font-weight: 500;
+}
+
+.bag-checkout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
+  border-radius: 999px;
+  background: #5C1E2D;
+  color: #FFFFFF;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  letter-spacing: 0.02em;
+}
+
+.bag-checkout-btn:hover {
+  background: #461421;
+}
+
+.bag-checkout-btn:active {
+  transform: scale(0.99);
+}
+
+.bag-continue-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  color: #5C1E2D;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.bag-continue-link:hover {
+  color: #3B0E19;
+}
+
+/* --- Empty Bag State --- */
+.cart__empty-state {
+  text-align: center;
+  padding: 80px 20px 120px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.cart-empty-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 500;
+  color: #171717;
+  margin: 0 0 14px;
+  line-height: 1.2;
+}
+
+.cart-empty-subtitle {
+  font-family: 'Forum', Georgia, serif;
+  font-size: 18px;
+  color: #78716C;
+  margin: 0 auto 32px;
+  line-height: 1.5;
+  max-width: 48ch;
+}
+
+.cart-empty-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bag-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 32px;
+  border-radius: 999px;
+  background: #5C1E2D;
+  color: #FFFFFF;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid #5C1E2D;
+  transition: background-color 0.2s ease;
+}
+
+.bag-btn:hover {
+  background: #461421;
+}
+
+.bag-btn--ghost {
+  background: transparent;
+  color: #171717;
+  border: 1px solid rgba(23, 23, 23, 0.25);
+}
+
+.bag-btn--ghost:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: #171717;
+}
+
+/* Empty State Toggle */
+cart-items.is-empty .cart__empty-state {
+  display: block !important;
+}
+
+cart-items.is-empty .cart__active-state {
+  display: none !important;
+}

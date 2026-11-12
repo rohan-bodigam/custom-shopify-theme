@@ -142,10 +142,12 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
   }
 
   getSectionsToRender() {
-    return [
+    const itemsEl = document.getElementById('main-cart-items');
+    const footerEl = document.getElementById('main-cart-footer');
+    const sections = [
       {
         id: 'main-cart-items',
-        section: document.getElementById('main-cart-items').dataset.id,
+        section: itemsEl ? itemsEl.dataset.id : 'main-cart-items',
         selector: '.js-contents',
       },
       {
@@ -158,12 +160,17 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
         section: 'cart-live-region-text',
         selector: '.shopify-section',
       },
-      {
-        id: 'main-cart-footer',
-        section: document.getElementById('main-cart-footer').dataset.id,
-        selector: '.js-contents',
-      },
     ];
+
+    if (footerEl && footerEl.dataset && footerEl.dataset.id && footerEl.dataset.id !== itemsEl?.dataset.id && !footerEl.classList.contains('hidden')) {
+      sections.push({
+        id: 'main-cart-footer',
+        section: footerEl.dataset.id,
+        selector: '.js-contents',
+      });
+    }
+
+    return sections;
   }
 
   updateQuantity(line, quantity, event, name, variantId) {
@@ -221,13 +228,15 @@ class CartItems extends window.StandardEvents.createViewEventElement(HTMLElement
           if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
 
           sectionsToRender.forEach((section) => {
-            const elementToReplace =
-              document.getElementById(section.id).querySelector(section.selector) ||
-              document.getElementById(section.id);
-            elementToReplace.innerHTML = this.getSectionInnerHTML(
-              parsedState.sections[section.section],
-              section.selector
-            );
+            const target = document.getElementById(section.id);
+            if (!target) return;
+            const elementToReplace = target.querySelector(section.selector) || target;
+            if (parsedState.sections[section.section]) {
+              elementToReplace.innerHTML = this.getSectionInnerHTML(
+                parsedState.sections[section.section],
+                section.selector
+              );
+            }
           });
           const updatedValue = parsedState.items[line - 1] ? parsedState.items[line - 1].quantity : undefined;
           let message = '';
