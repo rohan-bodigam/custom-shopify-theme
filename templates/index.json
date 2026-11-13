@@ -938,7 +938,7 @@
         "email_placeholder": "Your email address",
         "button_label": "Subscribe",
         "success_message": "You’re on the list. The next letter arrives at the start of the month.",
-        "disclaimer": "<p>By subscribing you agree to receive marketing emails from House of Kala Katha. You can unsubscribe with one click from any letter. See our <a href=\"#/policy/privacy\">privacy policy</a>.</p>",
+        "disclaimer": "<p>By subscribing you agree to receive marketing emails from House of Kala Katha. You can unsubscribe with one click from any letter. See our <a href=\"https://houseofkalakatha.com/policies/privacy-policy\" title=\"https://houseofkalakatha.com/policies/privacy-policy\">privacy policy</a>.</p>",
         "background_style": "gradient",
         "custom_bg": "",
         "padding_top": 80,
