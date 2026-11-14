@@ -104,6 +104,7 @@
     },
     "chapter_landscape_EKmr3q": {
       "type": "chapter-landscape",
+      "disabled": true,
       "name": "Chapter Landscape",
       "settings": {
         "image": "shopify://shop_images/hokk-founder.jpg",
