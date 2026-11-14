@@ -22,7 +22,7 @@
         "states": "Jammu & Kashmir · Punjab · Himachal Pradesh · Uttar Pradesh",
         "button_label": "",
         "button_link": "shopify://pages/north-india",
-        "min_height_desktop": 800,
+        "min_height_desktop": 700,
         "min_height_mobile": 460,
         "overlay_opacity": 90,
         "background_color": "#6e4d2b",
