@@ -71,6 +71,37 @@
         "padding_bottom": 64
       }
     },
+    "rich_text_TAC9YD": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_kBgjan": {
+          "type": "heading",
+          "settings": {
+            "heading": "OUR PROMISE",
+            "heading_size": "h1"
+          }
+        },
+        "text_8VGr6V": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Rooted in Tradition. Designed for Today.<br/><br/>At House of Kala Katha, we want every creation to reflect the beauty of Indian textiles while fitting naturally into modern lifestyles.<br/><br/>We invite you to discover, experience and wear the stories of India.<br/></p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_kBgjan",
+        "text_8VGr6V"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
     "chapter_landscape_EKmr3q": {
       "type": "chapter-landscape",
       "name": "Chapter Landscape",
@@ -300,6 +331,7 @@
   "order": [
     "hero",
     "pillars",
+    "rich_text_TAC9YD",
     "chapter_landscape_EKmr3q",
     "heritage_NXNY6c",
     "values",
