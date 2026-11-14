@@ -22,7 +22,7 @@
         "states": "Tamil Nadu · Karnataka · Andhra Pradesh · Telangana · Kerala",
         "button_label": "",
         "button_link": "shopify://pages/south-india",
-        "min_height_desktop": 800,
+        "min_height_desktop": 720,
         "min_height_mobile": 460,
         "overlay_opacity": 90,
         "background_color": "#263b48",
