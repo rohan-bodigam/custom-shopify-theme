@@ -22,7 +22,7 @@
         "states": "Rajasthan · Gujarat · Maharashtra · Madhya Pradesh · Goa",
         "button_label": "",
         "button_link": "shopify://pages/west-central-india",
-        "min_height_desktop": 800,
+        "min_height_desktop": 660,
         "min_height_mobile": 460,
         "overlay_opacity": 90,
         "background_color": "#5c1e2d",

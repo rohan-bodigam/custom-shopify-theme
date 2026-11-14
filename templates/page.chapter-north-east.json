@@ -21,7 +21,7 @@
         "states": "Assam · Meghalaya · Nagaland · Manipur · Mizoram · Tripura · Arunachal Pradesh",
         "button_label": "",
         "button_link": "",
-        "min_height_desktop": 560,
+        "min_height_desktop": 460,
         "min_height_mobile": 460,
         "overlay_opacity": 90,
         "background_color": "#7c3524",
