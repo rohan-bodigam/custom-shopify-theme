@@ -282,7 +282,15 @@
             <div class="hokk-opt-group" id="groupSize">
               <div class="hokk-opt-h">
                 <span>Size</span>
-                <button type="button" class="hokk-size-guide-btn" id="openSizeGuideBtn">Size guide</button>
+                <button
+                  type="button"
+                  class="hokk-size-guide-btn"
+                  id="openSizeGuideBtn"
+                  data-open-size-guide
+                  onclick="window.hokkOpenSizeGuide && window.hokkOpenSizeGuide(event)"
+                >
+                  Size guide
+                </button>
               </div>
               <div class="hokk-sizes" id="sizeList">
                 {%- if size_option -%}
@@ -389,7 +397,13 @@
             <summary>Size guide</summary>
             <div class="in" id="accSizeGuideContent">
               <p>Saree length 5.5 m plus blouse piece where stated; width 46–48 inches.</p>
-              <button type="button" class="hokk-accordion-sg-trigger" style="margin-top:10px; background:none; border:none; padding:0; color:#6B2230; font-size:0.84rem; text-decoration:underline; cursor:pointer; font-weight:500;">
+              <button
+                type="button"
+                class="hokk-accordion-sg-trigger"
+                data-open-size-guide
+                onclick="window.hokkOpenSizeGuide && window.hokkOpenSizeGuide(event)"
+                style="margin-top:10px; background:none; border:none; padding:0; color:#6B2230; font-size:0.84rem; text-decoration:underline; cursor:pointer; font-weight:500;"
+              >
                 Open interactive size chart & measurement guide →
               </button>
             </div>

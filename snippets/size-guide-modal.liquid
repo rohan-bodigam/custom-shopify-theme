@@ -1,6 +1,6 @@
 {% comment %}
   House of Kala Katha - Dual Size Guide Modal (Women's Size Chart & Men's Size Guide)
-  Auto-detects gender from product metadata, collections, tags, or product type.
+  Includes both interactive tables and the high-resolution reference chart images.
 {% endcomment %}
 
 {%- liquid
@@ -8,8 +8,10 @@
 
   # 1. Product Metafields
   assign made_for = product.metafields.custom.made_for | downcase
-  if made_for contains 'men' and made_for contains 'women' == false
-    assign is_men = true
+  if made_for contains 'men'
+    unless made_for contains 'women'
+      assign is_men = true
+    endunless
   endif
 
   # 2. Product Collections
@@ -41,11 +43,688 @@
   endif
 -%}
 
+<style>
+  body.hokk-modal-locked {
+    overflow: hidden !important;
+    touch-action: none !important;
+  }
+
+  /* Modal Overlay - Hidden by default */
+  .hokk-size-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999999 !important;
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 16px !important;
+    background: rgba(23, 23, 23, 0.72) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+  }
+
+  .hokk-size-modal.is-open {
+    display: flex !important;
+  }
+
+  .hokk-size-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  /* Modal Dialog Box */
+  .hokk-size-modal__dialog {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 660px;
+    max-height: 90vh;
+    background: #FAF6F0;
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid rgba(197, 168, 128, 0.35);
+  }
+
+  /* Close Button */
+  .hokk-size-modal__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 30;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #171717;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+  }
+
+  .hokk-size-modal__close:hover {
+    background: #4A1525;
+    color: #FFFFFF;
+    transform: scale(1.06);
+  }
+
+  /* Top Gender Switcher */
+  .hokk-size-modal__gender-bar {
+    display: flex;
+    background: #ECE4D6;
+    border-bottom: 1px solid #DFD4C2;
+    padding: 5px;
+    border-radius: 12px 12px 0 0;
+    padding-right: 56px; /* Space for close button */
+  }
+
+  .hokk-gender-tab {
+    flex: 1;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #7A6F62;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .hokk-gender-tab.is-active {
+    background: #FFFFFF;
+    color: #4A1525;
+    box-shadow: 0 2px 8px rgba(74, 21, 37, 0.1);
+  }
+
+  /* Sub-tabs / View Toggle (Image vs Table) */
+  .hokk-view-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px 0;
+    background: #FAF6F0;
+  }
+
+  .hokk-view-tab {
+    background: #EFE7DA;
+    border: 1px solid #DCD1C0;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #665D52;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .hokk-view-tab.is-active {
+    background: #4A1525;
+    border-color: #4A1525;
+    color: #FFFFFF;
+  }
+
+  /* Image View Container */
+  .hokk-sg-image-view {
+    display: none;
+    padding: 14px;
+    text-align: center;
+    background: #FAF6F0;
+  }
+
+  .hokk-sg-image-view.is-active {
+    display: block;
+  }
+
+  .hokk-sg-image-view img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Pane Management */
+  .hokk-size-pane {
+    display: none;
+  }
+
+  .hokk-size-pane.is-active {
+    display: block;
+  }
+
+  /* Diamond Border Patterns */
+  .hokk-sg-diamonds {
+    text-align: center;
+    background: #4A1525;
+    color: #C5A880;
+    font-size: 7px;
+    letter-spacing: 3px;
+    line-height: 1.4;
+    padding: 5px 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .hokk-sg-diamonds--bottom {
+    background: transparent;
+    color: #C5A880;
+    margin-top: 18px;
+  }
+
+  /* ==========================================================================
+     1. WOMEN'S SIZE CHART (Screenshot 1 Styling)
+     ========================================================================== */
+
+  .hokk-wsg-header {
+    background: #4A1525;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 24px 20px 20px;
+  }
+
+  .hokk-wsg-eyebrow {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #C5A880;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .hokk-wsg-title {
+    font-family: var(--font-heading-family, 'Playfair Display', Georgia, serif);
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin: 0 0 6px;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+  }
+
+  .hokk-wsg-subtitle {
+    display: block;
+    font-size: 0.95rem;
+    color: #E0CDAF;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .hokk-wsg-body {
+    padding: 24px;
+    background: #FAF6F0;
+  }
+
+  .hokk-wsg-headline-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .hokk-wsg-body-heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #3A1420;
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  /* Table Wrapping & Base Styles */
+  .hokk-sg-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+
+  .hokk-wsg-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #4A1525;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #FFFFFF;
+  }
+
+  .hokk-wsg-table thead tr {
+    background: #4A1525;
+  }
+
+  .hokk-wsg-table thead th {
+    color: #FFFFFF;
+    padding: 12px 14px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-align: center;
+    border: none;
+  }
+
+  .hokk-wsg-table tbody tr:nth-child(odd) {
+    background: #F5EEE5;
+  }
+
+  .hokk-wsg-table tbody tr:nth-child(even) {
+    background: #FFFFFF;
+  }
+
+  .hokk-wsg-table tbody td {
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #2A2A2A;
+    border-bottom: 1px solid rgba(74, 21, 37, 0.06);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hokk-wsg-table tbody td.cell-size {
+    font-weight: 800;
+    color: #4A1525;
+    font-size: 0.95rem;
+  }
+
+  .hokk-wsg-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* How to Measure Card */
+  .hokk-wsg-measure-card {
+    margin-top: 20px;
+    background: #F0E7DB;
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 20px;
+    align-items: center;
+    border: 1px solid rgba(74, 21, 37, 0.08);
+  }
+
+  .hokk-wsg-figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hokk-wsg-mannequin {
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+    display: block;
+  }
+
+  .hokk-wsg-instructions-title {
+    font-family: var(--font-heading-family, 'Playfair Display', Georgia, serif);
+    font-size: 1.4rem;
+    color: #3A1420;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+
+  .hokk-wsg-points {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hokk-wsg-points li {
+    font-size: 0.85rem;
+    color: #3A1420;
+    line-height: 1.45;
+    display: block;
+  }
+
+  .hokk-wsg-points .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .hokk-wsg-points .dot--bust {
+    background: #8B264A;
+  }
+
+  .hokk-wsg-points .dot--waist {
+    background: #9E7634;
+  }
+
+  .hokk-wsg-points .dot--hips {
+    background: #2B6655;
+  }
+
+  .hokk-wsg-points strong {
+    font-weight: 700;
+    color: #3A1420;
+  }
+
+  .hokk-wsg-points p {
+    margin: 2px 0 0 14px;
+    color: #665;
+    font-size: 0.8rem;
+  }
+
+  /* ==========================================================================
+     2. MEN'S SIZE GUIDE (Screenshot 2 Styling)
+     ========================================================================== */
+
+  .hokk-msg-tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid #E5E0D8;
+    padding: 16px 24px 0;
+    background: #FAF6F0;
+  }
+
+  .hokk-msg-tab {
+    background: none;
+    border: none;
+    padding: 8px 0 12px;
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8C8478;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .hokk-msg-tab.is-active {
+    color: #171717;
+  }
+
+  .hokk-msg-tab.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #6B2230;
+  }
+
+  .hokk-msg-subpane {
+    padding: 22px 24px 24px;
+    display: none;
+  }
+
+  .hokk-msg-subpane.is-active {
+    display: block;
+  }
+
+  .hokk-msg-intro {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #4A4641;
+    margin: 0 0 18px;
+  }
+
+  .hokk-msg-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .hokk-toggle-group {
+    display: inline-flex;
+    border: 1px solid #D6CEC1;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #FFFFFF;
+  }
+
+  .hokk-toggle-group--small .hokk-toggle-btn {
+    padding: 4px 10px;
+    font-size: 0.68rem;
+  }
+
+  .hokk-toggle-btn {
+    background: #FFFFFF;
+    border: none;
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #555047;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .hokk-toggle-btn.is-active {
+    background: #171717;
+    color: #FFFFFF;
+  }
+
+  .hokk-msg-section {
+    margin-bottom: 24px;
+  }
+
+  .hokk-msg-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .hokk-msg-section-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #555047;
+    margin: 0 0 10px;
+  }
+
+  .hokk-msg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    background: #FFFFFF;
+    border: 1px solid #E5DFD4;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .hokk-msg-table th,
+  .hokk-msg-table td {
+    padding: 10px 12px;
+    text-align: center;
+    border-bottom: 1px solid #EFEAE1;
+    border-right: 1px solid #F5F1E8;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hokk-msg-table th {
+    background: #F7F3EA;
+    font-weight: 700;
+    color: #171717;
+    font-size: 0.84rem;
+  }
+
+  .hokk-msg-table td.row-label {
+    text-align: left;
+    font-weight: 600;
+    color: #242220;
+    background: #FAF7F0;
+    width: 25%;
+  }
+
+  .hokk-msg-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .hokk-msg-table td:last-child,
+  .hokk-msg-table th:last-child {
+    border-right: none;
+  }
+
+  /* Measuring Guides Grid */
+  .hokk-msg-measure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .hokk-measure-item {
+    background: #FFFFFF;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #E5DFD4;
+  }
+
+  .hokk-measure-item h4 {
+    margin: 0 0 6px;
+    font-size: 0.9rem;
+    color: #6B2230;
+    font-weight: 700;
+  }
+
+  .hokk-measure-item p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #555047;
+    line-height: 1.45;
+  }
+
+  /* FAQs List */
+  .hokk-faqs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hokk-faq-item {
+    background: #FFFFFF;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid #E5DFD4;
+  }
+
+  .hokk-faq-item h4 {
+    margin: 0 0 6px;
+    font-size: 0.88rem;
+    color: #171717;
+    font-weight: 700;
+  }
+
+  .hokk-faq-item p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #555047;
+    line-height: 1.5;
+  }
+
+  /* ==========================================================================
+     Mobile Responsive Adjustments (< 600px)
+     ========================================================================== */
+  @media screen and (max-width: 600px) {
+    .hokk-size-modal {
+      padding: 8px !important;
+      align-items: flex-end !important;
+    }
+
+    .hokk-size-modal__dialog {
+      max-height: 88vh;
+      border-radius: 14px 14px 0 0;
+    }
+
+    .hokk-size-modal__gender-bar {
+      padding-right: 48px;
+    }
+
+    .hokk-gender-tab {
+      font-size: 0.74rem;
+      padding: 8px 4px;
+    }
+
+    .hokk-wsg-header {
+      padding: 18px 14px 14px;
+    }
+
+    .hokk-wsg-title {
+      font-size: 1.75rem;
+    }
+
+    .hokk-wsg-body {
+      padding: 16px 14px;
+    }
+
+    .hokk-wsg-measure-card {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .hokk-wsg-figure {
+      max-height: 110px;
+    }
+
+    .hokk-msg-tabs {
+      gap: 14px;
+      padding: 12px 14px 0;
+    }
+
+    .hokk-msg-tab {
+      font-size: 0.75rem;
+      padding-bottom: 8px;
+    }
+
+    .hokk-msg-subpane {
+      padding: 16px 14px;
+    }
+
+    .hokk-msg-table th,
+    .hokk-msg-table td,
+    .hokk-wsg-table th,
+    .hokk-wsg-table td {
+      padding: 8px 6px;
+      font-size: 0.78rem;
+    }
+
+    .hokk-msg-table td.row-label {
+      width: 30%;
+      font-size: 0.76rem;
+    }
+  }
+</style>
+
 <div id="hokkSizeModal" class="hokk-size-modal" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="hokk-size-modal__backdrop" data-close-modal></div>
+  <div class="hokk-size-modal__backdrop" data-close-modal onclick="window.hokkCloseSizeGuide && window.hokkCloseSizeGuide(event)"></div>
   <div class="hokk-size-modal__dialog" role="document">
-    <button type="button" class="hokk-size-modal__close" data-close-modal aria-label="Close size guide">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <button
+      type="button"
+      class="hokk-size-modal__close"
+      data-close-modal
+      aria-label="Close size guide"
+      onclick="window.hokkCloseSizeGuide && window.hokkCloseSizeGuide(event)"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
@@ -73,140 +752,160 @@
     {% comment %} 1. WOMEN'S SIZE CHART (Screenshot 1 Reference)           {% endcomment %}
     {% comment %} ========================================================= {% endcomment %}
     <div id="hokkSizePaneWomen" class="hokk-size-pane{% unless is_men %} is-active{% endunless %}">
-      {% comment %} Top decorative diamond pattern {% endcomment %}
-      <div class="hokk-sg-diamonds">
-        <span>◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆</span>
+      {% comment %} View Mode Switcher: Interactive Table vs Graphic Chart {% endcomment %}
+      <div class="hokk-view-switcher">
+        <button type="button" class="hokk-view-tab is-active" data-view-target="women-table">Interactive Table</button>
+        <button type="button" class="hokk-view-tab" data-view-target="women-image">View Original Chart</button>
       </div>
 
-      {% comment %} Maroon Brand Header Banner {% endcomment %}
-      <div class="hokk-wsg-header">
-        <span class="hokk-wsg-eyebrow">HOUSE OF KALA KATHA</span>
-        <h2 class="hokk-wsg-title">Women’s Size Chart</h2>
-        <span class="hokk-wsg-subtitle">Contemporary Collection</span>
-      </div>
-
-      {% comment %} Bottom decorative diamond pattern {% endcomment %}
-      <div class="hokk-sg-diamonds">
-        <span>◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆</span>
-      </div>
-
-      {% comment %} Body Container {% endcomment %}
-      <div class="hokk-wsg-body">
-        <div class="hokk-wsg-headline-row">
-          <h3 class="hokk-wsg-body-heading">Body measurements in <span class="hokk-wsg-current-unit">inches</span></h3>
-          <div class="hokk-toggle-group hokk-toggle-group--small">
-            <button type="button" class="hokk-toggle-btn is-active" data-unit="in">INCHES</button>
-            <button type="button" class="hokk-toggle-btn" data-unit="cm">CM</button>
-          </div>
-        </div>
-
-        {% comment %} Women's Measurements Table {% endcomment %}
-        <div class="hokk-sg-table-wrap">
-          <table class="hokk-wsg-table">
-            <thead>
-              <tr>
-                <th>SIZE</th>
-                <th>BUST</th>
-                <th>WAIST</th>
-                <th>HIPS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="cell-size">XS</td>
-                <td data-in="32–33" data-cm="81–84">32–33</td>
-                <td data-in="23–24" data-cm="58–61">23–24</td>
-                <td data-in="34–35" data-cm="86–89">34–35</td>
-              </tr>
-              <tr>
-                <td class="cell-size">S</td>
-                <td data-in="34–35" data-cm="86–89">34–35</td>
-                <td data-in="25–26" data-cm="63–66">25–26</td>
-                <td data-in="36–37" data-cm="91–94">36–37</td>
-              </tr>
-              <tr>
-                <td class="cell-size">M</td>
-                <td data-in="36–38" data-cm="91–96">36–38</td>
-                <td data-in="27–28" data-cm="68–71">27–28</td>
-                <td data-in="38–39" data-cm="96–99">38–39</td>
-              </tr>
-              <tr>
-                <td class="cell-size">L</td>
-                <td data-in="38–40" data-cm="96–101">38–40</td>
-                <td data-in="30–31" data-cm="76–79">30–31</td>
-                <td data-in="41–42" data-cm="104–107">41–42</td>
-              </tr>
-              <tr>
-                <td class="cell-size">XL</td>
-                <td data-in="40–42" data-cm="101–107">40–42</td>
-                <td data-in="31–33" data-cm="79–84">31–33</td>
-                <td data-in="42–44" data-cm="107–112">42–44</td>
-              </tr>
-              <tr>
-                <td class="cell-size">XXL</td>
-                <td data-in="44–46" data-cm="112–117">44–46</td>
-                <td data-in="35–37" data-cm="89–94">35–37</td>
-                <td data-in="46–48" data-cm="117–122">46–48</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {% comment %} How to Measure Card {% endcomment %}
-        <div class="hokk-wsg-measure-card">
-          <div class="hokk-wsg-figure">
-            <svg viewBox="0 0 160 210" class="hokk-wsg-mannequin" aria-hidden="true">
-              <!-- Torso Silhouette Outline -->
-              <path d="M 62 10 C 66 22, 94 22, 98 10 C 108 14, 126 24, 134 38 C 122 46, 120 62, 122 76 C 124 94, 118 114, 114 134 C 112 142, 118 162, 126 195 L 34 195 C 42 162, 48 142, 46 134 C 42 114, 36 94, 38 76 C 40 62, 38 46, 26 38 C 34 24, 52 14, 62 10 Z" fill="none" stroke="#7A3D4C" stroke-width="1.8" stroke-linejoin="round"/>
-              <!-- Shoulder / neck straps -->
-              <path d="M 64 24 L 56 60" fill="none" stroke="#7A3D4C" stroke-width="1.2" stroke-linecap="round"/>
-              <path d="M 96 24 L 104 60" fill="none" stroke="#7A3D4C" stroke-width="1.2" stroke-linecap="round"/>
-              <path d="M 56 60 C 72 70, 88 70, 104 60" fill="none" stroke="#7A3D4C" stroke-width="1.2"/>
-
-              <!-- Bust Line (Maroon) -->
-              <line x1="28" y1="84" x2="132" y2="84" stroke="#8B264A" stroke-width="1.8" stroke-dasharray="3,3"/>
-              <circle cx="28" cy="84" r="3" fill="#8B264A"/>
-              <circle cx="70" cy="84" r="3" fill="#8B264A"/>
-              <circle cx="132" cy="84" r="3" fill="#8B264A"/>
-
-              <!-- Waist Line (Gold/Olive) -->
-              <line x1="38" y1="126" x2="122" y2="126" stroke="#9E7634" stroke-width="1.8" stroke-dasharray="3,3"/>
-              <circle cx="38" cy="126" r="3" fill="#9E7634"/>
-              <circle cx="80" cy="126" r="3" fill="#9E7634"/>
-              <circle cx="122" cy="126" r="3" fill="#9E7634"/>
-
-              <!-- Hips Line (Teal/Slate) -->
-              <line x1="30" y1="168" x2="130" y2="168" stroke="#2B6655" stroke-width="1.8" stroke-dasharray="3,3"/>
-              <circle cx="30" cy="168" r="3" fill="#2B6655"/>
-              <circle cx="80" cy="168" r="3" fill="#2B6655"/>
-              <circle cx="130" cy="168" r="3" fill="#2B6655"/>
-            </svg>
-          </div>
-          <div class="hokk-wsg-instructions">
-            <h4 class="hokk-wsg-instructions-title">How to measure</h4>
-            <ul class="hokk-wsg-points">
-              <li>
-                <span class="dot dot--bust"></span>
-                <strong>Bust</strong>
-                <p>Around the fullest part of your bust.</p>
-              </li>
-              <li>
-                <span class="dot dot--waist"></span>
-                <strong>Waist</strong>
-                <p>Around the narrowest part of your waist.</p>
-              </li>
-              <li>
-                <span class="dot dot--hips"></span>
-                <strong>Hips</strong>
-                <p>Around the fullest part of your hips.</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="hokk-sg-diamonds hokk-sg-diamonds--bottom">
+      {% comment %} 1.A Interactive HTML Table {% endcomment %}
+      <div id="hokkWomenTableView" class="hokk-sg-table-view">
+        {% comment %} Top decorative diamond pattern {% endcomment %}
+        <div class="hokk-sg-diamonds">
           <span>◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆</span>
         </div>
+
+        {% comment %} Maroon Brand Header Banner {% endcomment %}
+        <div class="hokk-wsg-header">
+          <span class="hokk-wsg-eyebrow">HOUSE OF KALA KATHA</span>
+          <h2 class="hokk-wsg-title">Women’s Size Chart</h2>
+          <span class="hokk-wsg-subtitle">Contemporary Collection</span>
+        </div>
+
+        {% comment %} Bottom decorative diamond pattern {% endcomment %}
+        <div class="hokk-sg-diamonds">
+          <span>◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆</span>
+        </div>
+
+        {% comment %} Body Container {% endcomment %}
+        <div class="hokk-wsg-body">
+          <div class="hokk-wsg-headline-row">
+            <h3 class="hokk-wsg-body-heading">Body measurements in <span class="hokk-wsg-current-unit">inches</span></h3>
+            <div class="hokk-toggle-group hokk-toggle-group--small">
+              <button type="button" class="hokk-toggle-btn is-active" data-unit="in">INCHES</button>
+              <button type="button" class="hokk-toggle-btn" data-unit="cm">CM</button>
+            </div>
+          </div>
+
+          {% comment %} Women's Measurements Table {% endcomment %}
+          <div class="hokk-sg-table-wrap">
+            <table class="hokk-wsg-table">
+              <thead>
+                <tr>
+                  <th>SIZE</th>
+                  <th>BUST</th>
+                  <th>WAIST</th>
+                  <th>HIPS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cell-size">XS</td>
+                  <td data-in="32–33" data-cm="81–84">32–33</td>
+                  <td data-in="23–24" data-cm="58–61">23–24</td>
+                  <td data-in="34–35" data-cm="86–89">34–35</td>
+                </tr>
+                <tr>
+                  <td class="cell-size">S</td>
+                  <td data-in="34–35" data-cm="86–89">34–35</td>
+                  <td data-in="25–26" data-cm="63–66">25–26</td>
+                  <td data-in="36–37" data-cm="91–94">36–37</td>
+                </tr>
+                <tr>
+                  <td class="cell-size">M</td>
+                  <td data-in="36–38" data-cm="91–96">36–38</td>
+                  <td data-in="27–28" data-cm="68–71">27–28</td>
+                  <td data-in="38–39" data-cm="96–99">38–39</td>
+                </tr>
+                <tr>
+                  <td class="cell-size">L</td>
+                  <td data-in="38–40" data-cm="96–101">38–40</td>
+                  <td data-in="30–31" data-cm="76–79">30–31</td>
+                  <td data-in="41–42" data-cm="104–107">41–42</td>
+                </tr>
+                <tr>
+                  <td class="cell-size">XL</td>
+                  <td data-in="40–42" data-cm="101–107">40–42</td>
+                  <td data-in="31–33" data-cm="79–84">31–33</td>
+                  <td data-in="42–44" data-cm="107–112">42–44</td>
+                </tr>
+                <tr>
+                  <td class="cell-size">XXL</td>
+                  <td data-in="44–46" data-cm="112–117">44–46</td>
+                  <td data-in="35–37" data-cm="89–94">35–37</td>
+                  <td data-in="46–48" data-cm="117–122">46–48</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {% comment %} How to Measure Card {% endcomment %}
+          <div class="hokk-wsg-measure-card">
+            <div class="hokk-wsg-figure">
+              <svg viewBox="0 0 160 210" class="hokk-wsg-mannequin" aria-hidden="true">
+                <!-- Torso Silhouette Outline -->
+                <path d="M 62 10 C 66 22, 94 22, 98 10 C 108 14, 126 24, 134 38 C 122 46, 120 62, 122 76 C 124 94, 118 114, 114 134 C 112 142, 118 162, 126 195 L 34 195 C 42 162, 48 142, 46 134 C 42 114, 36 94, 38 76 C 40 62, 38 46, 26 38 C 34 24, 52 14, 62 10 Z" fill="none" stroke="#7A3D4C" stroke-width="1.8" stroke-linejoin="round"/>
+                <!-- Shoulder / neck straps -->
+                <path d="M 64 24 L 56 60" fill="none" stroke="#7A3D4C" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M 96 24 L 104 60" fill="none" stroke="#7A3D4C" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M 56 60 C 72 70, 88 70, 104 60" fill="none" stroke="#7A3D4C" stroke-width="1.2"/>
+
+                <!-- Bust Line (Maroon) -->
+                <line x1="28" y1="84" x2="132" y2="84" stroke="#8B264A" stroke-width="1.8" stroke-dasharray="3,3"/>
+                <circle cx="28" cy="84" r="3" fill="#8B264A"/>
+                <circle cx="70" cy="84" r="3" fill="#8B264A"/>
+                <circle cx="132" cy="84" r="3" fill="#8B264A"/>
+
+                <!-- Waist Line (Gold/Olive) -->
+                <line x1="38" y1="126" x2="122" y2="126" stroke="#9E7634" stroke-width="1.8" stroke-dasharray="3,3"/>
+                <circle cx="38" cy="126" r="3" fill="#9E7634"/>
+                <circle cx="80" cy="126" r="3" fill="#9E7634"/>
+                <circle cx="122" cy="126" r="3" fill="#9E7634"/>
+
+                <!-- Hips Line (Teal/Slate) -->
+                <line x1="30" y1="168" x2="130" y2="168" stroke="#2B6655" stroke-width="1.8" stroke-dasharray="3,3"/>
+                <circle cx="30" cy="168" r="3" fill="#2B6655"/>
+                <circle cx="80" cy="168" r="3" fill="#2B6655"/>
+                <circle cx="130" cy="168" r="3" fill="#2B6655"/>
+              </svg>
+            </div>
+            <div class="hokk-wsg-instructions">
+              <h4 class="hokk-wsg-instructions-title">How to measure</h4>
+              <ul class="hokk-wsg-points">
+                <li>
+                  <span class="dot dot--bust"></span>
+                  <strong>Bust</strong>
+                  <p>Around the fullest part of your bust.</p>
+                </li>
+                <li>
+                  <span class="dot dot--waist"></span>
+                  <strong>Waist</strong>
+                  <p>Around the narrowest part of your waist.</p>
+                </li>
+                <li>
+                  <span class="dot dot--hips"></span>
+                  <strong>Hips</strong>
+                  <p>Around the fullest part of your hips.</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="hokk-sg-diamonds hokk-sg-diamonds--bottom">
+            <span>◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆ ◆</span>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} 1.B High-Res Original Graphic Image {% endcomment %}
+      <div id="hokkWomenImageView" class="hokk-sg-image-view">
+        <img
+          src="{{ 'size-chart-women.jpg' | asset_url }}"
+          alt="Women's Size Chart - House of Kala Katha"
+          width="600"
+          height="800"
+          loading="lazy"
+        >
       </div>
     </div>
 
@@ -214,267 +913,299 @@
     {% comment %} 2. MEN'S SIZE GUIDE (Screenshot 2 Reference)              {% endcomment %}
     {% comment %} ========================================================= {% endcomment %}
     <div id="hokkSizePaneMen" class="hokk-size-pane{% if is_men %} is-active{% endif %}">
-      {% comment %} Sub-tabs (Size Guide | How to measure | FAQs) {% endcomment %}
-      <div class="hokk-msg-tabs">
-        <button type="button" class="hokk-msg-tab is-active" data-men-tab="guide">SIZE GUIDE</button>
-        <button type="button" class="hokk-msg-tab" data-men-tab="measure">HOW TO MEASURE</button>
-        <button type="button" class="hokk-msg-tab" data-men-tab="faqs">FAQS</button>
+      {% comment %} View Mode Switcher: Interactive Table vs Graphic Chart {% endcomment %}
+      <div class="hokk-view-switcher">
+        <button type="button" class="hokk-view-tab is-active" data-view-target="men-table">Interactive Guide</button>
+        <button type="button" class="hokk-view-tab" data-view-target="men-image">View Original Chart</button>
       </div>
 
-      {% comment %} Tab Content 1: SIZE GUIDE {% endcomment %}
-      <div id="hokkMenSubGuide" class="hokk-msg-subpane is-active">
-        <p class="hokk-msg-intro">
-          Our sizes are engineered for Indian men. Every fit has been iterated & perfected over years of testing, resulting in two base fits: Slim and Regular.
-        </p>
+      {% comment %} 2.A Interactive Men's Guide {% endcomment %}
+      <div id="hokkMenTableView" class="hokk-sg-table-view">
+        {% comment %} Sub-tabs (Size Guide | How to measure | FAQs) {% endcomment %}
+        <div class="hokk-msg-tabs">
+          <button type="button" class="hokk-msg-tab is-active" data-men-tab="guide">SIZE GUIDE</button>
+          <button type="button" class="hokk-msg-tab" data-men-tab="measure">HOW TO MEASURE</button>
+          <button type="button" class="hokk-msg-tab" data-men-tab="faqs">FAQS</button>
+        </div>
 
-        <div class="hokk-msg-controls">
-          <div class="hokk-toggle-group" id="hokkMenFitToggle">
-            <button type="button" class="hokk-toggle-btn is-active" data-fit="garment">GARMENT</button>
-            <button type="button" class="hokk-toggle-btn" data-fit="body">BODY</button>
+        {% comment %} Tab Content 1: SIZE GUIDE {% endcomment %}
+        <div id="hokkMenSubGuide" class="hokk-msg-subpane is-active">
+          <p class="hokk-msg-intro">
+            Our sizes are engineered for Indian men. Every fit has been iterated & perfected over years of testing, resulting in two base fits: Slim and Regular.
+          </p>
+
+          <div class="hokk-msg-controls">
+            <div class="hokk-toggle-group" id="hokkMenFitToggle">
+              <button type="button" class="hokk-toggle-btn is-active" data-fit="garment">GARMENT</button>
+              <button type="button" class="hokk-toggle-btn" data-fit="body">BODY</button>
+            </div>
+            <div class="hokk-toggle-group" id="hokkMenUnitToggle">
+              <button type="button" class="hokk-toggle-btn is-active" data-unit="in">INCHES</button>
+              <button type="button" class="hokk-toggle-btn" data-unit="cm">CM</button>
+            </div>
           </div>
-          <div class="hokk-toggle-group" id="hokkMenUnitToggle">
-            <button type="button" class="hokk-toggle-btn is-active" data-unit="in">INCHES</button>
-            <button type="button" class="hokk-toggle-btn" data-unit="cm">CM</button>
+
+          {% comment %} REGULAR FIT TABLE {% endcomment %}
+          <div class="hokk-msg-section">
+            <h4 class="hokk-msg-section-title">REGULAR FIT</h4>
+            <div class="hokk-sg-table-wrap">
+              <table class="hokk-msg-table" id="tableMenRegular">
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>XXL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="row-label">Collar</td>
+                    <td data-in="15.4" data-cm="39.1">15.4</td>
+                    <td data-in="15.7" data-cm="39.9">15.7</td>
+                    <td data-in="16.5" data-cm="41.9">16.5</td>
+                    <td data-in="17.3" data-cm="43.9">17.3</td>
+                    <td data-in="17.7" data-cm="45.0">17.7</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Shoulder</td>
+                    <td data-in="17.3" data-cm="43.9">17.3</td>
+                    <td data-in="18.1" data-cm="46.0">18.1</td>
+                    <td data-in="18.9" data-cm="48.0">18.9</td>
+                    <td data-in="19.7" data-cm="50.0">19.7</td>
+                    <td data-in="20.5" data-cm="52.1">20.5</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Chest</td>
+                    <td data-in="42.5" data-cm="108.0" data-body-in="36–38" data-body-cm="91–96">42.5</td>
+                    <td data-in="44.1" data-cm="112.0" data-body-in="38–40" data-body-cm="96–101">44.1</td>
+                    <td data-in="46.5" data-cm="118.1" data-body-in="40–42" data-body-cm="101–107">46.5</td>
+                    <td data-in="48.8" data-cm="124.0" data-body-in="42–44" data-body-cm="107–112">48.8</td>
+                    <td data-in="51.6" data-cm="131.1" data-body-in="44–46" data-body-cm="112–117">51.6</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Waist</td>
+                    <td data-in="40.2" data-cm="102.1" data-body-in="30–32" data-body-cm="76–81">40.2</td>
+                    <td data-in="41.7" data-cm="105.9" data-body-in="32–34" data-body-cm="81–86">41.7</td>
+                    <td data-in="44.1" data-cm="112.0" data-body-in="34–36" data-body-cm="86–91">44.1</td>
+                    <td data-in="46.5" data-cm="118.1" data-body-in="36–38" data-body-cm="91–96">46.5</td>
+                    <td data-in="49.2" data-cm="125.0" data-body-in="38–40" data-body-cm="96–101">49.2</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Front Length</td>
+                    <td data-in="28.5" data-cm="72.4">28.5</td>
+                    <td data-in="29.5" data-cm="74.9">29.5</td>
+                    <td data-in="30.5" data-cm="77.5">30.5</td>
+                    <td data-in="31.3" data-cm="79.5">31.3</td>
+                    <td data-in="32.1" data-cm="81.5">32.1</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Sleeve Length</td>
+                    <td data-in="24.6" data-cm="62.5">24.6</td>
+                    <td data-in="25.0" data-cm="63.5">25</td>
+                    <td data-in="25.4" data-cm="64.5">25.4</td>
+                    <td data-in="25.8" data-cm="65.5">25.8</td>
+                    <td data-in="26.2" data-cm="66.5">26.2</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {% comment %} SLIM FIT TABLE {% endcomment %}
+          <div class="hokk-msg-section">
+            <h4 class="hokk-msg-section-title">SLIM FIT</h4>
+            <div class="hokk-sg-table-wrap">
+              <table class="hokk-msg-table" id="tableMenSlim">
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>XXL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="row-label">Collar</td>
+                    <td data-in="15.4" data-cm="39.1">15.4</td>
+                    <td data-in="15.7" data-cm="39.9">15.7</td>
+                    <td data-in="16.5" data-cm="41.9">16.5</td>
+                    <td data-in="17.3" data-cm="43.9">17.3</td>
+                    <td data-in="17.7" data-cm="45.0">17.7</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Shoulder</td>
+                    <td data-in="17.1" data-cm="43.4">17.1</td>
+                    <td data-in="17.9" data-cm="45.5">17.9</td>
+                    <td data-in="18.7" data-cm="47.5">18.7</td>
+                    <td data-in="19.5" data-cm="49.5">19.5</td>
+                    <td data-in="20.3" data-cm="51.6">20.3</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Chest</td>
+                    <td data-in="40.5" data-cm="102.9" data-body-in="36–38" data-body-cm="91–96">40.5</td>
+                    <td data-in="42.1" data-cm="106.9" data-body-in="38–40" data-body-cm="96–101">42.1</td>
+                    <td data-in="44.5" data-cm="113.0" data-body-in="40–42" data-body-cm="101–107">44.5</td>
+                    <td data-in="46.8" data-cm="118.9" data-body-in="42–44" data-body-cm="107–112">46.8</td>
+                    <td data-in="49.6" data-cm="126.0" data-body-in="44–46" data-body-cm="112–117">49.6</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Waist</td>
+                    <td data-in="38.2" data-cm="97.0" data-body-in="30–32" data-body-cm="76–81">38.2</td>
+                    <td data-in="39.7" data-cm="100.8" data-body-in="32–34" data-body-cm="81–86">39.7</td>
+                    <td data-in="42.1" data-cm="106.9" data-body-in="34–36" data-body-cm="86–91">42.1</td>
+                    <td data-in="44.5" data-cm="113.0" data-body-in="36–38" data-body-cm="91–96">44.5</td>
+                    <td data-in="47.2" data-cm="119.9" data-body-in="38–40" data-body-cm="96–101">47.2</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Front Length</td>
+                    <td data-in="28.5" data-cm="72.4">28.5</td>
+                    <td data-in="29.5" data-cm="74.9">29.5</td>
+                    <td data-in="30.5" data-cm="77.5">30.5</td>
+                    <td data-in="31.3" data-cm="79.5">31.3</td>
+                    <td data-in="32.1" data-cm="81.5">32.1</td>
+                  </tr>
+                  <tr>
+                    <td class="row-label">Sleeve Length</td>
+                    <td data-in="24.6" data-cm="62.5">24.6</td>
+                    <td data-in="25.0" data-cm="63.5">25</td>
+                    <td data-in="25.4" data-cm="64.5">25.4</td>
+                    <td data-in="25.8" data-cm="65.5">25.8</td>
+                    <td data-in="26.2" data-cm="66.5">26.2</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        {% comment %} REGULAR FIT TABLE {% endcomment %}
-        <div class="hokk-msg-section">
-          <h4 class="hokk-msg-section-title">REGULAR FIT</h4>
-          <div class="hokk-sg-table-wrap">
-            <table class="hokk-msg-table" id="tableMenRegular">
-              <thead>
-                <tr>
-                  <th>Size</th>
-                  <th>S</th>
-                  <th>M</th>
-                  <th>L</th>
-                  <th>XL</th>
-                  <th>XXL</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="row-label">Collar</td>
-                  <td data-in="15.4" data-cm="39.1">15.4</td>
-                  <td data-in="15.7" data-cm="39.9">15.7</td>
-                  <td data-in="16.5" data-cm="41.9">16.5</td>
-                  <td data-in="17.3" data-cm="43.9">17.3</td>
-                  <td data-in="17.7" data-cm="45.0">17.7</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Shoulder</td>
-                  <td data-in="17.3" data-cm="43.9">17.3</td>
-                  <td data-in="18.1" data-cm="46.0">18.1</td>
-                  <td data-in="18.9" data-cm="48.0">18.9</td>
-                  <td data-in="19.7" data-cm="50.0">19.7</td>
-                  <td data-in="20.5" data-cm="52.1">20.5</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Chest</td>
-                  <td data-in="42.5" data-cm="108.0" data-body-in="36–38" data-body-cm="91–96">42.5</td>
-                  <td data-in="44.1" data-cm="112.0" data-body-in="38–40" data-body-cm="96–101">44.1</td>
-                  <td data-in="46.5" data-cm="118.1" data-body-in="40–42" data-body-cm="101–107">46.5</td>
-                  <td data-in="48.8" data-cm="124.0" data-body-in="42–44" data-body-cm="107–112">48.8</td>
-                  <td data-in="51.6" data-cm="131.1" data-body-in="44–46" data-body-cm="112–117">51.6</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Waist</td>
-                  <td data-in="40.2" data-cm="102.1" data-body-in="30–32" data-body-cm="76–81">40.2</td>
-                  <td data-in="41.7" data-cm="105.9" data-body-in="32–34" data-body-cm="81–86">41.7</td>
-                  <td data-in="44.1" data-cm="112.0" data-body-in="34–36" data-body-cm="86–91">44.1</td>
-                  <td data-in="46.5" data-cm="118.1" data-body-in="36–38" data-body-cm="91–96">46.5</td>
-                  <td data-in="49.2" data-cm="125.0" data-body-in="38–40" data-body-cm="96–101">49.2</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Front Length</td>
-                  <td data-in="28.5" data-cm="72.4">28.5</td>
-                  <td data-in="29.5" data-cm="74.9">29.5</td>
-                  <td data-in="30.5" data-cm="77.5">30.5</td>
-                  <td data-in="31.3" data-cm="79.5">31.3</td>
-                  <td data-in="32.1" data-cm="81.5">32.1</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Sleeve Length</td>
-                  <td data-in="24.6" data-cm="62.5">24.6</td>
-                  <td data-in="25.0" data-cm="63.5">25</td>
-                  <td data-in="25.4" data-cm="64.5">25.4</td>
-                  <td data-in="25.8" data-cm="65.5">25.8</td>
-                  <td data-in="26.2" data-cm="66.5">26.2</td>
-                </tr>
-              </tbody>
-            </table>
+        {% comment %} Tab Content 2: HOW TO MEASURE (MEN) {% endcomment %}
+        <div id="hokkMenSubMeasure" class="hokk-msg-subpane">
+          <div class="hokk-msg-measure-grid">
+            <div class="hokk-measure-item">
+              <h4>1. Collar</h4>
+              <p>Wrap the tape around the base of your neck where your shirt collar naturally rests, leaving room for one finger for comfortable breathing.</p>
+            </div>
+            <div class="hokk-measure-item">
+              <h4>2. Shoulder</h4>
+              <p>Measure across the back from the tip of one shoulder bone across to the tip of the other shoulder bone.</p>
+            </div>
+            <div class="hokk-measure-item">
+              <h4>3. Chest</h4>
+              <p>Measure around the fullest part of your chest, keeping the tape level under your armpits and across your shoulder blades.</p>
+            </div>
+            <div class="hokk-measure-item">
+              <h4>4. Waist</h4>
+              <p>Measure around your natural waistline, where your trousers or churidar usually sit.</p>
+            </div>
+            <div class="hokk-measure-item">
+              <h4>5. Front Length</h4>
+              <p>Measure straight down from the highest point of the shoulder seam down to the desired hemline.</p>
+            </div>
+            <div class="hokk-measure-item">
+              <h4>6. Sleeve Length</h4>
+              <p>With your arm slightly bent, measure from the shoulder seam along the outer arm down to your wrist bone.</p>
+            </div>
           </div>
         </div>
 
-        {% comment %} SLIM FIT TABLE {% endcomment %}
-        <div class="hokk-msg-section">
-          <h4 class="hokk-msg-section-title">SLIM FIT</h4>
-          <div class="hokk-sg-table-wrap">
-            <table class="hokk-msg-table" id="tableMenSlim">
-              <thead>
-                <tr>
-                  <th>Size</th>
-                  <th>S</th>
-                  <th>M</th>
-                  <th>L</th>
-                  <th>XL</th>
-                  <th>XXL</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="row-label">Collar</td>
-                  <td data-in="15.4" data-cm="39.1">15.4</td>
-                  <td data-in="15.7" data-cm="39.9">15.7</td>
-                  <td data-in="16.5" data-cm="41.9">16.5</td>
-                  <td data-in="17.3" data-cm="43.9">17.3</td>
-                  <td data-in="17.7" data-cm="45.0">17.7</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Shoulder</td>
-                  <td data-in="17.1" data-cm="43.4">17.1</td>
-                  <td data-in="17.9" data-cm="45.5">17.9</td>
-                  <td data-in="18.7" data-cm="47.5">18.7</td>
-                  <td data-in="19.5" data-cm="49.5">19.5</td>
-                  <td data-in="20.3" data-cm="51.6">20.3</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Chest</td>
-                  <td data-in="40.5" data-cm="102.9" data-body-in="36–38" data-body-cm="91–96">40.5</td>
-                  <td data-in="42.1" data-cm="106.9" data-body-in="38–40" data-body-cm="96–101">42.1</td>
-                  <td data-in="44.5" data-cm="113.0" data-body-in="40–42" data-body-cm="101–107">44.5</td>
-                  <td data-in="46.8" data-cm="118.9" data-body-in="42–44" data-body-cm="107–112">46.8</td>
-                  <td data-in="49.6" data-cm="126.0" data-body-in="44–46" data-body-cm="112–117">49.6</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Waist</td>
-                  <td data-in="38.2" data-cm="97.0" data-body-in="30–32" data-body-cm="76–81">38.2</td>
-                  <td data-in="39.7" data-cm="100.8" data-body-in="32–34" data-body-cm="81–86">39.7</td>
-                  <td data-in="42.1" data-cm="106.9" data-body-in="34–36" data-body-cm="86–91">42.1</td>
-                  <td data-in="44.5" data-cm="113.0" data-body-in="36–38" data-body-cm="91–96">44.5</td>
-                  <td data-in="47.2" data-cm="119.9" data-body-in="38–40" data-body-cm="96–101">47.2</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Front Length</td>
-                  <td data-in="28.5" data-cm="72.4">28.5</td>
-                  <td data-in="29.5" data-cm="74.9">29.5</td>
-                  <td data-in="30.5" data-cm="77.5">30.5</td>
-                  <td data-in="31.3" data-cm="79.5">31.3</td>
-                  <td data-in="32.1" data-cm="81.5">32.1</td>
-                </tr>
-                <tr>
-                  <td class="row-label">Sleeve Length</td>
-                  <td data-in="24.6" data-cm="62.5">24.6</td>
-                  <td data-in="25.0" data-cm="63.5">25</td>
-                  <td data-in="25.4" data-cm="64.5">25.4</td>
-                  <td data-in="25.8" data-cm="65.5">25.8</td>
-                  <td data-in="26.2" data-cm="66.5">26.2</td>
-                </tr>
-              </tbody>
-            </table>
+        {% comment %} Tab Content 3: FAQS {% endcomment %}
+        <div id="hokkMenSubFaqs" class="hokk-msg-subpane">
+          <div class="hokk-faqs-list">
+            <div class="hokk-faq-item">
+              <h4>What is the difference between Slim and Regular fit?</h4>
+              <p>Regular fit offers comfortable ease around the chest, waist, and arms for relaxed daily wear or festive movement. Slim fit is gently tapered through the waist and torso for a structured, contemporary silhouette.</p>
+            </div>
+            <div class="hokk-faq-item">
+              <h4>What if I fall between two sizes?</h4>
+              <p>If you prefer a relaxed, airy drape (recommended for handloom cottons and festive occasions), choose the larger size. If you prefer a tailored, snug fit, choose the smaller size.</p>
+            </div>
+            <div class="hokk-faq-item">
+              <h4>Do you offer complimentary alterations?</h4>
+              <p>Yes. House of Kala Katha provides complimentary minor alteration support on all Contemporary pieces. Reach out to our concierge via WhatsApp or email upon receiving your order.</p>
+            </div>
+            <div class="hokk-faq-item">
+              <h4>Can I exchange if the size does not fit?</h4>
+              <p>We provide hassle-free size exchanges within 14 days of delivery for unworn garments with all tags intact.</p>
+            </div>
           </div>
         </div>
       </div>
 
-      {% comment %} Tab Content 2: HOW TO MEASURE (MEN) {% endcomment %}
-      <div id="hokkMenSubMeasure" class="hokk-msg-subpane">
-        <div class="hokk-msg-measure-grid">
-          <div class="hokk-measure-item">
-            <h4>1. Collar</h4>
-            <p>Wrap the tape around the base of your neck where your shirt collar naturally rests, leaving room for one finger for comfortable breathing.</p>
-          </div>
-          <div class="hokk-measure-item">
-            <h4>2. Shoulder</h4>
-            <p>Measure across the back from the tip of one shoulder bone across to the tip of the other shoulder bone.</p>
-          </div>
-          <div class="hokk-measure-item">
-            <h4>3. Chest</h4>
-            <p>Measure around the fullest part of your chest, keeping the tape level under your armpits and across your shoulder blades.</p>
-          </div>
-          <div class="hokk-measure-item">
-            <h4>4. Waist</h4>
-            <p>Measure around your natural waistline, where your trousers or churidar usually sit.</p>
-          </div>
-          <div class="hokk-measure-item">
-            <h4>5. Front Length</h4>
-            <p>Measure straight down from the highest point of the shoulder seam down to the desired hemline.</p>
-          </div>
-          <div class="hokk-measure-item">
-            <h4>6. Sleeve Length</h4>
-            <p>With your arm slightly bent, measure from the shoulder seam along the outer arm down to your wrist bone.</p>
-          </div>
-        </div>
-      </div>
-
-      {% comment %} Tab Content 3: FAQS {% endcomment %}
-      <div id="hokkMenSubFaqs" class="hokk-msg-subpane">
-        <div class="hokk-faqs-list">
-          <div class="hokk-faq-item">
-            <h4>What is the difference between Slim and Regular fit?</h4>
-            <p>Regular fit offers comfortable ease around the chest, waist, and arms for relaxed daily wear or festive movement. Slim fit is gently tapered through the waist and torso for a structured, contemporary silhouette.</p>
-          </div>
-          <div class="hokk-faq-item">
-            <h4>What if I fall between two sizes?</h4>
-            <p>If you prefer a relaxed, airy drape (recommended for handloom cottons and festive occasions), choose the larger size. If you prefer a tailored, snug fit, choose the smaller size.</p>
-          </div>
-          <div class="hokk-faq-item">
-            <h4>Do you offer complimentary alterations?</h4>
-            <p>Yes. House of Kala Katha provides complimentary minor alteration support on all Contemporary pieces. Reach out to our concierge via WhatsApp or email upon receiving your order.</p>
-          </div>
-          <div class="hokk-faq-item">
-            <h4>Can I exchange if the size does not fit?</h4>
-            <p>We provide hassle-free size exchanges within 14 days of delivery for unworn garments with all tags intact.</p>
-          </div>
-        </div>
+      {% comment %} 2.B High-Res Original Graphic Image {% endcomment %}
+      <div id="hokkMenImageView" class="hokk-sg-image-view">
+        <img
+          src="{{ 'size-chart-men.png' | asset_url }}"
+          alt="Men's Size Guide - House of Kala Katha"
+          width="600"
+          height="600"
+          loading="lazy"
+        >
       </div>
     </div>
   </div>
 </div>
 
 <script>
+  // Global modal open/close functions accessible immediately
+  window.hokkOpenSizeGuide = function(e) {
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const modal = document.getElementById('hokkSizeModal');
+    if (modal) {
+      modal.classList.add('is-open');
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('hokk-modal-locked');
+    }
+  };
+
+  window.hokkCloseSizeGuide = function(e) {
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const modal = document.getElementById('hokkSizeModal');
+    if (modal) {
+      modal.classList.remove('is-open');
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('hokk-modal-locked');
+    }
+  };
+
   (function() {
-    function initSizeGuideModal() {
+    function bindSizeGuideEvents() {
       const modal = document.getElementById('hokkSizeModal');
-      const openBtn = document.getElementById('openSizeGuideBtn');
       if (!modal) return;
 
-      const closeButtons = modal.querySelectorAll('[data-close-modal]');
-      const genderTabs = modal.querySelectorAll('.hokk-gender-tab');
       const paneWomen = document.getElementById('hokkSizePaneWomen');
       const paneMen = document.getElementById('hokkSizePaneMen');
 
-      function openModal() {
-        modal.classList.add('is-open');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('hokk-modal-locked');
-      }
-
-      function closeModal() {
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('hokk-modal-locked');
-      }
-
-      if (openBtn) {
-        openBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          openModal();
-        });
-      }
-
-      closeButtons.forEach(btn => {
-        btn.addEventListener('click', closeModal);
-      });
-
-      window.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
-          closeModal();
+      // Global delegation for opening modal
+      document.addEventListener('click', function(e) {
+        const trigger = e.target.closest('#openSizeGuideBtn, .hokk-size-guide-btn, [data-open-size-guide], .hokk-accordion-sg-trigger');
+        if (trigger) {
+          window.hokkOpenSizeGuide(e);
         }
       });
 
-      // Gender Switcher Tabs
+      // Escape key to close
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          window.hokkCloseSizeGuide();
+        }
+      });
+
+      // Top Gender Switcher Tabs
+      const genderTabs = modal.querySelectorAll('.hokk-gender-tab');
       genderTabs.forEach(tab => {
         tab.addEventListener('click', function() {
           genderTabs.forEach(t => t.classList.remove('is-active'));
@@ -482,94 +1213,122 @@
 
           const target = this.dataset.target;
           if (target === 'women') {
-            paneWomen.classList.add('is-active');
-            paneMen.classList.remove('is-active');
+            if (paneWomen) paneWomen.classList.add('is-active');
+            if (paneMen) paneMen.classList.remove('is-active');
           } else {
-            paneWomen.classList.remove('is-active');
-            paneMen.classList.add('is-active');
+            if (paneWomen) paneWomen.classList.remove('is-active');
+            if (paneMen) paneMen.classList.add('is-active');
+          }
+        });
+      });
+
+      // View Switcher (Interactive Table vs Original Graphic Image)
+      const viewTabs = modal.querySelectorAll('.hokk-view-tab');
+      viewTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const parentPane = this.closest('.hokk-size-pane');
+          if (!parentPane) return;
+
+          parentPane.querySelectorAll('.hokk-view-tab').forEach(t => t.classList.remove('is-active'));
+          this.classList.add('is-active');
+
+          const target = this.dataset.viewTarget;
+          const tableView = parentPane.querySelector('.hokk-sg-table-view');
+          const imageView = parentPane.querySelector('.hokk-sg-image-view');
+
+          if (target.includes('image')) {
+            if (tableView) tableView.style.display = 'none';
+            if (imageView) imageView.style.display = 'block';
+          } else {
+            if (tableView) tableView.style.display = 'block';
+            if (imageView) imageView.style.display = 'none';
           }
         });
       });
 
       // Women's unit toggle (Inches <-> CM)
-      const wUnitButtons = paneWomen.querySelectorAll('.hokk-toggle-btn[data-unit]');
-      const wCurrentUnitText = paneWomen.querySelector('.hokk-wsg-current-unit');
-      const wCells = paneWomen.querySelectorAll('td[data-in]');
+      if (paneWomen) {
+        const wUnitButtons = paneWomen.querySelectorAll('.hokk-toggle-btn[data-unit]');
+        const wCurrentUnitText = paneWomen.querySelector('.hokk-wsg-current-unit');
+        const wCells = paneWomen.querySelectorAll('td[data-in]');
 
-      wUnitButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-          wUnitButtons.forEach(b => b.classList.remove('is-active'));
-          this.classList.add('is-active');
-          const unit = this.dataset.unit;
-          if (wCurrentUnitText) wCurrentUnitText.textContent = unit === 'cm' ? 'centimetres' : 'inches';
+        wUnitButtons.forEach(btn => {
+          btn.addEventListener('click', function() {
+            wUnitButtons.forEach(b => b.classList.remove('is-active'));
+            this.classList.add('is-active');
+            const unit = this.dataset.unit;
+            if (wCurrentUnitText) wCurrentUnitText.textContent = unit === 'cm' ? 'centimetres' : 'inches';
 
-          wCells.forEach(cell => {
-            cell.textContent = unit === 'cm' ? cell.dataset.cm : cell.dataset.in;
-          });
-        });
-      });
-
-      // Men's sub-navigation tabs (Size Guide | How to Measure | FAQs)
-      const menTabs = paneMen.querySelectorAll('.hokk-msg-tab');
-      const menSubGuide = document.getElementById('hokkMenSubGuide');
-      const menSubMeasure = document.getElementById('hokkMenSubMeasure');
-      const menSubFaqs = document.getElementById('hokkMenSubFaqs');
-
-      menTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-          menTabs.forEach(t => t.classList.remove('is-active'));
-          this.classList.add('is-active');
-
-          const target = this.dataset.menTab;
-          if (menSubGuide) menSubGuide.classList.toggle('is-active', target === 'guide');
-          if (menSubMeasure) menSubMeasure.classList.toggle('is-active', target === 'measure');
-          if (menSubFaqs) menSubFaqs.classList.toggle('is-active', target === 'faqs');
-        });
-      });
-
-      // Men's Unit Toggle (Inches vs CM)
-      const mUnitButtons = paneMen.querySelectorAll('#hokkMenUnitToggle .hokk-toggle-btn');
-      const mFitButtons = paneMen.querySelectorAll('#hokkMenFitToggle .hokk-toggle-btn');
-      let currentMenUnit = 'in';
-      let currentMenFit = 'garment';
-
-      function updateMenTables() {
-        const tables = paneMen.querySelectorAll('.hokk-msg-table');
-        tables.forEach(table => {
-          const cells = table.querySelectorAll('td[data-in]');
-          cells.forEach(cell => {
-            if (currentMenFit === 'body' && cell.dataset.bodyIn) {
-              cell.textContent = currentMenUnit === 'cm' ? cell.dataset.bodyCm : cell.dataset.bodyIn;
-            } else {
-              cell.textContent = currentMenUnit === 'cm' ? cell.dataset.cm : cell.dataset.in;
-            }
+            wCells.forEach(cell => {
+              cell.textContent = unit === 'cm' ? cell.dataset.cm : cell.dataset.in;
+            });
           });
         });
       }
 
-      mUnitButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-          mUnitButtons.forEach(b => b.classList.remove('is-active'));
-          this.classList.add('is-active');
-          currentMenUnit = this.dataset.unit;
-          updateMenTables();
-        });
-      });
+      // Men's sub-navigation tabs (Size Guide | How to Measure | FAQs)
+      if (paneMen) {
+        const menTabs = paneMen.querySelectorAll('.hokk-msg-tab');
+        const menSubGuide = document.getElementById('hokkMenSubGuide');
+        const menSubMeasure = document.getElementById('hokkMenSubMeasure');
+        const menSubFaqs = document.getElementById('hokkMenSubFaqs');
 
-      mFitButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-          mFitButtons.forEach(b => b.classList.remove('is-active'));
-          this.classList.add('is-active');
-          currentMenFit = this.dataset.fit;
-          updateMenTables();
+        menTabs.forEach(tab => {
+          tab.addEventListener('click', function() {
+            menTabs.forEach(t => t.classList.remove('is-active'));
+            this.classList.add('is-active');
+
+            const target = this.dataset.menTab;
+            if (menSubGuide) menSubGuide.classList.toggle('is-active', target === 'guide');
+            if (menSubMeasure) menSubMeasure.classList.toggle('is-active', target === 'measure');
+            if (menSubFaqs) menSubFaqs.classList.toggle('is-active', target === 'faqs');
+          });
         });
-      });
+
+        // Men's Unit and Fit Toggles
+        const mUnitButtons = paneMen.querySelectorAll('#hokkMenUnitToggle .hokk-toggle-btn');
+        const mFitButtons = paneMen.querySelectorAll('#hokkMenFitToggle .hokk-toggle-btn');
+        let currentMenUnit = 'in';
+        let currentMenFit = 'garment';
+
+        function updateMenTables() {
+          const tables = paneMen.querySelectorAll('.hokk-msg-table');
+          tables.forEach(table => {
+            const cells = table.querySelectorAll('td[data-in]');
+            cells.forEach(cell => {
+              if (currentMenFit === 'body' && cell.dataset.bodyIn) {
+                cell.textContent = currentMenUnit === 'cm' ? cell.dataset.bodyCm : cell.dataset.bodyIn;
+              } else {
+                cell.textContent = currentMenUnit === 'cm' ? cell.dataset.cm : cell.dataset.in;
+              }
+            });
+          });
+        }
+
+        mUnitButtons.forEach(btn => {
+          btn.addEventListener('click', function() {
+            mUnitButtons.forEach(b => b.classList.remove('is-active'));
+            this.classList.add('is-active');
+            currentMenUnit = this.dataset.unit;
+            updateMenTables();
+          });
+        });
+
+        mFitButtons.forEach(btn => {
+          btn.addEventListener('click', function() {
+            mFitButtons.forEach(b => b.classList.remove('is-active'));
+            this.classList.add('is-active');
+            currentMenFit = this.dataset.fit;
+            updateMenTables();
+          });
+        });
+      }
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initSizeGuideModal);
+      document.addEventListener('DOMContentLoaded', bindSizeGuideEvents);
     } else {
-      initSizeGuideModal();
+      bindSizeGuideEvents();
     }
   })();
 </script>
