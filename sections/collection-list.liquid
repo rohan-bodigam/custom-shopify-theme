@@ -64,13 +64,13 @@
           {%- liquid
             assign card_collection = block.settings.collection
 
-            # 1. LINK: When a Shopify collection is selected, directly point to it!
-            # Otherwise fall back to manual block link, then /collections/all
+            # 1. LINK: Custom link override FIRST (allows linking to Pages e.g. /pages/heritage, /pages/contemporary).
+            # If not provided, falls back to the selected Shopify collection's URL, then /collections/all
             assign card_url = routes.all_products_collection_url
-            if card_collection != blank
-              assign card_url = card_collection.url
-            elsif block.settings.link != blank
+            if block.settings.link != blank
               assign card_url = block.settings.link
+            elsif card_collection != blank
+              assign card_url = card_collection.url
             endif
 
             # 2. TITLE: Custom title override or collection title
@@ -392,7 +392,13 @@
           "type": "collection",
           "id": "collection",
           "label": "Shopify Collection",
-          "info": "When selected, the card link automatically points to this collection."
+          "info": "Used for piece count, default image & default link if no custom link is set."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card link (Page or Collection URL)",
+          "info": "Select a Page (e.g., Heritage, Contemporary, Men, Women) or custom URL. If set, this overrides the collection link."
         },
         {
           "type": "image_picker",
@@ -436,12 +442,6 @@
           "id": "show_count",
           "label": "Show count and arrow",
           "default": true
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Card link override",
-          "info": "Optional. Automatically links to the selected collection above if left blank."
         }
       ]
     }
