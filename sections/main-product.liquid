@@ -1,4 +1,5 @@
 {{ 'section-product-hokk.css' | asset_url | stylesheet_tag }}
+{{ 'component-size-guide.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
@@ -388,6 +389,9 @@
             <summary>Size guide</summary>
             <div class="in" id="accSizeGuideContent">
               <p>Saree length 5.5 m plus blouse piece where stated; width 46–48 inches.</p>
+              <button type="button" class="hokk-accordion-sg-trigger" style="margin-top:10px; background:none; border:none; padding:0; color:#6B2230; font-size:0.84rem; text-decoration:underline; cursor:pointer; font-weight:500;">
+                Open interactive size chart & measurement guide →
+              </button>
             </div>
           </details>
         </div>
@@ -395,6 +399,8 @@
     </div>
   </div>
 </section>
+
+{% render 'size-guide-modal', product: product %}
 
 {% comment %} Hidden Raw Content Container for the Parser {% endcomment %}
 <div id="HokkRawDescription" style="display:none;" aria-hidden="true">
@@ -995,15 +1001,25 @@
         });
       });
 
-      // Size Guide link opens accordion
+      // Size Guide button opens modal popup
       const sgBtn = document.getElementById('openSizeGuideBtn');
-      const accSg = document.getElementById('accSizeGuide');
-      if (sgBtn && accSg) {
-        sgBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          accSg.open = true;
-          accSg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
+      const sizeModal = document.getElementById('hokkSizeModal');
+      const accSgTrigger = document.querySelector('.hokk-accordion-sg-trigger');
+
+      function triggerSizeModal(e) {
+        if (e) e.preventDefault();
+        if (sizeModal) {
+          sizeModal.classList.add('is-open');
+          sizeModal.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('hokk-modal-locked');
+        }
+      }
+
+      if (sgBtn) {
+        sgBtn.addEventListener('click', triggerSizeModal);
+      }
+      if (accSgTrigger) {
+        accSgTrigger.addEventListener('click', triggerSizeModal);
       }
 
       // Initialize gallery for the default selected color
