@@ -260,56 +260,56 @@
           "type": "featured_collection",
           "settings": {
             "collection": "20-oct-contemporary-men",
+            "link": "shopify://pages/heritage",
             "image": "shopify://shop_images/pgContact.webp",
             "fallback_image": "",
             "focal_point": "center 30%",
             "title": "Heritage",
             "description": "Sarees and sets from our five regional chapters, each named for its weave.",
             "count_label": "788 pieces",
-            "show_count": true,
-            "link": "/collections/heritage"
+            "show_count": true
           }
         },
         "contemporary": {
           "type": "featured_collection",
           "settings": {
             "collection": "contemporary-women",
+            "link": "shopify://pages/contemporary",
             "image": "shopify://shop_images/bnContemporary.webp",
             "fallback_image": "mega-contemporary.webp",
             "focal_point": "58% 40%",
             "title": "Contemporary",
             "description": "Ikkat, chiffon, mul cotton and Banaras are cut for work, weekends and evenings out.",
             "count_label": "60 pieces",
-            "show_count": true,
-            "link": "/pages/contemporary"
+            "show_count": true
           }
         },
         "men": {
           "type": "featured_collection",
           "settings": {
             "collection": "20-oct-contemporary-men",
+            "link": "shopify://pages/men",
             "image": "shopify://shop_images/bnMen.webp",
             "fallback_image": "mega-men.webp",
             "focal_point": "55% 30%",
             "title": "Men",
             "description": "Shirts, kurtas, bundis and sherwanis make up our handwoven clothing for men, made to be worn well beyond festival season.",
             "count_label": "40 pieces",
-            "show_count": true,
-            "link": "/collections/men"
+            "show_count": true
           }
         },
         "women": {
           "type": "featured_collection",
           "settings": {
             "collection": "mangalgiri-kalamkari",
+            "link": "shopify://pages/women",
             "image": "shopify://shop_images/bnWomen.webp",
             "fallback_image": "mega-women.webp",
             "focal_point": "64% 40%",
             "title": "Women",
             "description": "Our handwoven clothing for women covers sarees, co-ords, dresses and brocade, for weddings, work and everything in between.",
             "count_label": "788 pieces",
-            "show_count": true,
-            "link": "/collections/women"
+            "show_count": true
           }
         },
         "kids": {
@@ -317,13 +317,13 @@
           "disabled": true,
           "settings": {
             "collection": "",
+            "link": "/pages/kids",
             "fallback_image": "mega-kids.webp",
             "focal_point": "55% 40%",
             "title": "Kids",
             "description": "Sibling sets and festive lehengas, soft on skin.",
             "count_label": "10 pieces",
-            "show_count": true,
-            "link": "/pages/kids"
+            "show_count": true
           }
         },
         "pets": {
@@ -331,13 +331,13 @@
           "disabled": true,
           "settings": {
             "collection": "",
+            "link": "/pages/pet",
             "fallback_image": "mega-pet.webp",
             "focal_point": "22% 40%",
             "title": "Pets",
             "description": "Coats, capes and bandanas from many looms, for the family member who sheds.",
             "count_label": "10 pieces",
-            "show_count": true,
-            "link": "/pages/pet"
+            "show_count": true
           }
         }
       },
