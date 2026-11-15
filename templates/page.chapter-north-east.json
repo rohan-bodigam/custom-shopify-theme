@@ -12,7 +12,7 @@
     "banner": {
       "type": "chapter-banner",
       "settings": {
-        "image": "shopify://shop_images/bnNorthEast.webp",
+        "image": "shopify://shop_images/north-east-banner.png",
         "show_breadcrumbs": true,
         "breadcrumbs_parent_label": "All Chapters",
         "breadcrumbs_parent_link": "/pages/culture",
