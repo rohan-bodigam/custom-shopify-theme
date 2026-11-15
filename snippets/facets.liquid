@@ -125,8 +125,28 @@
                   assign show_more_number = 100
                   assign visual_layout_class = 'facets-layout facets-layout-list facets-layout-list--' | append: presentation
                 endif
+
+                assign is_color_filter = false
+                assign filter_label_lower = filter.label | downcase
+                if filter_label_lower == 'color' or filter_label_lower == 'colour' or filter.param_name contains 'color' or filter.param_name contains 'colour'
+                  assign is_color_filter = true
+                endif
+
+                assign has_visible_values = true
+                if is_color_filter
+                  assign visible_values_count = 0
+                  for val in filter.values
+                    if val.count > 0 or val.active
+                      assign visible_values_count = visible_values_count | plus: 1
+                    endif
+                  endfor
+                  if visible_values_count == 0
+                    assign has_visible_values = false
+                  endif
+                endif
               %}
 
+              {%- if has_visible_values -%}
               {% case filter.type %}
                 {% when 'boolean', 'list' %}
                   <details
@@ -198,11 +218,12 @@
                         >
                           {%- for value in sorted_values -%}
                             {% liquid
+                              if is_color_filter and value.count == 0 and value.active == false
+                                continue
+                              endif
+
                               assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-' | append: forloop.index
                               assign is_disabled = false
-                              if value.count == 0 and value.active == false
-                                assign is_disabled = true
-                              endif
                             %}
                             {%- capture label_class -%}
                             facets__label facet-checkbox{% if is_disabled %} disabled{% endif %}{% if value.active %} active{% endif %}
@@ -282,7 +303,11 @@
                           {%- endfor -%}
                         </ul>
                       </fieldset>
-                      {%- if filter.values.size > show_more_number and filter_type == 'vertical' -%}
+                      {%- assign filter_item_count = filter.values.size -%}
+                      {%- if is_color_filter -%}
+                        {%- assign filter_item_count = visible_values_count -%}
+                      {%- endif -%}
+                      {%- if filter_item_count > show_more_number and filter_type == 'vertical' -%}
                         <show-more-button>
                           <button
                             class="button-show-more link underlined-link"
@@ -338,6 +363,7 @@
                     </div>
                   </details>
               {% endcase %}
+              {%- endif -%}
             {%- endfor -%}
           </div>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
@@ -521,8 +547,28 @@
                     else
                       assign visual_layout_class = 'facets-layout facets-layout-list facets-layout-list--' | append: presentation
                     endif
+
+                    assign is_color_filter = false
+                    assign filter_label_lower = filter.label | downcase
+                    if filter_label_lower == 'color' or filter_label_lower == 'colour' or filter.param_name contains 'color' or filter.param_name contains 'colour'
+                      assign is_color_filter = true
+                    endif
+
+                    assign has_visible_values = true
+                    if is_color_filter
+                      assign visible_values_count = 0
+                      for val in filter.values
+                        if val.count > 0 or val.active
+                          assign visible_values_count = visible_values_count | plus: 1
+                        endif
+                      endfor
+                      if visible_values_count == 0
+                        assign has_visible_values = false
+                      endif
+                    endif
                   %}
 
+                  {%- if has_visible_values -%}
                   {% case filter.type %}
                     {% when 'boolean', 'list' %}
                       <details
@@ -567,11 +613,12 @@
                             -%}
                             {%- for value in sorted_values -%}
                               {% liquid
+                                if is_color_filter and value.count == 0 and value.active == false
+                                  continue
+                                endif
+
                                 assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-mobile-' | append: forloop.index
                                 assign is_disabled = false
-                                if value.count == 0 and value.active == false
-                                  assign is_disabled = true
-                                endif
                               %}
 
                               {%- capture label_class -%}
@@ -722,6 +769,7 @@
                         </div>
                       </details>
                   {% endcase %}
+                  {%- endif -%}
                 {%- endfor -%}
               {%- endif -%}
 
