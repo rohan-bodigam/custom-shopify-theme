@@ -141,7 +141,7 @@
                           >
                             <span class="mega-dot" style="background: {{ dot_color }};"></span>
                             <span class="mega-region-name">{{ formatted_title | strip | escape }}</span>
-                            {%- if is_soon -%}<span class="mega-ct-soon">Soon</span>{%- endif -%}
+                            {% comment %} {%- if is_soon -%}<span class="mega-ct-soon">Soon</span>{%- endif -%} {% endcomment %}
                           </a>
                           {%- if childlink.links != blank -%}
                             <ul class="mega-sublist" role="list">
