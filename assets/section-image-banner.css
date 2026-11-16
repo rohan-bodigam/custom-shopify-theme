@@ -743,7 +743,7 @@
 .hero-rot .btn.line-light,
 .hero-rot .btn--line-light {
   background-color: transparent !important;
-  color: #F7F3EE !important;
+  color: #6b2230 !important;
   border: 1px solid rgba(247, 243, 238, 0.55) !important;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
