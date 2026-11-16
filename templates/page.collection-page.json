@@ -17,7 +17,7 @@
         "description": "Explore our curated collections of Indian handloom textiles, tailored for modern wardrobes across five regional chapters.",
         "text_alignment": "left",
         "show_warp_icon": true,
-        "show_thread_accent": true,
+        "show_thread_accent": false,
         "banner_min_height": 520,
         "banner_min_height_mobile": 400,
         "overlay_opacity": 75,
