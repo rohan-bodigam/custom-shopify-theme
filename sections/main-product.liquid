@@ -5,13 +5,27 @@
   assign current_variant = product.selected_or_first_available_variant
   assign featured_image = current_variant.featured_image | default: product.featured_image
 
+  # Capture active collection from URL context or product.collections
+  assign product_collection = collection
+  if product_collection == nil
+    for p_col in product.collections
+      unless p_col.handle == 'all' or p_col.handle == 'frontpage'
+        assign product_collection = p_col
+        break
+      endunless
+    endfor
+    if product_collection == nil and product.collections.size > 0
+      assign product_collection = product.collections.first
+    endif
+  endif
+
   # Extract Chapter, Region, Craft from tags/collections
   assign product_chapter = 'Heritage'
   assign product_region = 'South India'
   assign product_craft = 'Handloom'
 
-  for collection in product.collections
-    assign col_title = collection.title | downcase
+  for p_col in product.collections
+    assign col_title = p_col.title | downcase
     if col_title contains 'contemporary'
       assign product_chapter = 'Contemporary'
     elsif col_title contains 'kids'
@@ -97,13 +111,15 @@
   data-product-id="{{ product.id }}"
 >
   <div class="hokk-pdp-wrap">
-    {% comment %} Breadcrumbs Navigation {% endcomment %}
+    {% comment %} Breadcrumbs Navigation: Home / Collection / Product {% endcomment %}
     <nav class="hokk-crumbs" aria-label="Breadcrumb">
       <a href="{{ routes.root_url }}">Home</a>
       <span class="sep">/</span>
-      <a href="/pages/chapter-{{ product_chapter | downcase }}" id="crumbChapter">{{ product_chapter }}</a>
-      <span class="sep">/</span>
-      <a href="/pages/chapter-{{ product_region | handleize }}" id="crumbRegion">{{ product_region }}</a>
+      {%- if product_collection -%}
+        <a href="{{ product_collection.url }}" id="crumbCollection">{{ product_collection.title }}</a>
+      {%- else -%}
+        <a href="{{ routes.all_products_collection_url }}" id="crumbCollection">All Products</a>
+      {%- endif -%}
       <span class="sep">/</span>
       <span class="current">{{ product.title }}</span>
     </nav>
@@ -251,17 +267,43 @@
 
             <div class="hokk-opt-group" id="groupColour" {% unless color_option %}style="display:none"{% endunless %}>
               <div class="hokk-opt-h">
-                <span>Colour: <span id="colName">{{ color_option.selected_value | default: 'Slate' }}</span></span>
+                <span>Colour: <span id="colName">{{ color_option.selected_value | default: color_option.values.first | default: 'Slate' }}</span></span>
               </div>
               <div class="hokk-swatches" id="swatchList">
                 {%- if color_option -%}
                   {%- for value in color_option.values -%}
+                    {%- liquid
+                      assign swatch_img = null
+                      assign swatch_hex = null
+
+                      # Native Shopify swatch (category metafield / option swatch)
+                      if value.swatch.image
+                        assign swatch_img = value.swatch.image | image_url: width: 80
+                      elsif value.swatch.color
+                        assign swatch_hex = value.swatch.color
+                      endif
+
+                      assign is_active = false
+                      if color_option.selected_value != blank
+                        if value == color_option.selected_value
+                          assign is_active = true
+                        endif
+                      elsif forloop.first
+                        assign is_active = true
+                      endif
+                    -%}
                     <button
                       type="button"
                       class="hokk-swatch"
                       data-value="{{ value | escape }}"
                       aria-label="{{ value | escape }}"
-                      aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                      aria-pressed="{% if is_active %}true{% else %}false{% endif %}"
+                      {% if swatch_img %}
+                        style="background-image: url('{{ swatch_img }}'); background-size: cover; background-position: center;"
+                        data-has-image="true"
+                      {% elsif swatch_hex %}
+                        style="background-color: {{ swatch_hex }};"
+                      {% endif %}
                     ></button>
                   {%- endfor -%}
                 {%- else -%}
@@ -341,9 +383,9 @@
         </product-form>
 
         {% comment %} Reassurance Text {% endcomment %}
-        <p class="hokk-reassurance">
+        {% comment %} <p class="hokk-reassurance">
           Ships in 2 working days. Free delivery over ₹7,500. 14-day returns on unworn pieces.
-        </p>
+        </p> {% endcomment %}
 
         {% comment %} Dynamic Specifications Table {% endcomment %}
         <div class="hokk-spec" id="pdpSpecWrap">
@@ -445,49 +487,219 @@
 
     // 1. Swatch Color Palette
     const COLOR_PALETTE = {
+      // Neutrals & Classics
       'slate': '#D6B698',
       'grey': '#A09F9D',
       'gray': '#A09F9D',
       'black': '#1E1E1E',
       'white': '#FDFBF7',
+      'off white': '#FAF8F5',
       'ivory': '#EDE8DF',
       'ecru': '#E6DEC8',
+      'cream': '#FFFDD0',
+      'pearl': '#F0EAD6',
+      'natural': '#EFEBD9',
+      'tussar': '#D7C4A5',
+      'kora': '#EFE8D8',
+      'matka': '#D2B48C',
+      'chanderi': '#EFEBD9',
+      'raw silk': '#E8DEC8',
+      'crepe': '#FAF0E6',
+      'beige': '#D8C7B5',
+      'sand': '#D6C6B8',
+      'sand beige': '#D5C4B1',
+      'champagne': '#F7E7CE',
+      'champagne ribbon': '#F7E7CE',
+      'taupe': '#8B8589',
+      'khaki': '#C3B091',
+      'tan': '#D2B48C',
+      'camel': '#C19A6B',
+      'brown': '#7A4B3A',
+      'coffee': '#6F4E37',
+      'chocolate': '#5A3825',
+      'charcoal': '#36454F',
+
+      // Pinks, Roses & Corals
+      'pink': '#D6899E',
+      'deep pink': '#C71585',
+      'deep pink gold edge': '#C71585',
+      'rani': '#C71585',
+      'rani pink': '#C71585',
+      'shell romance': '#E8B4BA',
+      'shell': '#F3D3CE',
+      'romance': '#E0A8B8',
+      'blush': '#EBB9B9',
+      'rose': '#B86B7E',
+      'dusty rose': '#BD828F',
+      'peach': '#F5B89B',
+      'peach window': '#F5B89B',
+      'blue peach flutter': '#F8C8C0',
+      'flutter': '#F8C8C0',
+      'coral': '#E07A5F',
+      'salmon': '#FA8072',
+      'apricot': '#FBCEB1',
+      'fuchsia': '#D94F88',
+      'magenta': '#CA1F7B',
+      'berry': '#8B264A',
+      'mulberry': '#770737',
+
+      // Reds, Maroons & Earth Tones
+      'red': '#8B1E22',
+      'brick red': '#8B3A2B',
+      'maroon': '#5C1D24',
+      'maroon red': '#66141E',
+      'wine': '#5C1D24',
+      'burgundy': '#5C1D24',
+      'burgundy / wine': '#5C1D24',
+      'crimson': '#6B2230',
+      'ruby': '#9B111E',
+      'sindoor': '#C93C20',
+      'rust': '#9A4B1F',
+      'rust orange': '#C04000',
+      'burnt orange': '#CC5500',
+      'terracotta': '#A84C32',
+      'copper': '#B87333',
+      'bronze': '#CD7F32',
+
+      // Yellows, Golds & Oranges
+      'yellow': '#D4A034',
+      'butter yellow': '#E6CF82',
+      'butter': '#F6E7B0',
+      'butter horizon': '#F6E7B0',
+      'horizon': '#E8BE92',
+      'mustard': '#D4A017',
+      'haldi': '#E4A010',
+      'haldi yellow': '#E4A010',
+      'kesar': '#FFA700',
+      'amber': '#FFBF00',
+      'ochre': '#CC7722',
+      'lemon': '#FFFACD',
+      'orange': '#C96228',
+      'tangerine': '#F28500',
+      'gold': '#B08D57',
+      'zari': '#B08D57',
+      'silver': '#C0C0C0',
+
+      // Blues
       'blue': '#2D4E68',
       'ice blue': '#A4C3D2',
       'navy': '#1B2A4A',
+      'midnight': '#191970',
       'indigo': '#28385E',
-      'red': '#8B1E22',
-      'maroon': '#5C1D24',
-      'wine': '#5C1D24',
+      'royal blue': '#4169E1',
+      'sky': '#87CEEB',
+      'baby blue': '#89CFF0',
+      'powder blue': '#B0E0E6',
+      'steel blue': '#4682B4',
+      'cobalt': '#0047AB',
+      'cobalt blue': '#0047AB',
+      'peacock blue': '#005F73',
+      'reverie': '#8EA9D1',
+      'blue reverie': '#8EA9D1',
+      'blue sage studio': '#8C9DAE',
+      'blue sand ribbon': '#D6C6B8',
+      'studio': '#8C9DAE',
+      'cyan': '#4FC3F7',
+      'petrol': '#1D4851',
+
+      // Greens & Teals
       'green': '#2D4B3E',
       'sage': '#7A8063',
       'sage green': '#848C74',
       'olive': '#555D3E',
       'muted olive': '#656D4A',
-      'peach': '#F5B89B',
-      'peach window': '#F5B89B',
-      'coral': '#E07A5F',
-      'copper': '#B87333',
-      'mustard': '#D4A017',
-      'charcoal': '#36454F',
-      'crimson': '#6B2230',
-      'yellow': '#D4A034',
-      'butter yellow': '#E6CF82',
-      'gold': '#B08D57',
-      'orange': '#C96228',
-      'rust': '#9A4B1F',
-      'terracotta': '#A84C32',
-      'pink': '#D6899E',
-      'rose': '#B86B7E',
-      'dusty rose': '#BD828F',
+      'mehendi': '#556B2F',
+      'mehendi green': '#556B2F',
+      'pista': '#93C572',
+      'pista green': '#93C572',
+      'mint': '#A2E4B8',
+      'sea green': '#2E8B57',
+      'forest': '#2D5A27',
+      'forest green': '#22442B',
+      'bottle green': '#0B3C26',
+      'dark green': '#1C3F24',
+      'moss': '#8A9A5B',
+      'emerald': '#2D6A4F',
+      'lime': '#9ACD32',
+      'teal': '#28585D',
+      'turquoise': '#40E0D0',
+      'aqua': '#00C4B4',
+      'peacock green': '#0A9396',
+      'ftroza': '#3EB489',
+      'firoza': '#3EB489',
+      'ftroza gulzar': '#3EB489',
+
+      // Purples, Violets & Lavenders
       'purple': '#5C3866',
+      'deep purple': '#4B0082',
+      'deep purple gold edge': '#4B0082',
       'violet': '#4E2F60',
       'lavender': '#9683A6',
-      'teal': '#28585D',
-      'beige': '#D8C7B5',
-      'sand': '#D6C6B8',
-      'sand beige': '#D5C4B1'
+      'lavander': '#BDB0D0',
+      'lilac': '#C8A2C8',
+      'mauve': '#B784A7',
+      'plum': '#5E205E',
+      'jamun': '#4A154B'
     };
+
+    function resolveSwatchStyle(colorVal) {
+      if (!colorVal) return { type: 'color', value: '#D6B698' };
+      const raw = String(colorVal).trim();
+      const val = raw.toLowerCase();
+
+      // 1. Sort palette keys by descending length so multi-word names match first
+      const sortedKeys = Object.keys(COLOR_PALETTE).sort((a, b) => b.length - a.length);
+
+      // Exact match
+      if (COLOR_PALETTE[val]) {
+        return { type: 'color', value: COLOR_PALETTE[val] };
+      }
+
+      // Substring match with sorted keys
+      for (const key of sortedKeys) {
+        if (val.includes(key)) {
+          return { type: 'color', value: COLOR_PALETTE[key] };
+        }
+      }
+
+      // Token word match (words longer than 2 chars)
+      const tokens = val.split(/[\s\-_/]+/).filter(w => w.length > 2);
+      for (const key of sortedKeys) {
+        if (tokens.includes(key)) {
+          return { type: 'color', value: COLOR_PALETTE[key] };
+        }
+      }
+
+      // 2. Fallback to product variant featured image
+      if (Array.isArray(productVariants) && productVariants.length) {
+        const matchingV = productVariants.find(v => {
+          if (!v.options) return false;
+          return v.options.some(opt => {
+            const optVal = String(opt).toLowerCase().trim();
+            return optVal === val || val.includes(optVal) || optVal.includes(val);
+          });
+        });
+        if (matchingV && matchingV.featured_image) {
+          return { type: 'image', value: matchingV.featured_image };
+        }
+      }
+
+      // 3. Fallback to matching thumbnail image in gallery
+      const thumbs = Array.from(document.querySelectorAll('.hokk-thumb-btn'));
+      for (const btn of thumbs) {
+        const c = (btn.dataset.color || '').toLowerCase().trim();
+        const cap = (btn.dataset.caption || '').toLowerCase().trim();
+        if (c && (c === val || val.includes(c) || c.includes(val))) {
+          if (btn.dataset.src) return { type: 'image', value: btn.dataset.src };
+        }
+        if (cap && (cap === val || val.includes(cap))) {
+          if (btn.dataset.src) return { type: 'image', value: btn.dataset.src };
+        }
+      }
+
+      // 4. Fallback to a refined brand swatch tone if completely unknown
+      return { type: 'color', value: '#D6B698' };
+    }
 
     // 2. Knowledge Map for Craft Clusters, Regions & Stories
     const CRAFT_INFO = {
@@ -668,7 +880,7 @@
         regionName = matchedCraft.region;
       }
 
-      // Update Kicker & Breadcrumb
+      // Update Kicker
       if (craftName) {
         const kCraft = document.getElementById('kickerCraft');
         if (kCraft) kCraft.textContent = craftName;
@@ -676,8 +888,6 @@
       if (regionName) {
         const kRegion = document.getElementById('kickerRegion');
         if (kRegion) kRegion.textContent = regionName;
-        const cRegion = document.getElementById('crumbRegion');
-        if (cRegion) cRegion.textContent = regionName;
       }
 
       // Update Artisan Certified badge
@@ -985,14 +1195,24 @@
       // Swatches color matching and image filtering
       const swatches = document.querySelectorAll('.hokk-swatch');
       const colName = document.getElementById('colName');
+
       swatches.forEach(sw => {
-        const val = (sw.dataset.value || '').toLowerCase().trim();
-        for (const [cName, cHex] of Object.entries(COLOR_PALETTE)) {
-          if (val.includes(cName)) {
-            sw.style.backgroundColor = cHex;
-            break;
+        const val = (sw.dataset.value || '').trim();
+        const hasNativeImage = sw.dataset.hasImage === 'true' || Boolean(sw.style.backgroundImage);
+        const hasNativeColor = Boolean(sw.style.backgroundColor);
+
+        // Assign visual color/fabric swatch if not already styled by Liquid
+        if (!hasNativeImage && !hasNativeColor) {
+          const resolved = resolveSwatchStyle(val);
+          if (resolved.type === 'color') {
+            sw.style.backgroundColor = resolved.value;
+          } else if (resolved.type === 'image') {
+            sw.style.backgroundImage = 'url("' + resolved.value + '")';
+            sw.style.backgroundSize = 'cover';
+            sw.style.backgroundPosition = 'center';
           }
         }
+
         sw.addEventListener('click', () => {
           swatches.forEach(s => s.setAttribute('aria-pressed', 'false'));
           sw.setAttribute('aria-pressed', 'true');
