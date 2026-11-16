@@ -19,6 +19,21 @@
     endif
   endif
 
+  # Identify color option and whether product has multiple color variants
+  assign color_option = null
+  for option in product.options_with_values
+    assign opt_lower = option.name | downcase
+    if opt_lower == 'colour' or opt_lower == 'color'
+      assign color_option = option
+      break
+    endif
+  endfor
+
+  assign has_multiple_colors = false
+  if color_option and color_option.values.size > 1
+    assign has_multiple_colors = true
+  endif
+
   # Extract Chapter, Region, Craft from tags/collections
   assign product_chapter = 'Heritage'
   assign product_region = 'South India'
@@ -128,7 +143,7 @@
     <div class="hokk-pdp">
       {% comment %} Left Column: Gallery {% endcomment %}
       <div class="hokk-gallery" id="hokkGallery">
-        <div class="hokk-thumbs" id="hokkThumbs" role="tablist" aria-label="Product thumbnails">
+        <div class="hokk-thumbs" id="hokkThumbs" role="tablist" aria-label="Product thumbnails" data-has-multiple-colors="{{ has_multiple_colors }}">
           {%- if product.media.size > 0 -%}
             {%- for media in product.media -%}
               {%- liquid
@@ -154,6 +169,9 @@
                 data-alt="{{ media.alt | default: '' | escape }}"
                 data-caption="{{ img_caption | escape }}"
                 aria-label="View image {{ forloop.index }} - {{ img_caption | escape }}"
+                {% unless has_multiple_colors %}
+                  {% if forloop.index > 4 %}style="display: none;"{% endif %}
+                {% endunless %}
               >
                 {{ media | image_url: width: 200, height: 250, crop: 'center' | image_tag: loading: 'lazy', alt: img_caption }}
               </button>
@@ -739,6 +757,18 @@
         chapter: 'Heritage',
         story: 'Kota Doria is distinguished by its unique square-check weave known as khat, made by combining cotton and silk yarns on traditional pit looms for an ultra-lightweight, translucent drape.'
       },
+      'pure kota': {
+        cluster: 'Kaithoon & Kota clusters, Rajasthan',
+        region: 'West India',
+        chapter: 'Heritage',
+        story: 'Pure Kota is sheer Kota silk used as a canvas, where delicate gossamer weaves are embellished with fine Pen Kalamkari and hand-painted figures, offering weightless elegance.'
+      },
+      'kota': {
+        cluster: 'Kota & Kaithun clusters, Rajasthan',
+        region: 'West India',
+        chapter: 'Heritage',
+        story: 'Kota Doria is distinguished by its unique square-check weave known as khat, made by combining cotton and silk yarns on traditional pit looms for an ultra-lightweight, translucent drape.'
+      },
       'baluchari': {
         cluster: 'Bishnupur, Bankura district, West Bengal',
         region: 'East India',
@@ -867,7 +897,7 @@
       let regionName = specs['Region'] || '';
 
       if (!craftName) {
-        const titleLower = '{{ product.title | downcase }}';
+        const titleLower = {{ product.title | downcase | json }};
         for (const c of Object.keys(CRAFT_INFO)) {
           if (titleLower.includes(c)) { craftName = c; break; }
         }
@@ -911,7 +941,7 @@
           specs['Blouse Included'] = /included|yes/i.test(specs['Blouse']) ? 'Yes' : specs['Blouse'];
         }
         if (!specs['SKU']) {
-          specs['SKU'] = '{{ current_variant.sku | default: "HOKK-IKK-SAR-109" }}';
+          specs['SKU'] = {{ current_variant.sku | default: "HOKK-IKK-SAR-109" | json }};
         }
         if (!specs['Region'] && regionName) {
           specs['Region'] = regionName;
@@ -1055,11 +1085,13 @@
       if (matchedThumbs.length === 0 && targetMediaId) {
         const startIdx = thumbs.findIndex(btn => String(btn.dataset.mediaId) === targetMediaId);
         if (startIdx !== -1) {
-          matchedThumbs.push(thumbs[startIdx]);
-          for (let i = startIdx + 1; i < thumbs.length; i++) {
+          const isFirstVariant = (productVariants[0] && matchingVariant && String(productVariants[0].id) === String(matchingVariant.id));
+          const startIndex = isFirstVariant ? 0 : startIdx;
+
+          for (let i = startIndex; i < thumbs.length; i++) {
             const nextMediaId = String(thumbs[i].dataset.mediaId);
             const nextVariantColor = allVariantMediaIds.get(nextMediaId);
-            if (nextVariantColor && nextVariantColor !== target) {
+            if (i > startIdx && nextVariantColor && nextVariantColor !== target) {
               break; // Stop at next color variant's image
             }
             matchedThumbs.push(thumbs[i]);
@@ -1256,16 +1288,27 @@
         accSgTrigger.addEventListener('click', triggerSizeModal);
       }
 
-      // Initialize gallery for the default selected color
-      const initialSwatch = document.querySelector('.hokk-swatch[aria-pressed="true"]');
-      if (initialSwatch && initialSwatch.dataset.value) {
-        filterGalleryByColor(initialSwatch.dataset.value);
+      // Initialize gallery
+      const thumbsContainer = document.getElementById('hokkThumbs');
+      const hasMultipleColors = thumbsContainer && thumbsContainer.dataset.hasMultipleColors === 'true'
+        ? true
+        : document.querySelectorAll('.hokk-swatch[data-value]').length > 1;
+
+      if (hasMultipleColors) {
+        const initialSwatch = document.querySelector('.hokk-swatch[aria-pressed="true"]');
+        if (initialSwatch && initialSwatch.dataset.value) {
+          filterGalleryByColor(initialSwatch.dataset.value);
+        }
       } else {
-        // Fallback for products without color options: show only first 4 thumbnails
-        const thumbs = document.querySelectorAll('.hokk-thumb-btn');
+        // Single color or no color options (e.g. Pure Kota sarees):
+        // Always display the first images in natural order up to 4 only
+        const thumbs = Array.from(document.querySelectorAll('.hokk-thumb-btn'));
         thumbs.forEach((btn, idx) => {
-          if (idx >= 4) btn.style.display = 'none';
+          btn.style.display = idx < 4 ? '' : 'none';
         });
+        if (thumbs.length > 0) {
+          thumbs[0].click();
+        }
       }
     }
 
