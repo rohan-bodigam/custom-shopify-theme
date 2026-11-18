@@ -140,6 +140,71 @@
         "padding_bottom": 60
       }
     },
+    "journey_steps_CxHV3p": {
+      "type": "journey-steps",
+      "blocks": {
+        "step_yFYTtC": {
+          "type": "step",
+          "settings": {
+            "roman_numeral": "I",
+            "step_number": "01",
+            "title": "A loom keeps working",
+            "text": "Your order goes back to the looms, so a weaver can keep doing what their family has done for generations.",
+            "layout_direction": "auto"
+          }
+        },
+        "step_JQXnL4": {
+          "type": "step",
+          "settings": {
+            "roman_numeral": "II",
+            "step_number": "02",
+            "title": "Fair pay, at the source",
+            "text": "We work directly with weaving clusters, so more of what you spent reaches the hands that made your piece.",
+            "layout_direction": "auto"
+          }
+        },
+        "step_gXEM6i": {
+          "type": "step",
+          "settings": {
+            "roman_numeral": "III",
+            "step_number": "03",
+            "title": "A craft passed on",
+            "text": "Every order gives the next generation a reason to learn the loom instead of leaving it.",
+            "layout_direction": "auto"
+          }
+        },
+        "step_4RbXdX": {
+          "type": "step",
+          "settings": {
+            "roman_numeral": "IV",
+            "step_number": "04",
+            "title": "Slower, kinder fashion",
+            "text": "Woven by hand, one piece at a time, to be worn for years rather than a season.",
+            "layout_direction": "auto"
+          }
+        }
+      },
+      "block_order": [
+        "step_yFYTtC",
+        "step_JQXnL4",
+        "step_gXEM6i",
+        "step_4RbXdX"
+      ],
+      "name": "Craft Journey Steps",
+      "settings": {
+        "kicker": "More than a purchase",
+        "heading": "WHAT YOUR CHOICE MADE POSSIBLE",
+        "background_color": "#FAF6F0",
+        "kicker_color": "#6B2230",
+        "heading_color": "#171717",
+        "number_color": "#B08D57",
+        "accent_crimson": "#6B2230",
+        "line_color": "#D6C6B8",
+        "text_color": "#4A4240",
+        "padding_top": 72,
+        "padding_bottom": 80
+      }
+    },
     "heritage_NXNY6c": {
       "type": "heritage",
       "blocks": {
@@ -357,6 +422,7 @@
     "founder_note_zCCt4q",
     "rich_text_TAC9YD",
     "chapter_landscape_EKmr3q",
+    "journey_steps_CxHV3p",
     "heritage_NXNY6c",
     "values",
     "cta"
