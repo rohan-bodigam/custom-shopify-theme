@@ -1,0 +1,57 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "layout_type": "thank_you",
+        "bg_color": "#FAF6F0",
+        "text_color": "#171717",
+        "accent_crimson": "#5C1D24",
+        "border_color": "#D6C6B8",
+        "show_badge": true,
+        "badge_text": "ORDER CONFIRMED",
+        "badge_dot_color": "#6B2230",
+        "heading": "THANK<br>YOU.",
+        "subheading": "With one choice, you have become part of a much larger story. Here is what it set in motion.",
+        "show_action": true,
+        "action_text": "See what your choice made possible",
+        "action_url": "#story",
+        "show_decorative_frame": true,
+        "show_seal": true,
+        "seal_text": "• STORIES OF INDIA • WOVEN FOR YOU •",
+        "enable_seal_rotation": true,
+        "show_floating_badge": true,
+        "show_page_content": true,
+        "padding_top": 64,
+        "padding_bottom": 80
+      },
+      "blocks": {
+        "founder_note": {
+          "type": "founder_note",
+          "settings": {
+            "kicker": "A NOTE FROM OUR FOUNDER",
+            "title": "Woven for You",
+            "content": "<p>Thank you for choosing a piece from House of Kala Katha.</p><p>What you have ordered passed through many hands before it reached ours: someone who grew or gathered the fibre, someone who spun or dyed it, and a weaver who spent days, sometimes weeks, turning it into cloth. We started this house because we wanted those hands to be seen, and because we believe India’s textiles belong in everyday wardrobes, not only in wedding trunks.</p><p>Wear it often. Handloom softens and deepens with use, and it is happiest when it is lived in.</p>",
+            "author": "House of Kala Katha"
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+            "btn1_label": "Continue Shopping",
+            "btn1_link": "/collections/all",
+            "btn2_label": "Read the Journal",
+            "btn2_link": "/blogs/journal"
+          }
+        }
+      },
+      "block_order": [
+        "founder_note",
+        "buttons"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
