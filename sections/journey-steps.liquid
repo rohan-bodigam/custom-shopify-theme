@@ -1,0 +1,318 @@
+{{ 'section-journey-steps.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #JourneySteps-{{ section.id }} {
+    --tj-bg: {{ section.settings.background_color | default: '#FAF6F0' }};
+    --tj-heading: {{ section.settings.heading_color | default: '#171717' }};
+    --tj-kicker: {{ section.settings.kicker_color | default: '#6B2230' }};
+    --tj-gold: {{ section.settings.number_color | default: '#B08D57' }};
+    --tj-crimson: {{ section.settings.accent_crimson | default: '#6B2230' }};
+    --tj-line: {{ section.settings.line_color | default: '#D6C6B8' }};
+    --tj-body: {{ section.settings.text_color | default: '#4A4240' }};
+    --tj-muted: #6E6461;
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #JourneySteps-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section id="JourneySteps-{{ section.id }}" class="sec ty-journey ty-journey-sec" data-section-id="{{ section.id }}">
+  <div class="wrap ty-journey__wrap">
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
+      <div class="ty-head">
+        {%- if section.settings.kicker != blank -%}
+          <span class="kicker ty-head__kicker">{{ section.settings.kicker | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="d2 ty-head__title">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <ol class="ty-steps">
+      <i class="ty-thread" aria-hidden="true"><b></b></i>
+
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign index_modulo = forloop.index | modulo: 2
+          assign step_class = 'ty-step--lt'
+          if block.settings.layout_direction == 'right'
+            assign step_class = 'ty-step--rt'
+          elsif block.settings.layout_direction == 'left'
+            assign step_class = 'ty-step--lt'
+          else
+            if index_modulo == 0
+              assign step_class = 'ty-step--rt'
+            endif
+          endif
+
+          assign default_img_name = 'journey-step-' | append: forloop.index | append: '.jpg'
+          if forloop.index > 4
+            assign default_img_name = 'journey-step-1.jpg'
+          endif
+        -%}
+
+        <li class="ty-step {{ step_class }}" {{ block.shopify_attributes }}>
+          <!-- Arched Image Window -->
+          <div class="ty-sp">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 900
+                | image_tag:
+                  alt: block.settings.title | default: 'Craft journey step',
+                  loading: 'lazy'
+              }}
+            {%- else -%}
+              <img
+                src="{{ default_img_name | asset_url }}"
+                alt="{{ block.settings.title | default: 'Craft journey step' | escape }}"
+                loading="lazy"
+                width="380"
+                height="437"
+              >
+            {%- endif -%}
+          </div>
+
+          <!-- Central Roman Numeral Node -->
+          <span class="ty-dot" aria-hidden="true">
+            {{ block.settings.roman_numeral | default: forloop.index }}
+          </span>
+
+          <!-- Text Block -->
+          <div class="ty-st">
+            {%- if block.settings.step_number != blank -%}
+              <span class="ty-n">{{ block.settings.step_number | escape }}</span>
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              <h3>{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p>{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+<script>
+  (function() {
+    const sectionEl = document.getElementById('JourneySteps-{{ section.id }}');
+    if (!sectionEl || !('IntersectionObserver' in window)) return;
+    const steps = sectionEl.querySelectorAll('.ty-step');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-lit');
+        }
+      });
+    }, { rootMargin: '0px 0px -15% 0px' });
+    steps.forEach(step => observer.observe(step));
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Craft Journey Steps",
+  "tag": "section",
+  "class": "section section-ty-journey",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Pre-heading / Kicker",
+      "default": "More than a purchase"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "WHAT YOUR CHOICE MADE POSSIBLE"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background",
+      "default": "#FAF6F0"
+    },
+    {
+      "type": "color",
+      "id": "kicker_color",
+      "label": "Kicker Color",
+      "default": "#6B2230"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "number_color",
+      "label": "Big Step Number Color",
+      "default": "#B08D57"
+    },
+    {
+      "type": "color",
+      "id": "accent_crimson",
+      "label": "Active Node Color",
+      "default": "#6B2230"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Connecting Line Color",
+      "default": "#D6C6B8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Description Color",
+      "default": "#4A4240"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Journey Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step Arch Image"
+        },
+        {
+          "type": "text",
+          "id": "roman_numeral",
+          "label": "Center Node Roman Numeral",
+          "default": "I",
+          "info": "e.g. I, II, III, IV"
+        },
+        {
+          "type": "text",
+          "id": "step_number",
+          "label": "Big Step Number",
+          "default": "01",
+          "info": "e.g. 01, 02, 03, 04"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "A loom keeps working"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Step Description",
+          "default": "Your order goes back to the looms, so a weaver can keep doing what their family has done for generations."
+        },
+        {
+          "type": "select",
+          "id": "layout_direction",
+          "label": "Desktop Layout Direction",
+          "options": [
+            {
+              "value": "auto",
+              "label": "Auto-alternate (Left / Right)"
+            },
+            {
+              "value": "left",
+              "label": "Image Left, Text Right"
+            },
+            {
+              "value": "right",
+              "label": "Text Left, Image Right"
+            }
+          ],
+          "default": "auto"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Craft Journey Steps",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "roman_numeral": "I",
+            "step_number": "01",
+            "title": "A loom keeps working",
+            "text": "Your order goes back to the looms, so a weaver can keep doing what their family has done for generations."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "roman_numeral": "II",
+            "step_number": "02",
+            "title": "Fair pay, at the source",
+            "text": "We work directly with weaving clusters, so more of what you spent reaches the hands that made your piece."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "roman_numeral": "III",
+            "step_number": "03",
+            "title": "A craft passed on",
+            "text": "Every order gives the next generation a reason to learn the loom instead of leaving it."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "roman_numeral": "IV",
+            "step_number": "04",
+            "title": "Slower, kinder fashion",
+            "text": "Woven by hand, one piece at a time, to be worn for years rather than a season."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
