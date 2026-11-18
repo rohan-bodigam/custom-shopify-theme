@@ -75,6 +75,7 @@
       "type": "founder-note",
       "name": "Founder's Note",
       "settings": {
+        "image": "shopify://shop_images/hokk-founder.jpg",
         "caption_title": "The hands you just supported",
         "caption_link_label": "Meet our weavers →",
         "caption_link_url": "/pages/weavers",
@@ -82,7 +83,7 @@
         "note_content": "<p>Thank you for choosing a piece from House of Kala Katha.</p><p>What you have chosen passed through many hands before it reached ours: someone who grew or gathered the fibre, someone who spun or dyed it, and a weaver who spent days, sometimes weeks, turning it into cloth. We started this house because we wanted those hands to be seen, and because we believe India’s textiles belong in everyday wardrobes, not only in wedding trunks.</p><p>Wear it often. Handloom softens and deepens with use, and it is happiest when it is lived in.</p>",
         "show_inner_border": true,
         "show_signature": true,
-        "signature_text": "<p>With gratitude,<br><strong>House of Kala Katha</strong></p>",
+        "signature_text": "<p>With gratitude,<br/><strong>House of Kala Katha</strong></p>",
         "background_color": "#faf6f0",
         "card_bg_color": "#ffffff",
         "kicker_color": "#6b2230",
