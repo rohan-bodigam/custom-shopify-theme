@@ -1,0 +1,256 @@
+{{ 'section-founder-note.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #FounderNote-{{ section.id }} {
+    --fn-bg: {{ section.settings.background_color | default: '#FAF6F0' }};
+    --fn-card-bg: {{ section.settings.card_bg_color | default: '#FFFFFF' }};
+    --fn-kicker-color: {{ section.settings.kicker_color | default: '#6B2230' }};
+    --fn-text-color: {{ section.settings.text_color | default: '#4A4240' }};
+    --fn-gold-border: {{ section.settings.inner_border_color | default: 'rgba(176, 141, 87, 0.35)' }};
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #FounderNote-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section id="FounderNote-{{ section.id }}" class="founder-note-sec" data-section-id="{{ section.id }}">
+  <div class="founder-note__wrap">
+    <div class="founder-note__grid">
+      <!-- LEFT: Artisan / Weaver Photo -->
+      <figure class="founder-note__figure">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 1200
+            | image_tag:
+              class: 'founder-note__img',
+              alt: section.settings.caption_title | default: 'Master weavers at House of Kala Katha',
+              loading: 'lazy'
+          }}
+        {%- else -%}
+          <img
+            src="{{ 'founder-note-weavers.jpg' | asset_url }}"
+            alt="Master weaver with handwoven saree"
+            class="founder-note__img"
+            loading="lazy"
+            width="600"
+            height="660"
+          >
+        {%- endif -%}
+
+        {%- if section.settings.caption_title != blank or section.settings.caption_link_label != blank -%}
+          <figcaption class="founder-note__figcaption">
+            {%- if section.settings.caption_title != blank -%}
+              <span class="founder-note__caption-title">{{ section.settings.caption_title | escape }}</span>
+            {%- endif -%}
+            {%- if section.settings.caption_link_label != blank -%}
+              <a href="{{ section.settings.caption_link_url | default: '/pages/weavers' }}" class="founder-note__caption-link">
+                {{ section.settings.caption_link_label | escape }}
+              </a>
+            {%- endif -%}
+          </figcaption>
+        {%- endif -%}
+      </figure>
+
+      <!-- RIGHT: Overlapping Founder's Note Card -->
+      <div class="founder-note__card{% if section.settings.show_inner_border %} founder-note__card--has-inner-border{% endif %}">
+        {%- if section.settings.kicker != blank -%}
+          <span class="founder-note__kicker">{{ section.settings.kicker | escape }}</span>
+        {%- endif -%}
+
+        <div class="founder-note__content rte">
+          {%- if section.settings.note_content != blank -%}
+            {{ section.settings.note_content }}
+          {%- else -%}
+            <p>Thank you for choosing a piece from House of Kala Katha.</p>
+            <p>What you have chosen passed through many hands before it reached ours: someone who grew or gathered the fibre, someone who spun or dyed it, and a weaver who spent days, sometimes weeks, turning it into cloth. We started this house because we wanted those hands to be seen, and because we believe India’s textiles belong in everyday wardrobes, not only in wedding trunks.</p>
+            <p>Wear it often. Handloom softens and deepens with use, and it is happiest when it is lived in.</p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_signature -%}
+          <div class="founder-note__signature">
+            <div class="founder-note__sig-logo-wrap" aria-hidden="true">
+              {%- if section.settings.signature_logo != blank -%}
+                {{ section.settings.signature_logo | image_url: width: 120 | image_tag: class: 'founder-note__sig-img', alt: 'Monogram' }}
+              {%- elsif settings.logo != blank -%}
+                {{ settings.logo | image_url: width: 120 | image_tag: class: 'founder-note__sig-img', alt: 'Monogram' }}
+              {%- else -%}
+                <!-- House of Kala Katha Vector Monogram -->
+                <svg viewBox="0 0 48 36" class="founder-note__sig-svg" fill="none" stroke="{{ section.settings.kicker_color | default: '#6B2230' }}" stroke-width="1.8">
+                  <path d="M12 6v24M12 18l14-12M12 18l14 12M4 14h28M4 18h28M4 22h28" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {%- endif -%}
+            </div>
+            {%- if section.settings.signature_text != blank -%}
+              <div class="founder-note__sig-text">
+                {{ section.settings.signature_text }}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Founder's Note",
+  "tag": "section",
+  "class": "section section-founder-note",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image & Caption"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Artisan / Weaver Photo"
+    },
+    {
+      "type": "text",
+      "id": "caption_title",
+      "label": "Image Caption Title",
+      "default": "The hands you just supported"
+    },
+    {
+      "type": "text",
+      "id": "caption_link_label",
+      "label": "Image Caption Link Text",
+      "default": "Meet our weavers →"
+    },
+    {
+      "type": "url",
+      "id": "caption_link_url",
+      "label": "Image Caption Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Note Card Content"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Pre-heading / Kicker",
+      "default": "A note from our founder"
+    },
+    {
+      "type": "richtext",
+      "id": "note_content",
+      "label": "Founder's Note Text",
+      "default": "<p>Thank you for choosing a piece from House of Kala Katha.</p><p>What you have chosen passed through many hands before it reached ours: someone who grew or gathered the fibre, someone who spun or dyed it, and a weaver who spent days, sometimes weeks, turning it into cloth. We started this house because we wanted those hands to be seen, and because we believe India’s textiles belong in everyday wardrobes, not only in wedding trunks.</p><p>Wear it often. Handloom softens and deepens with use, and it is happiest when it is lived in.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_inner_border",
+      "label": "Show Inner Decorative Gold Border",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Signature"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_signature",
+      "label": "Show Signature Block",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "signature_logo",
+      "label": "Custom Signature Logo / Monogram (Optional)"
+    },
+    {
+      "type": "richtext",
+      "id": "signature_text",
+      "label": "Signature Text",
+      "default": "<p>With gratitude,<br><strong>House of Kala Katha</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background Color",
+      "default": "#FAF6F0"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "kicker_color",
+      "label": "Kicker & Monogram Color",
+      "default": "#6B2230"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Note Body Text Color",
+      "default": "#4A4240"
+    },
+    {
+      "type": "color",
+      "id": "inner_border_color",
+      "label": "Inner Card Border Color",
+      "default": "#B08D57"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Founder's Note",
+      "settings": {
+        "caption_title": "The hands you just supported",
+        "caption_link_label": "Meet our weavers →",
+        "caption_link_url": "/pages/weavers",
+        "kicker": "A note from our founder",
+        "show_inner_border": true,
+        "show_signature": true,
+        "background_color": "#FAF6F0",
+        "card_bg_color": "#FFFFFF",
+        "kicker_color": "#6B2230",
+        "text_color": "#4A4240",
+        "inner_border_color": "#B08D57"
+      }
+    }
+  ]
+}
+{% endschema %}
