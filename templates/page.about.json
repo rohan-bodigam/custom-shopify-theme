@@ -21,7 +21,7 @@
         "description": "Kala Katha means \"the story of an art\", and we bring the textiles of India's regions under one house and turn them into clothes for how people live now.",
         "image": "shopify://shop_images/About_Us_Page.png",
         "overlay_opacity": 90,
-        "background_color": "#FFFFFF",
+        "background_color": "#ffffff",
         "min_height_desktop": 520,
         "min_height_mobile": 400,
         "padding_top": 0,
@@ -67,6 +67,27 @@
         "background_color": "rgba(0,0,0,0)",
         "heading_color": "#171717",
         "text_color": "#57534e",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "founder_note_zCCt4q": {
+      "type": "founder-note",
+      "name": "Founder's Note",
+      "settings": {
+        "caption_title": "The hands you just supported",
+        "caption_link_label": "Meet our weavers →",
+        "caption_link_url": "/pages/weavers",
+        "kicker": "A note from our founder",
+        "note_content": "<p>Thank you for choosing a piece from House of Kala Katha.</p><p>What you have chosen passed through many hands before it reached ours: someone who grew or gathered the fibre, someone who spun or dyed it, and a weaver who spent days, sometimes weeks, turning it into cloth. We started this house because we wanted those hands to be seen, and because we believe India’s textiles belong in everyday wardrobes, not only in wedding trunks.</p><p>Wear it often. Handloom softens and deepens with use, and it is happiest when it is lived in.</p>",
+        "show_inner_border": true,
+        "show_signature": true,
+        "signature_text": "<p>With gratitude,<br><strong>House of Kala Katha</strong></p>",
+        "background_color": "#faf6f0",
+        "card_bg_color": "#ffffff",
+        "kicker_color": "#6b2230",
+        "text_color": "#4a4240",
+        "inner_border_color": "#b08d57",
         "padding_top": 64,
         "padding_bottom": 64
       }
@@ -332,6 +353,7 @@
   "order": [
     "hero",
     "pillars",
+    "founder_note_zCCt4q",
     "rich_text_TAC9YD",
     "chapter_landscape_EKmr3q",
     "heritage_NXNY6c",
