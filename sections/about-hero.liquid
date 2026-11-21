@@ -3,6 +3,23 @@
 {%- liquid
   assign hero_img = section.settings.image
   assign hero_alt = hero_img.alt | default: section.settings.heading | escape
+
+  assign desk_h = section.settings.image_horizontal_alignment | default: 'right'
+  assign desk_v = section.settings.image_vertical_position | default: 20
+  assign mob_h = section.settings.image_mobile_horizontal_alignment | default: 'center'
+  assign mob_v = section.settings.image_mobile_vertical_position | default: 20
+
+  if section.settings.use_shopify_focal_point and hero_img.presentation.focal_point != blank
+    assign desk_pos = hero_img.presentation.focal_point
+  else
+    assign desk_pos = desk_h | append: ' ' | append: desk_v | append: '%'
+  endif
+
+  if section.settings.use_shopify_focal_point and section.settings.mobile_image != blank and section.settings.mobile_image.presentation.focal_point != blank
+    assign mob_pos = section.settings.mobile_image.presentation.focal_point
+  else
+    assign mob_pos = mob_h | append: ' ' | append: mob_v | append: '%'
+  endif
 -%}
 
 {%- style -%}
@@ -16,6 +33,16 @@
   @media screen and (min-width: 750px) {
     #AboutHero-{{ section.id }} {
       min-height: {{ section.settings.min_height_desktop | default: 520 }}px;
+    }
+  }
+
+  #AboutHero-{{ section.id }} .about-hero__img {
+    object-position: {{ desk_pos }};
+  }
+
+  @media screen and (max-width: 749px) {
+    #AboutHero-{{ section.id }} .about-hero__img {
+      object-position: {{ mob_pos }};
     }
   }
 
@@ -196,7 +223,7 @@
       "type": "range",
       "id": "min_height_desktop",
       "min": 360,
-      "max": 800,
+      "max": 1000,
       "step": 20,
       "unit": "px",
       "label": "Desktop min height",
@@ -206,11 +233,65 @@
       "type": "range",
       "id": "min_height_mobile",
       "min": 240,
-      "max": 600,
+      "max": 700,
       "step": 20,
       "unit": "px",
       "label": "Mobile min height",
       "default": 400
+    },
+    {
+      "type": "header",
+      "content": "Image Focal Alignment"
+    },
+    {
+      "type": "select",
+      "id": "image_horizontal_alignment",
+      "label": "Desktop image horizontal position",
+      "options": [
+        { "value": "right", "label": "Right (Default)" },
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "image_vertical_position",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Desktop vertical focus (0% = Top, 50% = Center)",
+      "default": 20,
+      "info": "Prevents heads or subjects from being cut off. Recommended: 0% to 25% to keep top details and faces in view."
+    },
+    {
+      "type": "select",
+      "id": "image_mobile_horizontal_alignment",
+      "label": "Mobile image horizontal position",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "image_mobile_vertical_position",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Mobile vertical focus (0% = Top, 50% = Center)",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "use_shopify_focal_point",
+      "label": "Use Shopify admin image focal point if set",
+      "default": false,
+      "info": "When enabled, uses the focal point selected on this image in Shopify Admin Files/Media."
     },
     {
       "type": "range",
