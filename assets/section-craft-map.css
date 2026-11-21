@@ -346,7 +346,7 @@
 
 .craft-map-sec .rlist .nm {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: 1.15rem;
+  font-size: 1.7rem;
   line-height: 1.2;
   color: var(--ink, #171717);
   flex: 1;
@@ -417,7 +417,7 @@
 
 .craft-map-sec .katha p.st {
   font-family: var(--f-edit, 'Forum', Georgia, serif);
-  font-size: clamp(1.04rem, 1.4vw, 1.14rem);
+  font-size: 1.7rem;
   line-height: 1.65;
   color: var(--ink-2, #4A4240);
   margin: 0 0 16px;
@@ -435,7 +435,7 @@
   padding: 7px 14px;
   border-radius: 999px;
   font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
-  font-size: 0.82rem;
+  font-size: 1.05rem;
   font-weight: 400;
   border: 1px solid var(--line, #E5DCD0);
   background: var(--bg, #F7F3EE);

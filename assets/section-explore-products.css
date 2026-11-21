@@ -213,7 +213,7 @@
 .explore-sec .xtile h3 {
   font-family: var(--f-ui, 'Inter', sans-serif);
   font-weight: 600;
-  font-size: 1.02rem;
+  font-size: 1.6rem;
   line-height: 1.25;
   color: #F7F3EE;
   margin: 0;
@@ -251,7 +251,7 @@
   }
 
   .explore-sec .xtile h3 {
-    font-size: 0.92rem;
+    font-size: 1.2rem;
   }
 
   .explore-sec .xtile span {

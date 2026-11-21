@@ -181,7 +181,7 @@
 .chap-card p {
   font-family: var(--f-edit, 'Forum', serif);
   font-weight: 400;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   line-height: 1.4;
   color: var(--ink-2, #4A4240);
   margin: 0;

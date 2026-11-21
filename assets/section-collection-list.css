@@ -174,7 +174,7 @@
   font-family: var(--f-ui, 'Inter', system-ui, sans-serif);
   font-weight: 400;
   margin: 0 0 10px;
-  font-size: 0.92rem;
+  font-size: 1.3rem;
   line-height: 1.45;
   color: #EADFD5;
   max-width: 34ch;
