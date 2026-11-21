@@ -15,7 +15,7 @@
         "slide_6aLP8r": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/image-slider-1.png",
+            "image": "shopify://shop_images/image-slide-1.png",
             "focal_point": "center center",
             "alt_text": ""
           }
@@ -23,7 +23,7 @@
         "slide_2": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage-02.jpg",
+            "image": "shopify://shop_images/image-slide-2.png",
             "focal_point": "center center",
             "alt_text": "Handcrafted Indian Textiles and Heritage Craft"
           }
@@ -31,7 +31,7 @@
         "slide_3": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage-03.jpg",
+            "image": "shopify://shop_images/image-slider-1.png",
             "focal_point": "center center",
             "alt_text": "Contemporary Handloom Clothing"
           }
@@ -39,7 +39,7 @@
         "slide_9LJdqk": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage-05.jpg",
+            "image": "shopify://shop_images/image-slide-4.png",
             "focal_point": "center center",
             "alt_text": ""
           }
@@ -47,7 +47,7 @@
         "slide_1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage-01.jpg",
+            "image": "shopify://shop_images/image-slide-5.png",
             "focal_point": "center center",
             "alt_text": "Stories of India - Celebration and Family Gathering"
           }
