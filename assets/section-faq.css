@@ -156,6 +156,7 @@
 
 .faq-sec .faq details .faq-answer p:last-child {
   margin-bottom: 0;
+  font-size: 1.5rem;
 }
 
 .faq-sec .faq details .faq-answer a {
@@ -167,9 +168,7 @@
 .faq-sec .faq details .faq-answer a:hover {
   opacity: 0.8;
 }
-.faq-answer{
-  font-size: 1.5rem;
-}
+
 /* Dark mode theme tokens */
 [data-theme="dark"] .faq-sec.alt {
   background-color: var(--bg-alt, #1F1A1A);
