@@ -15,7 +15,7 @@
         "slide_6aLP8r": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Homepage-04.jpg",
+            "image": "shopify://shop_images/image-slide-one.webp",
             "focal_point": "center center",
             "alt_text": ""
           }
@@ -51,14 +51,6 @@
             "focal_point": "center center",
             "alt_text": "Stories of India - Celebration and Family Gathering"
           }
-        },
-        "slide_dVz7Ra": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Homepage_banners_6.png",
-            "focal_point": "center center",
-            "alt_text": ""
-          }
         }
       },
       "block_order": [
@@ -66,8 +58,7 @@
         "slide_2",
         "slide_3",
         "slide_9LJdqk",
-        "slide_1",
-        "slide_dVz7Ra"
+        "slide_1"
       ],
       "settings": {
         "show_kicker": false,
