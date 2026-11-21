@@ -15,7 +15,7 @@
         "slide_6aLP8r": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/image-slide-one.webp",
+            "image": "shopify://shop_images/image-slider-1.png",
             "focal_point": "center center",
             "alt_text": ""
           }
