@@ -12,7 +12,7 @@
     "banner": {
       "type": "chapter-banner",
       "settings": {
-        "image": "shopify://shop_images/north-east-banner.png",
+        "image": "shopify://shop_images/bnNorthEast.webp",
         "show_breadcrumbs": true,
         "breadcrumbs_parent_label": "All Chapters",
         "breadcrumbs_parent_link": "/pages/culture",
@@ -24,6 +24,11 @@
         "button_link": "",
         "min_height_desktop": 460,
         "min_height_mobile": 460,
+        "image_horizontal_alignment": "right",
+        "image_vertical_position": 25,
+        "image_mobile_horizontal_alignment": "center",
+        "image_mobile_vertical_position": 25,
+        "use_shopify_focal_point": false,
         "overlay_opacity": 90,
         "background_color": "#7c3524",
         "text_color": "#f7f3ee",
