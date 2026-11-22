@@ -135,7 +135,8 @@
                         card_product: product,
                         media_aspect_ratio: 'portrait',
                         show_secondary_image: true,
-                        quick_add: 'standard',
+                        quick_add: 'link_to_product',
+                        button_label: section.settings.card_button_label | default: 'Add to Bag',
                         section_id: section.id
                       %}
                     </div>
@@ -147,7 +148,8 @@
                         card_product: product,
                         media_aspect_ratio: 'portrait',
                         show_secondary_image: true,
-                        quick_add: 'standard',
+                        quick_add: 'link_to_product',
+                        button_label: section.settings.card_button_label | default: 'Add to Bag',
                         section_id: section.id
                       %}
                     </div>
@@ -261,6 +263,13 @@
       "step": 1,
       "label": "Desktop columns",
       "default": 4
+    },
+    {
+      "type": "text",
+      "id": "card_button_label",
+      "label": "Card button label",
+      "default": "Add to Bag",
+      "info": "Text on the card button. Clicking navigates directly to the individual product page."
     },
     {
       "type": "header",
