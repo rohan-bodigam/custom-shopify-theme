@@ -127,7 +127,10 @@
               </div>
 
               <div class="chapter-weaves__grid">
-                {%- assign tab_products = tab_collection.products -%}
+                {%- liquid
+                  assign tab_products = tab_collection.products
+                  assign card_btn_label = section.settings.card_button_label | default: 'Add to Bag'
+                -%}
                 {%- if tab_collection != blank and tab_products.size > 0 -%}
                   {%- for product in tab_products limit: section.settings.products_to_show -%}
                     <div class="chapter-weaves__grid-item">
@@ -136,7 +139,7 @@
                         media_aspect_ratio: 'portrait',
                         show_secondary_image: true,
                         quick_add: 'link_to_product',
-                        button_label: section.settings.card_button_label | default: 'Add to Bag',
+                        button_label: card_btn_label,
                         section_id: section.id
                       %}
                     </div>
@@ -149,7 +152,7 @@
                         media_aspect_ratio: 'portrait',
                         show_secondary_image: true,
                         quick_add: 'link_to_product',
-                        button_label: section.settings.card_button_label | default: 'Add to Bag',
+                        button_label: card_btn_label,
                         section_id: section.id
                       %}
                     </div>
@@ -208,6 +211,29 @@
           }
         });
       });
+
+      // Guarantee: every 'Add to Bag' button in this section redirects to its individual product page
+      function bindProductCardLinks(root) {
+        if (!root) return;
+        root.querySelectorAll('.product-card-wrapper').forEach(function (card) {
+          const productLink = card.querySelector('a.card__media, .card__heading a');
+          const productUrl = productLink ? productLink.getAttribute('href') : null;
+          if (!productUrl) return;
+
+          card.querySelectorAll('.quick-add__submit').forEach(function (btn) {
+            if (btn.tagName === 'A') {
+              btn.setAttribute('href', productUrl);
+            }
+            btn.addEventListener('click', function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              window.location.href = productUrl;
+            }, true);
+          });
+        });
+      }
+
+      bindProductCardLinks(section);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
