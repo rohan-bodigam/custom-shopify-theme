@@ -489,6 +489,7 @@
         },
         "tab_kids": {
           "type": "tab",
+          "disabled": true,
           "settings": {
             "title": "Kids",
             "tab_id": "Kids",
@@ -514,6 +515,7 @@
         },
         "tab_pets": {
           "type": "tab",
+          "disabled": true,
           "settings": {
             "title": "Pets",
             "tab_id": "Pet",
